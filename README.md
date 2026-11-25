@@ -6,7 +6,7 @@ The folders are being added one at a time, each after a review (security, tests,
 
 | Folder | What it is | Tech |
 | --- | --- | --- |
-| [`Notes`](Notes) | **Study notes**: 17 detailed guides on Java, the JVM, SQL, JDBC/JPA, REST, Spring Boot, Spring Security with JWT, and microservices | Markdown; a link and code-block checker (Node) |
+| [`Notes`](Notes) | **Study notes**: 26 detailed guides on Java (fundamentals to concurrency, the JVM, design patterns), SQL, JPA, REST, Spring Boot 3 and 4, Spring Security with JWT and microservices, with runnable examples | Markdown; Spring Boot 4 and SQL example projects; a link and code-block checker (Node) |
 | [`Bootstrap`](Bootstrap) | **PeopleHub**: a responsive employee management dashboard (search, filters, sorting, paging, add / edit / delete, dark mode) | HTML, CSS, Bootstrap 5.3, JavaScript; Node tests, Playwright |
 
 ## Working with the repo
