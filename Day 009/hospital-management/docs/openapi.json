@@ -1,0 +1,2493 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Hospital Appointment & Patient Management API",
+        "description": "Departments, doctors, patients, appointment booking without overlaps, the appointment lifecycle, medical records and reports. Day 09 adds doctor working hours and leave, free-slot generation, a status-change audit trail, a missed-appointment job and booking/cancellation notifications.\n\nErrors always use the same JSON: timestamp, status, errorCode, message, path.",
+        "version": "2.0 (Day 09)"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Generated server url"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Doctors",
+            "description": "Module B - doctors, schedules, working hours, leave and free slots"
+        },
+        {
+            "name": "Patients",
+            "description": "Module C - patients and their medical history"
+        },
+        {
+            "name": "Admin",
+            "description": "Missed-appointment job and sent notifications"
+        },
+        {
+            "name": "Departments",
+            "description": "Module A - department management (cached reference data)"
+        },
+        {
+            "name": "Appointments",
+            "description": "Booking, lifecycle, completion, paginated search and status history"
+        },
+        {
+            "name": "Reports",
+            "description": "Department workload and revenue reports"
+        },
+        {
+            "name": "Medical records",
+            "description": "Module F - medical records"
+        }
+    ],
+    "paths": {
+        "/api/patients/{id}": {
+            "get": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "findById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatientResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatientUpdateRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatientResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "findById_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "update_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DoctorUpdateRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/working-hours": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Weekly working hours of a doctor (empty list = no timetable)",
+                "operationId": "workingHours",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WorkingHoursResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Replace the doctor's weekly working hours; weekdays not listed are days off",
+                "operationId": "replaceWorkingHours",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WeeklyScheduleRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WorkingHoursResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments/{id}": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "findById_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "update_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DepartmentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/patients": {
+            "post": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatientRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatientResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/medical-records": {
+            "post": {
+                "tags": [
+                    "Medical records"
+                ],
+                "operationId": "create",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MedicalRecordRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MedicalRecordResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "name": "specialization",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "departmentId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "minFee",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "maxFee",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DoctorResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "register_1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DoctorRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/leaves": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Leave periods of a doctor, earliest first",
+                "operationId": "leaves",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LeaveResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Add leave (inclusive dates). Rejected if it overlaps another leave or existing appointments",
+                "operationId": "addLeave",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LeaveRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaveResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "list",
+                "parameters": [
+                    {
+                        "name": "activeOnly",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DepartmentResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "create_1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DepartmentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "operationId": "search_1",
+                "parameters": [
+                    {
+                        "name": "doctorId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "departmentId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "BOOKED",
+                                "CONFIRMED",
+                                "COMPLETED",
+                                "CANCELLED",
+                                "NO_SHOW"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageResponseAppointmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Appointments"
+                ],
+                "operationId": "book",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAppointmentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppointmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments/{id}/complete": {
+            "post": {
+                "tags": [
+                    "Appointments"
+                ],
+                "operationId": "complete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompleteAppointmentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppointmentCompletionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/no-show-check": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Run the NO_SHOW job now (it also runs automatically every hour)",
+                "operationId": "runNoShowCheck",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoShowRunResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/patients/{id}/deactivate": {
+            "patch": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "deactivate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatientResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/deactivate": {
+            "patch": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "deactivate_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/activate": {
+            "patch": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "activate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments/{id}/deactivate": {
+            "patch": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "deactivate_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments/{id}/activate": {
+            "patch": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "activate_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments/{id}/status": {
+            "patch": {
+                "tags": [
+                    "Appointments"
+                ],
+                "operationId": "changeStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateStatusRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppointmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports/revenue": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "operationId": "revenue",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RevenueReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports/department-workload": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "operationId": "departmentWorkload",
+                "parameters": [
+                    {
+                        "name": "departmentId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DoctorWorkload"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/patients/{id}/history": {
+            "get": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "history",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PatientHistoryItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/patients/{id}/appointments": {
+            "get": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "appointments",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AppointmentResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/patients/search": {
+            "get": {
+                "tags": [
+                    "Patients"
+                ],
+                "operationId": "search_2",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PatientResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/slots": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Generated time slots of a doctor for one date: FREE, BOOKED or PAST",
+                "operationId": "slots",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorSlotsResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/appointments": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "schedule",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AppointmentResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/summaries": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "summaries",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DoctorSummary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/available": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "operationId": "available",
+                "parameters": [
+                    {
+                        "name": "specialization",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DoctorSummary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments/search": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "operationId": "findByName",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments/{id}": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "operationId": "findById_3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppointmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/appointments/{id}/status-history": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Status history (audit trail) of an appointment, oldest first",
+                "operationId": "statusHistory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/StatusChangeResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/notifications": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Notifications sent since the application started, most recent first",
+                "operationId": "notifications",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NotificationResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doctors/{id}/leaves/{leaveId}": {
+            "delete": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Remove a leave period",
+                "operationId": "deleteLeave",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "leaveId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PatientUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "dateOfBirth": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "MALE",
+                            "FEMALE",
+                            "OTHER"
+                        ]
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 150,
+                        "minLength": 0
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\d{10}"
+                    },
+                    "address": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "dateOfBirth",
+                    "gender",
+                    "name",
+                    "phone"
+                ]
+            },
+            "PatientResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "patientNumber": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "dateOfBirth": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "MALE",
+                            "FEMALE",
+                            "OTHER"
+                        ]
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "DoctorUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "minLength": 1
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\d{10}"
+                    },
+                    "consultationFee": {
+                        "type": "number"
+                    },
+                    "departmentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "consultationFee",
+                    "departmentId",
+                    "email",
+                    "name",
+                    "phone",
+                    "specialization"
+                ]
+            },
+            "DoctorResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "doctorCode": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "specialization": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "consultationFee": {
+                        "type": "number"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "departmentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "departmentName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "WeeklyScheduleRequest": {
+                "type": "object",
+                "properties": {
+                    "days": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WorkingHoursRequest"
+                        },
+                        "maxItems": 7,
+                        "minItems": 0
+                    }
+                },
+                "required": [
+                    "days"
+                ]
+            },
+            "WorkingHoursRequest": {
+                "type": "object",
+                "properties": {
+                    "dayOfWeek": {
+                        "type": "string",
+                        "enum": [
+                            "MONDAY",
+                            "TUESDAY",
+                            "WEDNESDAY",
+                            "THURSDAY",
+                            "FRIDAY",
+                            "SATURDAY",
+                            "SUNDAY"
+                        ]
+                    },
+                    "startTime": {
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "type": "string"
+                    },
+                    "slotMinutes": {
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 240,
+                        "minimum": 5
+                    },
+                    "endTimeAfterStartTime": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "dayOfWeek",
+                    "endTime",
+                    "slotMinutes",
+                    "startTime"
+                ]
+            },
+            "WorkingHoursResponse": {
+                "type": "object",
+                "properties": {
+                    "dayOfWeek": {
+                        "type": "string",
+                        "enum": [
+                            "MONDAY",
+                            "TUESDAY",
+                            "WEDNESDAY",
+                            "THURSDAY",
+                            "FRIDAY",
+                            "SATURDAY",
+                            "SUNDAY"
+                        ]
+                    },
+                    "startTime": {
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "type": "string"
+                    },
+                    "slotMinutes": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "DepartmentRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "location": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "DepartmentResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PatientRequest": {
+                "type": "object",
+                "properties": {
+                    "patientNumber": {
+                        "type": "string",
+                        "maxLength": 10,
+                        "minLength": 0
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "dateOfBirth": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "MALE",
+                            "FEMALE",
+                            "OTHER"
+                        ]
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 150,
+                        "minLength": 0
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\d{10}"
+                    },
+                    "address": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "dateOfBirth",
+                    "gender",
+                    "name",
+                    "patientNumber",
+                    "phone"
+                ]
+            },
+            "MedicalRecordRequest": {
+                "type": "object",
+                "properties": {
+                    "appointmentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "diagnosis": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    },
+                    "prescription": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 0
+                    },
+                    "doctorNotes": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 0
+                    },
+                    "followUpDate": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "required": [
+                    "appointmentId",
+                    "diagnosis"
+                ]
+            },
+            "MedicalRecordResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "appointmentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "appointmentNumber": {
+                        "type": "string"
+                    },
+                    "diagnosis": {
+                        "type": "string"
+                    },
+                    "prescription": {
+                        "type": "string"
+                    },
+                    "doctorNotes": {
+                        "type": "string"
+                    },
+                    "followUpDate": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "DoctorRequest": {
+                "type": "object",
+                "properties": {
+                    "doctorCode": {
+                        "type": "string",
+                        "maxLength": 10,
+                        "minLength": 0
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "minLength": 1
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\d{10}"
+                    },
+                    "consultationFee": {
+                        "type": "number"
+                    },
+                    "departmentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "consultationFee",
+                    "departmentId",
+                    "doctorCode",
+                    "email",
+                    "name",
+                    "phone",
+                    "specialization"
+                ]
+            },
+            "LeaveRequest": {
+                "type": "object",
+                "properties": {
+                    "startDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 0
+                    },
+                    "endDateOnOrAfterStartDate": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "endDate",
+                    "startDate"
+                ]
+            },
+            "LeaveResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "doctorId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "reason": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateAppointmentRequest": {
+                "type": "object",
+                "properties": {
+                    "patientId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "doctorId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "appointmentDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "startTime": {
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "type": "string"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    },
+                    "endTimeAfterStartTime": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "appointmentDate",
+                    "doctorId",
+                    "endTime",
+                    "patientId",
+                    "startTime"
+                ]
+            },
+            "AppointmentResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "appointmentNumber": {
+                        "type": "string"
+                    },
+                    "patientId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "patientNumber": {
+                        "type": "string"
+                    },
+                    "patientName": {
+                        "type": "string"
+                    },
+                    "doctorId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "doctorCode": {
+                        "type": "string"
+                    },
+                    "doctorName": {
+                        "type": "string"
+                    },
+                    "departmentName": {
+                        "type": "string"
+                    },
+                    "appointmentDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "startTime": {
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "BOOKED",
+                            "CONFIRMED",
+                            "COMPLETED",
+                            "CANCELLED",
+                            "NO_SHOW"
+                        ]
+                    },
+                    "reason": {
+                        "type": "string"
+                    },
+                    "fee": {
+                        "type": "number"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "CompleteAppointmentRequest": {
+                "type": "object",
+                "properties": {
+                    "version": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "diagnosis": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    },
+                    "prescription": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 0
+                    },
+                    "doctorNotes": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 0
+                    },
+                    "followUpDate": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "required": [
+                    "diagnosis",
+                    "version"
+                ]
+            },
+            "AppointmentCompletionResponse": {
+                "type": "object",
+                "properties": {
+                    "appointment": {
+                        "$ref": "#/components/schemas/AppointmentResponse"
+                    },
+                    "medicalRecord": {
+                        "$ref": "#/components/schemas/MedicalRecordResponse"
+                    }
+                }
+            },
+            "NoShowRunResponse": {
+                "type": "object",
+                "properties": {
+                    "ranAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "cutoff": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "found": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "markedNoShow": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "skipped": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "appointmentNumbers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "UpdateStatusRequest": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "BOOKED",
+                            "CONFIRMED",
+                            "COMPLETED",
+                            "CANCELLED",
+                            "NO_SHOW"
+                        ]
+                    },
+                    "version": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "status",
+                    "version"
+                ]
+            },
+            "RevenueReport": {
+                "type": "object",
+                "properties": {
+                    "fromDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "toDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "completedAppointments": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalRevenue": {
+                        "type": "number"
+                    }
+                }
+            },
+            "DoctorWorkload": {
+                "type": "object",
+                "properties": {
+                    "doctorId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "doctorCode": {
+                        "type": "string"
+                    },
+                    "doctorName": {
+                        "type": "string"
+                    },
+                    "appointmentCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "PatientHistoryItem": {
+                "type": "object",
+                "properties": {
+                    "appointmentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "appointmentNumber": {
+                        "type": "string"
+                    },
+                    "appointmentDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "startTime": {
+                        "type": "string"
+                    },
+                    "doctorName": {
+                        "type": "string"
+                    },
+                    "specialization": {
+                        "type": "string"
+                    },
+                    "fee": {
+                        "type": "number"
+                    },
+                    "medicalRecordId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "diagnosis": {
+                        "type": "string"
+                    },
+                    "prescription": {
+                        "type": "string"
+                    },
+                    "followUpDate": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "DoctorSlotsResponse": {
+                "type": "object",
+                "properties": {
+                    "doctorId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "doctorCode": {
+                        "type": "string"
+                    },
+                    "doctorName": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "dayOfWeek": {
+                        "type": "string",
+                        "enum": [
+                            "MONDAY",
+                            "TUESDAY",
+                            "WEDNESDAY",
+                            "THURSDAY",
+                            "FRIDAY",
+                            "SATURDAY",
+                            "SUNDAY"
+                        ]
+                    },
+                    "dayStatus": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "workStart": {
+                        "type": "string"
+                    },
+                    "workEnd": {
+                        "type": "string"
+                    },
+                    "slotMinutes": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "freeSlots": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "slots": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TimeSlot"
+                        }
+                    }
+                }
+            },
+            "TimeSlot": {
+                "type": "object",
+                "properties": {
+                    "start": {
+                        "type": "string"
+                    },
+                    "end": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DoctorSummary": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "specialization": {
+                        "type": "string"
+                    },
+                    "consultationFee": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Pageable": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1
+                    },
+                    "sort": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "PageResponseAppointmentResponse": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AppointmentResponse"
+                        }
+                    },
+                    "page": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "sort": {
+                        "type": "string"
+                    }
+                }
+            },
+            "StatusChangeResponse": {
+                "type": "object",
+                "properties": {
+                    "fromStatus": {
+                        "type": "string",
+                        "enum": [
+                            "BOOKED",
+                            "CONFIRMED",
+                            "COMPLETED",
+                            "CANCELLED",
+                            "NO_SHOW"
+                        ]
+                    },
+                    "toStatus": {
+                        "type": "string",
+                        "enum": [
+                            "BOOKED",
+                            "CONFIRMED",
+                            "COMPLETED",
+                            "CANCELLED",
+                            "NO_SHOW"
+                        ]
+                    },
+                    "changedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "changedBy": {
+                        "type": "string"
+                    },
+                    "note": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NotificationResponse": {
+                "type": "object",
+                "properties": {
+                    "sentAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "appointmentNumber": {
+                        "type": "string"
+                    },
+                    "recipient": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
