@@ -1,0 +1,14 @@
+{
+  "name": "peoplehub-employee-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PeopleHub: a responsive employee management dashboard (HTML, CSS, Bootstrap 5.3, plain JavaScript).",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\"",
+    "test:e2e": "playwright test",
+    "serve": "npx serve ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}
