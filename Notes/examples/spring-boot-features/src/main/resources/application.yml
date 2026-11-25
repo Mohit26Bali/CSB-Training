@@ -1,0 +1,33 @@
+app:
+  name: Demo Shop
+  mail:
+    host: smtp.example.com
+    port: 587
+    sender: shop@example.com
+    retries: 3
+spring:
+  profiles:
+    default: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+logging:
+  level:
+    demo: INFO
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+app:
+  mail:
+    host: smtp.prod.example.com
+    retries: 5
+logging:
+  level:
+    demo: WARN
