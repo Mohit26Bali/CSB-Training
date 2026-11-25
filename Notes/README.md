@@ -33,6 +33,8 @@ Study notes written during the CSB training: Java from the basics to concurrency
 | 23 | [Spring_Security_and_JWT_Notes](Spring_Security_and_JWT_Notes.md) | Authentication and authorization, `SecurityFilterChain`, BCrypt, JWT (Spring Security 6) |
 | 24 | [Microservices_Notes](Microservices_Notes.md) | Concepts and patterns with the Spring Cloud tools: Eureka, Feign, API Gateway, Resilience4j, Config Server, messaging, observability, deployment |
 | 25 | [Whats_New_Java_22_to_25_and_Spring_Boot_4_Notes](Whats_New_Java_22_to_25_and_Spring_Boot_4_Notes.md) | Java 22 to 25 (unnamed variables, stream gatherers, scoped values, `void main()`), Spring Framework 7, Spring Boot 4 and how to upgrade from Boot 3 |
+| 26 | [JUnit_and_Mockito_Testing_Notes](JUnit_and_Mockito_Testing_Notes.md) | JUnit 5/6, assertions with AssertJ, lifecycle, parameterized tests, Mockito (stubbing, verification, strict stubs, static mocks), testing time and exceptions, coverage with JaCoCo |
+| 27 | [JPA_and_Hibernate_Deep_Dive_Notes](JPA_and_Hibernate_Deep_Dive_Notes.md) | The persistence context and dirty checking, relationships and the owning side, lazy loading, the N+1 problem with real SQL and four fixes, projections, paging, locking, transactions, batching, schema management |
 
 ## Runnable examples
 
@@ -40,6 +42,8 @@ Study notes written during the CSB training: Java from the basics to concurrency
 | --- | --- | --- |
 | [`examples/spring-boot-features`](examples/spring-boot-features) | note 22 (and the Boot 4 parts of note 25) | `mvn test` (22 tests) |
 | [`examples/sql-advanced`](examples/sql-advanced) | note 18 | the scripts run on MySQL and PostgreSQL |
+| [`examples/junit-mockito`](examples/junit-mockito) | note 26 | `mvn test` |
+| [`examples/jpa-hibernate`](examples/jpa-hibernate) | note 27 | `mvn test` (31 tests) |
 
 ## A note on versions
 
