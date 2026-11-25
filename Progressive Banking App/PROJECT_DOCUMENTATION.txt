@@ -1,0 +1,351 @@
+================================================================================
+CRESTLINE BANK  (Progressive Banking Application)
+Project documentation
+================================================================================
+
+Written for: the project owner and anyone who needs to run, review or extend the
+application. Last verified: 25 Nov 2026 (139 backend tests and 67 browser tests
+passing).
+
+
+--------------------------------------------------------------------------------
+1. WHAT THIS PROJECT IS
+--------------------------------------------------------------------------------
+
+A digital banking training project built from "Progressive_Banking_Project_
+Description.pdf". Customers open accounts and deposit, withdraw and transfer
+money; administrators manage account status. Every financial operation leaves an
+auditable record.
+
+  backend/    Spring Boot 4.1.1, Java 17, Spring Data JPA, Spring Security + JWT,
+              MySQL (database "bank"), Flyway, springdoc (Swagger)
+  frontend/   React 19, TypeScript, Vite, Tailwind CSS 4, TanStack Query,
+              React Router, Axios, Playwright (browser tests)
+
+Scope: everything in the PDF except Docker, CI/CD and Kubernetes (phases 9-11),
+which were deliberately left out.
+
+
+--------------------------------------------------------------------------------
+2. HOW TO RUN IT
+--------------------------------------------------------------------------------
+
+Needs: JDK 17, Node 20+, MySQL with a database called "bank".
+There are no default secrets. Set the environment variables DB_PASSWORD (MySQL root
+password) and JWT_SECRET (32+ random characters; the backend refuses to start
+without it). DB_USERNAME and DB_URL are optional. Set SEED_DEMO_DATA=true once to
+create the demo accounts.
+
+Terminal 1 - backend (http://localhost:8080):
+    cd backend
+    .\mvnw spring-boot:run
+  The first start creates the tables (Flyway); demo data is added only with
+  SEED_DEMO_DATA=true.
+  JAVA_HOME must point to JDK 17.
+
+Terminal 2 - frontend (http://localhost:5173):
+    cd frontend
+    npm install          (first time only)
+    npm run dev
+
+Demo logins (created by the seed data):
+    ravi    / customer123    Customer
+    priya   / customer123    Customer
+    admin   / admin12345     Administrator
+
+API documentation (backend running): http://localhost:8080/swagger-ui.html
+  Call POST /api/auth/login, copy the token, press "Authorize", paste it.
+  Set SWAGGER_ENABLED=false to switch the docs off in production.
+
+Troubleshooting:
+  - "Cannot reach the server" in the browser: the backend is not running.
+  - Backend fails at start with a database error: check MySQL is running and the
+    login above is correct.
+  - Port already in use: 8080 (backend) and 5173 (frontend) must be free.
+  - To reset all demo data: drop and recreate the "bank" database, then restart
+    the backend.
+
+
+--------------------------------------------------------------------------------
+PASSWORD STRENGTH (registration)
+--------------------------------------------------------------------------------
+
+A new customer's password must have:
+  - 8 to 20 characters (the form stops typing at 20, and the server refuses more);
+  - a lowercase letter, an uppercase letter, a digit and a symbol (a space is not
+    a symbol);
+  - no character repeated more than 3 times in a row;
+  - not be a common password. This is judged on the letters only, both as typed
+    and with look-alikes undone (@ for a, 0 for o, $ for s ...), so "Password1!",
+    "P@ssw0rd" and "Welcome@2024" are refused as well as "password";
+  - no username or email name (3+ characters) inside it.
+The registration form shows a checklist that ticks off each rule as you type, with
+a Weak / Fair / Good / Strong bar, and stops a weak password before sending it.
+The server checks the same rules again (HTTP 400, with a message naming what is
+missing, for example "password must include an uppercase letter and a symbol such
+as ! @ # or -"), so calling the API directly gets no way round them.
+Signing in is not checked against these rules: accounts created earlier, including
+the demo logins below (admin12345, customer123), keep working.
+Where it lives: backend security/PasswordPolicy (the authority; applied through
+@StrongPassword on the register request, plus the username / email rule in
+AuthService); frontend lib/password.ts and components/PasswordStrength (a copy for
+instant feedback - e2e/password-policy.spec.ts runs the backend's own cases
+against it so the two cannot drift apart). Known limit: the list of common
+passwords is short (about 100 entries); a larger list or an online breach check
+would be the next step.
+
+
+--------------------------------------------------------------------------------
+3. WHO CAN DO WHAT
+--------------------------------------------------------------------------------
+
+ANYONE (not logged in)
+  - Register as a customer. The password must be strong (see PASSWORD STRENGTH
+    below); the sign-up form shows a live checklist while you type.
+  - Log in. After 5 failed attempts a username is locked for 15 minutes.
+
+CUSTOMER
+  - Open a savings or current account (optional opening deposit).
+  - List their own accounts and view an account's details.
+  - See the balance of an ACTIVE account.
+  - Deposit money, withdraw money (never below zero).
+  - Transfer money to their own other account or to any account number.
+  - View transaction history (newest first, paged) and filter it by date range,
+    type, status, money in/out and amount range. Export the page shown as CSV
+    (done in the browser).
+  A customer can NOT: see another customer's account (answers "not found"), use
+  admin functions (403), or move money on an inactive or blocked account.
+
+ADMINISTRATOR
+  - List and search all accounts; see summary figures on the Overview page.
+  - Activate, deactivate or block an account.
+  - Read any account's transaction history.
+  An administrator can NOT deposit, withdraw, transfer or open accounts.
+
+THE SYSTEM ITSELF
+  - Runs each money operation in one database transaction (all or nothing).
+  - Locks account rows while money moves, so simultaneous requests cannot
+    overdraw an account; transfers lock both accounts in a fixed order so they
+    cannot deadlock.
+  - Records a FAILED entry for rejected attempts (insufficient balance,
+    inactive account, same-account transfer). Failed entries never change a
+    balance.
+  - Makes repeated requests safe (idempotency keys, section 6).
+  - Signs sessions out after 30 minutes. Purges old idempotency keys hourly.
+
+
+--------------------------------------------------------------------------------
+4. API ENDPOINTS
+--------------------------------------------------------------------------------
+
+Public
+  POST  /api/auth/login                           log in, returns a JWT
+  POST  /api/auth/register                        register a customer
+
+Any logged-in user
+  GET   /api/auth/me                              current user
+
+Customer (admin may read where noted)
+  POST  /api/accounts                             open an account
+  GET   /api/accounts/me                          my accounts
+  GET   /api/accounts/{no}                        account details (owner or admin)
+  GET   /api/accounts/{no}/balance                balance, ACTIVE accounts only
+  POST  /api/accounts/{no}/deposit                deposit   (owner only)
+  POST  /api/accounts/{no}/withdraw               withdraw  (owner only)
+  POST  /api/transfers                            transfer  (owner of source)
+  GET   /api/accounts/{no}/transactions           history (owner or admin)
+          optional query parameters: page, size (max 100), from, to (YYYY-MM-DD,
+          both inclusive), type (DEPOSIT|WITHDRAWAL|TRANSFER), status
+          (SUCCESS|FAILED), direction (CREDIT|DEBIT), minAmount, maxAmount.
+          All filters combine with AND. An impossible combination answers 400.
+
+Administrator only
+  GET   /api/admin/accounts                       list all accounts
+  PATCH /api/admin/accounts/{no}/status           ACTIVE | INACTIVE | BLOCKED
+
+Money endpoints accept an optional "Idempotency-Key" header (section 6).
+
+Status codes used: 200/201 success; 400 invalid input; 401 not logged in;
+403 not allowed; 404 not found (also used for someone else's account);
+409 conflict (duplicate username, email or account number);
+422 business rule violated (insufficient balance, inactive account, same-account
+transfer, idempotency key reused for a different request); 429 too many logins.
+Every error has the same JSON shape: status, error, message, fieldErrors,
+timestamp.
+
+
+--------------------------------------------------------------------------------
+5. HOW THE CODE IS ORGANISED
+--------------------------------------------------------------------------------
+
+Request path:   Controller -> Service -> Repository -> Database
+                (HTTP/DTOs)   (rules)     (JPA)         (MySQL)
+
+Backend package com.csb.banking:
+  controller/   HTTP only: AuthController, AccountController,
+                TransactionController, AdminAccountController
+  service/      all business rules:
+                  AuthService, LoginAttemptService, CustomUserDetailsService
+                  AccountService, AdminAccountService, AccountNumberGenerator
+                  AccountAccessPolicy   who may touch which account
+                  TransactionService    entry point for money operations
+                  LedgerService         the transactional core (does the work)
+                  TransactionAuditService  writes FAILED entries
+                  IdempotencyService    makes repeats safe
+  repository/   Spring Data JPA interfaces; TransactionSpecifications builds
+                the dynamic history filter query
+  entity/       User, Customer, Account, Transaction, IdempotencyRecord + enums
+  dto/          request/response records, ErrorResponse, TransactionFilter
+  mapper/       entity -> DTO converters
+  exception/    business exceptions + one GlobalExceptionHandler
+  security/     JWT service, filter, JSON 401/403 handlers
+  config/       SecurityConfig, OpenApiConfig, DataInitializer, SchedulingConfig
+
+Every class begins with a comment saying what it does and which other classes it
+works with; every package has a package-info.java.
+
+Data model (MySQL):
+  users 1 --- 0..1 customers 1 --- * accounts 1 --- * transactions
+  idempotency_keys (stand-alone)
+  Money is stored as DECIMAL(19,2) and handled as BigDecimal, never as a float.
+  Accounts carry a version column (optimistic locking as a second safety net).
+  Transactions are append-only: they have no setters and are never edited.
+
+Frontend (frontend/src):
+  api/          client.ts (Axios), endpoints.ts, queries.ts (React Query),
+                types.ts (mirror of the backend DTOs)
+  auth/         AuthContext, RequireRole (route guards), session handling
+  components/   AppShell, AuthShell, AccountCard, TransactionList,
+                TransactionFilterBar, Modal, Toast, ui.tsx, Icon, Brand
+  pages/        auth/ (login, register), customer/ (dashboard, accounts,
+                account detail, transfer, transactions), admin/ (overview,
+                accounts)
+  lib/          format.ts, validation.ts, filters.ts
+Images are in frontend/public/images and were fetched with
+frontend/tools/fetch_images.py (Pexels; the key is read from the environment
+variable PEXELS_API_KEY and is never stored in the project).
+The screens support light and dark mode and work on phones.
+
+
+--------------------------------------------------------------------------------
+6. IMPORTANT DESIGN DECISIONS
+--------------------------------------------------------------------------------
+
+Idempotency (protection against double submits)
+  A repeated money request (double click, retry after a network error) must not
+  move money twice. The frontend sends a unique "Idempotency-Key" per user
+  action. The backend runs a request with a given key once and replays the first
+  response for repeats. The key is stored in the same database transaction as
+  the money movement, so "money moved" and "key recorded" succeed or fail
+  together. The same key with a different request answers 422. Failed attempts
+  do not use up the key. Keys expire after 24 hours.
+
+FAILED entries are written separately
+  When an operation is rejected its transaction rolls back (releasing the row
+  locks). Only then is the FAILED entry written, in a new transaction, so it
+  survives the rollback and cannot wait on a lock. Rejections that are not real
+  transaction attempts (unknown or foreign account, bad idempotency key, bad
+  filter) are not recorded.
+
+Access rules
+  Someone else's account answers "not found", not "forbidden", so the API never
+  confirms that an account number exists. Route guards in the frontend only
+  improve navigation; the backend enforces all access.
+
+Database migrations (Flyway)
+  The schema is owned by Flyway; Hibernate only validates (ddl-auto=validate).
+  Scripts: backend/src/main/resources/db/migration/mysql/ (real database) and
+  .../h2/ (the in-memory database used by the automated tests). Both folders
+  must contain every version. Never edit a script that has been applied. To
+  change the schema, add V2__what_changed.sql to BOTH folders, then change the
+  entity; the tests fail if entities and migrations disagree.
+  A database that already had these tables before Flyway was introduced is
+  baselined at version 1 automatically (this happened for your "bank" database).
+
+
+--------------------------------------------------------------------------------
+7. TESTING
+--------------------------------------------------------------------------------
+
+Backend (139 tests):      cd backend
+                          .\mvnw test
+  - Unit tests with Mockito: ledger rules, transaction orchestration, accounts,
+    login/registration, idempotency, login lockout, JWT, filter validation.
+  - API tests through the real security chain on in-memory H2: every endpoint,
+    ownership and role rules, idempotency, history filters, Swagger documents.
+  - Password strength: PasswordPolicyTest (23 cases: each missing kind of
+    character, repeats, common passwords with decorations, username / email in the
+    password) and API tests for the messages and for old accounts still signing in.
+  Tests never touch the real MySQL database.
+
+Browser end-to-end (64 tests, Playwright):     cd frontend
+                                               npm run e2e
+  Covers login and registration, opening accounts, deposit, withdraw, transfers
+  and their error cases, double-click safety, history filters, the admin screens
+  (including blocking an account and its effect on the customer), dark mode and
+  the phone layout.
+  The suite starts its own backend on port 8091 using an in-memory database and
+  its own frontend on port 5174, so it can run while the dev servers are up.
+  SAFETY: frontend/e2e/global-setup.ts aborts the run before any test starts if
+  the backend holds anything other than the 3 seeded demo accounts. This guard
+  exists because an early version of the setup silently ran against the real
+  MySQL database and created test users there (they were deleted afterwards).
+  Uses the installed Microsoft Edge. To use Chromium instead: run
+  "npx playwright install chromium" once and set PW_CHANNEL=chromium.
+  Other commands: "npm run e2e:ui" (interactive), "npm run e2e:report".
+  Setting PW_REUSE=1 reuses servers that are already running (faster re-runs).
+
+Frontend checks:          npm run build   (type-check + production build)
+                          npm run lint
+
+Note: port 8081 on this machine is used by Jenkins, which is why the browser
+tests use 8091.
+
+
+--------------------------------------------------------------------------------
+8. WHAT IS NOT DONE
+--------------------------------------------------------------------------------
+
+Out of scope by request:
+  - Docker, Docker Compose, CI/CD pipeline, Kubernetes (PDF phases 9-11).
+
+Not built (beyond the PDF, or later-phase ideas from the PDF):
+  - Change password, forgot password, edit profile. (So the password-strength
+    rules below apply at sign-up only; there is no place yet to choose a new
+    password.)
+  - Logout that revokes the token (logout currently only clears the browser; the
+    token stays valid until it expires after 30 minutes).
+  - HTTPS, refresh tokens, httpOnly-cookie sessions (the token is kept in
+    sessionStorage; noted as a trade-off in frontend/src/auth/session.ts).
+  - Saved beneficiaries, notifications, PDF statements, scheduled/pending
+    transfers, a login-audit log, customer management screens for admins.
+  - Frontend unit tests (the Playwright suite covers the UI end to end).
+
+Known small issues:
+  - The account-details endpoint still returns the balance of an inactive or
+    blocked account, while /balance refuses it (PDF section 7 says only active
+    accounts show a balance). The UI uses the details endpoint.
+  - The admin account list loads all accounts at once; it needs server-side
+    paging for a large customer base.
+  - DB_PASSWORD and JWT_SECRET have no defaults any more (the backend will not
+    start without them). Set SWAGGER_ENABLED=false outside local development.
+  - The browser tests have only been run on Microsoft Edge on Windows.
+
+This is a training project, not a production banking system (as the PDF itself
+notes): real banks also need regulatory compliance, fraud detection, high
+availability, key management and much more.
+
+
+--------------------------------------------------------------------------------
+9. SUGGESTED NEXT STEPS
+--------------------------------------------------------------------------------
+
+  1. Make /balance and the account details consistent for inactive accounts.
+  2. Change password and edit profile.
+  3. Move secrets out of application.properties; add HTTPS.
+  4. Beneficiaries (saved recipients, with the recipient's name shown before
+     confirming a transfer).
+  5. Server-side paging for the admin account list.
+  6. Docker, CI/CD and Kubernetes, if wanted later.
+
+================================================================================

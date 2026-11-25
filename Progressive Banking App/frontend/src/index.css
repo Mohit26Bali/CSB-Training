@@ -1,0 +1,241 @@
+@import 'tailwindcss';
+
+/*
+  Design tokens. Two layers:
+    1. :root / .dark  - the real colour values, switched by the .dark class on <html> (see src/theme.ts).
+    2. @theme inline  - exposes them as Tailwind utilities (bg-surface, text-ink, border-line, ...), so components
+                        never write dark: variants for the neutral colours; they flip automatically.
+  Status colours (emerald / rose / amber) use translucent backgrounds, which look right on both themes.
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --bg: #f3f5fa;
+  --surface: #ffffff;
+  --surface-2: #f7f9fc;
+  --line: #e2e8f1;
+  --ink: #0e1a33;
+  --muted: #55657f;
+  --faint: #8493ab;
+  --shadow: 0 1px 2px rgb(15 37 87 / 0.05), 0 6px 20px -8px rgb(15 37 87 / 0.14);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #080f1f;
+  --surface: #0f1a31;
+  --surface-2: #0c1629;
+  --line: #1f3050;
+  --ink: #e9eefb;
+  --muted: #9fb1cf;
+  --faint: #6c809f;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -10px rgb(0 0 0 / 0.55);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+}
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dce8ff;
+  --color-brand-200: #bdd2ff;
+  --color-brand-300: #8fb0ff;
+  --color-brand-400: #5f87f5;
+  --color-brand-500: #3b66e6;
+  --color-brand-600: #2650cc;
+  --color-brand-700: #1e40a6;
+  --color-brand-800: #193585;
+  --color-brand-900: #0f2557;
+  --color-brand-950: #09183b;
+  --color-mint-400: #3ddba7;
+  --color-mint-500: #22c28f;
+  --color-mint-600: #14a074;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button:not(:disabled),
+[role='button'],
+select {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.card-shadow {
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pop-in {
+  animation: pop-in 0.2s ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+
+@keyframes slide-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide-right {
+  animation: slide-right 0.22s ease-out both;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+.dark .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.06), transparent);
+}
+
+/* Login / register showcase: crossfading, slowly zooming slides. 4 slides x 7s. */
+@keyframes slide-cycle {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  6%,
+  25% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
+.hero-slide {
+  opacity: 0;
+  animation: slide-cycle 28s ease-in-out infinite;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.float-y {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .pop-in,
+  .fade-in,
+  .slide-right,
+  .float-y,
+  .animate-spin,
+  .skeleton::after {
+    animation: none;
+  }
+  .hero-slide {
+    animation: none;
+  }
+  .hero-slide:first-child {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  .theme-fade {
+    transition: background-color 0.25s, color 0.25s;
+  }
+}

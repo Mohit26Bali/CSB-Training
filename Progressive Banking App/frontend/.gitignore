@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.local
+.vite/
+npm-debug.log*
+staging_images/
+playwright-report/
+test-results/
