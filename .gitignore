@@ -31,3 +31,6 @@ Thumbs.db
 **/jwt-secret.properties
 **/secrets.properties
 **/config/application.properties
+
+# Database credentials used by the JDBC exercises (copy db.properties.example to db.properties)
+**/db.properties

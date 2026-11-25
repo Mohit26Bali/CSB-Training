@@ -1,0 +1,6 @@
+# MySQL connection settings (credentials only).
+# Read by config/DatabaseConfig - never by business classes.
+# Keep this file out of git (see .gitignore).
+db.url=jdbc:mysql://localhost:3306/mini_wallet
+db.user=root
+db.password=YOUR_MYSQL_PASSWORD
