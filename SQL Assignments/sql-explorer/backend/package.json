@@ -1,0 +1,18 @@
+{
+  "name": "sql-explorer-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API for SQL Explorer: browse the 15 SQL assignment databases and run their queries safely",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "seed": "node --env-file=.env scripts/seed.js",
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --watch --env-file=.env src/server.js",
+    "test": "node --env-file=.env --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0"
+  }
+}
