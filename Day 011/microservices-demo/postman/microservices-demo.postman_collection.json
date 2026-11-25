@@ -1,0 +1,812 @@
+{
+  "info": {
+    "name": "Microservices Demo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "gateway",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "order",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "eureka",
+      "value": "http://localhost:8761"
+    },
+    {
+      "key": "instances",
+      "value": "[]"
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1 All services running",
+      "item": [
+        {
+          "name": "Eureka registry lists all services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{eureka}}/eureka/apps"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "const apps = pm.response.json().applications.application;",
+                  "const byName = Object.fromEntries(apps.map(a => [a.name, a.instance.length]));",
+                  "pm.test('API-GATEWAY, ORDER-SERVICE, PRODUCT-SERVICE registered', () => pm.expect(byName).to.include.keys('API-GATEWAY', 'ORDER-SERVICE', 'PRODUCT-SERVICE'));",
+                  "pm.test('two PRODUCT-SERVICE instances under one service ID', () => pm.expect(byName['PRODUCT-SERVICE']).to.eql(2));",
+                  "pm.collectionVariables.set('instances', '[]');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 via gateway (1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 from a product-service instance', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('product fields present', () => pm.expect(body).to.include.keys('id', 'name', 'price', 'instance'));",
+                  "pm.test('X-Gateway response header added', () => pm.expect(pm.response.headers.get('X-Gateway')).to.eql('api-gateway'));",
+                  "const seen = JSON.parse(pm.collectionVariables.get('instances') || '[]');",
+                  "if (!seen.includes(body.instance)) seen.push(body.instance);",
+                  "pm.collectionVariables.set('instances', JSON.stringify(seen));",
+                  "console.log('handled by instance', body.instance);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 via gateway (2)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 from a product-service instance', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('product fields present', () => pm.expect(body).to.include.keys('id', 'name', 'price', 'instance'));",
+                  "pm.test('X-Gateway response header added', () => pm.expect(pm.response.headers.get('X-Gateway')).to.eql('api-gateway'));",
+                  "const seen = JSON.parse(pm.collectionVariables.get('instances') || '[]');",
+                  "if (!seen.includes(body.instance)) seen.push(body.instance);",
+                  "pm.collectionVariables.set('instances', JSON.stringify(seen));",
+                  "console.log('handled by instance', body.instance);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 via gateway (3)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 from a product-service instance', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('product fields present', () => pm.expect(body).to.include.keys('id', 'name', 'price', 'instance'));",
+                  "pm.test('X-Gateway response header added', () => pm.expect(pm.response.headers.get('X-Gateway')).to.eql('api-gateway'));",
+                  "const seen = JSON.parse(pm.collectionVariables.get('instances') || '[]');",
+                  "if (!seen.includes(body.instance)) seen.push(body.instance);",
+                  "pm.collectionVariables.set('instances', JSON.stringify(seen));",
+                  "console.log('handled by instance', body.instance);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 via gateway (4)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 from a product-service instance', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('product fields present', () => pm.expect(body).to.include.keys('id', 'name', 'price', 'instance'));",
+                  "pm.test('X-Gateway response header added', () => pm.expect(pm.response.headers.get('X-Gateway')).to.eql('api-gateway'));",
+                  "const seen = JSON.parse(pm.collectionVariables.get('instances') || '[]');",
+                  "if (!seen.includes(body.instance)) seen.push(body.instance);",
+                  "pm.collectionVariables.set('instances', JSON.stringify(seen));",
+                  "console.log('handled by instance', body.instance);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Load balancer used both instances",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const seen = JSON.parse(pm.collectionVariables.get('instances'));",
+                  "pm.test('4 calls were spread over 2 instances', () => pm.expect(seen.length).to.eql(2));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /api/products/2 (RewritePath filter)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/products/2"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('rewritten to /products/2', () => pm.expect(pm.response.json().name).to.eql('Mouse'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders via gateway",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1, \"quantity\": 2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('order CREATED with product from product-service', () => { pm.expect(body.status).to.eql('CREATED'); pm.expect(body.product.name).to.eql('Laptop'); pm.expect(body.product.instance).to.be.a('string'); });",
+                  "pm.test('total = price x quantity', () => pm.expect(body.total).to.eql(150000));",
+                  "pm.collectionVariables.set('orderId', body.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /orders/{id} via gateway",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/orders/{{orderId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('same order', () => pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('orderId'))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /api/orders (StripPrefix filter)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/orders"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 with a list', () => { pm.response.to.have.status(200); pm.expect(pm.response.json()).to.be.an('array').that.is.not.empty; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders without productId",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"quantity\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /orders/999",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/orders/999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('404 Not Found', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gateway health (Actuator)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/actuator/health"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('UP', () => pm.expect(pm.response.json().status).to.eql('UP'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order-service metrics (Actuator)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{order}}/actuator/metrics/http.server.requests"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 with measurements', () => { pm.response.to.have.status(200); pm.expect(pm.response.json().measurements).to.be.an('array'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order-service circuit breaker is CLOSED",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{order}}/actuator/circuitbreakers"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('productService state CLOSED', () => pm.expect(pm.response.json().circuitBreakers.productService.state).to.eql('CLOSED'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2 Product instance 8083 stopped",
+      "item": [
+        {
+          "name": "GET /products/1 with instance 8083 stopped (1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200: request still served', () => pm.response.to.have.status(200));",
+                  "pm.test('served by 8082', () => pm.expect(pm.response.json().instance).to.eql('8082'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 with instance 8083 stopped (2)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200: request still served', () => pm.response.to.have.status(200));",
+                  "pm.test('served by 8082', () => pm.expect(pm.response.json().instance).to.eql('8082'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 with instance 8083 stopped (3)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200: request still served', () => pm.response.to.have.status(200));",
+                  "pm.test('served by 8082', () => pm.expect(pm.response.json().instance).to.eql('8082'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 with instance 8083 stopped (4)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200: request still served', () => pm.response.to.have.status(200));",
+                  "pm.test('served by 8082', () => pm.expect(pm.response.json().instance).to.eql('8082'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3 All product instances stopped",
+      "item": [
+        {
+          "name": "POST /orders while product-service is down (1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: order still accepted', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('fallback product used', () => pm.expect(body.product.name).to.eql('Product temporarily unavailable'));",
+                  "pm.test('order marked PENDING', () => pm.expect(body.status).to.eql('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders while product-service is down (2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: order still accepted', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('fallback product used', () => pm.expect(body.product.name).to.eql('Product temporarily unavailable'));",
+                  "pm.test('order marked PENDING', () => pm.expect(body.status).to.eql('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders while product-service is down (3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: order still accepted', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('fallback product used', () => pm.expect(body.product.name).to.eql('Product temporarily unavailable'));",
+                  "pm.test('order marked PENDING', () => pm.expect(body.status).to.eql('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders while product-service is down (4)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: order still accepted', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('fallback product used', () => pm.expect(body.product.name).to.eql('Product temporarily unavailable'));",
+                  "pm.test('order marked PENDING', () => pm.expect(body.status).to.eql('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders while product-service is down (5)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: order still accepted', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('fallback product used', () => pm.expect(body.product.name).to.eql('Product temporarily unavailable'));",
+                  "pm.test('order marked PENDING', () => pm.expect(body.status).to.eql('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders while product-service is down (6)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: order still accepted', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test('fallback product used', () => pm.expect(body.product.name).to.eql('Product temporarily unavailable'));",
+                  "pm.test('order marked PENDING', () => pm.expect(body.status).to.eql('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order-service circuit breaker is OPEN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{order}}/actuator/circuitbreakers"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('productService state OPEN', () => pm.expect(pm.response.json().circuitBreakers.productService.state).to.eql('OPEN'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /products/1 via gateway (gateway circuit breaker)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/products/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('503 from the gateway fallback', () => pm.response.to.have.status(503));",
+                  "pm.test('fallback message', () => pm.expect(pm.response.json().message).to.eql('Product service is temporarily unavailable'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4 Product service restarted",
+      "item": [
+        {
+          "name": "POST /orders after recovery (1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201', () => pm.response.to.have.status(201));",
+                  "pm.test('real product returned, order CREATED', () => pm.expect(pm.response.json().status).to.eql('CREATED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders after recovery (2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201', () => pm.response.to.have.status(201));",
+                  "pm.test('real product returned, order CREATED', () => pm.expect(pm.response.json().status).to.eql('CREATED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /orders after recovery (3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201', () => pm.response.to.have.status(201));",
+                  "pm.test('real product returned, order CREATED', () => pm.expect(pm.response.json().status).to.eql('CREATED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order-service circuit breaker is CLOSED",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{order}}/actuator/circuitbreakers"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('productService state CLOSED', () => pm.expect(pm.response.json().circuitBreakers.productService.state).to.eql('CLOSED'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

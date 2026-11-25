@@ -1,0 +1,22 @@
+# Kubernetes: no Eureka; lb:// names resolve to Kubernetes Service DNS names
+eureka:
+  client:
+    enabled: false
+
+spring:
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            product-service:
+              - uri: http://product-service:8082
+            order-service:
+              - uri: http://order-service:8081
+    gateway:
+      server:
+        webflux:
+          httpclient:
+            pool:
+              # New connection per request, so kube-proxy can spread requests over the product pods
+              type: DISABLED

@@ -1,0 +1,4 @@
+# In Kubernetes the Service object does discovery, so Eureka is switched off
+eureka:
+  client:
+    enabled: false
