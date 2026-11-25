@@ -1,0 +1,33 @@
+# Dependencies and build output
+node_modules/
+target/
+build/
+dist/
+out/
+.next/
+coverage/
+test-results/
+playwright-report/
+*.class
+*.log
+
+# Editors and tools
+.vscode/
+.idea/
+.metals/
+.bloop/
+.metadata/
+.settings/
+.classpath
+.project
+.claude/
+.DS_Store
+Thumbs.db
+
+# Secrets: never commit these. Each project ships an example file instead.
+.env
+.env.*
+!.env.example
+**/jwt-secret.properties
+**/secrets.properties
+**/config/application.properties
