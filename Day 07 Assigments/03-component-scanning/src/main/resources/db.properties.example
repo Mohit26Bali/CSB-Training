@@ -1,0 +1,5 @@
+# Shared database for all Day 07 assignments.
+# Keep this file out of git (see .gitignore).
+db.url=jdbc:mysql://localhost:3306/Day_007_Assigments
+db.user=root
+db.password=YOUR_MYSQL_PASSWORD

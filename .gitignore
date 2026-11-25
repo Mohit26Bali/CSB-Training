@@ -34,3 +34,4 @@ Thumbs.db
 
 # Database credentials used by the JDBC exercises (copy db.properties.example to db.properties)
 **/db.properties
+**/db-secret.properties
