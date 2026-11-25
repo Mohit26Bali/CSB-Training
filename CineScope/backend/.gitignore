@@ -1,0 +1,15 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+# secrets
+config/application.properties
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+.metals/

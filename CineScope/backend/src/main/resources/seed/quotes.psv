@@ -1,0 +1,355 @@
+# Famous lines for the sign-in screens and the quiz. category|type|tmdbId|title|year|speaker|line. Read by config/QuoteSeeder.
+# tmdbId was found by searching TMDB and checking the title and year. Lines not yet checked word for word are left out (see the project notes).
+HOLLYWOOD|movie|218|The Terminator|1984|The Terminator|I'll be back.
+HOLLYWOOD|movie|37165|The Truman Show|1998|Truman Burbank|Good morning, and in case I don't see ya, good afternoon, good evening, and good night!
+HOLLYWOOD|movie|489|Good Will Hunting|1997|Sean Maguire|It's not your fault.
+HOLLYWOOD|movie|1402|The Pursuit of Happyness|2006|Chris Gardner|Don't ever let somebody tell you you can't do something. Not even me.
+HOLLYWOOD|movie|207|Dead Poets Society|1989|John Keating|Carpe diem. Seize the day, boys. Make your lives extraordinary.
+HOLLYWOOD|movie|310|Bruce Almighty|2003|God|You want to see a miracle, son? Be the miracle.
+HOLLYWOOD|movie|157336|Interstellar|2014|Amelia Brand|Love is the one thing that transcends time and space.
+HOLLYWOOD|movie|155|The Dark Knight|2008|Harvey Dent|You either die a hero, or you live long enough to see yourself become the villain.
+HOLLYWOOD|movie|8587|The Lion King|1994|Mufasa|Remember who you are.
+HOLLYWOOD|movie|238|The Godfather|1972|Vito Corleone|I'm gonna make him an offer he can't refuse.
+HOLLYWOOD|movie|424|Schindler's List|1993|Itzhak Stern|Whoever saves one life, saves the world entire.
+HOLLYWOOD|movie|597|Titanic|1997|Jack Dawson|I'm the king of the world!
+HOLLYWOOD|movie|289|Casablanca|1942|Rick Blaine|Here's looking at you, kid.
+HOLLYWOOD|movie|13|Forrest Gump|1994|Forrest Gump|Life is like a box of chocolates. You never know what you're gonna get.
+HOLLYWOOD|movie|1246|Rocky Balboa|2006|Rocky Balboa|It ain't about how hard you hit. It's about how hard you can get hit and keep moving forward.
+HOLLYWOOD|movie|278|The Shawshank Redemption|1994|Andy Dufresne|Get busy living, or get busy dying.
+HOLLYWOOD|movie|197|Braveheart|1995|William Wallace|They may take our lives, but they'll never take our freedom!
+HOLLYWOOD|movie|27205|Inception|2010|Dom Cobb|Dreams feel real while we're in them.
+HOLLYWOOD|movie|557|Spider-Man|2002|Uncle Ben|With great power comes great responsibility.
+HOLLYWOOD|movie|11|Star Wars|1977|Han Solo|May the Force be with you.
+HOLLYWOOD|movie|98|Gladiator|2000|Maximus|Are you not entertained?
+HOLLYWOOD|movie|329|Jurassic Park|1993|Dr. Ian Malcolm|Life, uh, finds a way.
+HOLLYWOOD|movie|578|Jaws|1975|Chief Brody|You're gonna need a bigger boat.
+HOLLYWOOD|movie|105|Back to the Future|1985|Doc Brown|Roads? Where we're going, we don't need roads.
+HOLLYWOOD|movie|862|Toy Story|1995|Buzz Lightyear|To infinity and beyond!
+HOLLYWOOD|movie|770|Gone with the Wind|1939|Rhett Butler|Frankly, my dear, I don't give a damn.
+HOLLYWOOD|movie|630|The Wizard of Oz|1939|Dorothy|There's no place like home.
+HOLLYWOOD|movie|103|Taxi Driver|1976|Travis Bickle|You talkin' to me?
+HOLLYWOOD|movie|111|Scarface|1983|Tony Montana|Say hello to my little friend!
+HOLLYWOOD|movie|274|The Silence of the Lambs|1991|Hannibal Lecter|A census taker once tried to test me. I ate his liver with some fava beans and a nice Chianti.
+HOLLYWOOD|movie|28|Apocalypse Now|1979|Lt. Col. Kilgore|I love the smell of napalm in the morning.
+HOLLYWOOD|movie|881|A Few Good Men|1992|Col. Jessup|You can't handle the truth!
+HOLLYWOOD|movie|9390|Jerry Maguire|1996|Jerry Maguire|Show me the money!
+HOLLYWOOD|movie|984|Dirty Harry|1971|Harry Callahan|Do you feel lucky, punk?
+HOLLYWOOD|movie|562|Die Hard|1988|John McClane|Yippee-ki-yay.
+HOLLYWOOD|movie|280|Terminator 2: Judgment Day|1991|The Terminator|Hasta la vista, baby.
+HOLLYWOOD|movie|550|Fight Club|1999|Tyler Durden|The first rule of Fight Club is: you do not talk about Fight Club.
+HOLLYWOOD|movie|680|Pulp Fiction|1994|Jules Winnfield|The path of the righteous man is beset on all sides by the inequities of the selfish.
+HOLLYWOOD|movie|13|Forrest Gump|1994|Forrest Gump|Run, Forrest, run!
+HOLLYWOOD|movie|2493|The Princess Bride|1987|Inigo Montoya|Hello. My name is Inigo Montoya. You killed my father. Prepare to die.
+HOLLYWOOD|movie|601|E.T. the Extra-Terrestrial|1982|E.T.|E.T. phone home.
+HOLLYWOOD|movie|620|Ghostbusters|1984|Dr. Peter Venkman|Who you gonna call?
+HOLLYWOOD|movie|745|The Sixth Sense|1999|Cole Sear|I see dead people.
+HOLLYWOOD|movie|12|Finding Nemo|2003|Dory|Just keep swimming.
+HOLLYWOOD|movie|2062|Ratatouille|2007|Anton Ego|Not everyone can become a great artist, but a great artist can come from anywhere.
+HOLLYWOOD|movie|14160|Up|2009|Carl Fredricksen|Adventure is out there!
+HOLLYWOOD|movie|808|Shrek|2001|Shrek|Ogres are like onions.
+HOLLYWOOD|movie|109445|Frozen|2013|Elsa|Let it go.
+HOLLYWOOD|movie|9502|Kung Fu Panda|2008|Master Oogway|Yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present.
+HOLLYWOOD|movie|299534|Avengers: Endgame|2019|Tony Stark|I am Iron Man.
+HOLLYWOOD|movie|299534|Avengers: Endgame|2019|Steve Rogers|Avengers, assemble.
+HOLLYWOOD|movie|299536|Avengers: Infinity War|2018|Thanos|I am inevitable.
+HOLLYWOOD|movie|24428|The Avengers|2012|Bruce Banner|That's my secret, Captain. I'm always angry.
+HOLLYWOOD|movie|284054|Black Panther|2018|T'Challa|Wakanda forever!
+HOLLYWOOD|movie|118340|Guardians of the Galaxy|2014|Groot|I am Groot.
+HOLLYWOOD|movie|120|The Lord of the Rings: The Fellowship of the Ring|2001|Gandalf|You shall not pass!
+HOLLYWOOD|movie|122|The Lord of the Rings: The Return of the King|2003|Aragorn|For Frodo.
+HOLLYWOOD|movie|121|The Lord of the Rings: The Two Towers|2002|Gollum|My precious.
+HOLLYWOOD|movie|671|Harry Potter and the Philosopher's Stone|2001|Albus Dumbledore|It does not do to dwell on dreams and forget to live.
+HOLLYWOOD|movie|12445|Harry Potter and the Deathly Hallows: Part 2|2011|Harry Potter|After all this time? Always.
+HOLLYWOOD|movie|1891|Star Wars: The Empire Strikes Back|1980|Darth Vader|No. I am your father.
+HOLLYWOOD|movie|1892|Star Wars: Return of the Jedi|1983|Admiral Ackbar|It's a trap!
+HOLLYWOOD|movie|1895|Star Wars: Revenge of the Sith|2005|Obi-Wan Kenobi|Hello there.
+HOLLYWOOD|movie|348|Alien|1979|Ripley|In space, no one can hear you scream.
+HOLLYWOOD|movie|78|Blade Runner|1982|Roy Batty|All those moments will be lost in time, like tears in rain.
+HOLLYWOOD|movie|62|2001: A Space Odyssey|1968|HAL 9000|I'm sorry, Dave. I'm afraid I can't do that.
+HOLLYWOOD|movie|568|Apollo 13|1995|Jim Lovell|Houston, we have a problem.
+HOLLYWOOD|movie|8358|Cast Away|2000|Chuck Noland|Wilson!
+HOLLYWOOD|movie|744|Top Gun|1986|Maverick|I feel the need... the need for speed!
+HOLLYWOOD|movie|646|Dr. No|1962|James Bond|Bond. James Bond.
+HOLLYWOOD|movie|22|Pirates of the Caribbean: The Curse of the Black Pearl|2003|Jack Sparrow|But you have heard of me.
+HOLLYWOOD|movie|22|Pirates of the Caribbean: The Curse of the Black Pearl|2003|Jack Sparrow|Why is the rum gone?
+HOLLYWOOD|movie|85|Indiana Jones and the Raiders of the Lost Ark|1981|Indiana Jones|It belongs in a museum!
+HOLLYWOOD|movie|1366|Rocky|1976|Rocky Balboa|Yo, Adrian!
+HOLLYWOOD|movie|654|On the Waterfront|1954|Terry Malloy|I coulda been a contender.
+HOLLYWOOD|movie|15|Citizen Kane|1941|Charles Foster Kane|Rosebud.
+HOLLYWOOD|movie|599|Sunset Boulevard|1950|Norma Desmond|All right, Mr. DeMille, I'm ready for my close-up.
+HOLLYWOOD|movie|539|Psycho|1960|Norman Bates|We all go a little mad sometimes.
+HOLLYWOOD|movie|239|Some Like It Hot|1959|Osgood Fielding III|Well, nobody's perfect.
+HOLLYWOOD|movie|88|Dirty Dancing|1987|Johnny Castle|Nobody puts Baby in a corner.
+HOLLYWOOD|movie|597|Titanic|1997|Rose|I'll never let go, Jack.
+HOLLYWOOD|movie|9062|Love Story|1970|Jennifer Cavilleri|Love means never having to say you're sorry.
+HOLLYWOOD|movie|9390|Jerry Maguire|1996|Dorothy Boyd|You had me at hello.
+HOLLYWOOD|movie|639|When Harry Met Sally...|1989|Customer|I'll have what she's having.
+HOLLYWOOD|movie|509|Notting Hill|1999|Anna Scott|I'm just a girl, standing in front of a boy, asking him to love her.
+HOLLYWOOD|movie|11036|The Notebook|2004|Noah Calhoun|If you're a bird, I'm a bird.
+HOLLYWOOD|movie|13|Forrest Gump|1994|Forrest Gump|Stupid is as stupid does.
+HOLLYWOOD|movie|497|The Green Mile|1999|John Coffey|I'm tired, boss.
+HOLLYWOOD|movie|453|A Beautiful Mind|2001|John Nash|I need to believe that something extraordinary is possible.
+HOLLYWOOD|movie|475557|Joker|2019|Arthur Fleck|I used to think that my life was a tragedy, but now I realize, it's a comedy.
+HOLLYWOOD|movie|155|The Dark Knight|2008|The Joker|Why so serious?
+HOLLYWOOD|movie|49026|The Dark Knight Rises|2012|Bane|Ah, you think darkness is your ally?
+HOLLYWOOD|movie|272|Batman Begins|2005|Alfred|Why do we fall, Master Bruce? So we can learn to pick ourselves up.
+HOLLYWOOD|movie|324857|Spider-Man: Into the Spider-Verse|2018|Miles Morales|Anyone can wear the mask.
+HOLLYWOOD|movie|634649|Spider-Man: No Way Home|2021|Peter Parker|With great power, there must also come great responsibility.
+HOLLYWOOD|movie|293660|Deadpool|2016|Deadpool|Maximum effort!
+HOLLYWOOD|movie|106646|The Wolf of Wall Street|2013|Jordan Belfort|Sell me this pen.
+HOLLYWOOD|movie|10673|Wall Street|1987|Gordon Gekko|Greed, for lack of a better word, is good.
+HOLLYWOOD|movie|14|American Beauty|1999|Lester Burnham|Look closer.
+HOLLYWOOD|movie|637|Life Is Beautiful|1997|Guido|Buongiorno, Principessa!
+HOLLYWOOD|movie|11216|Cinema Paradiso|1988|Alfredo|Whatever you end up doing, love it.
+HOLLYWOOD|movie|1422|The Departed|2006|Billy Costigan|Which side are you on?
+HOLLYWOOD|movie|769|Goodfellas|1990|Henry Hill|As far back as I can remember, I always wanted to be a gangster.
+HOLLYWOOD|movie|807|Se7en|1995|Detective Somerset|Ernest Hemingway once wrote, The world is a fine place and worth fighting for. I agree with the second part.
+HOLLYWOOD|movie|1124|The Prestige|2006|Cutter|Are you watching closely?
+HOLLYWOOD|movie|77|Memento|2000|Leonard Shelby|I have to believe in a world outside my own mind.
+HOLLYWOOD|movie|101|Léon: The Professional|1994|Mathilda|Is life always this hard, or is it just when you're a kid?
+HOLLYWOOD|movie|603|The Matrix|1999|Morpheus|There is a difference between knowing the path and walking the path.
+HOLLYWOOD|movie|872585|Oppenheimer|2023|J. Robert Oppenheimer|Now I am become Death, the destroyer of worlds.
+HOLLYWOOD|movie|76341|Mad Max: Fury Road|2015|Nux|What a lovely day!
+HOLLYWOOD|movie|10625|Mean Girls|2004|Karen Smith|On Wednesdays we wear pink.
+HOLLYWOOD|movie|771|Home Alone|1990|Kevin McCallister|Keep the change, ya filthy animal.
+HOLLYWOOD|movie|9377|Ferris Bueller's Day Off|1986|Ferris Bueller|Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.
+HOLLYWOOD|movie|37799|The Social Network|2010|Sean Parker|A million dollars isn't cool. You know what's cool? A billion dollars.
+HOLLYWOOD|movie|438631|Dune|2021|Paul Atreides|Fear is the mind-killer.
+TV|tv|1396|Breaking Bad|2008|Walter White|I am the one who knocks!
+TV|tv|1396|Breaking Bad|2008|Walter White|Say my name.
+TV|tv|1396|Breaking Bad|2008|Jesse Pinkman|Yeah, science!
+TV|tv|1399|Game of Thrones|2011|Ned Stark|Winter is coming.
+TV|tv|1399|Game of Thrones|2011|Ygritte|You know nothing, Jon Snow.
+TV|tv|1399|Game of Thrones|2011|Jaqen H'ghar|Valar morghulis.
+TV|tv|1399|Game of Thrones|2011|Tyrion Lannister|That's what I do. I drink and I know things.
+TV|tv|1668|Friends|1994|Joey Tribbiani|How you doin'?
+TV|tv|1668|Friends|1994|Ross Geller|We were on a break!
+TV|tv|1668|Friends|1994|Ross Geller|Pivot!
+TV|tv|2316|The Office|2005|Michael Scott|That's what she said.
+TV|tv|19885|Sherlock|2010|Sherlock Holmes|The game is on.
+TV|tv|66732|Stranger Things|2016|Eleven|Friends don't lie.
+TV|tv|1418|The Big Bang Theory|2007|Sheldon Cooper|Bazinga!
+TV|tv|1400|Seinfeld|1989|The Soup Nazi|No soup for you!
+TV|tv|456|The Simpsons|1989|Homer Simpson|D'oh!
+TV|tv|57243|Doctor Who|2005|The Tenth Doctor|Allons-y!
+TV|tv|1425|House of Cards|2013|Frank Underwood|You might very well think that. I couldn't possibly comment.
+TV|tv|1438|The Wire|2002|Omar Little|You come at the king, you best not miss.
+TV|tv|60574|Peaky Blinders|2013|Tommy Shelby|By order of the Peaky Blinders.
+TV|tv|82856|The Mandalorian|2019|Din Djarin|This is the way.
+TV|tv|48891|Brooklyn Nine-Nine|2013|Jake Peralta|Cool cool cool cool cool.
+TV|tv|1100|How I Met Your Mother|2005|Barney Stinson|Suit up!
+TV|tv|8592|Parks and Recreation|2009|Tom Haverford|Treat yo self!
+TV|tv|87108|Chernobyl|2019|Valery Legasov|What is the cost of lies?
+TV|tv|655|Star Trek: The Next Generation|1987|Captain Picard|Make it so.
+TV|tv|63351|Narcos|2015|Pablo Escobar|Plata o plomo.
+TV|tv|97546|Ted Lasso|2020|Ted Lasso|Believe.
+TV|tv|62560|Mr. Robot|2015|Elliot Alderson|Hello, friend.
+BOLLYWOOD|movie|12259|Sholay|1975|Gabbar Singh|Kitne aadmi the?
+BOLLYWOOD|movie|12259|Sholay|1975|Gabbar Singh|Jo darr gaya, samjho mar gaya.
+BOLLYWOOD|movie|12259|Sholay|1975|Veeru|Basanti, in kutton ke saamne mat naachna.
+BOLLYWOOD|movie|12259|Sholay|1975|Gabbar Singh|Tera kya hoga, Kaalia?
+BOLLYWOOD|movie|22460|Deewaar|1975|Ravi|Mere paas maa hai.
+BOLLYWOOD|movie|22460|Deewaar|1975|Vijay|Main aaj bhi pheke hue paise nahi uthata.
+BOLLYWOOD|movie|22460|Deewaar|1975|Vijay|Aaj mere paas building hai, property hai, bank balance hai, bangla hai, gaadi hai. Tumhare paas kya hai?
+BOLLYWOOD|movie|26237|Anand|1971|Anand|Babumoshai, zindagi badi honi chahiye, lambi nahi.
+BOLLYWOOD|movie|29534|Amar Prem|1972|Anand Babu|Pushpa, I hate tears.
+BOLLYWOOD|movie|41903|Mr. India|1987|Mogambo|Mogambo khush hua!
+BOLLYWOOD|movie|17501|Don|2006|Don|Don ko pakadna mushkil hi nahi, namumkin hai.
+BOLLYWOOD|movie|62201|Shahenshah|1988|Vijay|Rishte mein toh hum tumhare baap lagte hain, naam hai Shahenshah.
+BOLLYWOOD|movie|37403|Agneepath|1990|Vijay Dinanath Chauhan|Vijay Dinanath Chauhan, poora naam.
+BOLLYWOOD|movie|51615|Namak Halaal|1982|Arjun Singh|I can talk English, I can walk English, I can laugh English because English is a very phunny language.
+BOLLYWOOD|movie|223091|Mard|1985|Raju|Mard ko dard nahi hota.
+BOLLYWOOD|movie|54966|Pakeezah|1972|Salim|Aapke paon dekhe, bahut haseen hain. Inhe zameen par mat utariyega, maile ho jaayenge.
+BOLLYWOOD|movie|93519|Karan Arjun|1995|Durga|Mere Karan Arjun aayenge.
+BOLLYWOOD|movie|21614|Hera Pheri|2000|Baburao|Yeh Baburao ka style hai.
+BOLLYWOOD|movie|58128|Andaz Apna Apna|1994|Teja|Teja main hoon, mark idhar hai.
+BOLLYWOOD|movie|58128|Andaz Apna Apna|1994|Amar|Aati kya Khandala?
+BOLLYWOOD|movie|19625|Munna Bhai M.B.B.S.|2003|Munna|Jaadu ki jhappi.
+BOLLYWOOD|movie|20453|3 Idiots|2009|Rancho|Aal izz well.
+BOLLYWOOD|movie|20453|3 Idiots|2009|Rancho|Kamyab nahi, kaabil bano. Kamyabi jhak maar ke tumhare peeche aayegi.
+BOLLYWOOD|movie|297222|PK|2014|PK|Wrong number.
+BOLLYWOOD|movie|360814|Dangal|2016|Mahavir Singh Phogat|Mhari chhoriyan chhoron se kam hain ke?
+BOLLYWOOD|movie|14163|Chak De! India|2007|Kabir Khan|Sattar minute hain tumhare paas. Sirf sattar minute.
+BOLLYWOOD|movie|8079|Om Shanti Om|2007|Om Kapoor|Picture abhi baaki hai, mere dost!
+BOLLYWOOD|movie|8079|Om Shanti Om|2007|Shanti Priya|Ek chutki sindoor ki keemat tum kya jaano, Ramesh Babu?
+BOLLYWOOD|movie|205022|Chennai Express|2013|Rahul|Don't underestimate the power of a common man.
+BOLLYWOOD|movie|19404|Dilwale Dulhania Le Jayenge|1995|Raj|Bade bade deshon mein aisi chhoti chhoti baatein hoti rehti hai, Senorita.
+BOLLYWOOD|movie|19404|Dilwale Dulhania Le Jayenge|1995|Baldev Singh|Ja Simran ja, jee le apni zindagi.
+BOLLYWOOD|movie|11854|Kuch Kuch Hota Hai|1998|Rahul|Pyaar dosti hai.
+BOLLYWOOD|movie|11854|Kuch Kuch Hota Hai|1998|Rahul|Kuch kuch hota hai, Anjali, tum nahi samjhogi.
+BOLLYWOOD|movie|11518|Mohabbatein|2000|Narayan Shankar|Parampara, pratishtha, anushasan.
+BOLLYWOOD|movie|27624|Maine Pyar Kiya|1989|Prem|Dosti ka ek usool hai, madam: no sorry, no thank you.
+BOLLYWOOD|movie|11807|Jab We Met|2007|Geet|Main apni favourite hoon.
+BOLLYWOOD|movie|8909|Wanted|2009|Radhe|Ek baar maine commitment kar di, uske baad toh main apne aap ki bhi nahi sunta.
+BOLLYWOOD|movie|44425|Dabangg|2010|Chulbul Pandey|Thappad se darr nahi lagta sahab, pyaar se lagta hai.
+BOLLYWOOD|movie|117691|Gangs of Wasseypur|2012|Faizal Khan|Keh ke lunga.
+BOLLYWOOD|movie|117691|Gangs of Wasseypur|2012|Faizal Khan|Baap ka, dada ka, bhai ka, sab ka badla lega tera Faizal.
+BOLLYWOOD|movie|491625|Gully Boy|2019|Murad|Apna time aayega.
+BOLLYWOOD|movie|554600|Uri: The Surgical Strike|2019|Vihaan Shergill|How's the josh? High, sir!
+BOLLYWOOD|movie|363343|Raees|2017|Raees|Baniye ka dimaag aur miyan bhai ki daring.
+BOLLYWOOD|movie|872906|Jawan|2023|Vikram Rathore|Bete ko haath lagane se pehle, baap se baat kar.
+BOLLYWOOD|movie|26022|My Name Is Khan|2010|Rizwan Khan|My name is Khan, and I am not a terrorist.
+BOLLYWOOD|movie|19657|Baazigar|1993|Ajay Sharma|Kabhi kabhi jeetne ke liye kuch haarna padta hai. Aur haar kar jeetne wale ko baazigar kehte hain.
+BOLLYWOOD|movie|15917|Devdas|2002|Devdas|Kaun kambakht hai jo bardasht karne ke liye peeta hai?
+BOLLYWOOD|movie|185008|Yeh Jawaani Hai Deewani|2013|Bunny|Main udna chahta hoon, daudna chahta hoon, girna bhi chahta hoon. Bas rukna nahi chahta.
+BOLLYWOOD|movie|21502|Satya|1998|Bhiku Mhatre|Mumbai ka king kaun? Bhiku Mhatre!
+BOLLYWOOD|movie|96398|Paan Singh Tomar|2012|Paan Singh Tomar|Beehad mein baaghi hote hain, daaku milte hain parliament mein.
+BOLLYWOOD|movie|415358|Pink|2016|Deepak Sehgal|No means no.
+BOLLYWOOD|movie|32295|Khalnayak|1993|Ballu|Nayak nahi, khalnayak hoon main.
+ANIME|tv|46260|Naruto|2002|Naruto Uzumaki|I'm not gonna run away, I never go back on my word! That's my nindo: my ninja way!
+ANIME|tv|46260|Naruto|2002|Kakashi Hatake|Those who break the rules are scum, but those who abandon their friends are worse than scum.
+ANIME|tv|46260|Naruto|2002|Haku|When a person has something they want to protect, that's when they can become truly strong.
+ANIME|tv|46260|Naruto|2002|Naruto Uzumaki|Believe it!
+ANIME|tv|37854|One Piece|1999|Monkey D. Luffy|I'm gonna be King of the Pirates!
+ANIME|tv|37854|One Piece|1999|Roronoa Zoro|Nothing happened.
+ANIME|tv|12971|Dragon Ball Z|1989|Vegeta|It's over nine thousand!
+ANIME|tv|12971|Dragon Ball Z|1989|Goku|Kamehameha!
+ANIME|tv|1429|Attack on Titan|2013|Eren Yeager|If you win, you live. If you lose, you die. If you don't fight, you can't win!
+ANIME|tv|1429|Attack on Titan|2013|Mikasa Ackerman|This world is cruel. But it's also very beautiful.
+ANIME|tv|1429|Attack on Titan|2013|Eren Yeager|Tatakae!
+ANIME|tv|13916|Death Note|2006|Light Yagami|I am Justice!
+ANIME|tv|13916|Death Note|2006|Light Yagami|I'll take a potato chip... and eat it!
+ANIME|tv|13916|Death Note|2006|Ryuk|Humans are so interesting.
+ANIME|tv|31911|Fullmetal Alchemist: Brotherhood|2009|Edward Elric|A lesson without pain is meaningless.
+ANIME|tv|31911|Fullmetal Alchemist: Brotherhood|2009|Alphonse Elric|One is all, all is one.
+ANIME|tv|31911|Fullmetal Alchemist: Brotherhood|2009|Edward Elric|Equivalent exchange.
+ANIME|tv|30991|Cowboy Bebop|1998|Spike Spiegel|See you, space cowboy.
+ANIME|tv|30991|Cowboy Bebop|1998|Spike Spiegel|Whatever happens, happens.
+ANIME|tv|85937|Demon Slayer: Kimetsu no Yaiba|2019|Kyojuro Rengoku|Set your heart ablaze.
+ANIME|tv|65930|My Hero Academia|2016|All Might|Plus Ultra!
+ANIME|tv|95479|Jujutsu Kaisen|2020|Satoru Gojo|Throughout Heaven and Earth, I alone am the honored one.
+ANIME|tv|95479|Jujutsu Kaisen|2020|Satoru Gojo|Don't worry. I'm the strongest.
+ANIME|tv|30984|Bleach|2004|Sosuke Aizen|Admiration is the furthest thing from understanding.
+ANIME|tv|30984|Bleach|2004|Ichigo Kurosaki|Bankai!
+ANIME|tv|3570|Sailor Moon|1992|Usagi Tsukino|In the name of the moon, I'll punish you!
+ANIME|tv|60572|Pokémon|1997|Ash Ketchum|Gotta catch 'em all!
+ANIME|movie|129|Spirited Away|2001|Zeniba|Once you've met someone, you never really forget them.
+ANIME|movie|4935|Howl's Moving Castle|2004|Howl|A heart's a heavy burden.
+ANIME|tv|890|Neon Genesis Evangelion|1995|Shinji Ikari|I mustn't run away.
+ANIME|tv|31724|Code Geass: Lelouch of the Rebellion|2006|Lelouch vi Britannia|I, Lelouch vi Britannia, command you!
+ANIME|tv|42509|Steins;Gate|2011|Rintaro Okabe|El Psy Kongroo.
+ANIME|tv|63926|One-Punch Man|2015|Saitama|I'm just a guy who's a hero for fun.
+ANIME|tv|46261|Fairy Tail|2009|Natsu Dragneel|I'm all fired up!
+ANIME|tv|86031|Dr. Stone|2019|Senku Ishigami|Ten billion percent!
+ANIME|tv|21729|Tengen Toppa Gurren Lagann|2007|Kamina|Don't believe in yourself. Believe in me! Believe in the Kamina who believes in you!
+ANIME|tv|88803|Vinland Saga|2019|Thorfinn|I have no enemies.
+ANIME|tv|120089|Spy x Family|2022|Anya Forger|Waku waku!
+ANIME|tv|42573|Slam Dunk|1993|Hanamichi Sakuragi|I'm a genius!
+TV|tv|1396|Breaking Bad|2008|Walter White|I am not in danger, Skyler. I am the danger.
+TV|tv|2316|The Office|2005|Jim Halpert|Bears. Beets. Battlestar Galactica.
+HOLLYWOOD|movie|278|The Shawshank Redemption|1994|Andy Dufresne|Hope is a good thing, maybe the best of things, and no good thing ever dies.
+HOLLYWOOD|movie|278|The Shawshank Redemption|1994|Red|I find I'm so excited I can barely sit still or hold a thought in my head. I think it's the excitement only a free man can feel.
+HOLLYWOOD|movie|278|The Shawshank Redemption|1994|Red|Some birds aren't meant to be caged.
+HOLLYWOOD|movie|238|The Godfather|1972|Clemenza|Leave the gun. Take the cannoli.
+HOLLYWOOD|movie|238|The Godfather|1972|Michael Corleone|It's not personal, Sonny. It's strictly business.
+HOLLYWOOD|movie|238|The Godfather|1972|Vito Corleone|A man who doesn't spend time with his family can never be a real man.
+HOLLYWOOD|movie|240|The Godfather Part II|1974|Michael Corleone|Keep your friends close, but your enemies closer.
+HOLLYWOOD|movie|240|The Godfather Part II|1974|Michael Corleone|I know it was you, Fredo. You broke my heart.
+HOLLYWOOD|movie|155|The Dark Knight|2008|Alfred Pennyworth|Some men just want to watch the world burn.
+HOLLYWOOD|movie|155|The Dark Knight|2008|Batman|Because he's the hero Gotham deserves, but not the one it needs right now.
+HOLLYWOOD|movie|424|Schindler's List|1993|Oskar Schindler|I could have got more. I could have got more.
+HOLLYWOOD|movie|120|The Lord of the Rings: The Fellowship of the Ring|2001|Gandalf|All we have to decide is what to do with the time that is given to us.
+HOLLYWOOD|movie|120|The Lord of the Rings: The Fellowship of the Ring|2001|Boromir|One does not simply walk into Mordor.
+HOLLYWOOD|movie|122|The Lord of the Rings: The Return of the King|2003|Samwise Gamgee|I can't carry it for you, but I can carry you!
+HOLLYWOOD|movie|121|The Lord of the Rings: The Two Towers|2002|Samwise Gamgee|There's some good in this world, Mr. Frodo, and it's worth fighting for.
+HOLLYWOOD|movie|680|Pulp Fiction|1994|Jules Winnfield|Say what again. I dare you, I double dare you!
+HOLLYWOOD|movie|680|Pulp Fiction|1994|Vincent Vega|They call it a Royale with Cheese.
+HOLLYWOOD|movie|680|Pulp Fiction|1994|Butch Coolidge|Zed's dead, baby. Zed's dead.
+HOLLYWOOD|movie|27205|Inception|2010|Eames|You mustn't be afraid to dream a little bigger, darling.
+HOLLYWOOD|movie|27205|Inception|2010|Dom Cobb|An idea is like a virus, resilient, highly contagious.
+HOLLYWOOD|movie|550|Fight Club|1999|Tyler Durden|The second rule of Fight Club is: you do not talk about Fight Club.
+HOLLYWOOD|movie|550|Fight Club|1999|Tyler Durden|It's only after we've lost everything that we're free to do anything.
+HOLLYWOOD|movie|550|Fight Club|1999|Tyler Durden|You are not your job, you're not how much money you have in the bank.
+HOLLYWOOD|movie|603|The Matrix|1999|Neo|I know kung fu.
+HOLLYWOOD|movie|603|The Matrix|1999|Spoon Boy|There is no spoon.
+HOLLYWOOD|movie|603|The Matrix|1999|Morpheus|Welcome to the real world.
+HOLLYWOOD|movie|769|Goodfellas|1990|Tommy DeVito|Funny how? Funny like a clown?
+HOLLYWOOD|movie|769|Goodfellas|1990|Jimmy Conway|Never rat on your friends and always keep your mouth shut.
+HOLLYWOOD|movie|11|Star Wars|1977|Princess Leia|Help me, Obi-Wan Kenobi. You're my only hope.
+HOLLYWOOD|movie|11|Star Wars|1977|Obi-Wan Kenobi|Use the Force, Luke.
+HOLLYWOOD|movie|1891|The Empire Strikes Back|1980|Princess Leia|I love you.
+HOLLYWOOD|movie|1891|The Empire Strikes Back|1980|Yoda|Do. Or do not. There is no try.
+HOLLYWOOD|movie|807|Se7en|1995|David Mills|What's in the box?
+HOLLYWOOD|movie|274|The Silence of the Lambs|1991|Hannibal Lecter|Hello, Clarice.
+HOLLYWOOD|movie|274|The Silence of the Lambs|1991|Hannibal Lecter|Quid pro quo, Clarice.
+HOLLYWOOD|movie|157336|Interstellar|2014|Professor Brand|Do not go gentle into that good night.
+HOLLYWOOD|movie|157336|Interstellar|2014|Cooper|We used to look up at the sky and wonder at our place in the stars. Now we just look down and worry about our place in the dirt.
+HOLLYWOOD|movie|98|Gladiator|2000|Maximus|What we do in life echoes in eternity.
+HOLLYWOOD|movie|98|Gladiator|2000|Maximus|Strength and honor.
+HOLLYWOOD|movie|98|Gladiator|2000|Maximus|At my signal, unleash hell.
+HOLLYWOOD|movie|8587|The Lion King|1994|Timon and Pumbaa|Hakuna Matata!
+HOLLYWOOD|movie|8587|The Lion King|1994|Rafiki|Oh yes, the past can hurt. But the way I see it, you can either run from it, or learn from it.
+HOLLYWOOD|movie|8587|The Lion King|1994|Mufasa|Everything the light touches is our kingdom.
+HOLLYWOOD|movie|105|Back to the Future|1985|Doc Brown|Great Scott!
+HOLLYWOOD|movie|105|Back to the Future|1985|Marty McFly|Nobody calls me chicken.
+HOLLYWOOD|movie|280|Terminator 2: Judgment Day|1991|The Terminator|I need your clothes, your boots, and your motorcycle.
+HOLLYWOOD|movie|280|Terminator 2: Judgment Day|1991|The Terminator|No problemo.
+HOLLYWOOD|movie|218|The Terminator|1984|Kyle Reese|Come with me if you want to live.
+HOLLYWOOD|movie|218|The Terminator|1984|The Terminator|Sarah Connor?
+HOLLYWOOD|movie|289|Casablanca|1942|Rick Blaine|Of all the gin joints in all the towns in all the world, she walks into mine.
+HOLLYWOOD|movie|289|Casablanca|1942|Rick Blaine|We'll always have Paris.
+HOLLYWOOD|movie|289|Casablanca|1942|Rick Blaine|Louis, I think this is the beginning of a beautiful friendship.
+HOLLYWOOD|movie|28|Apocalypse Now|1979|Colonel Kurtz|The horror... the horror.
+HOLLYWOOD|movie|578|Jaws|1975|Mayor Vaughn|You yell Shark, we've got a panic on our hands on the Fourth of July.
+HOLLYWOOD|movie|597|Titanic|1997|Rose|I'm flying, Jack!
+HOLLYWOOD|movie|862|Toy Story|1995|Woody|Reach for the sky!
+HOLLYWOOD|movie|862|Toy Story|1995|Woody|That's not flying, that's falling with style.
+HOLLYWOOD|movie|496243|Parasite|2019|Ki-taek|You know what kind of plan never fails? No plan.
+HOLLYWOOD|movie|496243|Parasite|2019|Ki-woo|It's so metaphorical.
+HOLLYWOOD|movie|244786|Whiplash|2014|Terence Fletcher|Not quite my tempo.
+HOLLYWOOD|movie|244786|Whiplash|2014|Terence Fletcher|There are no two words in the English language more harmful than good job.
+HOLLYWOOD|movie|299534|Avengers: Endgame|2019|Tony Stark|I love you 3000.
+HOLLYWOOD|movie|299534|Avengers: Endgame|2019|Steve Rogers|I can do this all day.
+HOLLYWOOD|movie|197|Braveheart|1995|William Wallace|Every man dies, not every man really lives.
+HOLLYWOOD|movie|197|Braveheart|1995|William Wallace|Freedom!
+HOLLYWOOD|movie|111|Scarface|1983|Tony Montana|First you get the money, then you get the power, then you get the women.
+HOLLYWOOD|movie|111|Scarface|1983|Tony Montana|I always tell the truth. Even when I lie.
+HOLLYWOOD|movie|185|A Clockwork Orange|1971|Alex DeLarge|I was cured, all right.
+HOLLYWOOD|movie|500|Reservoir Dogs|1992|Joe Cabot|Let's go to work.
+HOLLYWOOD|movie|68718|Django Unchained|2012|Django|The D is silent.
+HOLLYWOOD|movie|16869|Inglourious Basterds|2009|Hans Landa|That's a bingo!
+HOLLYWOOD|movie|857|Saving Private Ryan|1998|Captain Miller|Earn this.
+HOLLYWOOD|movie|37165|The Truman Show|1998|Christof|We accept the reality of the world with which we're presented.
+HOLLYWOOD|movie|489|Good Will Hunting|1997|Will Hunting|How do you like them apples?
+HOLLYWOOD|movie|489|Good Will Hunting|1997|Sean Maguire|You're just a kid, you don't have the faintest idea what you're talking about.
+HOLLYWOOD|movie|14160|Up|2009|Dug|I hid under your porch because I love you.
+HOLLYWOOD|movie|14160|Up|2009|Dug|Squirrel!
+HOLLYWOOD|movie|354912|Coco|2017|Hector|Remember me, though I have to say goodbye.
+HOLLYWOOD|movie|12|Finding Nemo|2003|Bruce|Fish are friends, not food.
+HOLLYWOOD|movie|808|Shrek|2001|Shrek|What are you doing in my swamp?
+HOLLYWOOD|movie|673|Harry Potter and the Prisoner of Azkaban|2004|Albus Dumbledore|Happiness can be found even in the darkest of times, if one only remembers to turn on the light.
+HOLLYWOOD|movie|672|Harry Potter and the Chamber of Secrets|2002|Albus Dumbledore|It is our choices, Harry, that show what we truly are, far more than our abilities.
+HOLLYWOOD|movie|24428|The Avengers|2012|Tony Stark|Genius, billionaire, playboy, philanthropist.
+HOLLYWOOD|movie|24428|The Avengers|2012|Hulk|Puny god.
+HOLLYWOOD|movie|10625|Mean Girls|2004|Regina George|Get in loser, we're going shopping.
+HOLLYWOOD|movie|10625|Mean Girls|2004|Regina George|Stop trying to make fetch happen! It's not going to happen!
+HOLLYWOOD|movie|10625|Mean Girls|2004|Damian|She doesn't even go here!
+HOLLYWOOD|movie|2493|The Princess Bride|1987|Westley|As you wish.
+HOLLYWOOD|movie|2493|The Princess Bride|1987|Vizzini|Inconceivable!
+HOLLYWOOD|movie|2493|The Princess Bride|1987|Miracle Max|Have fun storming the castle!
+HOLLYWOOD|movie|9377|Ferris Bueller's Day Off|1986|Economics Teacher|Bueller? Bueller? Bueller?
+HOLLYWOOD|movie|744|Top Gun|1986|Maverick|Talk to me, Goose.
+HOLLYWOOD|movie|562|Die Hard|1988|John McClane|Now I have a machine gun. Ho ho ho.
+TV|tv|1668|Friends|1994|Janice|Oh. My. God.
+TV|tv|2316|The Office|2005|Dwight Schrute|Identity theft is not a joke, Jim!
+TV|tv|2316|The Office|2005|Michael Scott|I declare bankruptcy!
+TV|tv|19885|Sherlock|2010|Sherlock Holmes|I'm not a psychopath, Anderson, I'm a high-functioning sociopath. Do your research.
+TV|tv|66732|Stranger Things|2016|Jim Hopper|Mornings are for coffee and contemplation.
+TV|tv|1418|The Big Bang Theory|2007|Sheldon Cooper|That's my spot.
+TV|tv|1400|Seinfeld|1989|Frank Costanza|Serenity now!
+TV|tv|456|The Simpsons|1989|Mr. Burns|Excellent.
+TV|tv|456|The Simpsons|1989|Bart Simpson|Ay caramba!
+TV|tv|456|The Simpsons|1989|Bart Simpson|Eat my shorts!
+TV|tv|76331|Succession|2018|Logan Roy|I love you, but you are not serious people.
+TV|tv|1104|Mad Men|2007|Don Draper|Make it simple, but significant.
+TV|tv|1408|House|2004|Dr. Gregory House|Everybody lies.
+TV|tv|63247|Westworld|2016|Dr. Ford|These violent delights have violent ends.
+TV|tv|87108|Chernobyl|2019|Valery Legasov|Every lie we tell incurs a debt to the truth. Sooner or later, that debt is paid.
+TV|tv|655|Star Trek: The Next Generation|1987|Captain Picard|Engage.
+TV|tv|655|Star Trek: The Next Generation|1987|The Borg|Resistance is futile.
+TV|tv|82856|The Mandalorian|2019|Kuiil|I have spoken.
+TV|tv|97546|Ted Lasso|2020|Ted Lasso|Be a goldfish.
+ANIME|tv|13916|Death Note|2006|Light Yagami|The human whose name is written in this note shall die.
+ANIME|tv|31911|Fullmetal Alchemist: Brotherhood|2009|Edward Elric|Humankind cannot gain anything without first giving something in return. To obtain, something of equal value must be lost.
+ANIME|tv|37854|One Piece|1999|Edward Newgate|One Piece is real!
+ANIME|tv|46298|Hunter x Hunter|2011|Ging Freecss|You should enjoy the little detours to the fullest. Because that's where you'll find the things more important than what you want.

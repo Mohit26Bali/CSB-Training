@@ -1,0 +1,286 @@
+================================================================================
+CINESCOPE - DEMO GUIDE
+How to show it to your teacher, what to say, and what to expect
+================================================================================
+
+Written for: the student presenting the project (about 12-15 minutes).
+Counts below were checked on 1 Nov 2026: 372 backend tests and 207 browser
+tests, all passing.
+
+
+--------------------------------------------------------------------------------
+1. BEFORE YOU START (5 minutes, do it once, before the teacher arrives)
+--------------------------------------------------------------------------------
+
+Run it on YOUR laptop and show it there. It needs MySQL, a TMDB token and Java 17,
+which are set up on this machine, so do not plan to run it on the teacher's.
+
+  1. MySQL is running (the "cinescope" database already exists and holds the demo
+     accounts).
+  2. Terminal 1 - the backend (RESTART it if it was already running, so it loads
+     the newest code; press Ctrl+C first):
+         cd "D:\Projects\CSB Training\CineScope\backend"
+         .\mvnw spring-boot:run
+     Wait for "Started CineScopeApplication".
+  3. Terminal 2 - the website:
+         cd "D:\Projects\CSB Training\CineScope\frontend"
+         npm run dev
+  4. Open http://localhost:5180 in a browser. You must see the SIGN-IN SCREEN with
+     a movie picture and a famous quote. (If the picture is plain, TMDB is slow:
+     wait a minute and refresh.)
+  5. Open a second tab with http://localhost:8095/swagger-ui.html (the API
+     documentation) and keep it ready.
+  6. Have these two files open to point at: PROJECT_DOCUMENTATION.txt and this one.
+
+THE ACCOUNTS (they already exist in MySQL)
+  username   password            who
+  asha       Cinema-Night-26!    ordinary user with a full watchlist (9 titles)
+  ravi       Cinema-Night-26!    ordinary user, 6 titles
+  meera      Cinema-Night-26!    ordinary user, series fan
+  sam        Cinema-Night-26!    ordinary user in the US
+  karan      Cinema-Night-26!    brand new, empty watchlist
+  admin      Control-Room-26!    ADMINISTRATOR (its own password)
+
+TWO WARNINGS
+  * After 5 wrong passwords in a row for one username, that account is locked for
+    15 minutes (a security feature). Show a wrong password ONCE, never repeatedly.
+  * If you delete the demo accounts while demonstrating, restart the backend: it
+    creates any that are missing again (it never touches ones that exist).
+
+
+--------------------------------------------------------------------------------
+2. THE DEMO SCRIPT
+--------------------------------------------------------------------------------
+
+PART A - A NEW USER (the teacher can do this part themselves) .......... 4 min
+
+  1. Open http://localhost:5180 . Say: "Like Netflix, you see nothing of the app
+     until you sign in. The server refuses every request without a login, not just
+     the screens." (Open /browse in the address bar: it sends you back to sign-in.)
+  2. Click "Create an account". Type a weak password slowly and let the page react:
+       - "abc"         -> "Still needed: ..." chips, one disappears as you meet it
+       - "Password1!"  -> red message: that password is too common
+       - "Gooood-1x"   -> red message: repeated character
+       - type your username inside it -> red message: contains your username
+       - try to type a 21st character -> it will not go (20 characters maximum)
+     Then use  Sunset-Rain-42!  and press Create account. You are signed in.
+  3. HOME: the banner rotates through today's six trending titles (arrows, dots,
+     pause button; it stops when you hover). Scroll the rows: "Trending today" and
+     "Trending this week" are different lists.
+  4. Click any poster: details, trailer button, cast, "Where to watch" for India
+     (change the country to show it follows), similar titles. Click a cast member:
+     their page with biography and filmography.
+  5. Press "Add to watchlist", then choose Watched and give it a rating and a note.
+  6. Header -> "Tonight". Choose a mood, "Under 2 hours", only what streams in India,
+     then "Find something". It gives one pick, why, where to watch, and backups.
+     Press "Show me another". (Say: the same wishes plus the same seed number
+     always give the same answer - that is how it is tested.)
+  7. Header avatar -> "My profile": change your name (the avatar updates), change
+     your password (needs the current one; this signs out every other device while
+     keeping you in).
+
+PART B - THE SEEDED USER ............................................... 2 min
+
+  1. Sign out. Sign in as  asha / Cinema-Night-26!
+  2. "My watchlist": tabs with counts (All 9, Want 3, Watching 2, Watched 4), sort,
+     remove. Ratings and notes are shown on watched titles.
+  3. "Tonight" again: titles asha already watched are never offered, and titles
+     she wants to watch are preferred (shown as "On your watchlist").
+  4. Say: "Each user only ever sees their own list - every query is scoped to the
+     logged-in user, and there is a test for it."
+
+PART C - THE ADMINISTRATOR ............................................. 3 min
+
+  1. Sign out. Sign in as  admin / Control-Room-26!  (header now has "Admin").
+  2. Admin -> "Manage accounts": every account, with watchlist sizes. Search for
+     the account you just created, filter by role/status, page through.
+  3. Create an account (same password rules), edit one (change role), DISABLE the
+     account you created in Part A and show that it can no longer sign in (even
+     with a still-open session: its token stops working at once), then delete it.
+  4. Show the safety rules: your own row's Delete button is greyed out, and your
+     role and "enabled" are locked in the Edit window ("you cannot lock yourself
+     out"; the last enabled admin can never be demoted, disabled or deleted).
+  5. Authorization proof: sign in as asha and open /admin/users -> "You don't have
+     access". Then, in the Swagger tab: Authorize with asha's token and call
+     GET /api/admin/users -> 403.
+
+PART C2 - REVIEWS AND PROCESSING (open Inception) ...................... 3 min
+  1. Scroll to "Reviews and discussion": rating bars, CineScope score (your
+     ratings blended with TMDB's), mood percentages and topics.
+  2. Write a review with a star rating and post it. The pipeline result appears
+     step by step: Cleaned, Spam check, Profanity filter, Sentiment analysis,
+     Decision. Click "How was this processed?" on any comment to replay it.
+  3. Reply to someone, mark a comment Helpful (not possible on your own).
+  4. Try strong language or three links: the comment is held as PENDING and only
+     its author sees it. Sign in as admin, open Moderation, Approve or Reject.
+
+PART C3 - THE QUIZ (click Play in the header) .......................... 2 min
+  1. Pick a category, for example Bollywood or Anime. You get ten famous lines.
+  2. Answer one. The right option turns green, and the page shows the poster, who said it and in which film.
+     Say: "The correct answer never reaches the browser until I have answered; the server checks it."
+  3. Get a few right in a row: the points grow (10, 12, 14...). A wrong answer ends the streak.
+  4. Finish the round: the result and the leaderboard for that category, with your place.
+  5. Play again: the lines are different. The server remembers what you have seen in each category.
+  Keys 1-4 answer and Enter goes on.
+
+PART D - BEHIND THE SCENES ............................................. 2 min
+
+  * Swagger (http://localhost:8095/swagger-ui.html): call POST /api/auth/login,
+    copy the token, press "Authorize", try GET /api/watchlist.
+  * MySQL: in a terminal
+         mysql -uroot -p cinescope
+         select username, role, token_version from users;
+         select title, status, rating from watchlist_items limit 5;
+    Point out the password column holds a BCrypt hash ($2a$...), never the password.
+  * Tests: run  cd backend ; .\mvnw test   (286 tests) and, if there is time,
+    cd frontend ; npm run e2e   (a real browser clicks through the app; it uses a
+    FAKE TMDB and a throw-away in-memory database, never your real data).
+
+
+--------------------------------------------------------------------------------
+3. WHAT TO SAY - HOW IT IS IMPLEMENTED
+--------------------------------------------------------------------------------
+
+THE ONE-PARAGRAPH VERSION
+  "CineScope is a movie and TV app. The browser shows pages built with React and
+  TypeScript. It talks only to my Spring Boot server, which holds the secret
+  TMDB key, caches TMDB's answers and turns its messy JSON into small clean
+  responses. Accounts and watchlists are stored in MySQL through JPA, with the
+  tables created by Flyway migrations. Security is Spring Security with JWT login
+  tokens, BCrypt password hashes, roles (user and admin), and every server rule is
+  covered by automated tests."
+
+THE LAYERS (draw this on the board)
+    Browser (React) --/api--> Controller -> Service -> Repository -> MySQL
+                                   |           |
+                                  DTOs     TMDB gateway --HTTPS--> TMDB
+                                          (cache, retry, token)
+
+  * Controller (controller/): only receives requests and returns results; no logic.
+  * Service (service/): all the rules (validation, ownership, safety rules).
+  * Repository + entity (repository/, entity/): Spring Data JPA; the tables
+    users and watchlist_items. Hibernate only VALIDATES the schema; Flyway
+    (db/migration) creates and changes it, so every change is a numbered script.
+  * DTOs (dto/): small records that are the API's shape. The password hash is never
+    in any response; TMDB's JSON is mapped by one class (mapper/TitleMapper).
+  * TMDB gateway (tmdb/): the ONLY code that talks to TMDB; Caffeine cache
+    (lists 10 min, details 1 h), one automatic retry for dropped connections,
+    errors turned into our own 404 / 502 / 503 / 504.
+
+SECURITY - the part teachers ask about most
+  * Authentication: POST /api/auth/login checks the password with BCrypt and
+    returns a signed JWT (HS256, 12 hours). Every request carries it as
+    "Authorization: Bearer ...". JwtAuthenticationFilter validates it and loads
+    the user from the database on EVERY request, so disabling a user takes effect
+    immediately.
+  * Authorization, three layers:
+      1. URL rules (SecurityConfig): "deny by default" - only sign-in, register and
+         the sign-in screens' picture endpoint are public; /api/admin/** needs
+         ROLE_ADMIN.
+      2. Method security: @PreAuthorize("hasRole('ADMIN')") on AdminUserService,
+         repeated on purpose (defence in depth).
+      3. Ownership: a user's watchlist is always read and written through the
+         logged-in username, so there is no way to ask for someone else's.
+  * Revoking tokens: each account has a token_version number inside its tokens;
+    changing the password, changing the role or disabling the account raises it,
+    which kills every older token immediately.
+  * Password rules: PasswordPolicy on the server (8-20 characters, upper, lower,
+    digit, symbol, no repeats, not a common password, not containing your
+    username/email); the browser shows the same rules live and a test runs both
+    against the same cases so they cannot drift apart.
+  * Brute force: 5 wrong passwords lock an account for 15 minutes; login errors
+    never say whether the username exists.
+  * The TMDB key lives only on the server (a git-ignored file) and a test checks it
+    never appears in any response. The app refuses to start with a too-short JWT
+    secret.
+
+CRUD (say this when you show the admin page)
+  "Create, read, update, delete: accounts are fully managed by the administrator
+  (POST/GET/PUT/DELETE /api/admin/users), and each user manages their own watchlist
+  entries and profile. Deleting an account also deletes its watchlist."
+
+TESTING
+  * Backend, 286 tests: Mockito unit tests for the rules, and MockMvc API tests that
+    run the real application with an in-memory H2 database and a fake TMDB.
+  * Browser, 207 tests (Playwright): a real browser against the real backend,
+    a fake TMDB, and a throw-away database. A guard refuses to run if it ever
+    points at the real MySQL or the real TMDB key.
+  * Bugs the tests found are listed in PROJECT_DOCUMENTATION.txt (for example: a
+    search text was encoded twice; the local config leaked into tests).
+
+
+--------------------------------------------------------------------------------
+4. IF YOUR TEACHER CREATES AN ACCOUNT - WILL IT WORK?
+--------------------------------------------------------------------------------
+
+Yes. Registration is the most tested path in the project. What they will meet:
+  * Username 3-50 letters/digits/./_/-; a valid-looking email (it is NOT verified -
+    no email is sent); a password of 8-20 characters with upper case, lower case, a
+    digit and a symbol. If they type something weak, the page tells them exactly
+    what is missing, so tell them the rules first to avoid a surprise.
+  * They are signed in at once and everything works with the REAL TMDB data.
+  * They are an ordinary USER. They cannot make themselves an administrator - that
+    is the point of the security. To show them the admin side you can either let
+    them look over your shoulder as "admin", or promote their account:
+        1. Stop the backend (Ctrl+C).
+        2. In PowerShell:   $env:INITIAL_ADMIN = "their-username"
+                            .\mvnw spring-boot:run
+        3. They sign out and in again: the header now has "Admin". (Their old
+           session was ended by the role change, so the app may do this for them.)
+        4. Afterwards tidy up:  Remove-Item Env:INITIAL_ADMIN
+     (This is the "first administrator" mechanism a real deployment would use.)
+  * Afterwards you can delete their account from Admin -> Manage accounts.
+
+
+--------------------------------------------------------------------------------
+5. LIKELY QUESTIONS AND HONEST ANSWERS
+--------------------------------------------------------------------------------
+
+Q: Is it production ready?
+A: No, and I know what is missing: it now refuses to start without a JWT secret (no
+   default is shipped), but Swagger should be switched off (SWAGGER_ENABLED=false), the login lockout should live in a shared store
+   and also limit by IP, sign-up needs rate limiting and email verification, there
+   is no password reset or logout-everywhere button yet, there is no HTTPS or
+   monitoring, and the token is kept in sessionStorage (readable by scripts on the
+   page; an HttpOnly cookie would be stronger). TMDB's free key is also for
+   non-commercial use only.
+
+Q: Why JWT and not sessions?
+A: The server stays stateless, so it needs no session store. The price is that a
+   token cannot simply be deleted - which is why I added the token version.
+
+Q: Why is the password limited to 20 characters?
+A: A product decision for this project. BCrypt itself can use 72; long passphrases
+   are actually good, so a real product would allow more.
+
+Q: What happens if TMDB is down or slow?
+A: The server retries a dropped connection once, then answers a clear error
+   ("TMDB took too long to answer") and the page offers "Try again". Pages that
+   only need the database (profile, watchlist, admin) keep working.
+
+Q: Where do the movies come from? Is any data faked?
+A: From TMDB's API, live. Only the sign-in screens' famous quotes are written by
+   me (TMDB has no dialogue data); the pictures and titles are TMDB's. The demo
+   users and their lists are seeded data and are marked as such.
+
+Q: What did you use AI for?
+A: Be honest about whatever you actually did; the code is commented to explain how
+   each file connects, and every behaviour is covered by tests you can run.
+
+
+--------------------------------------------------------------------------------
+6. IF SOMETHING GOES WRONG DURING THE DEMO
+--------------------------------------------------------------------------------
+
+  * "We couldn't load this" / "TMDB took too long": the internet to TMDB blinked.
+    Press "Try again" - it nearly always works the second time.
+  * Sign-in says "Too many failed attempts": that account is locked for up to 15
+    minutes. Use a different demo account (ravi, meera, sam).
+  * Blank page or errors everywhere: the backend is not running. Check terminal 1.
+  * The backend will not start: MySQL is not running (start the MySQL service).
+  * You deleted a demo account: restart the backend; it is recreated.
+  * Port 8095 or 5180 is already in use: an older copy is still running. Close that
+    terminal, or stop the program that uses the port, then start again. (Port 8081
+    is Jenkins - leave it alone.)
+
+================================================================================

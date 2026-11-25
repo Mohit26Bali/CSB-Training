@@ -1,0 +1,9 @@
+# Copy this file to application.properties (same folder) and paste your TMDB "API Read Access Token" (v4).
+# Get one free at https://www.themoviedb.org/settings/api. The real file is git-ignored.
+# Alternatively set the TMDB_READ_TOKEN environment variable.
+tmdb.read-token=PASTE_YOUR_READ_ACCESS_TOKEN_HERE
+
+# Required (no defaults in the code):
+# generate with: node -e "console.log(require('crypto').randomBytes(48).toString('base64'))"
+app.jwt.secret=GENERATE_32_OR_MORE_RANDOM_CHARACTERS
+spring.datasource.password=YOUR_MYSQL_PASSWORD

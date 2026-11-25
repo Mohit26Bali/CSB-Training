@@ -1,0 +1,539 @@
+================================================================================
+CINESCOPE
+Movie and TV discovery app, backed by TMDB (The Movie Database)
+Project documentation - all five phases
+================================================================================
+
+Written for: the project owner and anyone who needs to run, review or extend the
+application. Last verified: 1 Nov 2026 (372 backend tests, 207 browser tests, plus live checks of
+the account, watchlist, where-to-watch, person and recommendation APIs against the real MySQL
+database and the real TMDB).
+
+
+--------------------------------------------------------------------------------
+1. WHAT THIS PROJECT IS
+--------------------------------------------------------------------------------
+
+CineScope lets people discover movies and TV shows: see what is trending, browse
+by genre / year / rating, search for titles and people, and open a detail page
+with trailers, cast and similar titles. Signed-in users keep a personal watchlist
+with statuses, ratings and notes, every title shows where it can be
+watched, cast, directors and search results lead to person pages, and a
+"what should I watch tonight?" page makes a pick for the mood and time available. All film data comes from TMDB; accounts and
+watchlists are stored in MySQL.
+
+  backend/    Spring Boot 4.1.1, Java 17 (Maven). Calls TMDB, caches, simplifies.
+  frontend/   React 19, TypeScript, Vite, Tailwind CSS 4, TanStack Query,
+              React Router, Playwright (browser tests)
+  database    MySQL 8 schema "cinescope", managed by Flyway migrations
+
+India is the default country (for "in cinemas now", "coming soon" and age
+ratings). The app is dark by default and has a light theme.
+
+This is a multi-phase project. All five phases (this document) are done:
+  Phase 1  Home, browse, search, title details                       DONE
+  Phase 2  Accounts and a personal watchlist (login, MySQL, JWT)     DONE
+  Phase 3  "Where to watch" (streaming availability for India)       DONE
+  Phase 4  Actor / person pages and filmography                      DONE
+  Phase 5  "What should I watch tonight?" recommender                DONE
+
+
+--------------------------------------------------------------------------------
+2. HOW TO RUN IT
+--------------------------------------------------------------------------------
+
+Needs: JDK 17, Node 20+, MySQL 8.
+
+STEP 0 - create the database (once)
+  In MySQL run:   CREATE DATABASE cinescope;
+  Nothing else: on start the backend runs its Flyway migrations and creates the
+  tables (users, watchlist_items). It connects as root; the password is in
+  backend/src/main/resources/application.properties, and can be overridden with
+  the environment variables DB_URL, DB_USERNAME, DB_PASSWORD or in
+  backend/config/application.properties. The schema is checked at start (Hibernate
+  "validate"), so a wrong table is reported immediately instead of failing later.
+  JWT_SECRET (32+ characters) is REQUIRED: there is no built-in value, and the backend
+  refuses to start without it (put it in the environment or in config/application.properties).
+
+STEP 1 - give the backend your TMDB token (once)
+  Copy  backend/config/application.properties.example
+  to    backend/config/application.properties
+  and paste your TMDB "API Read Access Token" (free at
+  https://www.themoviedb.org/settings/api). This file is git-ignored and is
+  loaded automatically when the backend is started from the backend folder.
+  (Alternative: set the environment variable TMDB_READ_TOKEN.)
+  On this machine the file already exists, created from D:\TMDB_Key.txt.
+  The app refuses to start, with a clear message, if the token is missing.
+
+STEP 2 - backend (terminal 1), http://localhost:8095
+    cd backend
+    .\mvnw spring-boot:run
+
+STEP 3 - frontend (terminal 2), http://localhost:5180
+    cd frontend
+    npm install          (first time only)
+    npm run dev
+
+API documentation (Swagger UI): http://localhost:8095/swagger-ui.html
+  OpenAPI JSON: /v3/api-docs. Set SWAGGER_ENABLED=false to switch it off.
+
+The ports (8095 and 5180) were chosen so that CineScope can run at the same time
+as the Crestline Bank project (8080 and 5173).
+
+Troubleshooting:
+  - Backend stops at startup mentioning tmdb.read-token: add the token (step 1).
+  - Pages show "We couldn't load this": the backend is not running, or TMDB is
+    unreachable / your token is wrong (the backend log says which).
+  - "TMDB is busy right now": TMDB rate-limited the request; try again shortly.
+  - "TMDB took too long to answer" (504): a network drop between this computer and
+    TMDB ("Remote host terminated the handshake" in the backend log). The backend
+    already retries once; if you still see it, wait a moment and try again.
+  - Backend stops at startup with a database error: MySQL is not running, or the
+    "cinescope" schema or the password is wrong (step 0).
+
+
+--------------------------------------------------------------------------------
+3. WHAT A VISITOR CAN DO
+--------------------------------------------------------------------------------
+
+Browsing is public; the watchlist needs an account (see ACCOUNTS AND WATCHLIST).
+
+HOME PAGE
+  - A large hero banner with the day's top trending title: score, year,
+    description, "More info", and "Watch trailer" (plays in a dialog; says so if
+    the title has no trailer).
+  - Rows: Trending this week, Popular movies, In cinemas now (India), Top rated
+    movies, Coming soon, Popular TV shows, Top rated TV shows. Each row scrolls
+    sideways (arrow buttons, or swipe on a phone) and has a "See all" link.
+
+SEE ALL (full list)
+  - The complete list for a row, loaded page by page with "Load more".
+
+BROWSE (Movies / TV shows in the header)
+  - Switch between movies and TV; filter by genre, release year and minimum
+    rating; sort by most popular, top rated or newest.
+  - Every choice is kept in the address, so a filtered view can be bookmarked or
+    shared, survives a reload, and works with the back button.
+  - "Nothing matches these filters" appears when the combination has no result.
+
+SEARCH
+  - One box (header, or the Search page) searches movies, TV shows and people.
+  - Tabs: All / Movies / TV shows / People, each with a count.
+  - If the best match is a person (e.g. "nolan"), people are shown first.
+  - People show what they are known for; click one to open their page.
+
+TITLE DETAILS (click any poster)
+  - Poster, title and year, tagline, age rating (India, else US), runtime,
+    genres (each links to Browse), user score ring with vote count, overview,
+    director (movies) or creators (TV shows).
+  - Trailers and teasers (YouTube, played in a dialog), facts (status, language,
+    release date, budget and revenue, seasons and episodes), top cast with
+    character names, and "More like ..." similar titles.
+
+WHAT SHOULD I WATCH TONIGHT? ("Tonight" in the header, address /tonight)
+  - Wishes: a movie or a TV show; a mood (Make me laugh, Edge of my seat,
+    Mind-bending, Romantic, Big adventure, Family night, Spooky, or Anything); the
+    time available (under 90 min, 2 hours, 2.5 hours, or any; per episode for TV);
+    an original language (ten offered) and "only what I can stream in India".
+  - Press "Find something". The page shows ONE pick: poster, title, year, age
+    rating, runtime, genres, score, description, short reasons ("Make me laugh",
+    "Up to 120 min", "Streaming in IN", "Rated 8.4"), where it streams / is free /
+    can be rented or bought in India, a link to its full page, and the same
+    watchlist panel as a title page. Below it: five alternatives.
+  - "Show me another" draws again. Changing any wish while a result is showing
+    draws again for the new wish. Everything is in the address (including a seed
+    number), so reloading or sharing the link shows the same pick.
+  - Nothing matches (for example "Hindi comedy under 2 hours"): the page says so
+    and suggests fewer filters. It never pads the answer with titles that break a
+    wish.
+  - Signed in: titles you marked Watched or Watching are never offered, and titles
+    on your Want-to-watch list are preferred and flagged "On your watchlist".
+    Visitors get the same page and a nudge to sign in.
+
+PERSON PAGES (cast and director names, and people in search results)
+  - Photo (or initials when there is none), what they are known for (Acting,
+    Directing ...), born with their current age, died with age at death, place of
+    birth, and a biography. A long biography is cut and has "Read more" / "Show
+    less"; with no biography a calm note says so.
+  - "Known for": up to 12 poster cards of their best-known work. Chosen by the
+    number of votes the title has, counting only real work: acting roles
+    billed in the top 15, TV shows with at least 3 episodes, and the main crew
+    jobs (director, writer, screenplay, creator, producer). So a one-episode
+    guest spot on a famous sitcom is not listed as what someone is "known for".
+  - Filmography: Acting and Crew tabs with counts, newest first (titles without
+    a date last). Each line shows year, title, "as <character>" or the job(s)
+    ("Director, Writer" is one line, not two), and Movie / TV, and opens the title.
+    Long careers show 30 lines and a "Show all N" button (at most 200 per tab).
+  - Talk shows and news programmes are left out: for popular people they would
+    bury the real work (so their own interviews do not appear).
+  - Unknown person: "Person not found"; a malformed address: "That person
+    doesn't exist".
+
+WHERE TO WATCH (on every title page, between the details and the trailers)
+  - Lists the services that offer the title in one country, in four groups:
+    Stream (included with a subscription), Free (no payment, may have adverts),
+    Rent and Buy. A group with nothing in it is left out. Within a group the most
+    prominent service comes first.
+  - The country starts as India (or the account's region once signed in) and can
+    be changed to one of ten (India, United States, United Kingdom, Canada,
+    Australia, UAE, Singapore, Germany, France, Japan). The choice is remembered
+    in this browser. Switching country needs no new request.
+  - "More options" opens TMDB's page for the title in that country, which links
+    on to each service. Our logos do not link directly (TMDB provides no direct
+    deep links). "Availability data provided by JustWatch" is shown, as TMDB's
+    terms require.
+  - A title nobody lists in the chosen country says so. If the lookup fails
+    (TMDB trouble) only this section shows an error with "Try again"; the rest
+    of the page keeps working.
+  - Shown for what is offered, not for what you pay: prices are not available.
+
+ACCOUNTS AND WATCHLIST
+  - "Sign in" in the header leads to Sign in and Create account pages. Creating an
+    account signs you in at once. The header then shows a round avatar with your
+    initials; its menu has "My watchlist" and "Sign out". The session lasts until
+    the tab is closed (or 12 hours).
+  - Sign-up checks: name, username (3-50 letters, digits, . _ -), valid email and
+    a strong password; the form says which rule failed, and the server refuses a
+    taken username or email (case ignored).
+  - PASSWORD STRENGTH. A password must have: 8 to 20 characters; a lowercase
+    letter, an uppercase letter, a digit and a symbol (a space is not a symbol);
+    no character repeated more than 3 times in a row; not be a common password
+    (judged on its letters, both as typed and with look-alikes undone, so
+    "Password1!", "P@ssw0rd" and "Welcome@2024" are all refused); and not contain
+    your username or the name part of your email (3+ characters). Under the
+    password box a live checklist ticks off each rule as you type, with a
+    Weak / Fair / Good / Strong bar (Good = all rules met; Strong = also 12+
+    characters). A weak password is stopped in the browser, and the server
+    refuses it too (HTTP 400, message naming what is missing), so the form is not
+    the only guard. Signing in is NOT checked against these rules, so accounts
+    made before they existed still work. Where it lives: backend
+    security/PasswordPolicy (the authority, applied through @StrongPassword on
+    the register request, plus the username / email check in AuthService);
+    frontend lib/password.ts and components/PasswordStrength (a copy for instant
+    feedback; e2e/password-policy.spec.ts runs the backend's own test cases
+    against it so the two cannot drift apart).
+  - Sign-in failures all give the same message ("Invalid username or password") so
+    nobody can find out which usernames exist. After 5 wrong passwords for one
+    username the account is locked for 15 minutes (HTTP 429).
+  - A visitor who opens /watchlist is sent to Sign in and brought back afterwards.
+    Only a path on this site is accepted for the return address.
+  - On every title page: "Add to watchlist". Once added you can choose Want to
+    watch / Watching / Watched; a 1-10 rating appears only for Watched (moving to
+    another status clears it); a note of up to 500 characters is saved with "Save
+    note"; "Remove from list" takes the title off. Everything is saved on the
+    server at once, so it survives a reload and is the same on another device.
+  - /watchlist: tabs All / Want to watch / Watching / Watched with counts, sort by
+    recently added, recently updated, title or your rating, 20 per page, remove
+    button per row. Tab, sort and page are in the address (bookmarkable).
+  - Each user sees only their own list. If the server rejects a token (expired or
+    forged) the app signs the user out and clears what was cached.
+
+ALSO
+  - Dark / light theme toggle (remembered).
+  - Works on phones (section links under the header, search icon, swipeable
+    rows).
+  - The TMDB logo and required notice are in the footer.
+
+
+--------------------------------------------------------------------------------
+REVIEWS AND DISCUSSION (added last)
+  Each title page has comments with an optional 1-10 rating, one level of replies and
+  helpful votes. Every comment goes through CommentProcessor (Cleaned, Spam check,
+  Profanity filter, Sentiment analysis, Decision); strong language or 3+ links hold it
+  as PENDING for an admin (/admin/moderation). Limits: one rated review per user per
+  title, 5 comments a minute, no identical text within 10 minutes. Endpoints are under
+  /api/titles/{type}/{id}/comments, /discussion, /api/comments/{id}/... and
+  /api/admin/comments. Tables: comments, comment_votes (migration V3).
+
+FAMOUS LINES AND THE QUIZ (added last)
+  353 famous lines (Hollywood 208, English TV 50, Bollywood 52, Anime 43) live in the quotes table (migration V4), filled at
+  start-up from backend/src/main/resources/seed/quotes.psv by config/QuoteSeeder, only while the table is empty. The TMDB id of
+  every title was found by searching TMDB and checking title and year, so the posters are the right ones. Lines that could not be
+  confirmed word for word were left out. Each title has 1 to 4 lines.
+  service/QuoteService chooses lines without repeating: signed-in players are tracked in quote_seen (V5), unseen lines first, per
+  category, no title twice in a row, and a new round never opens with the lines that ended the last one. Visitors on the sign-in
+  screens get a random mix across the four categories; the browser remembers what it showed (localStorage) and sends it back as
+  ?exclude=, so the next visit shows different lines. A "Mixed" pick takes a fair share from each category.
+  The quiz (service/QuizService, tables quiz_rounds and quiz_questions, migration V6) is a round of ten questions: which film or
+  show is this line from, or who says it, four options each; wrong options come from the same category. The right answer stays on
+  the server until the question is answered. 10 points for a right answer plus 2 for each right answer in a row before it (up to
+  5 steps), so a perfect round is 170. A question can be answered once, only the player's own round can be answered, and a round
+  counts on the leaderboard only when finished. Deleting an account removes its history (database cascade).
+  Endpoints: POST /api/quiz/rounds, POST /api/quiz/rounds/{id}/answers, GET /api/quiz/leaderboard?category=. Frontend: pages/QuizPage.
+
+4. API ENDPOINTS (backend)
+--------------------------------------------------------------------------------
+
+  /api/home                         hero title + all seven home rows, one request
+  /api/titles?category=&type=&page= one full list
+        category: trending | popular | top_rated | now_playing | upcoming |
+                  on_the_air
+        type:     movie | tv   (trending also accepts: all)
+        now_playing and upcoming are movies only; on_the_air is TV only
+  /api/discover?type=&genre=&year=&minRating=&sort=&page=
+        sort: popularity | rating | newest
+  /api/search?query=&page=          movies, shows and people (query 1-100 chars)
+  /api/genres?type=                 genre list for the filter
+  /api/tonight?type=&mood=&maxMinutes=&language=&streamingOnly=&seed=
+        type movie|tv (default movie); mood laugh|thrill|mind|romance|adventure|
+        family|scary; maxMinutes 30-300; language two letters; streamingOnly true
+        = only titles streaming in India; seed any number (same wishes + same seed
+        = same answer; omitted = a fresh draw). Public; a valid login token
+        personalises it. Answer: {pick, details, providers, alternatives[],
+        reasons[], considered, seed}; pick is null when nothing matches. Bad input
+        is 400; an invalid token is ignored like on any public endpoint.
+  /api/people/{id}                  person: {id, name, biography, birthday, deathday,
+        placeOfBirth, knownForDepartment, profilePath, homepage, knownFor[],
+        acting[], crew[]}; a credit is {id, type, title, posterPath, year, rating,
+        role}. Public. id must be positive (else 400); unknown id is 404.
+  /api/titles/{type}/{id}           one movie or show with cast, trailers, similar
+  /api/titles/{type}/{id}/providers?region=
+        where to watch: {region, link, stream[], free[], rent[], buy[]}; each
+        service is {id, name, logoPath}. region = two letters (IN, US ...), any
+        case, default IN; anything else is 400. Unlisted country: empty groups.
+  (the endpoints above and /api/meta are GET and PUBLIC)
+
+Account and watchlist endpoints (need  Authorization: Bearer <token>  unless noted):
+  POST   /api/auth/register         public. 201 + token. 409 if username/email taken
+  POST   /api/auth/login            public. 200 + token. 401 wrong credentials
+  GET    /api/auth/me               profile of the signed-in user
+  GET    /api/watchlist?status=&type=&sort=&page=&size=
+        status: WANT | WATCHING | WATCHED   sort: added | updated | title | rating
+        page starts at 1; size up to 50
+  GET    /api/watchlist/summary     {total, want, watching, watched}
+  GET    /api/watchlist/{type}/{id} one entry (404 if not on the list)
+  PUT    /api/watchlist/{type}/{id} add or change {status, rating 1-10, note}
+        201 when newly added, 200 when changed. 400 for a rating on a title that
+        is not WATCHED. 404 if the title does not exist at TMDB.
+  DELETE /api/watchlist/{type}/{id} 204
+  GET    /api/meta                  public: application name and database kind
+Security rule: everything not listed as public needs a login ("deny by default"),
+so a forgotten endpoint is closed rather than open. Answers for a missing or bad
+token are 401 with the usual JSON error shape.
+
+Rules enforced by the backend before TMDB is ever called (answers 400):
+  unknown type / category / sort, page outside 1-500, year outside 1888..now+5,
+  minRating outside 0-10, blank or over-long search text, id not positive.
+
+Status codes: 200 success; 201 created; 204 removed; 400 invalid request; 401 not
+signed in / bad login; 404 title not found; 409 username or email taken; 429 too
+many failed logins;
+502 TMDB failed or refused our token; 503 TMDB rate-limited us; 504 TMDB timed
+out. Every error has the same JSON shape: status, error, message, timestamp.
+The messages are safe to show to users; technical detail stays in the log.
+
+
+--------------------------------------------------------------------------------
+5. HOW THE CODE IS ORGANISED
+--------------------------------------------------------------------------------
+
+Request path:
+    React --/api--> controller -> service -> tmdb gateway --HTTPS--> TMDB
+                                     |            |
+                                   mapper       cache
+
+Backend package com.csb.cinescope:
+  controller/  CatalogController, AuthController, WatchlistController, MetaController:
+               the endpoints above, no logic
+  service/     CatalogService: validation rules, which TMDB path and parameters
+               each feature needs, parallel loading of the home rows
+               AuthService, LoginAttemptService, CustomUserDetailsService: accounts
+               WatchlistService: the watchlist rules (below)
+  tmdb/        the ONLY code that talks to TMDB:
+                 TmdbGateway (interface), TmdbHttpGateway (HTTP + cache + error
+                 translation), TmdbQuery (sorted parameters = stable cache keys)
+  mapper/      TitleMapper: every TMDB quirk lives here (movies use "title" and
+               "release_date", shows use "name" and "first_air_date"; fields may
+               be missing, null or blank; lists are wrapped in "results")
+  dto/         CineScope's own small response records
+  exception/   NotFound / BadRequest / Upstream exceptions + one handler
+  entity/      JPA classes User, WatchlistItem, WatchStatus
+  repository/  Spring Data repositories + WatchlistSpecifications (filtering)
+  security/    JwtService, JwtAuthenticationFilter, JSON 401 / 403 writers
+  config/      settings records, HTTP client (token header, timeouts), caches,
+               SecurityConfig (which URLs are public, CORS), Swagger (with login)
+
+Every class begins with a comment saying what it does and which other classes it
+works with; every package has a package-info.java.
+
+Caching (Caffeine, in memory): lists and searches 10 minutes, single titles 1 hour,
+genre lists 24 hours. Failures are never cached. It keeps pages fast and keeps
+the app far below TMDB's rate limit. (Several backend instances would need a
+shared cache such as Redis.)
+
+Accounts and watchlist design:
+  - Passwords are stored only as BCrypt hashes. The login token is a signed JWT
+    (HS256) holding just the username; the server is stateless, so there is no
+    server-side session. Wrong password and unknown user look identical.
+  - The watchlist stores a SNAPSHOT of the title (name, poster, year) so the list
+    renders without calling TMDB for every row. The title is fetched from TMDB
+    BEFORE the database transaction starts, so a slow TMDB never holds a database
+    connection open.
+  - One row per user and title (unique key). Two simultaneous "add" requests are
+    handled: the loser is retried as an update instead of failing.
+  - Rules live in WatchlistService: rating only with WATCHED; note trimmed to 500
+    characters; unknown status or sort rejected with 400.
+  - Tables are created by Flyway (db/migration/mysql and /h2). Hibernate only
+    validates them (ddl-auto=validate), never changes them.
+
+Security of the token: it lives only on the server and is sent to TMDB in an
+Authorization header (never in a URL). It never appears in any response to the
+browser - a test checks this.
+
+Frontend (frontend/src):
+  pages/       HomePage, BrowsePage, ListPage, SearchPage, TitlePage, NotFound,
+               LoginPage, RegisterPage, WatchlistPage
+  components/  AppShell (header, footer, attribution), Hero, Row, TitleCard,
+               TitleGrid, TrailerModal, RatingRing, Icon, Brand, ui.tsx,
+               UserMenu (account corner), WatchlistControl (status / rating /
+               note panel on a title page), AuthForm ...
+  auth/        AuthContext (provider), authState + useAuth (reading it),
+               RequireAuth (route guard that sends visitors to Sign in)
+  api/         client.ts (Axios), endpoints.ts, queries.ts (React Query hooks,
+               infinite lists for "Load more"), types.ts (mirrors the backend DTOs)
+  lib/         images.ts (TMDB image URLs and sizes), format.ts, buttonStyles.ts,
+               session.ts (token in sessionStorage), watchlist.ts (status names)
+  The Axios client adds the token to every request and signs the user out on a
+  401. Signing out empties the data cache, so the next user of the same browser
+  tab never sees the previous user's list.
+Images come straight from TMDB's image server in the smallest sharp size.
+
+
+--------------------------------------------------------------------------------
+6. TESTING
+--------------------------------------------------------------------------------
+
+Backend (211 tests):    cd backend
+                        .\mvnw test
+  - TitleMapperTest: TMDB's awkward JSON in, clean records out.
+  - CatalogServiceTest (Mockito): which TMDB path and parameters each feature
+    asks for; invalid requests rejected before TMDB; home page survives a failing
+    row.
+  - TmdbHttpGatewayTest: what is sent (token header, encoded sorted parameters)
+    and every kind of TMDB failure translated to our own exceptions.
+  - CatalogApiTest: the real controller/service/mapper/cache with only TMDB
+    replaced; checks the JSON, the token, caching (two requests = one TMDB call),
+    error codes and Swagger.
+  - AuthApiTest, AuthServiceTest: registration, hashing, duplicates, login, the
+    identical failure message, /me, forged and deleted-user tokens.
+  - WatchlistApiTest, WatchlistServiceTest: add / change / remove, the rating rule,
+    TMDB failures leave nothing half-saved, filters, sorting, paging, and that one
+    user can never read or change another user's entries.
+  - SecurityApiTest: which URLs are public, deny by default, CORS, Swagger login
+    scheme, /api/meta reports H2 during tests.
+  - LoginAttemptServiceTest, JwtServiceTest: lockout and token handling.
+  - PasswordPolicyTest, AuthApiTest: every way a password can be too weak, the
+    exact messages, common passwords with decorations, username / email in the
+    password, names under 3 characters ignored, and old weak accounts still able
+    to sign in.
+  - WatchProvidersMapperTest, CatalogServiceProvidersTest, ProvidersApiTest: the
+    four groups, ordering, duplicates, free + ad-supported merged, countries
+    without data, region validation, one TMDB call serving every country.
+  - PersonMapperTest, PeopleApiTest: filmography filtering (talk shows, non-titles),
+    ordering, merged crew jobs, "known for" ranking, caps, empty people, caching,
+    validation, 404 / 502.
+  - RecommendationServiceTest (Mockito), TonightApiTest: how wishes become the TMDB
+    query (genres, runtime, language, streaming region, two pages), repeatable
+    draws per seed, a much better rated title beating the random bonus, watched /
+    watching titles skipped and wanted ones preferred, visitors never touching the
+    user tables, failing extras (second page, details, providers) not breaking the
+    answer, the empty answer, the real-runtime check, validation, 502.
+  - TmdbHttpGatewayTest: the single retry after a failed connection (second try can
+    succeed; a third is never made), no retry for a read timeout or an HTTP error.
+  All offline: no network and no real token needed. Accounts and watchlists use
+  an in-memory H2 database, never the real MySQL one.
+
+Browser end-to-end (132 tests, Playwright):    cd frontend
+                                              npm run e2e   (about 5 minutes)
+  The suite starts three things itself:
+    - a FAKE TMDB (port 8097, e2e/tmdb-stub.mjs) with invented films and shows,
+      deterministic answers and simulated failures (movie 666 = HTTP 500,
+      movie 667 = HTTP 429, unknown ids = 404);
+    - the REAL backend (port 8096) pointed at the fake, on an in-memory H2
+      database (a new empty one for every run);
+    - the frontend (port 5181).
+  It covers the home page and trailers, full lists and "Load more", detail pages
+  for movies and TV, Browse filters (including URL and reload behaviour), search
+  (tabs, people, special characters, empty results), failure handling, caching,
+  the hidden token, Swagger, the theme and the phone layout; and (18 tests) sign
+  up / sign in / sign out, every form error, the return-to-page redirect, an
+  expired token, adding to the watchlist, status / rating / note and reload,
+  the list page tabs / counts / sort / remove, and two users not seeing each
+  other's lists; and (8 tests) where to watch: the four groups and their order,
+  the JustWatch credit and TMDB link, missing groups, a title with nothing in
+  India, switching and remembering the country, TV shows, one lookup serving
+  every country, and a failing lookup not breaking the page; and (13 tests) person
+  pages: reaching them from cast, directors and search, facts and age, expanding
+  the biography, known-for posters, Acting / Crew tabs, 30-line pages with "Show
+  all", hidden talk shows, an almost-empty profile, a person who died, unknown
+  ids and the page title; and (12 tests) the tonight page: header link, the wishes
+  form, a pick with reasons / streaming / alternatives, "Show me another" and
+  repeatable seeds, mood, language and streaming each narrowing the answer, TV with
+  per-episode time, empty answers, visitors versus signed-in users (watched titles
+  never offered, wanted titles preferred); and password strength: 23 cases that
+  mirror the backend's PasswordPolicyTest, plus 6 on the sign-up form (live
+  checklist and meter, username rule, weak / common / username-containing
+  passwords stopped with the right message, a strong one accepted, and the
+  server refusing a weak one when the form is bypassed).
+  SAFETY: e2e/global-setup.ts aborts the run unless the backend is talking to the
+  fake TMDB with the fake token AND reports its database as H2, so tests never
+  contact the real TMDB, use your real token, or create accounts in MySQL.
+  Uses the installed Microsoft Edge. For Chromium: run "npx playwright install
+  chromium" once and set PW_CHANNEL=chromium. PW_REUSE=1 reuses running servers.
+  Other commands: "npm run e2e:ui", "npm run e2e:report".
+
+Frontend checks:        npm run build     (type-check + production build)
+                        npm run lint
+
+Note: port 8081 on this machine is Jenkins, so it is not used here.
+
+Bugs the tests caught during development (kept as regression tests):
+  - Search text with spaces or "&" was encoded twice on its way to TMDB ("the
+    dark knight" reached TMDB as "the%20dark%20knight"). Fixed in
+    TmdbHttpGateway and covered by a test plus a live check with spaces, "&",
+    accents and Japanese text.
+
+
+--------------------------------------------------------------------------------
+7. THINGS TO KNOW
+--------------------------------------------------------------------------------
+
+  - TMDB terms: show the TMDB logo and the line "This product uses the TMDB API
+    but is not endorsed or certified by TMDB" (done, in the footer). The free API
+    is for non-commercial use.
+  - Your token is a secret: backend/config/application.properties is git-ignored
+    (there is no git repository yet - run "git init" before the first commit and
+    keep that file out). Do not paste the token into chats or screenshots.
+  - The cache is per backend process; restarting the backend empties it.
+  - TMDB's own "maximum runtime" search filter is unreliable (a 169-minute Hindi
+    film passes "under 120"). The recommender therefore checks the real runtime of
+    the 16 best-ranked candidates (parallel, cached) and drops the ones that are
+    too long. Effect: with a time limit the answer can be "nothing matches" where
+    TMDB alone would have claimed a match; that is intended. A title whose runtime
+    TMDB does not know is kept.
+  - "Tonight" quality depends on TMDB's genres: TV has no romance or horror genre,
+    so those moods map to the nearest ones (drama; mystery) for shows.
+  - The recommender is rule-based (genre / rating / your list / a seeded random
+    bonus), not machine learning; it does not learn from your ratings yet.
+  - The password rules follow "length plus a block-list" more than strict composition
+    rules, but do require all four character kinds. The list of common passwords is
+    short (about 100 entries), so a determined guess outside it is not caught; a
+    larger list or an online breach check would be the next step. There is no
+    "change password" page yet, so the rules apply at sign-up only.
+  - Everything planned is built. Ideas for later: use the user's own 1-10 ratings
+    to favour similar titles, a "continue watching" row on the home page, sharing
+    a watchlist, email verification and password reset. No password reset or email check, no roles: every user is
+    an ordinary user.
+  - The login lockout counter is kept in memory (resets when the backend restarts,
+    and is per backend instance).
+  - The token is kept in sessionStorage, which is simple but readable by scripts
+    on the page; the app has no user-generated HTML, which is what makes that
+    acceptable here. A production system might prefer an HttpOnly cookie.
+  - TMDB is sometimes briefly unreachable from this network ("Remote host
+    terminated the handshake", seen several times, always within moments of a
+    fresh start). The backend now repeats a failed connection once after 0.3 s,
+    which normally hides it. If it still fails, a page shows an error with "Try
+    again", and adding to the watchlist answers 504 and saves nothing. A read
+    timeout (8 s) is not repeated.
+
+================================================================================
