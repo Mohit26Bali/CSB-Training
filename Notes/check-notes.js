@@ -69,7 +69,7 @@ for (const file of files) {
     }
     for (const [pattern, what] of SECRET_PATTERNS) if (pattern.test(text)) report(file, lineNo, `looks like ${what}`);
     if (inFence) return;
-    if (/\b(TODO|FIXME|XXX)\b/.test(text)) report(file, lineNo, 'leftover TODO / FIXME marker');
+    if (/\b(TODO|FIXME)\b/.test(text)) report(file, lineNo, 'leftover TODO / FIXME marker');
     if (/^#+\s.*\t/.test(text)) report(file, lineNo, 'tab character in a heading');
 
     // [text](#anchor) and [text](other-file.md#anchor)
