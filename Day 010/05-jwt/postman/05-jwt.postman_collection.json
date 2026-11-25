@@ -1,0 +1,1893 @@
+{
+  "info": {
+    "name": "05 JWT Authentication",
+    "description": "Login -> token -> protected endpoints, every kind of rejected token, refresh rotation with reuse detection, logout, and disabling a user. Run in order; re-runnable. The hand-made tokens in folder 3 are all unusable on purpose.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "hanaAccess",
+      "value": ""
+    },
+    {
+      "key": "hanaRefresh",
+      "value": ""
+    },
+    {
+      "key": "hanaAccess2",
+      "value": ""
+    },
+    {
+      "key": "hanaRefresh2",
+      "value": ""
+    },
+    {
+      "key": "tampered",
+      "value": ""
+    },
+    {
+      "key": "laptopAccess",
+      "value": ""
+    },
+    {
+      "key": "laptopRefresh",
+      "value": ""
+    },
+    {
+      "key": "phoneAccess",
+      "value": ""
+    },
+    {
+      "key": "phoneRefresh",
+      "value": ""
+    },
+    {
+      "key": "adminAccess",
+      "value": ""
+    },
+    {
+      "key": "adminRefresh",
+      "value": ""
+    },
+    {
+      "key": "ashaAccess",
+      "value": ""
+    },
+    {
+      "key": "ashaRefresh",
+      "value": ""
+    },
+    {
+      "key": "ashaId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Public endpoint and no token",
+      "item": [
+        {
+          "name": "public hello, no token -> 200",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/hello",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "hello"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "/api/me without a token -> 401",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Authentication is required to access this resource', () => pm.expect(pm.response.json().message).to.eql(\"Authentication is required to access this resource\"));",
+                  "pm.test('WWW-Authenticate: Bearer', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1. Login (AuthenticationManager -> signed JWT)",
+      "item": [
+        {
+          "name": "login hana -> 200, token pair",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"hana\", \"password\": \"Hana@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Bearer, 900 s, 7 days', () => { pm.expect(body.tokenType).to.eql('Bearer'); pm.expect(body.expiresIn).to.eql(900); pm.expect(body.refreshExpiresIn).to.eql(604800); });",
+                  "const part = (t, i) => JSON.parse(atob(t.split('.')[i].replace(/-/g, '+').replace(/_/g, '/')));",
+                  "const header = part(body.accessToken, 0), payload = part(body.accessToken, 1);",
+                  "pm.test('header: HS256 + kid of the active key', () => pm.expect(header).to.eql({kid: 'k2026-10', alg: 'HS256'}));",
+                  "pm.test('payload: sub, iss, jti, iat, exp, authorities', () => { pm.expect(payload.sub).to.eql('hana'); pm.expect(payload.iss).to.eql('hr-portal'); pm.expect(payload.jti).to.be.a('string'); pm.expect(payload.exp - payload.iat).to.eql(900); pm.expect(payload.authorities).to.eql(['EMPLOYEE_READ', 'EMPLOYEE_WRITE', 'ROLE_HR']); });",
+                  "pm.test('no session cookie', () => pm.expect(pm.response.headers.get('Set-Cookie')).to.be.undefined);",
+                  "pm.collectionVariables.set('hanaAccess', body.accessToken);",
+                  "pm.collectionVariables.set('hanaRefresh', body.refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong password -> 401, no token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"hana\", \"password\": \"Wrong@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Invalid username or password', () => pm.expect(pm.response.json().message).to.eql(\"Invalid username or password\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "unknown user -> 401 (same message)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"nobody\", \"password\": \"Hana@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Invalid username or password', () => pm.expect(pm.response.json().message).to.eql(\"Invalid username or password\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "disabled vikram -> 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"vikram\", \"password\": \"Vikram@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Account is disabled', () => pm.expect(pm.response.json().message).to.eql(\"Account is disabled\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "missing password -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"hana\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('message: password must not be blank', () => pm.expect(pm.response.json().message).to.eql(\"password must not be blank\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Token -> protected endpoints (authorities from the token)",
+      "item": [
+        {
+          "name": "/api/me with hana's token -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hanaAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('hana, HR authorities', () => { const me = pm.response.json(); pm.expect(me.username).to.eql('hana'); pm.expect(me.authorities).to.eql(['EMPLOYEE_READ', 'EMPLOYEE_WRITE', 'ROLE_HR']); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "/api/directory (EMPLOYEE_READ) -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hanaAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/directory",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "directory"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "/api/admin/users (USER_MANAGE) -> 403: valid token, not allowed",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hanaAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 403', () => pm.response.to.have.status(403));",
+                  "pm.test('message: You do not have permission to access this resource', () => pm.expect(pm.response.json().message).to.eql(\"You do not have permission to access this resource\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Rejected tokens -> 401 with the reason",
+      "item": [
+        {
+          "name": "Basic scheme instead of Bearer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic aGFuYTpIYW5hQDEyMw=="
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Authorization header must be: Bearer <token>', () => pm.expect(pm.response.json().message).to.eql(\"Authorization header must be: Bearer <token>\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Authorization header must be: Bearer <token>\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "malformed",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer not-a-jwt"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token is malformed', () => pm.expect(pm.response.json().message).to.eql(\"Token is malformed\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token is malformed\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "expired (real key, expired yesterday)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJraWQiOiJrMjAyNi0xMCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJoci1wb3J0YWwiLCJzdWIiOiJoYW5hIiwianRpIjoicG9zdG1hbi1kZW1vIiwiYXV0aG9yaXRpZXMiOlsiRU1QTE9ZRUVfUkVBRCIsIkVNUExPWUVFX1dSSVRFIiwiUk9MRV9IUiJdLCJpYXQiOjE3OTI4NjIzODksImV4cCI6MTc5Mjg2MzI4OX0.fF1GTOmDlREjzF1e9l6I5AF-y3BmUqtFZPMzWfvNrq8"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token has expired', () => pm.expect(pm.response.json().message).to.eql(\"Token has expired\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token has expired\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "signed with another key",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJraWQiOiJrMjAyNi0xMCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJoci1wb3J0YWwiLCJzdWIiOiJoYW5hIiwianRpIjoicG9zdG1hbi1kZW1vIiwiYXV0aG9yaXRpZXMiOlsiRU1QTE9ZRUVfUkVBRCIsIkVNUExPWUVFX1dSSVRFIiwiUk9MRV9IUiJdLCJpYXQiOjE3OTI5NDg3ODksImV4cCI6MjEwODMwODc4OX0.Kl_zKG3zzYHSuhcUpFqU8lPtTO349nzeUSeii5CeIuw"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token signature is invalid', () => pm.expect(pm.response.json().message).to.eql(\"Token signature is invalid\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token signature is invalid\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TAMPERED: hana's real token with USER_MANAGE added to the payload",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tampered}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// decode the payload, add USER_MANAGE, encode it again, keep the ORIGINAL signature",
+                  "const [h, p, s] = pm.collectionVariables.get('hanaAccess').split('.');",
+                  "const payload = JSON.parse(atob(p.replace(/-/g, '+').replace(/_/g, '/')));",
+                  "payload.authorities.push('USER_MANAGE');",
+                  "const forged = btoa(JSON.stringify(payload)).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');",
+                  "pm.collectionVariables.set('tampered', h + '.' + forged + '.' + s);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token signature is invalid', () => pm.expect(pm.response.json().message).to.eql(\"Token signature is invalid\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token signature is invalid\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "unsigned (alg none) with USER_MANAGE",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJub25lIn0.eyJpc3MiOiJoci1wb3J0YWwiLCJzdWIiOiJoYW5hIiwianRpIjoicG9zdG1hbi1kZW1vIiwiYXV0aG9yaXRpZXMiOlsiVVNFUl9NQU5BR0UiXSwiaWF0IjoxNzkyOTQ4Nzg5LCJleHAiOjIxMDgzMDg3ODl9."
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token must be signed', () => pm.expect(pm.response.json().message).to.eql(\"Token must be signed\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token must be signed\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "unknown key id (kid k1999-01)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJraWQiOiJrMTk5OS0wMSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJoci1wb3J0YWwiLCJzdWIiOiJoYW5hIiwianRpIjoicG9zdG1hbi1kZW1vIiwiYXV0aG9yaXRpZXMiOlsiRU1QTE9ZRUVfUkVBRCIsIkVNUExPWUVFX1dSSVRFIiwiUk9MRV9IUiJdLCJpYXQiOjE3OTI5NDg3ODksImV4cCI6MjEwODMwODc4OX0.NlKMwPL7aEM7vzQmVtfNtO_oDJh4f0XvZV7aka-flMw"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token was signed with an unknown key', () => pm.expect(pm.response.json().message).to.eql(\"Token was signed with an unknown key\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token was signed with an unknown key\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "other issuer (real key, iss another-system)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJraWQiOiJrMjAyNi0xMCIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJhbm90aGVyLXN5c3RlbSIsInN1YiI6ImhhbmEiLCJqdGkiOiJwb3N0bWFuLWRlbW8iLCJhdXRob3JpdGllcyI6WyJFTVBMT1lFRV9SRUFEIiwiRU1QTE9ZRUVfV1JJVEUiLCJST0xFX0hSIl0sImlhdCI6MTc5Mjk0ODc4OSwiZXhwIjoyMTA4MzA4Nzg5fQ.hTRIOkXn1_blyXLC3gCxUf3qY4-V832mh5SajwP5AVE"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token was not issued by this server', () => pm.expect(pm.response.json().message).to.eql(\"Token was not issued by this server\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token was not issued by this server\"'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Refresh: rotation and reuse detection",
+      "item": [
+        {
+          "name": "refresh -> 200, a NEW pair",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{hanaRefresh}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('refresh token rotated', () => pm.expect(pm.response.json().refreshToken).to.not.eql(pm.collectionVariables.get('hanaRefresh')));",
+                  "pm.collectionVariables.set('hanaAccess2', pm.response.json().accessToken);",
+                  "pm.collectionVariables.set('hanaRefresh2', pm.response.json().refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "new access token works",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{hanaAccess2}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "OLD refresh token again -> 401 reuse detected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{hanaRefresh}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Refresh token reuse detected; please log in again', () => pm.expect(pm.response.json().message).to.eql(\"Refresh token reuse detected; please log in again\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "... and the newest one is revoked with it",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{hanaRefresh2}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Refresh token has been revoked', () => pm.expect(pm.response.json().message).to.eql(\"Refresh token has been revoked\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "made-up refresh token -> 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"not-a-real-refresh-token\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Refresh token is invalid', () => pm.expect(pm.response.json().message).to.eql(\"Refresh token is invalid\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5. Logout: revoke this session only",
+      "item": [
+        {
+          "name": "login manoj -> 200 (saves laptopAccess / laptopRefresh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"manoj\", \"password\": \"Manoj@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('laptopAccess', pm.response.json().accessToken);",
+                  "pm.collectionVariables.set('laptopRefresh', pm.response.json().refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "login manoj -> 200 (saves phoneAccess / phoneRefresh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"manoj\", \"password\": \"Manoj@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('phoneAccess', pm.response.json().accessToken);",
+                  "pm.collectionVariables.set('phoneRefresh', pm.response.json().refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "logout the laptop session -> 204",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{laptopAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{laptopRefresh}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "laptop access token -> 401 revoked (jti deny-list)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{laptopAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Token has been revoked', () => pm.expect(pm.response.json().message).to.eql(\"Token has been revoked\"));",
+                  "pm.test('WWW-Authenticate invalid_token', () => pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\", error_description=\"Token has been revoked\"'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "laptop refresh token -> 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{laptopRefresh}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "phone session still works",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{phoneAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6. Disable a user: the limit of stateless tokens",
+      "item": [
+        {
+          "name": "login admin -> 200 (saves adminAccess / adminRefresh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"admin\", \"password\": \"Admin@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('adminAccess', pm.response.json().accessToken);",
+                  "pm.collectionVariables.set('adminRefresh', pm.response.json().refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "login asha -> 200 (saves ashaAccess / ashaRefresh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"asha\", \"password\": \"Asha@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('ashaAccess', pm.response.json().accessToken);",
+                  "pm.collectionVariables.set('ashaRefresh', pm.response.json().refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin finds asha's id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('ashaId', pm.response.json().find(u => u.username === 'asha').id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin disables asha",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{ashaId}}/enabled",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{ashaId}}",
+                "enabled"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"enabled\": false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('disabled', () => pm.expect(pm.response.json().enabled).to.be.false);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "asha's EXISTING access token still works (until it expires)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ashaAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "asha cannot refresh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{ashaRefresh}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Refresh token has been revoked', () => pm.expect(pm.response.json().message).to.eql(\"Refresh token has been revoked\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "asha cannot log in",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"asha\", \"password\": \"Asha@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));",
+                  "pm.test('message: Account is disabled', () => pm.expect(pm.response.json().message).to.eql(\"Account is disabled\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin enables asha again",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{ashaId}}/enabled",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{ashaId}}",
+                "enabled"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"enabled\": true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "login asha -> 200 (saves ashaAccess / ashaRefresh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"asha\", \"password\": \"Asha@123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('ashaAccess', pm.response.json().accessToken);",
+                  "pm.collectionVariables.set('ashaRefresh', pm.response.json().refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin revokes all of asha's sessions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/{{ashaId}}/revoke-tokens",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "{{ashaId}}",
+                "revoke-tokens"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('at least one', () => pm.expect(pm.response.json().revokedRefreshTokens).to.be.at.least(1));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "asha's refresh token -> 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\":\"{{ashaRefresh}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin cannot disable themselves -> 409",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccess}}"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users/1/enabled",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "1",
+                "enabled"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"enabled\": false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 409', () => pm.response.to.have.status(409));",
+                  "pm.test('message: You cannot disable your own account', () => pm.expect(pm.response.json().message).to.eql(\"You cannot disable your own account\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
