@@ -1,0 +1,462 @@
+/* Comparison page: before/after slider, results, audit table */
+
+:root {
+    --ink: #1b2420;
+    --muted: #4f5a54;
+    --line: #d8ddd9;
+    --bg: #fbfaf6;
+    --tint: #f1efe7;
+    --brand: #1f5130;
+    --brand-dark: #133820;
+    --old: #9a3412;
+    --old-bg: #fdeee6;
+    --new: #1f5130;
+    --new-bg: #e7f0e9;
+    --gold: #f2b705;
+    --focus: #1a4fd0;
+    --radius: 14px;
+    --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+    font-size: clamp(1.0625rem, 1.03rem + 0.15vw, 1.125rem);
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.2;
+    text-wrap: balance;
+    margin: 0 0 0.5em;
+}
+
+h1 { font-size: clamp(2.1rem, 1.6rem + 2.4vw, 3.4rem); }
+h2 { font-size: clamp(1.6rem, 1.4rem + 0.9vw, 2.1rem); }
+h3 { font-size: 1.3rem; margin-top: 2rem; }
+
+p {
+    margin: 0 0 1em;
+    max-width: 70ch;
+}
+
+a {
+    color: var(--brand);
+    text-underline-offset: 0.2em;
+}
+
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px #fff;
+}
+
+code {
+    padding: 0.05em 0.3em;
+    border-radius: 4px;
+    background: rgb(0 0 0 / 0.06);
+    font-size: 0.9em;
+}
+
+.container {
+    width: min(100% - 2 * var(--gutter), 72rem);
+    margin-inline: auto;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -10rem;
+    padding: 0.8rem 1.2rem;
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+/* ---------- top ---------- */
+.top {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    background: var(--brand-dark);
+    color: #fff;
+}
+
+.top a {
+    color: inherit;
+}
+
+.top :focus-visible {
+    outline-color: var(--gold);
+    box-shadow: none;
+}
+
+.kicker {
+    color: var(--gold);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+}
+
+.lead {
+    font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+    color: #e3efe6;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.9rem;
+    padding: 0.6rem 1.3rem;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.top .btn-new {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--ink);
+}
+
+.btn:hover {
+    text-decoration: underline;
+}
+
+.note {
+    margin-top: 1.25rem;
+    color: #c8dccd;
+    font-size: 0.95rem;
+}
+
+/* ---------- sections ---------- */
+.section {
+    padding-block: clamp(3rem, 7vw, 4.5rem);
+}
+
+.tint {
+    background: var(--tint);
+}
+
+.hint {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* ---------- before/after slider ---------- */
+.compare {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.15);
+    aspect-ratio: 1280 / 900;
+    background: #ddd;
+}
+
+.compare-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* the new design shows to the right of the handle */
+.compare-after {
+    clip-path: inset(0 0 0 var(--pos));
+}
+
+.compare-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 4px;
+    margin-left: -2px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.3);
+    pointer-events: none;
+}
+
+.compare-handle::after {
+    content: "\2194";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ink);
+    font-size: 1.4rem;
+    font-weight: 700;
+    transform: translate(-50%, -50%);
+}
+
+.compare-label {
+    position: absolute;
+    top: 0.75rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.75);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.label-before { left: 0.75rem; }
+.label-after { right: 0.75rem; }
+
+/* the range input covers the whole picture, so dragging anywhere works; it is invisible but keeps keyboard focus */
+.compare-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+}
+
+.compare:has(.compare-range:focus-visible) .compare-handle::after {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+
+/* ---------- results ---------- */
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+    padding: 0;
+    list-style: none;
+}
+
+.score {
+    padding: 1.25rem 1.4rem;
+    border-radius: var(--radius);
+    background: #fff;
+}
+
+.score-label {
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+}
+
+.score-values {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.score-values .old {
+    color: var(--old);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.score-values .new {
+    color: var(--new);
+}
+
+.arrow {
+    color: var(--muted);
+    font-size: 1.4rem;
+}
+
+.score-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+caption {
+    padding: 1rem 1rem 0.5rem;
+    background: #fff;
+    font-weight: 700;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+}
+
+thead th {
+    border-bottom: 3px solid var(--brand);
+    background: var(--new-bg);
+}
+
+tbody th {
+    font-weight: 400;
+}
+
+.audit tbody th {
+    background: var(--old-bg);
+}
+
+.audit td:last-child {
+    background: var(--new-bg);
+}
+
+.audit td:nth-child(2) {
+    width: 11rem;
+    font-size: 0.95rem;
+}
+
+.honest {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-left: 5px solid var(--gold);
+    background: #fff;
+    border-radius: 8px;
+    max-width: none;
+}
+
+/* ---------- screenshot pairs ---------- */
+.pair {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 50rem) {
+    .pair {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.pair-phone {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 22rem));
+    justify-content: center;
+}
+
+figure {
+    margin: 0;
+}
+
+figure img {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+}
+
+figcaption {
+    margin-top: 0.75rem;
+    color: var(--muted);
+}
+
+figcaption strong {
+    color: var(--ink);
+}
+
+.single {
+    max-width: 52rem;
+}
+
+blockquote {
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius);
+}
+
+.quote-old {
+    border-left: 6px solid var(--old);
+    background: var(--old-bg);
+}
+
+.quote-new {
+    border-left: 6px solid var(--new);
+    background: var(--new-bg);
+}
+
+blockquote p:first-child {
+    font-size: 1.2rem;
+}
+
+.quote-meta {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+/* ---------- footer ---------- */
+.bottom {
+    padding-block: 2rem;
+    background: var(--brand-dark);
+    color: #e3efe6;
+}
+
+.bottom a {
+    color: #fff;
+}
+
+.bottom :focus-visible {
+    outline-color: var(--gold);
+    box-shadow: none;
+}
+
+.bottom p:last-child {
+    margin: 0;
+}

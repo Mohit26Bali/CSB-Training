@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Your Name, front-end developer: 16 projects in HTML5, CSS3, JavaScript, accessibility and SQL, with case studies.">
+    <title>Your Name | Front-End Developer Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // apply a saved theme before the page is drawn, so it never flashes
+        try {
+            const theme = localStorage.getItem('portfolio-theme');
+            if (theme) {
+                document.documentElement.dataset.theme = theme;
+            }
+        } catch (error) {}
+        document.documentElement.classList.add('js');
+    </script>
+    <script src="js/main.js" defer></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Your Name",
+            "jobTitle": "Front-End Developer",
+            "email": "mailto:you@example.com",
+            "knowsAbout": ["HTML5", "CSS3", "JavaScript", "Web accessibility", "Responsive design", "SQL"]
+        }
+    }
+    </script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" id="top">
+        <div class="container header-inner">
+            <a class="brand" href="#top">
+                <span class="brand-mark" aria-hidden="true"><span class="ph">YN</span></span>
+                <span class="brand-name"><span class="ph">Your Name</span></span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#achievements">Achievements</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" type="button" id="theme-toggle" aria-pressed="false">
+                <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                <span class="visually-hidden">Dark theme</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- ============ hero ============ -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <p class="hello">Hi, I'm <span class="ph">Your Name</span> <span class="wave" aria-hidden="true">&#128075;</span></p>
+                    <h1 id="hero-title">I build websites that <span class="highlight">everyone</span> can use.</h1>
+                    <p class="lead">Front-end developer focused on accessible, responsive interfaces with semantic HTML, modern CSS and plain JavaScript, and the SQL to store the data behind them.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#work">See my work</a>
+                        <a class="btn btn-ghost" href="../01-Professional-Resume-Page/index.html">Read my resume</a>
+                    </div>
+                    <p class="status"><span class="status-dot" aria-hidden="true"></span><span>Open to <span class="ph">junior front-end roles</span> from <span class="ph">Month Year</span></span></p>
+                </div>
+                <div class="hero-shots" aria-hidden="true">
+                    <img class="shot shot-1" src="images/projects/mini-capstone-project.webp" alt="" width="960" height="600">
+                    <img class="shot shot-2" src="images/projects/e-commerce-product-page.webp" alt="" width="960" height="600">
+                    <img class="shot shot-3" src="images/projects/blog-platform-ui.webp" alt="" width="960" height="600">
+                </div>
+            </div>
+            <div class="container">
+                <dl class="stats">
+                    <div><dt>Websites built</dt><dd>15</dd></div>
+                    <div><dt>SQL database projects</dt><dd>15</dd></div>
+                    <div><dt>Accessibility failures after my redesign</dt><dd>0</dd></div>
+                    <div><dt>Chart libraries in my dashboard</dt><dd>0</dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <!-- ============ work ============ -->
+        <section class="section" id="work" aria-labelledby="work-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="eyebrow">Selected work</p>
+                    <h2 id="work-title">Projects</h2>
+                    <p class="section-lead">Every project below is real and working. Open a case study for the brief, what I built and the decisions behind it.</p>
+                </div>
+
+                <form class="filters" id="filters" aria-label="Filter projects">
+                    <fieldset class="chips">
+                        <legend class="visually-hidden">Show</legend>
+                    <label class="chip"><input type="radio" name="category" value="all" checked> All work <span class="chip-count">16</span></label>
+                    <label class="chip"><input type="radio" name="category" value="site"> Websites <span class="chip-count">8</span></label>
+                    <label class="chip"><input type="radio" name="category" value="app"> Interactive tools <span class="chip-count">7</span></label>
+                    <label class="chip"><input type="radio" name="category" value="data"> Live data <span class="chip-count">3</span></label>
+                    <label class="chip"><input type="radio" name="category" value="db"> Databases <span class="chip-count">1</span></label>
+                    </fieldset>
+                </form>
+                <p class="skill-filter" id="skill-filter" hidden>
+                    <span id="skill-filter-text"></span>
+                    <button class="btn btn-small btn-ghost" type="button" id="clear-skill">Show all projects</button>
+                </p>
+                <p class="result-count" id="result-count" role="status">Showing all 16 projects</p>
+
+                <ul class="project-grid" id="project-grid">
+                <li class="project project-featured" data-categories="site app" data-skills="html grid flex responsive a11y js forms animation">
+                    <article class="project-card" aria-labelledby="p-summit">
+                        <div class="project-media"><img src="images/projects/mini-capstone-project.webp" alt="" width="960" height="600" loading="eager"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Capstone website</p>
+                            <h3 id="p-summit">Summit Bouldering</h3>
+                            <p class="project-summary">A complete one-page website for a climbing gym, combining every technique from the course.</p>
+                            <p class="project-result"><strong>Result:</strong> 96 automated browser checks pass at desktop and phone width.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Semantic HTML5</li><li>CSS Grid</li><li>Flexbox</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="summit">Case study<span class="visually-hidden">: Summit Bouldering</span></button>
+                                <a class="btn btn-small btn-ghost" href="../15-Mini-Capstone-Project/index.html">View project<span class="visually-hidden">: Summit Bouldering</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project project-featured" data-categories="site" data-skills="html a11y responsive grid forms js">
+                    <article class="project-card" aria-labelledby="p-fernhill">
+                        <div class="project-media"><img src="images/projects/corporate-website-redesign.webp" alt="" width="960" height="600" loading="eager"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Website redesign</p>
+                            <h3 id="p-fernhill">Fernhill College redesign</h3>
+                            <p class="project-summary">An early-2010s college website, rebuilt to be accessible, responsive and easy to read, with the difference measured.</p>
+                            <p class="project-result"><strong>Result:</strong> Accessibility failures went from 410 to 0.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Semantic HTML5</li><li>Accessibility (WCAG)</li><li>Responsive design</li><li>CSS Grid</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="fernhill">Case study<span class="visually-hidden">: Fernhill College redesign</span></button>
+                                <a class="btn btn-small btn-ghost" href="../14-Corporate-Website-Redesign/index.html">View project<span class="visually-hidden">: Fernhill College redesign</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project project-featured" data-categories="site app" data-skills="html js storage grid a11y forms responsive">
+                    <article class="project-card" aria-labelledby="p-greencorner">
+                        <div class="project-media"><img src="images/projects/e-commerce-product-page.webp" alt="" width="960" height="600" loading="eager"></div>
+                        <div class="project-body">
+                            <p class="project-kind">E-commerce</p>
+                            <h3 id="p-greencorner">Green Corner plant shop</h3>
+                            <p class="project-summary">A home page and 12 product pages generated from one template, sharing one basket across the shop.</p>
+                            <p class="project-result"><strong>Result:</strong> 74 automated checks pass on the product page.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Semantic HTML5</li><li>JavaScript</li><li>Browser storage</li><li>CSS Grid</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="greencorner">Case study<span class="visually-hidden">: Green Corner plant shop</span></button>
+                                <a class="btn btn-small btn-ghost" href="../12-E-Commerce-Product-Page/index.html">View project<span class="visually-hidden">: Green Corner plant shop</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="site" data-skills="html grid responsive a11y js storage">
+                    <article class="project-card" aria-labelledby="p-longwayround">
+                        <div class="project-media"><img src="images/projects/blog-platform-ui.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Blog platform</p>
+                            <h3 id="p-longwayround">Long Way Round</h3>
+                            <p class="project-summary">A travel blog with featured stories, categories, writer profiles and 10 article pages designed for reading.</p>
+                            <p class="project-result"><strong>Result:</strong> 59 automated checks pass across the home and story pages.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Semantic HTML5</li><li>CSS Grid</li><li>Responsive design</li><li>Accessibility (WCAG)</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="longwayround">Case study<span class="visually-hidden">: Long Way Round</span></button>
+                                <a class="btn btn-small btn-ghost" href="../13-Blog-Platform-UI/index.html">View project<span class="visually-hidden">: Long Way Round</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="data" data-skills="apis grid js responsive storage">
+                    <article class="project-card" aria-labelledby="p-orbit">
+                        <div class="project-media"><img src="images/projects/news-portal-layout.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Live news portal</p>
+                            <h3 id="p-orbit">Orbit Daily</h3>
+                            <p class="project-summary">A newspaper-style grid filled with real space news, rocket launches and the live position of the space station.</p>
+                            <p class="project-result"><strong>Result:</strong> Works online and offline.</p>
+                            <ul class="tags" aria-label="Skills used"><li>APIs and fetch</li><li>CSS Grid</li><li>JavaScript</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="orbit">Case study<span class="visually-hidden">: Orbit Daily</span></button>
+                                <a class="btn btn-small btn-ghost" href="../08-News-Portal-Layout/index.html">View project<span class="visually-hidden">: Orbit Daily</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="data" data-skills="apis grid js responsive">
+                    <article class="project-card" aria-labelledby="p-panelpixel">
+                        <div class="project-media"><img src="images/projects/news-portal-layout-anime.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Live news portal</p>
+                            <h3 id="p-panelpixel">Panel &amp; Pixel</h3>
+                            <p class="project-summary">An anime news site with live headlines, a seasonal chart and show pages.</p>
+                            <p class="project-result"><strong>Result:</strong> Live data with a snapshot fallback.</p>
+                            <ul class="tags" aria-label="Skills used"><li>APIs and fetch</li><li>CSS Grid</li><li>JavaScript</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="panelpixel">Case study<span class="visually-hidden">: Panel &amp; Pixel</span></button>
+                                <a class="btn btn-small btn-ghost" href="../08-News-Portal-Layout-Anime/index.html">View project<span class="visually-hidden">: Panel &amp; Pixel</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="site data" data-skills="apis js grid forms responsive">
+                    <article class="project-card" aria-labelledby="p-wanderlane">
+                        <div class="project-media"><img src="images/projects/travel-agency-website.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Travel website</p>
+                            <h3 id="p-wanderlane">Wanderlane Travel</h3>
+                            <p class="project-summary">A travel agency homepage with eight destinations and eight holiday packages.</p>
+                            <p class="project-result"><strong>Result:</strong> Live weather for 8 destinations.</p>
+                            <ul class="tags" aria-label="Skills used"><li>APIs and fetch</li><li>JavaScript</li><li>CSS Grid</li><li>Forms and validation</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="wanderlane">Case study<span class="visually-hidden">: Wanderlane Travel</span></button>
+                                <a class="btn btn-small btn-ghost" href="../09-Travel-Agency-Website/index.html">View project<span class="visually-hidden">: Wanderlane Travel</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="app" data-skills="svg grid flex js a11y">
+                    <article class="project-card" aria-labelledby="p-wanderadmin">
+                        <div class="project-media"><img src="images/projects/dashboard-interface.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Dashboard</p>
+                            <h3 id="p-wanderadmin">Wanderlane Admin</h3>
+                            <p class="project-summary">The back-office dashboard for Wanderlane: revenue, bookings, destinations, enquiries and team activity.</p>
+                            <p class="project-result"><strong>Result:</strong> 0 chart libraries.</p>
+                            <ul class="tags" aria-label="Skills used"><li>SVG</li><li>CSS Grid</li><li>Flexbox</li><li>JavaScript</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="wanderadmin">Case study<span class="visually-hidden">: Wanderlane Admin</span></button>
+                                <a class="btn btn-small btn-ghost" href="../10-Dashboard-Interface/index.html">View project<span class="visually-hidden">: Wanderlane Admin</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="app" data-skills="grid js forms storage responsive">
+                    <article class="project-card" aria-labelledby="p-neonframe">
+                        <div class="project-media"><img src="images/projects/event-management-portal.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Event portal</p>
+                            <h3 id="p-neonframe">Neon Frame Festival</h3>
+                            <p class="project-summary">An anime and film festival portal with 15 events, a timetable and seat booking.</p>
+                            <p class="project-result"><strong>Result:</strong> 15 events across 3 days.</p>
+                            <ul class="tags" aria-label="Skills used"><li>CSS Grid</li><li>JavaScript</li><li>Forms and validation</li><li>Browser storage</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="neonframe">Case study<span class="visually-hidden">: Neon Frame Festival</span></button>
+                                <a class="btn btn-small btn-ghost" href="../07-Event-Management-Portal/index.html">View project<span class="visually-hidden">: Neon Frame Festival</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="app" data-skills="forms a11y html js">
+                    <article class="project-card" aria-labelledby="p-northlight">
+                        <div class="project-media"><img src="images/projects/registration-form.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Registration form</p>
+                            <h3 id="p-northlight">Northlight Dev Summit</h3>
+                            <p class="project-summary">A conference registration form with full validation.</p>
+                            <p class="project-result"><strong>Result:</strong> Every field has a label and a specific error.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Forms and validation</li><li>Accessibility (WCAG)</li><li>Semantic HTML5</li><li>JavaScript</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="northlight">Case study<span class="visually-hidden">: Northlight Dev Summit</span></button>
+                                <a class="btn btn-small btn-ghost" href="../06-Registration-Form/index.html">View project<span class="visually-hidden">: Northlight Dev Summit</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="app" data-skills="grid js responsive html">
+                    <article class="project-card" aria-labelledby="p-tidewell">
+                        <div class="project-media"><img src="images/projects/employee-directory.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">People directory</p>
+                            <h3 id="p-tidewell">Tidewell directory</h3>
+                            <p class="project-summary">A directory of 50 employees in 6 departments.</p>
+                            <p class="project-result"><strong>Result:</strong> 50 people, 6 departments.</p>
+                            <ul class="tags" aria-label="Skills used"><li>CSS Grid</li><li>JavaScript</li><li>Responsive design</li><li>Semantic HTML5</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="tidewell">Case study<span class="visually-hidden">: Tidewell directory</span></button>
+                                <a class="btn btn-small btn-ghost" href="../05-Employee-Directory/index.html">View project<span class="visually-hidden">: Tidewell directory</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="site" data-skills="grid flex forms responsive html">
+                    <article class="project-card" aria-labelledby="p-saffron">
+                        <div class="project-media"><img src="images/projects/restaurant-website.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Restaurant website</p>
+                            <h3 id="p-saffron">Saffron &amp; Sage</h3>
+                            <p class="project-summary">A one-page restaurant website with a menu, gallery, chef profiles and reservations.</p>
+                            <p class="project-result"><strong>Result:</strong> One page, four cuisines.</p>
+                            <ul class="tags" aria-label="Skills used"><li>CSS Grid</li><li>Flexbox</li><li>Forms and validation</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="saffron">Case study<span class="visually-hidden">: Saffron &amp; Sage</span></button>
+                                <a class="btn btn-small btn-ghost" href="../04-Restaurant-Website/index.html">View project<span class="visually-hidden">: Saffron &amp; Sage</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="app" data-skills="grid animation js responsive">
+                    <article class="project-card" aria-labelledby="p-catalog">
+                        <div class="project-media"><img src="images/projects/product-catalog-ui.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Product catalogue</p>
+                            <h3 id="p-catalog">Green Corner catalogue</h3>
+                            <p class="project-summary">A product catalogue of 12 plants and accessories.</p>
+                            <p class="project-result"><strong>Result:</strong> 12 products.</p>
+                            <ul class="tags" aria-label="Skills used"><li>CSS Grid</li><li>CSS animation</li><li>JavaScript</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="catalog">Case study<span class="visually-hidden">: Green Corner catalogue</span></button>
+                                <a class="btn btn-small btn-ghost" href="../03-Product-Catalog-UI/index.html">View project<span class="visually-hidden">: Green Corner catalogue</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="site" data-skills="flex html responsive">
+                    <article class="project-card" aria-labelledby="p-nimbus">
+                        <div class="project-media"><img src="images/projects/company-landing-page.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Landing page</p>
+                            <h3 id="p-nimbus">Nimbus Software</h3>
+                            <p class="project-summary">A responsive landing page for a software company.</p>
+                            <p class="project-result"><strong>Result:</strong> My first responsive website.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Flexbox</li><li>Semantic HTML5</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="nimbus">Case study<span class="visually-hidden">: Nimbus Software</span></button>
+                                <a class="btn btn-small btn-ghost" href="../02-Company-Landing-Page/index.html">View project<span class="visually-hidden">: Nimbus Software</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project" data-categories="site" data-skills="html a11y responsive">
+                    <article class="project-card" aria-labelledby="p-resume">
+                        <div class="project-media"><img src="images/projects/professional-resume-page.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-kind">Resume</p>
+                            <h3 id="p-resume">Resume page</h3>
+                            <p class="project-summary">A one-page resume that also prints as a PDF.</p>
+                            <p class="project-result"><strong>Result:</strong> Prints to exactly 2 A4 pages.</p>
+                            <ul class="tags" aria-label="Skills used"><li>Semantic HTML5</li><li>Accessibility (WCAG)</li><li>Responsive design</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="resume">Case study<span class="visually-hidden">: Resume page</span></button>
+                                <a class="btn btn-small btn-ghost" href="../01-Professional-Resume-Page/index.html">View project<span class="visually-hidden">: Resume page</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="project project-wide" data-categories="db" data-skills="sql">
+                    <article class="project-card" aria-labelledby="p-hrdb">
+                        <div class="project-media"><pre class="code-shot" aria-hidden="true"><span class="k">SELECT</span> d.dept_name,
+       <span class="k">COUNT</span>(e.emp_id) <span class="k">AS</span> headcount
+<span class="k">FROM</span> departments d
+<span class="k">LEFT JOIN</span> employees e
+  <span class="k">ON</span> d.dept_id = e.dept_id
+ <span class="k">AND</span> e.status &lt;&gt; <span class="s">'Terminated'</span>
+<span class="k">GROUP BY</span> d.dept_id, d.dept_name
+<span class="k">ORDER BY</span> headcount <span class="k">DESC</span>;</pre></div>
+                        <div class="project-body">
+                            <p class="project-kind">SQL capstone</p>
+                            <h3 id="p-hrdb">HR Management database</h3>
+                            <p class="project-summary">A MySQL database for a company&#x27;s staff, salaries and leave, from design to reports.</p>
+                            <p class="project-result"><strong>Result:</strong> One of 15 SQL projects.</p>
+                            <ul class="tags" aria-label="Skills used"><li>SQL (MySQL)</li></ul>
+                            <div class="project-actions">
+                                <button class="btn btn-small btn-primary" type="button" data-case="hrdb">Case study<span class="visually-hidden">: HR Management database</span></button>
+                                <a class="btn btn-small btn-ghost" href="../../SQL%20Assignments/15-Capstone-HR-Management/README.md">View project<span class="visually-hidden">: HR Management database</span></a>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                </ul>
+            </div>
+
+            <dialog class="case" id="case" aria-labelledby="case-title">
+                <div class="case-inner">
+                    <button class="case-close" type="button" id="case-close" aria-label="Close case study">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                    </button>
+                    <p class="project-kind" id="case-kind"></p>
+                    <h2 id="case-title"></h2>
+                    <img class="case-image" id="case-image" src="images/projects/mini-capstone-project.webp" alt="" width="960" height="600">
+                    <h3>The brief</h3>
+                    <p id="case-summary"></p>
+                    <h3>What I built</h3>
+                    <ul id="case-built"></ul>
+                    <h3>A decision I made</h3>
+                    <p id="case-decision"></p>
+                    <h3>Result</h3>
+                    <p id="case-result"></p>
+                    <ul class="tags" id="case-skills" aria-label="Skills used"></ul>
+                    <p class="case-actions"><a class="btn btn-primary" id="case-link" href="#">Open the project</a></p>
+                </div>
+            </dialog>
+            <script type="application/json" id="case-data">
+{
+ "summit": {
+  "title": "Summit Bouldering",
+  "kind": "Capstone website",
+  "image": "images/projects/mini-capstone-project.webp",
+  "summary": "A complete one-page website for a climbing gym, combining every technique from the course.",
+  "built": [
+   "A three-step booking form with an error summary, live pricing and an 'Add to calendar' file",
+   "A class timetable that filters by type and shows one day at a time on phones",
+   "A dozen CSS animations, all switched off for people who prefer reduced motion"
+  ],
+  "decision": "Flexbox for things in one direction (steps, buttons, form rows), Grid for two-way layouts (the photo grid, the timetable, the gallery).",
+  "result": "96 automated browser checks pass at desktop and phone width.",
+  "link": "../15-Mini-Capstone-Project/index.html",
+  "skills": [
+   "Semantic HTML5",
+   "CSS Grid",
+   "Flexbox",
+   "Responsive design",
+   "Accessibility (WCAG)",
+   "JavaScript",
+   "Forms and validation",
+   "CSS animation"
+  ]
+ },
+ "fernhill": {
+  "title": "Fernhill College redesign",
+  "kind": "Website redesign",
+  "image": "images/projects/corporate-website-redesign.webp",
+  "summary": "An early-2010s college website, rebuilt to be accessible, responsive and easy to read, with the difference measured.",
+  "built": [
+   "The original site, recreated with table layout, image buttons, a slider and a pop-up",
+   "A 5-page redesign with course filters, a validated contact form and an accessibility statement",
+   "A case-study page with a before/after slider and an audit linking each fix to its WCAG rule"
+  ],
+  "decision": "Measure, don't guess: both sites were scanned with axe-core, and text size, contrast and overflow were measured in the browser.",
+  "result": "Accessibility failures went from 410 to 0.",
+  "link": "../14-Corporate-Website-Redesign/index.html",
+  "skills": [
+   "Semantic HTML5",
+   "Accessibility (WCAG)",
+   "Responsive design",
+   "CSS Grid",
+   "Forms and validation",
+   "JavaScript"
+  ]
+ },
+ "greencorner": {
+  "title": "Green Corner plant shop",
+  "kind": "E-commerce",
+  "image": "images/projects/e-commerce-product-page.webp",
+  "summary": "A home page and 12 product pages generated from one template, sharing one basket across the shop.",
+  "built": [
+   "A photo gallery with zoom and a full-screen viewer",
+   "Size and pot options that change the price, with stock limits",
+   "A basket drawer saved in the browser and kept in step across tabs"
+  ],
+  "decision": "Tabs on desktop become an accordion on phones, because a row of tabs does not fit a narrow screen.",
+  "result": "74 automated checks pass on the product page.",
+  "link": "../12-E-Commerce-Product-Page/index.html",
+  "skills": [
+   "Semantic HTML5",
+   "JavaScript",
+   "Browser storage",
+   "CSS Grid",
+   "Accessibility (WCAG)",
+   "Forms and validation",
+   "Responsive design"
+  ]
+ },
+ "longwayround": {
+  "title": "Long Way Round",
+  "kind": "Blog platform",
+  "image": "images/projects/blog-platform-ui.webp",
+  "summary": "A travel blog with featured stories, categories, writer profiles and 10 article pages designed for reading.",
+  "built": [
+   "One story card that changes shape with container queries",
+   "Search, category filters and a 'Show more' button with a live result count",
+   "Light, sepia and dark themes and adjustable text size, remembered between visits"
+  ],
+  "decision": "Line length is capped at about 70 characters, and the story text uses a serif made for screens.",
+  "result": "59 automated checks pass across the home and story pages.",
+  "link": "../13-Blog-Platform-UI/index.html",
+  "skills": [
+   "Semantic HTML5",
+   "CSS Grid",
+   "Responsive design",
+   "Accessibility (WCAG)",
+   "JavaScript",
+   "Browser storage"
+  ]
+ },
+ "orbit": {
+  "title": "Orbit Daily",
+  "kind": "Live news portal",
+  "image": "images/projects/news-portal-layout.webp",
+  "summary": "A newspaper-style grid filled with real space news, rocket launches and the live position of the space station.",
+  "built": [
+   "Data from three public APIs",
+   "Caching, and an offline snapshot so the page never shows empty",
+   "A multi-column CSS Grid that reflows at each breakpoint"
+  ],
+  "decision": "Every live section has a fallback, because a public API can be slow or down during a demo.",
+  "result": "Works online and offline.",
+  "link": "../08-News-Portal-Layout/index.html",
+  "skills": [
+   "APIs and fetch",
+   "CSS Grid",
+   "JavaScript",
+   "Responsive design",
+   "Browser storage"
+  ]
+ },
+ "panelpixel": {
+  "title": "Panel & Pixel",
+  "kind": "Live news portal",
+  "image": "images/projects/news-portal-layout-anime.webp",
+  "summary": "An anime news site with live headlines, a seasonal chart and show pages.",
+  "built": [
+   "A seasonal chart from the AniList GraphQL API",
+   "News from RSS feeds, read through a small local Python server",
+   "Show pages built from the same data"
+  ],
+  "decision": "Browsers block reading most RSS feeds directly (CORS), so a small local Python server fetches them instead.",
+  "result": "Live data with a snapshot fallback.",
+  "link": "../08-News-Portal-Layout-Anime/index.html",
+  "skills": [
+   "APIs and fetch",
+   "CSS Grid",
+   "JavaScript",
+   "Responsive design"
+  ]
+ },
+ "wanderlane": {
+  "title": "Wanderlane Travel",
+  "kind": "Travel website",
+  "image": "images/projects/travel-agency-website.webp",
+  "summary": "A travel agency homepage with eight destinations and eight holiday packages.",
+  "built": [
+   "The live local time and weather for every destination (Open-Meteo API)",
+   "Package filters, a saved shortlist and an enquiry form",
+   "A carousel of customer reviews"
+  ],
+  "decision": "The weather for all 8 places comes from one request and is cached for 15 minutes, so the page stays fast and polite to a free API.",
+  "result": "Live weather for 8 destinations.",
+  "link": "../09-Travel-Agency-Website/index.html",
+  "skills": [
+   "APIs and fetch",
+   "JavaScript",
+   "CSS Grid",
+   "Forms and validation",
+   "Responsive design"
+  ]
+ },
+ "wanderadmin": {
+  "title": "Wanderlane Admin",
+  "kind": "Dashboard",
+  "image": "images/projects/dashboard-interface.webp",
+  "summary": "The back-office dashboard for Wanderlane: revenue, bookings, destinations, enquiries and team activity.",
+  "built": [
+   "Every chart drawn by hand in SVG, with no chart library",
+   "A sortable, searchable bookings table",
+   "A collapsible side menu and a light and dark theme"
+  ],
+  "decision": "Each chart also has a table view, so the numbers can be read by screen readers.",
+  "result": "0 chart libraries.",
+  "link": "../10-Dashboard-Interface/index.html",
+  "skills": [
+   "SVG",
+   "CSS Grid",
+   "Flexbox",
+   "JavaScript",
+   "Accessibility (WCAG)"
+  ]
+ },
+ "neonframe": {
+  "title": "Neon Frame Festival",
+  "kind": "Event portal",
+  "image": "images/projects/event-management-portal.webp",
+  "summary": "An anime and film festival portal with 15 events, a timetable and seat booking.",
+  "built": [
+   "Event cards with filters and a countdown",
+   "A timetable grid for three days of screenings",
+   "Seat booking, tickets and a waiting list"
+  ],
+  "decision": "The timetable becomes a list on phones, where a wide grid would not fit.",
+  "result": "15 events across 3 days.",
+  "link": "../07-Event-Management-Portal/index.html",
+  "skills": [
+   "CSS Grid",
+   "JavaScript",
+   "Forms and validation",
+   "Browser storage",
+   "Responsive design"
+  ]
+ },
+ "northlight": {
+  "title": "Northlight Dev Summit",
+  "kind": "Registration form",
+  "image": "images/projects/registration-form.webp",
+  "summary": "A conference registration form with full validation.",
+  "built": [
+   "HTML5 input types and validation attributes",
+   "Clear error messages and an error summary",
+   "A confirmation screen with the booking details"
+  ],
+  "decision": "Errors are written next to each field and listed in a summary, not shown in pop-ups.",
+  "result": "Every field has a label and a specific error.",
+  "link": "../06-Registration-Form/index.html",
+  "skills": [
+   "Forms and validation",
+   "Accessibility (WCAG)",
+   "Semantic HTML5",
+   "JavaScript"
+  ]
+ },
+ "tidewell": {
+  "title": "Tidewell directory",
+  "kind": "People directory",
+  "image": "images/projects/employee-directory.webp",
+  "summary": "A directory of 50 employees in 6 departments.",
+  "built": [
+   "Employee cards with photos and details",
+   "Search, department filters and sorting",
+   "A CSS Grid that reflows from one column to several"
+  ],
+  "decision": "auto-fill and minmax() let the card grid reflow without media queries.",
+  "result": "50 people, 6 departments.",
+  "link": "../05-Employee-Directory/index.html",
+  "skills": [
+   "CSS Grid",
+   "JavaScript",
+   "Responsive design",
+   "Semantic HTML5"
+  ]
+ },
+ "saffron": {
+  "title": "Saffron & Sage",
+  "kind": "Restaurant website",
+  "image": "images/projects/restaurant-website.webp",
+  "summary": "A one-page restaurant website with a menu, gallery, chef profiles and reservations.",
+  "built": [
+   "A menu of 4 courses with a filter for each cuisine",
+   "A photo gallery and chef profiles",
+   "A reservation form"
+  ],
+  "decision": "Grid for the menu and gallery, Flexbox for the header and buttons.",
+  "result": "One page, four cuisines.",
+  "link": "../04-Restaurant-Website/index.html",
+  "skills": [
+   "CSS Grid",
+   "Flexbox",
+   "Forms and validation",
+   "Responsive design",
+   "Semantic HTML5"
+  ]
+ },
+ "catalog": {
+  "title": "Green Corner catalogue",
+  "kind": "Product catalogue",
+  "image": "images/projects/product-catalog-ui.webp",
+  "summary": "A product catalogue of 12 plants and accessories.",
+  "built": [
+   "Product cards with hover effects",
+   "Category filters and sorting",
+   "CSS transitions on cards and buttons"
+  ],
+  "decision": "This became the starting point for the Green Corner shop later on.",
+  "result": "12 products.",
+  "link": "../03-Product-Catalog-UI/index.html",
+  "skills": [
+   "CSS Grid",
+   "CSS animation",
+   "JavaScript",
+   "Responsive design"
+  ]
+ },
+ "nimbus": {
+  "title": "Nimbus Software",
+  "kind": "Landing page",
+  "image": "images/projects/company-landing-page.webp",
+  "summary": "A responsive landing page for a software company.",
+  "built": [
+   "A hero, services, testimonials and pricing",
+   "A mobile menu",
+   "A layout built with Flexbox"
+  ],
+  "decision": "Mobile-first CSS: the phone layout is the default and wider screens add columns.",
+  "result": "My first responsive website.",
+  "link": "../02-Company-Landing-Page/index.html",
+  "skills": [
+   "Flexbox",
+   "Semantic HTML5",
+   "Responsive design"
+  ]
+ },
+ "resume": {
+  "title": "Resume page",
+  "kind": "Resume",
+  "image": "images/projects/professional-resume-page.webp",
+  "summary": "A one-page resume that also prints as a PDF.",
+  "built": [
+   "Profile, projects, education, skills, certifications and contact",
+   "Two columns on desktop, one on phones, dark mode",
+   "A print layout tuned to exactly two A4 pages"
+  ],
+  "decision": "Every size is in rem, so one smaller root size shrinks the whole page to fit on paper.",
+  "result": "Prints to exactly 2 A4 pages.",
+  "link": "../01-Professional-Resume-Page/index.html",
+  "skills": [
+   "Semantic HTML5",
+   "Accessibility (WCAG)",
+   "Responsive design"
+  ]
+ },
+ "hrdb": {
+  "title": "HR Management database",
+  "kind": "SQL capstone",
+  "image": null,
+  "summary": "A MySQL database for a company's staff, salaries and leave, from design to reports.",
+  "built": [
+   "5 related tables with keys, checks and a self-referencing manager link",
+   "HR operations: hires, raises, promotions and leavers",
+   "14 management reports and 9 tests that prove bad data is rejected"
+  ],
+  "decision": "Leavers are marked 'Terminated' rather than deleted, so their history stays.",
+  "result": "One of 15 SQL projects.",
+  "link": "../../SQL%20Assignments/15-Capstone-HR-Management/README.md",
+  "skills": [
+   "SQL (MySQL)"
+  ]
+ }
+}
+            </script>
+        </section>
+
+        <!-- ============ skills ============ -->
+        <section class="section section-alt" id="skills" aria-labelledby="skills-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="eyebrow">Skills</p>
+                    <h2 id="skills-title">What I use, and where</h2>
+                    <p class="section-lead">No made-up percentages: each skill shows how many of my projects use it. Choose a skill to see those projects.</p>
+                </div>
+                <div class="skill-groups">
+                <div class="skill-group">
+                    <h3>Building pages</h3>
+                    <ul class="skill-list">
+                        <li>
+                            <button class="skill" type="button" data-skill="responsive">
+                                <span class="skill-name">Responsive design</span>
+                                <span class="skill-count">13 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 100%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="grid">
+                                <span class="skill-name">CSS Grid</span>
+                                <span class="skill-count">12 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 92%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="html">
+                                <span class="skill-name">Semantic HTML5</span>
+                                <span class="skill-count">9 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 69%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="flex">
+                                <span class="skill-name">Flexbox</span>
+                                <span class="skill-count">4 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 31%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="animation">
+                                <span class="skill-name">CSS animation</span>
+                                <span class="skill-count">2 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 15%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="svg">
+                                <span class="skill-name">SVG</span>
+                                <span class="skill-count">1 project</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 8%"></span></span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="skill-group">
+                    <h3>Making them work</h3>
+                    <ul class="skill-list">
+                        <li>
+                            <button class="skill" type="button" data-skill="js">
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-count">12 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 92%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="forms">
+                                <span class="skill-name">Forms and validation</span>
+                                <span class="skill-count">7 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 54%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="storage">
+                                <span class="skill-name">Browser storage</span>
+                                <span class="skill-count">4 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 31%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="apis">
+                                <span class="skill-name">APIs and fetch</span>
+                                <span class="skill-count">3 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 23%"></span></span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="skill-group">
+                    <h3>Quality and data</h3>
+                    <ul class="skill-list">
+                        <li>
+                            <button class="skill" type="button" data-skill="a11y">
+                                <span class="skill-name">Accessibility (WCAG)</span>
+                                <span class="skill-count">7 projects</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 54%"></span></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="skill" type="button" data-skill="sql">
+                                <span class="skill-name">SQL (MySQL)</span>
+                                <span class="skill-count">1 project</span>
+                                <span class="skill-bar" aria-hidden="true"><span style="--w: 8%"></span></span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ achievements ============ -->
+        <section class="section" id="achievements" aria-labelledby="achievements-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="eyebrow">Achievements</p>
+                    <h2 id="achievements-title">Things I am proud of</h2>
+                </div>
+                <ul class="achievements">
+                    <li class="achievement">
+                        <p class="big-number"><data value="410">410</data> <span aria-hidden="true">&rarr;</span> <data value="0">0</data></p>
+                        <h3>Accessibility failures fixed</h3>
+                        <p>Rebuilt an outdated college website and measured it with axe-core: 410 failing elements before, none after.</p>
+                    </li>
+                    <li class="achievement">
+                        <p class="big-number"><data value="30">30</data></p>
+                        <h3>Projects completed</h3>
+                        <p>15 websites and 15 SQL database projects, from table design to management reports.</p>
+                    </li>
+                    <li class="achievement">
+                        <p class="big-number"><data value="96">96</data></p>
+                        <h3>Automated checks on my capstone</h3>
+                        <p>Every feature of Summit Bouldering is tested in a headless browser at desktop and phone width.</p>
+                    </li>
+                    <li class="achievement">
+                        <p class="big-number"><data value="0">0</data></p>
+                        <h3>Chart libraries</h3>
+                        <p>Every chart in my dashboard is hand-drawn SVG, each with a table view for screen readers.</p>
+                    </li>
+                    <li class="achievement achievement-ph">
+                        <p class="big-number"><span class="ph">&#9733;</span></p>
+                        <h3><span class="ph">Your award, certificate or hackathon</span></h3>
+                        <p><span class="ph">One sentence on what you did and why it matters.</span></p>
+                    </li>
+                </ul>
+
+                <h3 class="journey-title">My learning journey</h3>
+                <ol class="journey">
+                    <li><h4>Databases</h4><p>15 MySQL projects: designing tables, changing data and writing reports.</p></li>
+                    <li><h4>Layouts</h4><p>Landing page, catalogue, restaurant and directory: Flexbox, then CSS Grid.</p></li>
+                    <li><h4>Forms and interaction</h4><p>Registration form, event portal, travel site and dashboard.</p></li>
+                    <li><h4>Live data and full sites</h4><p>News portals with public APIs, an online shop, a blog and my resume.</p></li>
+                    <li><h4>Capstone and redesign</h4><p>Summit Bouldering, and the measured redesign of Fernhill College.</p></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ============ about ============ -->
+        <section class="section section-alt" id="about" aria-labelledby="about-title">
+            <div class="container about-grid">
+                <div class="about-photo" aria-hidden="true"><span class="ph">YN</span></div>
+                <div>
+                    <p class="eyebrow">About</p>
+                    <h2 id="about-title">A little about me</h2>
+                    <p class="lead-small"><span class="ph">I am a [your course or degree] student at [your university] who enjoys turning messy requirements into clear, usable pages.</span></p>
+                    <p>I like work where details matter: a form that explains its errors, a page that still works with a keyboard, a query that returns exactly the right rows. I test what I build, and I write down why I made each decision.</p>
+                    <dl class="about-facts">
+                        <div><dt>Based in</dt><dd><span class="ph">Your City</span></dd></div>
+                        <div><dt>Currently learning</dt><dd><span class="ph">e.g. React and TypeScript</span></dd></div>
+                        <div><dt>Away from the keyboard</dt><dd><span class="ph">Your hobbies</span></dd></div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ contact ============ -->
+        <section class="section" id="contact" aria-labelledby="contact-title">
+            <div class="container contact-grid">
+                <div>
+                    <p class="eyebrow">Contact</p>
+                    <h2 id="contact-title">Let's talk</h2>
+                    <p class="section-lead">Have a role, a project or a question? Send a message and I will reply within a day or two.</p>
+                    <ul class="contact-links">
+                        <li><a href="mailto:you@example.com"><span class="ph">you@example.com</span></a></li>
+                        <li><a href="https://www.linkedin.com/in/your-profile">LinkedIn<span class="visually-hidden">: </span> <span class="ph">your-profile</span></a></li>
+                        <li><a href="https://github.com/your-username">GitHub<span class="visually-hidden">: </span> <span class="ph">your-username</span></a></li>
+                        <li><a href="../01-Professional-Resume-Page/index.html">Resume (web and PDF)</a></li>
+                    </ul>
+                </div>
+                <form class="contact-form" id="contact-form" novalidate>
+                    <div class="field">
+                        <label for="c-name">Your name</label>
+                        <input type="text" id="c-name" name="name" autocomplete="name" aria-describedby="c-name-error">
+                        <p class="error" id="c-name-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="c-email">Your email</label>
+                        <input type="email" id="c-email" name="email" autocomplete="email" spellcheck="false" aria-describedby="c-email-error">
+                        <p class="error" id="c-email-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="c-message">Message</label>
+                        <textarea id="c-message" name="message" rows="5" aria-describedby="c-message-hint c-message-error"></textarea>
+                        <p class="hint" id="c-message-hint">Pressing Send opens your email app with this message ready to go.</p>
+                        <p class="error" id="c-message-error"></p>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Send message</button>
+                    <p class="form-status" id="form-status" role="status"></p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 <span class="ph">Your Name</span>. Built from scratch with HTML, CSS and a little JavaScript.</p>
+            <a href="#top">Back to top</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

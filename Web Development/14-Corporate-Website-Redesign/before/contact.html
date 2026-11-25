@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fernhill College :: Contact Us</title>
+<meta name="keywords" content="college, fernhill, courses, education, learning, apprenticeships, adult education, further education, training, qualifications, best college" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/scripts.js"></script>
+</head>
+
+<body onload="init()">
+
+<!-- newsletter popup -->
+<div id="overlay" style="display:none">
+  <div id="popup">
+    <div class="close" onclick="closePopup()">X</div>
+    <img src="images/new-badge.png" class="popup-badge" />
+    <div class="popup-title">Don't miss out!!!</div>
+    <p>Sign up to our newsletter for the latest news, events and offers from Fernhill College!</p>
+    <input type="text" value="Enter your email..." onfocus="if(this.value=='Enter your email...')this.value='';" class="textbox" />
+    <input type="button" value="SUBSCRIBE" class="glossbtn" onclick="alert('Thank you for subscribing!');closePopup();" />
+  </div>
+</div>
+
+<table id="wrapper" width="960" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td colspan="2" id="header">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><a href="index.html"><img src="images/logo.png" width="420" height="90" border="0" /></a></td>
+          <td align="right" valign="top" class="toplinks">
+            <a href="#">Staff</a> | <a href="#">Students</a> | <a href="#">VLE Login</a> | <a href="#">Sitemap</a><br /><br />
+            <a href="#"><img src="images/social-facebook.png" border="0" /></a>
+            <a href="#"><img src="images/social-twitter.png" border="0" /></a>
+            <a href="#"><img src="images/social-googleplus.png" border="0" /></a>
+            <a href="#"><img src="images/social-rss.png" border="0" /></a><br /><br />
+            <input type="text" value="Search..." onfocus="if(this.value=='Search...')this.value='';" class="searchbox" />
+            <input type="button" value="GO" class="glossbtn small" />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" id="nav"><a href="index.html" onmouseover="swap(this, 'home', 1)" onmouseout="swap(this, 'home', 0)"><img src="images/nav-home.png" width="130" height="38" border="0" /></a><a href="courses.html" onmouseover="swap(this, 'courses', 1)" onmouseout="swap(this, 'courses', 0)"><img src="images/nav-courses.png" width="130" height="38" border="0" /></a><a href="apply.html" onmouseover="swap(this, 'apply', 1)" onmouseout="swap(this, 'apply', 0)"><img src="images/nav-apply.png" width="130" height="38" border="0" /></a><a href="contact.html" onmouseover="swap(this, 'contact', 1)" onmouseout="swap(this, 'contact', 0)"><img src="images/nav-contact.png" width="130" height="38" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td colspan="2" id="ticker"><b>LATEST NEWS:</b> <marquee scrollamount="3" onmouseover="this.stop()" onmouseout="this.start()">
+      *** OPEN EVENING 12th NOVEMBER 5pm - 7.30pm *** ENROL NOW FOR SEPTEMBER 2027 *** New &pound;2 million engineering workshop now open *** Cookery students win regional award *** Apply by 31st March for guaranteed interview ***
+    </marquee></td>
+  </tr>
+  <tr>
+    <td id="content" width="700" valign="top">
+      <div class="heading"><b>Contact Us</b></div>
+      <p>Please fill in the form below and a member of our Student Services team will get back to you as soon as possible. Fields marked with <span class="red">*</span> are required.</p>
+      <form name="contactform" onsubmit="return validateForm()">
+        <table cellpadding="4" class="formtable">
+          <tr><td><input type="text" name="name" value="" placeholder="Your Name *" class="textbox" /> <span class="red">*</span></td></tr>
+          <tr><td><input type="text" name="email" value="" placeholder="Email Address *" class="textbox" /> <span class="red">*</span></td></tr>
+          <tr><td><input type="text" name="phone" value="" placeholder="Telephone" class="textbox" /></td></tr>
+          <tr><td><select name="type" class="textbox"><option value="">-- Please Select --</option><option>Choosing a course</option><option>Applying</option><option>Apprenticeships</option><option>Fees and funding</option><option>Learning support</option><option>Something else</option></select> <span class="red">*</span></td></tr>
+          <tr><td><textarea name="message" rows="6" cols="50" class="textbox" placeholder="Your Message *"></textarea> <span class="red">*</span></td></tr>
+          <tr><td><img src="images/captcha.jpg" width="160" height="50" /><br /><input type="text" name="captcha" placeholder="Enter the code above *" class="textbox small" /> <span class="red">*</span></td></tr>
+          <tr><td><input type="checkbox" name="terms" /> I agree to the terms and conditions <span class="red">*</span></td></tr>
+          <tr><td><input type="submit" value="SUBMIT" class="glossbtn" /> <input type="reset" value="RESET" class="glossbtn grey" /></td></tr>
+        </table>
+      </form>
+      <div class="heading"><b>Find Us</b></div>
+      <p>Fernhill College<br />College Road<br />Fernhill<br />FH1 2AB<br />Tel: 0113 496 0420<br />Email: <a href="mailto:hello@fernhill-college.example">hello@fernhill-college.example</a></p>
+      <p><b>Opening Hours</b><br />Monday to Thursday: 08:30am - 7.00pm<br />Friday: 08:30am - 4.30pm<br />Saturday and Sunday: Closed</p>
+    </td>
+    <td id="sidebar" width="260" valign="top">
+      <div class="box">
+        <div class="boxtitle">Quick Links</div>
+        &raquo; <a href="#">Download Prospectus 2027 (PDF, 14.2MB)</a><br />
+        &raquo; <a href="#">Term Dates 2026/27</a><br />
+        &raquo; <a href="#">VLE / Moodle Login</a><br />
+        &raquo; <a href="#">Student Email</a><br />
+        &raquo; <a href="apply.html">How To Apply</a>
+      </div>
+      <div class="box">
+        <div class="boxtitle">Latest Tweets</div>
+        <div class="tweet"><b>@FernhillColl</b> Open evening on 12th Nov!!! Come along and see what we have to offer #fernhill #college <span class="tiny">2 days ago</span></div><div class="tweet"><b>@FernhillColl</b> Congrats to our cookery students on their award!! :) <span class="tiny">3 weeks ago</span></div><div class="tweet"><b>@FernhillColl</b> Enrolment is now OPEN for Sept 2027. Click link in bio <span class="tiny">1 month ago</span></div>
+        <a href="#">Follow us on Twitter &raquo;</a>
+      </div>
+      <div class="box fb">
+        <div class="boxtitle">Find us on Facebook</div>
+        <img src="images/social-facebook.png" align="left" style="margin-right:6px" /><b>Fernhill College</b><br />1,204 people like Fernhill College.<br /><img src="images/btn-like.png" style="margin-top:4px" />
+        <br clear="all" />
+        <img src="images/btn-plusone.png" style="margin-top:6px" /> <span class="tiny">Recommend this on Google</span>
+      </div>
+      <div class="box">
+        <div class="boxtitle">Tags</div>
+        <div class="tagcloud"><a href="courses.html" style="font-size:18px">courses</a> <a href="courses.html" style="font-size:13px">apprenticeships</a> <a href="courses.html" style="font-size:10px">adult learning</a> <a href="courses.html" style="font-size:15px">IT</a> <a href="courses.html" style="font-size:12px">engineering</a> <a href="courses.html" style="font-size:11px">health</a> <a href="courses.html" style="font-size:9px">art</a> <a href="courses.html" style="font-size:14px">construction</a> <a href="courses.html" style="font-size:10px">cookery</a> <a href="courses.html" style="font-size:16px">open evening</a> <a href="courses.html" style="font-size:12px">enrolment</a> <a href="courses.html" style="font-size:9px">fees</a> <a href="courses.html" style="font-size:8px">bursary</a></div>
+      </div>
+      <div class="box center">
+        <div class="boxtitle">Visitors</div>
+        You are visitor number:<br /><img src="images/counter.png" />
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" id="footer">
+      &copy; 2012 Fernhill College. All Rights Reserved. | <a href="#">Sitemap</a> | <a href="#">Privacy Policy</a> | <a href="#">Disclaimer</a> | <a href="#">Accessibility</a><br />
+      Fernhill College, College Road, Fernhill FH1 2AB | Tel: 0113 496 0420<br />
+      <span class="tiny">This website is best viewed in Internet Explorer 9 or above at 1024 x 768 resolution. Website design by WebSolutionz Ltd.</span><br />
+      <img src="images/valid-xhtml.png" style="margin-top:6px" />
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

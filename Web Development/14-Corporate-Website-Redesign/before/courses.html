@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fernhill College :: Courses</title>
+<meta name="keywords" content="college, fernhill, courses, education, learning, apprenticeships, adult education, further education, training, qualifications, best college" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/scripts.js"></script>
+</head>
+
+<body onload="init()">
+
+<!-- newsletter popup -->
+<div id="overlay" style="display:none">
+  <div id="popup">
+    <div class="close" onclick="closePopup()">X</div>
+    <img src="images/new-badge.png" class="popup-badge" />
+    <div class="popup-title">Don't miss out!!!</div>
+    <p>Sign up to our newsletter for the latest news, events and offers from Fernhill College!</p>
+    <input type="text" value="Enter your email..." onfocus="if(this.value=='Enter your email...')this.value='';" class="textbox" />
+    <input type="button" value="SUBSCRIBE" class="glossbtn" onclick="alert('Thank you for subscribing!');closePopup();" />
+  </div>
+</div>
+
+<table id="wrapper" width="960" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td colspan="2" id="header">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><a href="index.html"><img src="images/logo.png" width="420" height="90" border="0" /></a></td>
+          <td align="right" valign="top" class="toplinks">
+            <a href="#">Staff</a> | <a href="#">Students</a> | <a href="#">VLE Login</a> | <a href="#">Sitemap</a><br /><br />
+            <a href="#"><img src="images/social-facebook.png" border="0" /></a>
+            <a href="#"><img src="images/social-twitter.png" border="0" /></a>
+            <a href="#"><img src="images/social-googleplus.png" border="0" /></a>
+            <a href="#"><img src="images/social-rss.png" border="0" /></a><br /><br />
+            <input type="text" value="Search..." onfocus="if(this.value=='Search...')this.value='';" class="searchbox" />
+            <input type="button" value="GO" class="glossbtn small" />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" id="nav"><a href="index.html" onmouseover="swap(this, 'home', 1)" onmouseout="swap(this, 'home', 0)"><img src="images/nav-home.png" width="130" height="38" border="0" /></a><a href="courses.html" onmouseover="swap(this, 'courses', 1)" onmouseout="swap(this, 'courses', 0)"><img src="images/nav-courses.png" width="130" height="38" border="0" /></a><a href="apply.html" onmouseover="swap(this, 'apply', 1)" onmouseout="swap(this, 'apply', 0)"><img src="images/nav-apply.png" width="130" height="38" border="0" /></a><a href="contact.html" onmouseover="swap(this, 'contact', 1)" onmouseout="swap(this, 'contact', 0)"><img src="images/nav-contact.png" width="130" height="38" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td colspan="2" id="ticker"><b>LATEST NEWS:</b> <marquee scrollamount="3" onmouseover="this.stop()" onmouseout="this.start()">
+      *** OPEN EVENING 12th NOVEMBER 5pm - 7.30pm *** ENROL NOW FOR SEPTEMBER 2027 *** New &pound;2 million engineering workshop now open *** Cookery students win regional award *** Apply by 31st March for guaranteed interview ***
+    </marquee></td>
+  </tr>
+  <tr>
+    <td id="content" width="700" valign="top">
+      <div class="heading"><b>Course Directory 2026/2027</b></div>
+      <p>Please select a department from the drop down menu below to jump to the relevant section of our course directory. Alternatively scroll down to view all courses. For full course information please download our prospectus (PDF, 14.2MB).</p>
+      <select onchange="window.location=this.value" class="jumpmenu"><option value="">-- Select Department --</option><option value="#digital">Digital and IT</option><option value="#engineering">Engineering</option><option value="#health">Health and Social Care</option><option value="#creative">Creative Arts and Media</option><option value="#construction">Construction and Trades</option><option value="#hospitality">Hospitality and Catering</option></select>
+      <br /><br />
+      <table width="100%" cellpadding="5" cellspacing="1" class="coursetable">
+        <tr class="tablehead"><td><b>Course</b></td><td><b>Lvl</b></td><td><b>Mode</b></td><td><b>Duration</b></td><td><b>Start</b></td><td><b>Campus</b></td><td><b>Fee</b></td></tr>
+        <tr><td colspan="7" class="deptrow"><a name="digital"></a><b>DIGITAL AND IT</b></td></tr><tr class="even"><td><b>T Level in Digital Production, Design and Development</b><br />Learn to plan, build and test software, with a 45-day placement at a local tech company. <a href="#">Click here for more info</a></td><td>L3</td><td>Full-time, ages 16 to 18</td><td>2 years</td><td>September 2027</td><td>Main Campus</td><td>Free for ages 16 to 18</td></tr><tr class="odd"><td><b>Introduction to Coding with Python</b><br />Write your first programs in Python. No experience needed, just a laptop. <a href="#">Click here for more info</a></td><td>L2</td><td>Part-time, evenings</td><td>12 weeks, one evening a week</td><td>January 2027</td><td>Main Campus</td><td>£180</td></tr><tr><td colspan="7" class="deptrow"><a name="engineering"></a><b>ENGINEERING</b></td></tr><tr class="even"><td><b>Extended Diploma in Engineering</b><br />Mechanical and electrical principles, CAD and workshop skills, leading to university or an apprenticeship. <a href="#">Click here for more info</a></td><td>L3</td><td>Full-time, ages 16 to 18</td><td>2 years</td><td>September 2027</td><td>Riverside Centre</td><td>Free for ages 16 to 18</td></tr><tr class="odd"><td><b>Engineering Technician Apprenticeship</b><br />Work for a local employer four days a week and study with us one day a week. <a href="#">Click here for more info</a></td><td>L3</td><td>Apprenticeship</td><td>42 months</td><td>Start any time</td><td>Riverside Centre</td><td>Free to you, and you earn a wage</td></tr><tr><td colspan="7" class="deptrow"><a name="health"></a><b>HEALTH AND SOCIAL CARE</b></td></tr><tr class="even"><td><b>T Level in Health</b><br />Prepare for a career in nursing or healthcare, with an industry placement in a hospital or care home. <a href="#">Click here for more info</a></td><td>L3</td><td>Full-time, ages 16 to 18</td><td>2 years</td><td>September 2027</td><td>Main Campus</td><td>Free for ages 16 to 18</td></tr><tr class="odd"><td><b>Access to Higher Education Diploma (Nursing and Midwifery)</b><br />A one-year course for adults who want to go to university to study nursing or midwifery. <a href="#">Click here for more info</a></td><td>L3</td><td>Full-time, ages 19+</td><td>1 year</td><td>September 2027</td><td>Main Campus</td><td>£3,000, with an Advanced Learner Loan available</td></tr><tr><td colspan="7" class="deptrow"><a name="creative"></a><b>CREATIVE ARTS AND MEDIA</b></td></tr><tr class="even"><td><b>Diploma in Art and Design</b><br />Drawing, painting, graphics and 3D design, ending with a public exhibition of your work. <a href="#">Click here for more info</a></td><td>L3</td><td>Full-time, ages 16 to 18</td><td>2 years</td><td>September 2027</td><td>Main Campus</td><td>Free for ages 16 to 18</td></tr><tr class="odd"><td><b>Photography for Beginners</b><br />Get off automatic mode: light, composition and editing, with any camera. <a href="#">Click here for more info</a></td><td>L1</td><td>Part-time, evenings</td><td>10 weeks, one evening a week</td><td>January 2027</td><td>Main Campus</td><td>£150</td></tr><tr><td colspan="7" class="deptrow"><a name="construction"></a><b>CONSTRUCTION AND TRADES</b></td></tr><tr class="even"><td><b>Diploma in Bricklaying</b><br />Practical bricklaying in our full-size workshop, with health and safety training. <a href="#">Click here for more info</a></td><td>L2</td><td>Full-time, ages 16 to 18</td><td>1 year</td><td>September 2027</td><td>Riverside Centre</td><td>Free for ages 16 to 18</td></tr><tr class="odd"><td><b>Electrical Installation Apprenticeship</b><br />Train to become a qualified electrician while working for a local firm. <a href="#">Click here for more info</a></td><td>L3</td><td>Apprenticeship</td><td>48 months</td><td>Start any time</td><td>Riverside Centre</td><td>Free to you, and you earn a wage</td></tr><tr><td colspan="7" class="deptrow"><a name="hospitality"></a><b>HOSPITALITY AND CATERING</b></td></tr><tr class="even"><td><b>Diploma in Professional Cookery</b><br />Cook for real customers in our public restaurant, The Fern Room. <a href="#">Click here for more info</a></td><td>L2</td><td>Full-time, ages 16 to 18</td><td>1 year</td><td>September 2027</td><td>Main Campus</td><td>Free for ages 16 to 18</td></tr><tr class="odd"><td><b>Barista Skills</b><br />Espresso, milk texturing and latte art, taught in our training café. <a href="#">Click here for more info</a></td><td>L1</td><td>Part-time, evenings</td><td>6 weeks, one evening a week</td><td>November 2026</td><td>Main Campus</td><td>£95</td></tr>
+      </table>
+      <p class="tiny">* All information correct at time of publication. Fernhill College reserves the right to amend or cancel courses. Fees may be subject to change. Please contact Student Services for further details.</p>
+    </td>
+    <td id="sidebar" width="260" valign="top">
+      <div class="box">
+        <div class="boxtitle">Quick Links</div>
+        &raquo; <a href="#">Download Prospectus 2027 (PDF, 14.2MB)</a><br />
+        &raquo; <a href="#">Term Dates 2026/27</a><br />
+        &raquo; <a href="#">VLE / Moodle Login</a><br />
+        &raquo; <a href="#">Student Email</a><br />
+        &raquo; <a href="apply.html">How To Apply</a>
+      </div>
+      <div class="box">
+        <div class="boxtitle">Latest Tweets</div>
+        <div class="tweet"><b>@FernhillColl</b> Open evening on 12th Nov!!! Come along and see what we have to offer #fernhill #college <span class="tiny">2 days ago</span></div><div class="tweet"><b>@FernhillColl</b> Congrats to our cookery students on their award!! :) <span class="tiny">3 weeks ago</span></div><div class="tweet"><b>@FernhillColl</b> Enrolment is now OPEN for Sept 2027. Click link in bio <span class="tiny">1 month ago</span></div>
+        <a href="#">Follow us on Twitter &raquo;</a>
+      </div>
+      <div class="box fb">
+        <div class="boxtitle">Find us on Facebook</div>
+        <img src="images/social-facebook.png" align="left" style="margin-right:6px" /><b>Fernhill College</b><br />1,204 people like Fernhill College.<br /><img src="images/btn-like.png" style="margin-top:4px" />
+        <br clear="all" />
+        <img src="images/btn-plusone.png" style="margin-top:6px" /> <span class="tiny">Recommend this on Google</span>
+      </div>
+      <div class="box">
+        <div class="boxtitle">Tags</div>
+        <div class="tagcloud"><a href="courses.html" style="font-size:18px">courses</a> <a href="courses.html" style="font-size:13px">apprenticeships</a> <a href="courses.html" style="font-size:10px">adult learning</a> <a href="courses.html" style="font-size:15px">IT</a> <a href="courses.html" style="font-size:12px">engineering</a> <a href="courses.html" style="font-size:11px">health</a> <a href="courses.html" style="font-size:9px">art</a> <a href="courses.html" style="font-size:14px">construction</a> <a href="courses.html" style="font-size:10px">cookery</a> <a href="courses.html" style="font-size:16px">open evening</a> <a href="courses.html" style="font-size:12px">enrolment</a> <a href="courses.html" style="font-size:9px">fees</a> <a href="courses.html" style="font-size:8px">bursary</a></div>
+      </div>
+      <div class="box center">
+        <div class="boxtitle">Visitors</div>
+        You are visitor number:<br /><img src="images/counter.png" />
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" id="footer">
+      &copy; 2012 Fernhill College. All Rights Reserved. | <a href="#">Sitemap</a> | <a href="#">Privacy Policy</a> | <a href="#">Disclaimer</a> | <a href="#">Accessibility</a><br />
+      Fernhill College, College Road, Fernhill FH1 2AB | Tel: 0113 496 0420<br />
+      <span class="tiny">This website is best viewed in Internet Explorer 9 or above at 1024 x 768 resolution. Website design by WebSolutionz Ltd.</span><br />
+      <img src="images/valid-xhtml.png" style="margin-top:6px" />
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

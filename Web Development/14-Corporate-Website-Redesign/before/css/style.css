@@ -1,0 +1,352 @@
+/* =========================================
+   FERNHILL COLLEGE - MAIN STYLESHEET
+   Design by WebSolutionz Ltd (c) 2012
+   ========================================= */
+
+body {
+	margin: 0;
+	padding: 20px 0;
+	background: #ded8c8 url(../images/linen.png);
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-size: 11px;
+	color: #999999;
+}
+
+a {
+	color: #7ab03a;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #ff9900;
+}
+
+a:focus {
+	outline: none;
+}
+
+img {
+	border: 0;
+}
+
+#wrapper {
+	background: #ffffff;
+	box-shadow: 0 0 15px #888888;
+	border-radius: 0 0 10px 10px;
+}
+
+#header {
+	padding: 10px 15px;
+	background: #ffffff;
+	background: linear-gradient(#ffffff, #eaf4dc);
+	border-top: 6px solid #2e6e14;
+}
+
+.toplinks {
+	font-size: 10px;
+	color: #bbbbbb;
+}
+
+.searchbox,
+.textbox {
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	padding: 4px;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #aaaaaa;
+	box-shadow: inset 0 1px 3px #dddddd;
+}
+
+.textbox {
+	width: 300px;
+}
+
+.textbox.small {
+	width: 150px;
+}
+
+.glossbtn {
+	border: 1px solid #2e6e14;
+	border-radius: 5px;
+	padding: 5px 14px;
+	background: linear-gradient(#9fd45f, #4e9a1e 50%, #2e6e14 51%, #3f8a1a);
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 11px;
+	text-shadow: 0 -1px 0 #1d4a0a;
+	cursor: pointer;
+}
+
+.glossbtn.small {
+	padding: 3px 8px;
+}
+
+.glossbtn.grey {
+	border-color: #777777;
+	background: linear-gradient(#dddddd, #aaaaaa 50%, #999999 51%, #bbbbbb);
+}
+
+#nav {
+	padding: 6px 10px;
+	background: linear-gradient(#3f3f3f, #1b1b1b);
+	border-bottom: 3px solid #7ab03a;
+}
+
+#nav a {
+	margin-right: 4px;
+}
+
+#ticker {
+	padding: 5px 10px;
+	background: #fffbe0;
+	border-bottom: 1px dashed #e8d890;
+	font-size: 10px;
+	color: #cc6600;
+}
+
+#ticker marquee {
+	display: inline-block;
+	width: 820px;
+	vertical-align: middle;
+}
+
+#content {
+	padding: 10px 15px 20px;
+}
+
+#slider {
+	position: relative;
+	margin: 0 -15px 15px;
+	width: 700px;
+	height: 238px;
+	overflow: hidden;
+}
+
+/* the slider images are 940 x 320 but squeezed into the 700px column */
+#slider .slide {
+	width: 700px;
+	height: 238px;
+}
+
+.slidecaption {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 680px;
+	padding: 8px 10px;
+	background: rgba(0, 0, 0, 0.45);
+	color: #dddddd;
+	font-family: Georgia, serif;
+	font-size: 15px;
+	font-style: italic;
+}
+
+#dots {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-left: 4px;
+	border-radius: 50%;
+	background: #ffffff;
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.dot.active {
+	opacity: 1;
+}
+
+.heading {
+	margin: 18px 0 8px;
+	padding-bottom: 4px;
+	border-bottom: 1px dotted #cccccc;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-size: 16px;
+	color: #2e6e14;
+	text-shadow: 1px 1px 1px #cccccc;
+}
+
+.intro {
+	text-align: center;
+	line-height: 1.5;
+}
+
+.thumb {
+	border: 3px solid #ffffff;
+	box-shadow: 1px 1px 4px #999999;
+}
+
+.depts td {
+	color: #777777;
+}
+
+.newsdate {
+	font-size: 9px;
+	color: #bbbbbb;
+}
+
+.tiny {
+	font-size: 9px;
+	color: #bbbbbb;
+}
+
+.red {
+	color: #ff0000;
+}
+
+.center {
+	text-align: center;
+}
+
+.jumpmenu {
+	font-size: 11px;
+	color: #777777;
+}
+
+.coursetable {
+	background: #dddddd;
+	font-size: 10px;
+}
+
+.coursetable td {
+	background: #ffffff;
+	vertical-align: top;
+}
+
+.coursetable tr.odd td {
+	background: #f6faf0;
+}
+
+.tablehead td {
+	background: #7ab03a !important;
+	color: #ffffff;
+}
+
+.deptrow {
+	background: #eeeeee !important;
+	color: #2e6e14;
+}
+
+.entrytable {
+	border-collapse: collapse;
+	border-color: #dddddd;
+	font-size: 10px;
+}
+
+.formtable td {
+	padding: 4px 0;
+}
+
+#sidebar {
+	padding: 10px 10px 20px 0;
+}
+
+.box {
+	margin-bottom: 12px;
+	padding: 8px 10px;
+	border: 1px solid #e3e3e3;
+	border-radius: 8px;
+	background: linear-gradient(#ffffff, #f4f4f4);
+	box-shadow: 1px 1px 3px #dddddd;
+	line-height: 1.7;
+}
+
+.boxtitle {
+	margin: -8px -10px 6px;
+	padding: 5px 10px;
+	border-radius: 8px 8px 0 0;
+	background: linear-gradient(#9fd45f, #4e9a1e);
+	color: #ffffff;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	text-shadow: 0 -1px 0 #2e6e14;
+}
+
+.tweet {
+	margin-bottom: 6px;
+	padding-bottom: 6px;
+	border-bottom: 1px dotted #dddddd;
+	line-height: 1.4;
+}
+
+.tagcloud a {
+	line-height: 1.6;
+}
+
+#footer {
+	padding: 15px;
+	border-top: 3px solid #7ab03a;
+	border-radius: 0 0 10px 10px;
+	background: linear-gradient(#3f3f3f, #1b1b1b);
+	font-size: 10px;
+	color: #777777;
+	text-align: center;
+	line-height: 1.8;
+}
+
+#footer a {
+	color: #999999;
+}
+
+/* newsletter popup */
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 100;
+}
+
+#popup {
+	position: absolute;
+	top: 150px;
+	left: 50%;
+	width: 400px;
+	margin-left: -220px;
+	padding: 20px;
+	border: 5px solid #7ab03a;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 0 30px #000000;
+	text-align: center;
+	font-size: 12px;
+}
+
+.popup-badge {
+	position: absolute;
+	top: -25px;
+	left: -25px;
+}
+
+.popup-title {
+	margin-bottom: 10px;
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-size: 22px;
+	font-weight: bold;
+	color: #2e6e14;
+}
+
+.close {
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	width: 26px;
+	height: 26px;
+	border: 2px solid #ffffff;
+	border-radius: 50%;
+	background: #333333;
+	color: #ffffff;
+	font-weight: bold;
+	line-height: 26px;
+	cursor: pointer;
+}

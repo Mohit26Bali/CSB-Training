@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wanderlane Admin: bookings, revenue, destinations, enquiries and team activity at a glance.">
+    <title>Overview | Wanderlane Admin</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        document.documentElement.classList.add('js');
+        try {
+            const theme = localStorage.getItem('wl-admin-theme');
+            if (theme) document.documentElement.dataset.theme = theme;
+            if (localStorage.getItem('wl-admin-collapsed') === 'true') document.documentElement.classList.add('sidebar-collapsed');
+        } catch (error) {}
+    </script>
+    <script src="js/data.js" defer></script>
+    <script src="js/charts.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to the dashboard</a>
+
+    <div class="app">
+
+        <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+            <div class="sidebar-top">
+                <a class="brand" href="#main">
+                    <svg class="brand-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="14"/><path d="M6 21c4-1 6-6 10-6s6 5 10 6"/><circle cx="21.5" cy="10" r="2.5"/></svg>
+                    <span class="nav-label">Wanderlane <span class="brand-sub">Admin</span></span>
+                </a>
+                <button class="icon-btn drawer-close" type="button" id="drawer-close" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                    <span class="visually-hidden">Close menu</span>
+                </button>
+            </div>
+
+            <nav class="side-nav" aria-label="Dashboard">
+                <ul>
+                    <li><a href="#main" aria-current="page" data-label="Overview">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                        <span class="nav-label">Overview</span></a></li>
+                    <li><a href="#revenue" data-label="Revenue">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>
+                        <span class="nav-label">Revenue</span></a></li>
+                    <li><a href="#destinations" data-label="Destinations">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+                        <span class="nav-label">Destinations</span></a></li>
+                    <li><a href="#bookings" data-label="Bookings">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                        <span class="nav-label">Bookings</span></a></li>
+                    <li><a href="#enquiries" data-label="Enquiries">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <span class="nav-label">Enquiries</span>
+                        <span class="nav-badge"><span id="nav-enquiry-count">6</span><span class="visually-hidden"> open</span></span></a></li>
+                    <li><a href="#activity" data-label="Team">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.6c2 .7 3.2 2.5 3.6 5.4"/></svg>
+                        <span class="nav-label">Team</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a class="site-link" href="../09-Travel-Agency-Website/index.html" data-label="View website">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+                    <span class="nav-label">View website</span>
+                </a>
+                <button class="collapse-btn" type="button" id="collapse-btn" aria-pressed="false" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6l-6 6 6 6"/></svg>
+                    <span class="nav-label">Collapse</span>
+                    <span class="visually-hidden">sidebar</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+
+        <header class="topbar">
+            <button class="icon-btn menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="sidebar" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                <span class="visually-hidden">Open menu</span>
+            </button>
+
+            <div class="page-title">
+                <h1>Overview</h1>
+                <p id="greeting">Welcome back, Amira</p>
+            </div>
+
+            <form class="top-search" role="search" id="top-search">
+                <label class="visually-hidden" for="search-input">Search bookings</label>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <input id="search-input" type="search" placeholder="Search bookings, customers&hellip;" autocomplete="off">
+            </form>
+
+            <fieldset class="range" id="range">
+                <legend class="visually-hidden">Date range</legend>
+                <label><input type="radio" name="range" value="7"> 7 days</label>
+                <label><input type="radio" name="range" value="30" checked> 30 days</label>
+                <label><input type="radio" name="range" value="365"> 12 months</label>
+            </fieldset>
+
+            <div class="top-actions">
+
+                <div class="dropdown">
+                    <button class="icon-btn" type="button" id="notify-btn" aria-expanded="false" aria-controls="notify-panel" hidden>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
+                        <span class="visually-hidden">Notifications</span>
+                        <span class="dot-count" id="notify-count"></span>
+                    </button>
+                    <div class="dropdown-panel notify-panel" id="notify-panel" hidden>
+                        <div class="panel-head">
+                            <h2>Notifications</h2>
+                            <button class="text-btn" type="button" id="mark-read">Mark all as read</button>
+                        </div>
+                        <ul class="notify-list" id="notify-list"></ul>
+                    </div>
+                </div>
+
+                <button class="icon-btn" type="button" id="theme-btn" aria-pressed="false" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="visually-hidden">Dark mode</span>
+                </button>
+
+                <div class="dropdown">
+                    <button class="profile-btn" type="button" id="profile-btn" aria-expanded="false" aria-controls="profile-panel" hidden>
+                        <span class="avatar" aria-hidden="true">AK</span>
+                        <span class="profile-name">Amira Khan<span>Operations lead</span></span>
+                    </button>
+                    <div class="dropdown-panel profile-panel" id="profile-panel" hidden>
+                        <ul>
+                            <li><a href="#activity">My activity</a></li>
+                            <li><a href="../09-Travel-Agency-Website/index.html">View the public website</a></li>
+                            <li><button class="text-btn" type="button" id="sign-out">Sign out</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard" id="main" tabindex="-1">
+            <p class="demo-note">Demo dashboard: Wanderlane Travel is fictional, and all bookings, customers and figures are generated example data.</p>
+            <p class="visually-hidden" id="range-status" role="status"></p>
+
+            <section class="kpis" aria-labelledby="kpi-title">
+                <h2 class="visually-hidden" id="kpi-title">Key figures</h2>
+                <ul class="kpi-grid" id="kpi-grid"></ul>
+            </section>
+
+            <section class="widget w-revenue" id="revenue" aria-labelledby="revenue-title">
+                <header class="widget-head">
+                    <div>
+                        <h2 id="revenue-title">Revenue</h2>
+                        <p class="widget-sub" id="revenue-sub"></p>
+                    </div>
+                </header>
+                <figure class="chart">
+                    <div class="chart-area" id="revenue-chart"></div>
+                    <figcaption class="visually-hidden" id="revenue-summary"></figcaption>
+                </figure>
+                <details class="data-table">
+                    <summary>View as a table</summary>
+                    <div class="table-scroll" id="revenue-table"></div>
+                </details>
+            </section>
+
+            <section class="widget w-destinations" id="destinations" aria-labelledby="destinations-title">
+                <header class="widget-head">
+                    <div>
+                        <h2 id="destinations-title">Bookings by destination</h2>
+                        <p class="widget-sub" id="destinations-sub"></p>
+                    </div>
+                </header>
+                <div class="donut-layout">
+                    <div class="donut" id="donut"></div>
+                    <ul class="legend" id="legend"></ul>
+                </div>
+            </section>
+
+            <section class="widget w-bookings" id="bookings" aria-labelledby="bookings-title">
+                <header class="widget-head">
+                    <div>
+                        <h2 id="bookings-title">Recent bookings</h2>
+                        <p class="widget-sub" id="bookings-sub"></p>
+                    </div>
+                    <div class="table-tools">
+                        <label class="visually-hidden" for="status-filter">Status</label>
+                        <select id="status-filter">
+                            <option value="all">All statuses</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </header>
+                <div class="table-wrap">
+                    <table class="bookings-table">
+                        <caption class="visually-hidden">Bookings in the selected period. Select a column heading to sort.</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" aria-sort="none"><button type="button" data-sort="id">Booking</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" data-sort="customer">Customer</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" data-sort="package">Package</button></th>
+                                <th scope="col" aria-sort="descending"><button type="button" data-sort="date">Date</button></th>
+                                <th scope="col" aria-sort="none" class="num"><button type="button" data-sort="value">Value</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" data-sort="status">Status</button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-body"></tbody>
+                    </table>
+                </div>
+                <p class="empty" id="bookings-empty" hidden>No bookings match. Try another search or status.</p>
+                <nav class="pagination" aria-label="Bookings pages">
+                    <p id="page-info" aria-live="polite"></p>
+                    <div>
+                        <button class="btn-small" type="button" id="prev-page">Previous</button>
+                        <button class="btn-small" type="button" id="next-page">Next</button>
+                    </div>
+                </nav>
+            </section>
+
+            <section class="widget w-packages" id="top-packages" aria-labelledby="packages-title">
+                <header class="widget-head">
+                    <div>
+                        <h2 id="packages-title">Revenue by package</h2>
+                        <p class="widget-sub">Confirmed bookings only</p>
+                    </div>
+                </header>
+                <ol class="bars" id="bars"></ol>
+            </section>
+
+
+            <section class="widget w-enquiries" id="enquiries" aria-labelledby="enquiries-title">
+                <header class="widget-head">
+                    <div>
+                        <h2 id="enquiries-title">Enquiries to answer</h2>
+                        <p class="widget-sub" id="enquiries-sub"></p>
+                    </div>
+                </header>
+                <ul class="enquiry-list" id="enquiry-list"></ul>
+                <p class="empty" id="enquiries-empty" hidden>All caught up! No enquiries waiting.</p>
+            </section>
+
+            <section class="widget w-activity" id="activity" aria-labelledby="activity-title">
+                <header class="widget-head">
+                    <div>
+                        <h2 id="activity-title">Team activity</h2>
+                        <p class="widget-sub">Today and yesterday</p>
+                    </div>
+                </header>
+                <ol class="timeline" id="timeline"></ol>
+            </section>
+
+            <footer class="dash-footer">
+                <p>&copy; 2026 Wanderlane Travel (fictional demo). Charts are drawn with SVG, with no chart library.</p>
+            </footer>
+        </main>
+    </div>
+
+    <noscript>
+        <p class="noscript">This dashboard needs JavaScript to calculate and draw its figures.</p>
+    </noscript>
+
+</body>
+
+</html>

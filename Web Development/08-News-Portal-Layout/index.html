@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Orbit Daily: live space news, rocket launch schedule and a real-time ISS tracker.">
+    <title>Orbit Daily | Live Space News</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js'); try { const theme = localStorage.getItem('orbit-theme'); if (theme) document.documentElement.dataset.theme = theme; } catch (error) {}</script>
+    <script src="js/snapshot.js" defer></script>
+    <script src="js/common.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#top-stories">Skip to top stories</a>
+
+    <p class="demo-note">Demo site: Orbit Daily is not a real news outlet. Headlines, summaries and images come from real publishers through the Spaceflight News API, and every story links to its source.</p>
+
+    <header class="masthead" id="top">
+        <div class="container">
+            <div class="masthead-top">
+                <p class="dateline"><time id="today"></time></p>
+                <p class="live-status is-saved" id="live-status" role="status">Showing saved stories from 8 Oct, 21:28</p>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="visually-hidden">Dark mode</span><span class="theme-label" aria-hidden="true">Light</span>
+                </button>
+            </div>
+            <div class="masthead-title">
+                <h1 class="logo-heading"><a class="logo" href="index.html">Orbit <span>Daily</span></a></h1>
+                <p class="tagline">Live news from the launch pad to deep space</p>
+            </div>
+            <nav class="sections" aria-label="Sections">
+                <ul>
+                    <li><a href="#top-stories">Top stories</a></li>
+                    <li><a href="#briefing">Briefing</a></li>
+                    <li><a href="#launches">Launches</a></li>
+                    <li><a href="#iss">ISS tracker</a></li>
+                    <li><a href="#moon">Moon</a></li>
+                    <li><a href="#mars">Mars</a></li>
+                    <li><a href="#earth">Earth</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="ticker" id="ticker" role="region" aria-label="Latest headlines">
+        <p class="ticker-label">Latest</p>
+        <div class="ticker-window">
+            <ul class="ticker-track" id="ticker-track">
+<li><a href="article.html?id=40300">NASA, Energy Department Advance New Era of Nuclear-Powered Exploration</a></li><li><a href="article.html?id=40301">NASA Advances LISA Mission Contributions With New Test Telescope</a></li><li><a href="article.html?id=40299">Amazon builds 1,000th satellite, is weeks away from space Internet rollout</a></li><li><a href="article.html?id=40298">The Exploration Company to Test Lunar Hopper Demonstrator in 2027</a></li><li><a href="article.html?id=40297">What will it take to build a moon base?</a></li><li><a href="article.html?id=40296">Sentinel-3C returns its first views of Earth</a></li><li><a href="article.html?id=40294">Solar Orbiter tracks origin of mysterious magnetic switchbacks</a></li><li><a href="article.html?id=40295">The director’s take: telling Galileo’s story through film</a></li><li><a href="article.html?id=40293">Keeping the sky dark and quiet</a></li><li><a href="article.html?id=40290">APOD: 2026 October 8 – The Saturn System Smörgåsbord</a></li><li aria-hidden="true"><a href="article.html?id=40300" tabindex="-1">NASA, Energy Department Advance New Era of Nuclear-Powered Exploration</a></li><li aria-hidden="true"><a href="article.html?id=40301" tabindex="-1">NASA Advances LISA Mission Contributions With New Test Telescope</a></li><li aria-hidden="true"><a href="article.html?id=40299" tabindex="-1">Amazon builds 1,000th satellite, is weeks away from space Internet rollout</a></li><li aria-hidden="true"><a href="article.html?id=40298" tabindex="-1">The Exploration Company to Test Lunar Hopper Demonstrator in 2027</a></li><li aria-hidden="true"><a href="article.html?id=40297" tabindex="-1">What will it take to build a moon base?</a></li><li aria-hidden="true"><a href="article.html?id=40296" tabindex="-1">Sentinel-3C returns its first views of Earth</a></li><li aria-hidden="true"><a href="article.html?id=40294" tabindex="-1">Solar Orbiter tracks origin of mysterious magnetic switchbacks</a></li><li aria-hidden="true"><a href="article.html?id=40295" tabindex="-1">The director’s take: telling Galileo’s story through film</a></li><li aria-hidden="true"><a href="article.html?id=40293" tabindex="-1">Keeping the sky dark and quiet</a></li><li aria-hidden="true"><a href="article.html?id=40290" tabindex="-1">APOD: 2026 October 8 – The Saturn System Smörgåsbord</a></li>
+</ul>
+        </div>
+        <button class="ticker-pause" id="ticker-pause" type="button" aria-pressed="false" hidden>Pause</button>
+    </div>
+
+    <main class="container">
+
+        <section class="top-stories" id="top-stories" aria-labelledby="top-title">
+            <h2 class="visually-hidden" id="top-title">Top stories</h2>
+            <div class="front" id="front">
+<article class="story story-lead">
+    <img class="story-image" src="images/saved/article-40300.webp" alt="" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Space</p>
+        <h2 class="headline"><a href="article.html?id=40300">NASA, Energy Department Advance New Era of Nuclear-Powered Exploration</a></h2>
+        <p class="standfirst">As the Golden Age of deep-space exploration begins, NASA and the U.S. Department of Energy are advancing the development of safe, reliable, next-generation nuclear technologies for space. Together, the agencies will supercharge civil space exploration, unlock bold scientific discovery, and solidify American leadership in space nuclear power and propulsion.&nbsp; “We are entering the ‘Nuclear NASA-era,’ […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-08T15:46:25Z" data-relative="" title="8 Oct, 21:16">22 minutes ago</time></p>
+    </div>
+</article>
+<article class="story story-second">
+    <img class="story-image" src="images/saved/article-40301.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Astronomy</p>
+        <h3 class="headline"><a href="article.html?id=40301">NASA Advances LISA Mission Contributions With New Test Telescope</a></h3>
+        <p class="standfirst">NASA has taken the next step in the process of developing a new all-glass telescope for the LISA (Laser Interferometer Space Antenna) mission, a space observatory designed to detect ripples in space-time called gravitational waves. L3Harris Technologies will design, assemble, and integrate the new telescope for NASA. Called the Engineering Test Unit, this contribution represents […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-08T15:31:24Z" data-relative="" title="8 Oct, 21:01">37 minutes ago</time></p>
+    </div>
+</article>
+<article class="story story-second">
+    <img class="story-image" src="images/saved/article-40299.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Satellites</p>
+        <h3 class="headline"><a href="article.html?id=40299">Amazon builds 1,000th satellite, is weeks away from space Internet rollout</a></h3>
+        <p class="standfirst">"If this was easy, everybody else would be doing it."</p>
+        <p class="byline">By Eric Berger · <span class="source">Arstechnica</span> · <time datetime="2026-10-08T15:28:36Z" data-relative="" title="8 Oct, 20:58">39 minutes ago</time></p>
+    </div>
+</article>
+<section class="latest" aria-labelledby="latest-title">
+    <h2 class="section-label" id="latest-title">Latest</h2>
+    <ol class="latest-list"><li>
+        <time datetime="2026-10-08T14:48:33Z" data-relative="">1 hour ago</time>
+        <a href="article.html?id=40298">The Exploration Company to Test Lunar Hopper Demonstrator in 2027</a>
+        <span class="source">European Spaceflight</span>
+    </li><li>
+        <time datetime="2026-10-08T13:57:38Z" data-relative="">2 hours ago</time>
+        <a href="article.html?id=40297">What will it take to build a moon base?</a>
+        <span class="source">SpaceNews</span>
+    </li><li>
+        <time datetime="2026-10-08T12:25:00Z" data-relative="">4 hours ago</time>
+        <a href="article.html?id=40296">Sentinel-3C returns its first views of Earth</a>
+        <span class="source">ESA</span>
+    </li><li>
+        <time datetime="2026-10-08T09:00:00Z" data-relative="">7 hours ago</time>
+        <a href="article.html?id=40294">Solar Orbiter tracks origin of mysterious magnetic switchbacks</a>
+        <span class="source">ESA</span>
+    </li><li>
+        <time datetime="2026-10-08T08:00:00Z" data-relative="">8 hours ago</time>
+        <a href="article.html?id=40295">The director’s take: telling Galileo’s story through film</a>
+        <span class="source">ESA</span>
+    </li><li>
+        <time datetime="2026-10-08T08:00:00Z" data-relative="">8 hours ago</time>
+        <a href="article.html?id=40293">Keeping the sky dark and quiet</a>
+        <span class="source">ESA</span>
+    </li></ol>
+</section>
+<section class="next-launch" aria-labelledby="next-launch-title">
+    <h2 class="section-label" id="next-launch-title">Next launch</h2>
+    <img class="launch-image" src="images/saved/launch-1.webp" alt="" decoding="async" data-fallback="">
+    <p class="countdown" role="timer" data-countdown="2026-10-09T19:25:00Z">T− 1d 03:16:57</p>
+    <h3 class="launch-mission">Unknown Payload</h3>
+    <p class="launch-rocket">Long March 12 · China Aerospace Science and Technology Corporation</p>
+    <p class="launch-time"><time datetime="2026-10-09T19:25:00Z">Sat 10 Oct, 00:55 GMT+5:30</time></p>
+    <p class="status status-go">Go for Launch</p>
+    <a class="more-link" href="#launches">Full launch schedule</a>
+</section>
+</div>
+        </section>
+
+        <section class="briefing" id="briefing" aria-labelledby="briefing-title">
+            <div class="section-head">
+                <h2 id="briefing-title">The briefing</h2>
+                <p>Six more stories, in brief.</p>
+            </div>
+            <div class="briefing-columns" id="briefing-columns">
+<article class="brief">
+    <p class="kicker">Space</p>
+    <h3 class="headline"><a href="article.html?id=40290">APOD: 2026 October 8 – The Saturn System Smörgåsbord</a></h3>
+    <p>APOD Science APOD APOD: 2026 October 8 – The… Today’s APOD Archive Submissions Index Search Calendar RSS Education About Discuss &nbsp; APOD Astronomy Picture of the Day Discover the cosmos! Each day a different image or photograph of our fascinating universe is featured, along with a brief explanation written by a professional astronomer. The Saturn […]</p>
+    <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-08T04:05:00Z" data-relative="" title="8 Oct, 09:35">12 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Space</p>
+    <h3 class="headline"><a href="article.html?id=40289">Fighting Drought in Texas&nbsp;Cotton Country</a></h3>
+    <p>Drought and an ailing aquifer were major topics of conversation when NASA scientists visited with farmers in the Texas High Plains.</p>
+    <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-08T04:01:00Z" data-relative="" title="8 Oct, 09:31">12 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Space station</p>
+    <h3 class="headline"><a href="article.html?id=40287">NASA Sets Coverage for SpaceX 35th Station Resupply Launch, Arrival</a></h3>
+    <p>NASA and SpaceX are targeting 6:33 a.m. EDT, Tuesday, Oct. 13, for the next launch to deliver science investigations, supplies, and equipment, including the final set of International Space Station Roll-Out Solar Arrays, to the space station. This is the 35th SpaceX commercial resupply services mission to the orbital complex for NASA. NASA also will […]</p>
+    <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-07T21:16:42Z" data-relative="" title="8 Oct, 02:46">19 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Space station</p>
+    <h3 class="headline"><a href="article.html?id=40285">NASA’s SpaceX 35th Commercial Resupply Mission Overview</a></h3>
+    <p>NASA and SpaceX are targeting&nbsp;no earlier than Tuesday, Oct. 13&nbsp;to launch scientific investigations, supplies, and equipment to the International Space Station.</p>
+    <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-07T20:17:16Z" data-relative="" title="8 Oct, 01:47">20 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Space</p>
+    <h3 class="headline"><a href="article.html?id=40286">NASA’s PRIMA Spacecraft (Artist’s Concept)</a></h3>
+    <p>Description This artist’s concept depicts the proposed design for NASA’s PRobe far-Infrared Mission for Astrophysics (PRIMA), which was&nbsp;selected by the agency&nbsp;in September 2026. The PRIMA observatory is the first in a&nbsp;new class&nbsp;of NASA astrophysics missions, called Probe Explorers, within the agency’s longstanding Explorers Program. By observing far-infrared light, PRIMA will enable scientists to study cosmic […]</p>
+    <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-07T20:15:49Z" data-relative="" title="8 Oct, 01:45">20 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Mars</p>
+    <h3 class="headline"><a href="article.html?id=40283">NASA’s Curiosity Looks Back After Reaching Elevation Milestone</a></h3>
+    <p>Description NASA’s Curiosity Mars rover captured this view looking back at the floor of Gale Crater, with the crater’s rim visible in the distance, on Sept. 5, 2026, the 5,006th Martian day, or sol, of the mission. Just nine days prior, on Aug. 26 (Sol 4,996), Curiosity set a mission milestone by reaching 1 kilometer […]</p>
+    <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-07T17:00:47Z" data-relative="" title="7 Oct, 22:30">23 hours ago</time></p>
+</article>
+</div>
+        </section>
+
+        <section class="launches" id="launches" aria-labelledby="launches-title">
+            <div class="section-head">
+                <h2 id="launches-title">Launch schedule</h2>
+                <p>The next rocket launches around the world, in your time zone.</p>
+            </div>
+            <ol class="launch-grid" id="launch-list">
+<li>
+    <article class="launch-card">
+        <img class="launch-image" src="images/saved/launch-1.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="launch-body">
+            <p class="status status-go">Go for Launch</p>
+            <h3 class="launch-mission">Unknown Payload</h3>
+            <p class="launch-rocket">Long March 12 · China Aerospace Science and Technology Corporation</p>
+            <p class="launch-time"><time datetime="2026-10-09T19:25:00Z">Sat 10 Oct, 00:55 GMT+5:30</time> <span class="countdown-small" data-countdown="2026-10-09T19:25:00Z">T− 1d 03:16:57</span></p>
+            <p class="launch-pad">Commercial LC-2, Wenchang Space Launch Site, People's Republic of China</p>
+            <p class="launch-description">Details TBD.</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="launch-card">
+        <img class="launch-image" src="images/saved/launch-2.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="launch-body">
+            <p class="status status-go">Go for Launch</p>
+            <h3 class="launch-mission">SDA Tranche 1 Transport Layer A</h3>
+            <p class="launch-rocket">Falcon 9 Block 5 · SpaceX</p>
+            <p class="launch-time"><time datetime="2026-10-10T07:29:00Z">Sat 10 Oct, 12:59 GMT+5:30</time> <span class="countdown-small" data-countdown="2026-10-10T07:29:00Z">T− 1d 15:20:57</span></p>
+            <p class="launch-pad">Space Launch Complex 4E, Vandenberg SFB, CA, USA</p>
+            <p class="launch-description">Tranche 1 Transport Layer A is one of six missions by the United States Space Force Space Development Agency (SDA) for the Proliferated Warfighter Space Architecture (PWSA) Tranche 1 Transport Layer constellation, which will provide assured, resilient, low-latency military data and connectivity worldwide to the full range of warfighter platforms from Low Earth Orbit satellites.
+The constellation will be interconnected with Optical Inter-Satellite Links (OISLs) which have significantly increased performance over existing radio frequency crosslinks. It is expected to operate over Ka band, have stereo coverage and be dynamically networked for simpler hand-offs, greater bandwidth and fault tolerance.
+This launch carries 21 satellites manufactured by Northrop Grumman.</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="launch-card">
+        <img class="launch-image" src="images/saved/launch-3.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="launch-body">
+            <p class="status status-go">Go for Launch</p>
+            <h3 class="launch-mission">Starlink Group 15-25</h3>
+            <p class="launch-rocket">Falcon 9 Block 5 · SpaceX</p>
+            <p class="launch-time"><time datetime="2026-10-12T23:00:00Z">Tue 13 Oct, 04:30 GMT+5:30</time> <span class="countdown-small" data-countdown="2026-10-12T23:00:00Z">T− 4d 06:51:57</span></p>
+            <p class="launch-pad">Space Launch Complex 4E, Vandenberg SFB, CA, USA</p>
+            <p class="launch-description">A batch of 27 satellites for the Starlink mega-constellation - SpaceX's project for space-based Internet communication system.</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="launch-card">
+        <img class="launch-image" src="images/saved/launch-4.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="launch-body">
+            <p class="status status-go">Go for Launch</p>
+            <h3 class="launch-mission">Dragon CRS-2 SpX-35</h3>
+            <p class="launch-rocket">Falcon 9 Block 5 · SpaceX</p>
+            <p class="launch-time"><time datetime="2026-10-13T10:33:44Z">Tue 13 Oct, 16:03 GMT+5:30</time> <span class="countdown-small" data-countdown="2026-10-13T10:33:44Z">T− 4d 18:25:41</span></p>
+            <p class="launch-pad">Space Launch Complex 40, Cape Canaveral SFS, FL, USA</p>
+            <p class="launch-description">35th commercial resupply services mission to the International Space Station operated by SpaceX. The flight will be conducted under the second Commercial Resupply Services contract with NASA.
+Cargo Dragon 2 brings supplies and payloads, including critical materials to directly support science and research investigations that occur onboard the orbiting laboratory.</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="launch-card">
+        <img class="launch-image" src="images/saved/launch-5.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="launch-body">
+            <p class="status status-go">Go for Launch</p>
+            <h3 class="launch-mission">USSF-481</h3>
+            <p class="launch-rocket">Falcon 9 Block 5 · SpaceX</p>
+            <p class="launch-time"><time datetime="2026-10-15T23:44:00Z">Fri 16 Oct, 05:14 GMT+5:30</time> <span class="countdown-small" data-countdown="2026-10-15T23:44:00Z">T− 7d 07:35:57</span></p>
+            <p class="launch-pad">Space Launch Complex 4E, Vandenberg SFB, CA, USA</p>
+            <p class="launch-description">A classified mission for the United States Space Force. It is possibly a batch of classified LEO satellites based on SpaceX’s Starshield satellite bus, based on locations of ascent rocket stage drop zones being fits with previous SDA Transport Layer launches.</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="launch-card">
+        <img class="launch-image" src="images/saved/launch-6.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="launch-body">
+            <p class="status status-go">Go for Launch</p>
+            <h3 class="launch-mission">Martian Moon eXplorer (MMX)</h3>
+            <p class="launch-rocket">H3-24 · Mitsubishi Heavy Industries</p>
+            <p class="launch-time"><time datetime="2026-10-19T19:41:03Z">Tue 20 Oct, 01:11 GMT+5:30</time> <span class="countdown-small" data-countdown="2026-10-19T19:41:03Z">T− 11d 03:33:00</span></p>
+            <p class="launch-pad">Yoshinobu Launch Complex LP-2, Tanegashima Space Center, Japan</p>
+            <p class="launch-description">MMX is a Japanese scientific mission to land on Phobos, one of the two moons of Mars, to collect samples before bringing them back to Earth.
+The mission includes a small French/German rover to explore the surface of Phobos.</p>
+        </div>
+    </article>
+</li>
+</ol>
+        </section>
+
+        <section class="iss" id="iss" aria-labelledby="iss-title">
+            <div class="section-head">
+                <h2 id="iss-title">Where is the ISS right now?</h2>
+                <p id="iss-status">Position when this page was saved.</p>
+            </div>
+            <div class="iss-layout">
+                <figure class="iss-figure">
+                    <div class="iss-map">
+                        <img src="images/world-map.webp" alt="" width="1600" height="800">
+                        <svg viewBox="0 0 360 180" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path id="iss-trail" d="M238.39 118.55 L255.18 131.13 L278.75 139.72 L307.96 141.46 L334.61 135.53 L354.08 124.38 M8.21 110.57 L19.69 95.61 L30.53 80.37 L42.50 65.60"/></svg>
+                        <span class="iss-dot" id="iss-dot" style="left: 11.8066%; top: 36.4471%;" aria-hidden="true"></span>
+                    </div>
+                    <figcaption id="iss-caption">The International Space Station is above 24.40° N, 137.50° W.</figcaption>
+                </figure>
+                <dl class="iss-stats">
+                    <div><dt>Latitude</dt><dd id="iss-lat">24.40° N</dd></div>
+                    <div><dt>Longitude</dt><dd id="iss-lon">137.50° W</dd></div>
+                    <div><dt>Altitude</dt><dd id="iss-alt">425 km</dd></div>
+                    <div><dt>Speed</dt><dd id="iss-speed">27,567 km/h</dd></div>
+                    <div><dt>Light</dt><dd id="iss-light">In sunlight</dd></div>
+                    <div><dt>Updated</dt><dd><time id="iss-updated" datetime="2026-10-08T15:58:31.000Z" data-relative>when saved</time></dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <section class="topic" id="moon" aria-labelledby="moon-title">
+            <div class="section-head">
+                <h2 id="moon-title">Moon</h2>
+                <p>Artemis, lunar landers and the race to build a Moon base.</p>
+            </div>
+            <div class="topic-grid topic-feature" id="moon-grid">
+<article class="story story-feature">
+    <img class="story-image" src="images/saved/article-40282.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Moon</p>
+        <h3 class="headline"><a href="article.html?id=40282">Artemis II Crew Moon Photo Annotations</a></h3>
+        <p class="standfirst">A visualization of a dark Moon eclipsing the Sun is marked with handwritten notes in this April 6, 2026, screenshot from an Artemis II crew member’s tablet. NASA astronauts Reid Wiseman (in blue) and Victor “Ike” Glover (in green) and CSA (Canadian Space Agency) Jeremy Hansen (in red) observed impact flashes and their locations, which […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-07T15:44:59Z" data-relative="" title="7 Oct, 21:14">yesterday</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40281.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Moon</p>
+        <h3 class="headline"><a href="article.html?id=40281">ESA at IAC 2026 – Day 3</a></h3>
+        <p class="standfirst">The future of European exploration and the decisions ahead took centre stage during ESA’s third day at IAC 2026. ESA Director General Josef Aschbacher joined representatives of ESA Member States to discuss Europe's ambitions in low Earth orbit, around the Moon and beyond. The day also saw ESA Director of Space Transportation&nbsp;Géraldine Naja receive the 2026 WIA-Europe Outstanding Achievement Award in recognition of her contribution to the European space sector.</p>
+        <p class="byline"><span class="source">ESA</span> · <time datetime="2026-10-07T14:54:00Z" data-relative="" title="7 Oct, 20:24">yesterday</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40235.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Moon</p>
+        <h3 class="headline"><a href="article.html?id=40235">Moon-Like Madagascar</a></h3>
+        <p class="standfirst">A bright lens of anorthosite, a rock type prevalent on the lunar surface, is cradled within sheared rocks in the country’s south.</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-05T04:01:00Z" data-relative="" title="5 Oct, 09:31">4 days ago</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40230.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Moon</p>
+        <h3 class="headline"><a href="article.html?id=40230">Mapping the Gaps in NASA’s Return to the Moon, featuring Richard Spolzino</a></h3>
+        <p class="standfirst">“I want to be able to look at a rocket launch and say, ‘I touched a piece of this.’” That’s how Richard Spolzino describes the thing he’s chasing. Not a title, not a specific mission, not even NASA itself, just the ability to point at something real and know his work made it possible. At […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-04T19:10:59Z" data-relative="" title="5 Oct, 00:40">4 days ago</time></p>
+    </div>
+</article>
+</div>
+        </section>
+
+        <section class="topic" id="mars" aria-labelledby="mars-title">
+            <div class="section-head">
+                <h2 id="mars-title">Mars</h2>
+                <p>Rovers, orbiters and the planet next door.</p>
+            </div>
+            <div class="topic-grid topic-cards" id="mars-grid">
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40284.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Mars</p>
+        <h3 class="headline"><a href="article.html?id=40284">NASA’s Curiosity Captures Dawn Breaking on Wind-Carved Cliffs</a></h3>
+        <p class="standfirst">Description NASA’s Curiosity Mars rover captured this panorama of sunrise illuminating distant, wind-carved features called yardangs on Aug. 11, 2026, the 4,982nd Martian day, or sol, of the mission. Scientists are eager to learn more about how the yardang layer formed. Figure A is a crop zooming in on the distant yardangs. Since 2014, Curiosity […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-07T16:49:50Z" data-relative="" title="7 Oct, 22:19">23 hours ago</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40280.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Mars</p>
+        <h3 class="headline"><a href="article.html?id=40280">Mars’s oddest cloud may be even odder than we thought</a></h3>
+        <p class="standfirst">Scientists using the European Space Agency's Mars Express,&nbsp;in combination with a state-of-the-art meteorological model of the Red Planet, have found that there may be some very exotic physics behind Mars’s most curious cloud.</p>
+        <p class="byline"><span class="source">ESA</span> · <time datetime="2026-10-07T15:00:00Z" data-relative="" title="7 Oct, 20:30">yesterday</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40260.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Mars</p>
+        <h3 class="headline"><a href="article.html?id=40260">NASA’s Curiosity Rover Catches Stunning Martian Dawn</a></h3>
+        <p class="standfirst">A newly released panorama captured by NASA’s Curiosity rover offers the most detailed view yet of distant, wind-carved Martian cliffs, highlighting features the mission’s scientists have long been waiting to see up close. The scene was snapped at 8:30 a.m. local Mars time, showing striking blue hues in the foreground as bright morning light illuminates […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-10-06T15:30:07Z" data-relative="" title="6 Oct, 21:00">2 days ago</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40254.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Mars</p>
+        <h3 class="headline"><a href="article.html?id=40254">European rover trains for Mars in the desert</a></h3>
+        <p class="standfirst">For eight days, a Mars rover prototype travelled 220 metres across a barren landscape, following commands from a science team some 1200 kilometres away.</p>
+        <p class="byline"><span class="source">ESA</span> · <time datetime="2026-10-06T08:00:00Z" data-relative="" title="6 Oct, 13:30">2 days ago</time></p>
+    </div>
+</article>
+</div>
+        </section>
+
+        <section class="topic" id="earth" aria-labelledby="earth-title">
+            <div class="section-head">
+                <h2 id="earth-title">Earth from orbit</h2>
+                <p>Satellites watching our climate, oceans and weather.</p>
+            </div>
+            <div class="topic-grid topic-list" id="earth-grid">
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-40184.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Earth</p>
+        <h3 class="headline"><a href="article.html?id=40184">EarthCARE’s view of volcanic plume boosts air safety</a></h3>
+        <p class="standfirst">When Anak Krakatau erupted a few weeks ago, the European Space Agency’s EarthCARE satellite, orbiting above, captured vertical profiles of different constituents within the volcanic plume. Designed primarily to advance our understanding of how clouds and aerosols influence Earth’s climate, here EarthCARE also provided valuable information to support safe air travel.</p>
+        <p class="byline"><span class="source">ESA</span> · <time datetime="2026-10-01T07:30:00Z" data-relative="" title="1 Oct, 13:00">7 days ago</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-39941.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Earth</p>
+        <h3 class="headline"><a href="article.html?id=39941">Avio launches pair of climate monitoring European spacecraft to study plants, oceans and atmospheric changes</a></h3>
+        <p class="standfirst">The mission, with the shorthand VV30, is the second launch of a Vega-C rocket managed solely by Avio without Arianespace. Liftoff from Ensemble de Lancement Vega at Europe’s Spaceport in French Guiana happened at 10:21 p.m. local time (9:21 p.m. EDT / 0121 UTC / 3:21 a.m. CEST).</p>
+        <p class="byline">By Will Robinson-Smith · <span class="source">Spaceflight Now</span> · <time datetime="2026-09-15T03:51:39Z" data-relative="" title="15 Sept, 09:21">24 days ago</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-39828.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Earth</p>
+        <h3 class="headline"><a href="article.html?id=39828">How Sentinel-3 tracks climate change</a></h3>
+        <p class="standfirst">Copernicus Sentinel-3 is one of the most diverse missions for measuring and monitoring Earth’s climate systems. It captures a breadth of data about the environment and has contributed substantially to what we know about climate change over the past decade. The launch of the mission’s third satellite heralds the continuity of this vital source of knowledge.</p>
+        <p class="byline"><span class="source">ESA</span> · <time datetime="2026-09-04T08:00:00Z" data-relative="" title="4 Sept, 13:30">34 days ago</time></p>
+    </div>
+</article>
+<article class="story story-card">
+    <img class="story-image" src="images/saved/article-39656.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">Earth</p>
+        <h3 class="headline"><a href="article.html?id=39656">Starstruck: NASA Research Shows How Sun’s Ancient History Shaped Earth</a></h3>
+        <p class="standfirst">At the center of our solar system, the Sun influences every planet&nbsp;that&nbsp;orbits&nbsp;it.&nbsp;In two recent NASA-funded studies, scientists uncovered&nbsp;how&nbsp;ancient events in the Sun’s history may have helped create Earth’s unique climate and driven previously unexplained climatic shifts.&nbsp;&nbsp; In new research, scientists at NASA’s&nbsp;SHIELD&nbsp;(Solar Wind with Hydrogen Ion charge Exchange and Large-Scale Dynamics) center — one of […]</p>
+        <p class="byline"><span class="source">NASA</span> · <time datetime="2026-08-24T17:53:57Z" data-relative="" title="24 Aug, 23:23">45 days ago</time></p>
+    </div>
+</article>
+</div>
+        </section>
+
+        <section class="gallery" id="gallery" aria-labelledby="gallery-title">
+            <div class="section-head">
+                <h2 id="gallery-title">From the NASA archive</h2>
+                <p>Eight favourite images from the NASA Image and Video Library.</p>
+            </div>
+            <ul class="gallery-grid">
+                <li class="big">
+                    <figure>
+                        <img src="images/gallery/carina-cliffs.webp" alt="Glowing orange and blue clouds of gas and dust in the Carina Nebula, dotted with bright stars" width="1400" height="810" loading="lazy">
+                        <figcaption><strong>The Cosmic Cliffs of the Carina Nebula</strong>Webb telescope, 2022. Image: <a href="https://images.nasa.gov/details/carina_nebula">NASA, ESA, CSA, STScI</a></figcaption>
+                    </figure>
+                </li>
+                <li class="tall">
+                    <figure>
+                        <img src="images/gallery/juno-at-jupiter.webp" alt="An illustration of the Juno spacecraft above the swirling blue clouds of Jupiter" width="1081" height="1400" loading="lazy">
+                        <figcaption><strong>Juno over Jupiter&rsquo;s south pole (illustration)</strong>Artist&rsquo;s illustration, 2017. Image: <a href="https://images.nasa.gov/details/PIA21771">NASA/JPL-Caltech</a></figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="images/gallery/saturn-rings.webp" alt="Saturn and its wide golden rings against black space" width="1024" height="1024" loading="lazy">
+                        <figcaption><strong>Saturn and its rings</strong>Cassini, 2004. Image: <a href="https://images.nasa.gov/details/PIA05983">NASA/JPL</a></figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="images/gallery/artemis-launch.webp" alt="The Artemis I rocket lifting off at night in a burst of bright orange flame" width="1400" height="1400" loading="lazy">
+                        <figcaption><strong>Artemis I lifts off at night</strong>Kennedy Space Center, 2022. Image: <a href="https://images.nasa.gov/details/NHQ202211160030">NASA/Joel Kowsky</a></figcaption>
+                    </figure>
+                </li>
+                <li class="duo">
+                    <figure>
+                        <img src="images/gallery/perseverance-selfie.webp" alt="The Perseverance rover on a rocky orange Martian plain, with a faint dust devil in the distance" width="1400" height="834" loading="lazy">
+                        <figcaption><strong>A dust devil photobombs Perseverance</strong>Mars, 2025. Image: <a href="https://images.nasa.gov/details/PIA26574">NASA/JPL-Caltech/MSSS</a></figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="images/gallery/aurora-from-iss.webp" alt="Green and red aurora glowing above the curve of the Earth at night, seen from the space station" width="1400" height="931" loading="lazy">
+                        <figcaption><strong>Aurora seen from the ISS</strong>Expedition 30, 2012. Image: <a href="https://images.nasa.gov/details/iss030e119777">NASA</a></figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="images/gallery/blue-marble.webp" alt="The whole Earth from space, showing Africa, Europe and swirling clouds" width="1400" height="788" loading="lazy">
+                        <figcaption><strong>Blue Marble, Eastern Hemisphere</strong>2014. Image: <a href="https://images.nasa.gov/details/GSFC_20171208_Archive_e001016">NASA</a></figcaption>
+                    </figure>
+                </li>
+                <li class="wide">
+                    <figure>
+                        <img src="images/gallery/earth-over-moon.webp" alt="The Earth rising above the grey cratered horizon of the Moon" width="1280" height="720" loading="lazy">
+                        <figcaption><strong>Earth rising over the Moon (visualisation)</strong>Recreation of the Apollo 8 Earthrise. Image: <a href="https://images.nasa.gov/details/GSFC_20171208_Archive_e001282">NASA Goddard</a></figcaption>
+                    </figure>
+                </li>
+            </ul>
+        </section>
+
+        <section class="newsletter" aria-labelledby="newsletter-title">
+            <h2 id="newsletter-title">Get the morning briefing</h2>
+            <p>The day's top space stories in your inbox at 7:00.</p>
+            <form class="newsletter-form" id="newsletter-form" novalidate>
+                <label for="newsletter-email">Email address</label>
+                <div class="newsletter-row">
+                    <input id="newsletter-email" type="email" autocomplete="email" required aria-describedby="newsletter-message">
+                    <button class="btn" type="submit">Subscribe</button>
+                </div>
+                <p class="newsletter-message" id="newsletter-message" role="status"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="logo">Orbit <span>Daily</span></p>
+                <p>A demo news portal. Stories are summaries; select one to read the full article on the publisher's site.</p>
+            </div>
+            <div>
+                <h2>Data sources</h2>
+                <ul>
+                    <li><a href="https://spaceflightnewsapi.net/">Spaceflight News API</a>: stories and images</li>
+                    <li><a href="https://thespacedevs.com/llapi">Launch Library 2</a>: launch schedule</li>
+                    <li><a href="https://wheretheiss.at/">Where the ISS at?</a>: live ISS position</li>
+                    <li><a href="https://images.nasa.gov/">NASA Image and Video Library</a>: gallery</li>
+                    <li><a href="https://visibleearth.nasa.gov/">NASA Visible Earth</a>: world map</li>
+                </ul>
+            </div>
+            <div>
+                <h2>About the images</h2>
+                <p>Story and launch images belong to their publishers and are shown with a link to the source. NASA images are public domain.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a class="back-to-top" id="back-to-top" href="#top">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span class="visually-hidden">Back to top</span>
+    </a>
+
+</body>
+
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<!-- Restaurant Website - Saffron & Sage, a multi-cuisine restaurant -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Saffron & Sage serves Italian, Indian, Asian and Mediterranean dishes from one open kitchen. View the menu and book a table.">
+    <title>Saffron &amp; Sage | Multi-Cuisine Restaurant</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- header and navigation -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Saffron and Sage home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path class="stem" d="M16 26V12"/><path class="leaves" d="M16 16c-5 0-7-3-7-7 4 0 7 2 7 7zM16 13c5 0 7-3 7-7-4 0-7 2-7 7zM16 21c-4 0-6-2-6-5 3 0 6 2 6 5zM16 19c4 0 6-2 6-5-3 0-6 2-6 5z"/></svg>
+                <span>Saffron &amp; Sage</span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu">
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span>Menu</span>
+            </button>
+
+            <nav class="site-nav" aria-label="Primary">
+                <ul class="nav-menu" id="primary-menu">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Our menu</a></li>
+                    <li><a href="#chef">Chef</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#reservations">Visit us</a></li>
+                    <li><a class="btn btn-gold btn-small" href="#reservations">Book a table</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- hero -->
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <img class="hero-image" src="images/hero.webp" alt="" width="1920" height="1080" fetchpriority="high">
+            <div class="container hero-content">
+                <p class="eyebrow">Italian &middot; Indian &middot; Asian &middot; Mediterranean</p>
+                <h1 id="hero-title">Four kitchens. One table.</h1>
+                <p class="hero-lead">Fresh dishes from four great food traditions, cooked to order in one open kitchen and made for sharing.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-gold" href="#reservations">Book a table</a>
+                    <a class="btn btn-outline" href="#menu">View the menu</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- about -->
+        <section class="section" id="about" aria-labelledby="about-title">
+            <div class="container about-inner">
+                <figure class="about-image">
+                    <img src="images/about-interior.webp" alt="Warmly lit dining room with candles on wooden tables" width="1000" height="666" loading="lazy">
+                </figure>
+                <div class="about-text">
+                    <p class="eyebrow">Our story</p>
+                    <h2 id="about-title">A shared table for every taste</h2>
+                    <p>Saffron &amp; Sage began with a simple idea: friends should not have to agree on one cuisine to eat together. Our cooks bring recipes from Italy, India, Japan and the eastern Mediterranean into one kitchen, so a pizza lover, a curry fan and a ramen regular can all order what they love.</p>
+                    <ul class="highlights">
+                        <li>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-8z"/></svg>
+                            <span><strong>Wood-fired oven</strong> for pizza and flatbreads</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19l7-7"/></svg>
+                            <span><strong>Fresh, local produce</strong> delivered every morning</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+                            <span><strong>Vegetarian, vegan and gluten-free</strong> choices in every course</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- menu -->
+        <section class="section section-alt" id="menu" aria-labelledby="menu-title">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">Our menu</p>
+                    <h2 id="menu-title">Something from every kitchen</h2>
+                    <p>Every course has a dish from each of our four cuisines. Prices include tax.</p>
+                </header>
+
+                <div class="menu-tools">
+                    <nav class="course-links" aria-label="Menu courses">
+                        <ul>
+                            <li><a href="#starters">Starters</a></li>
+                            <li><a href="#mains">Mains</a></li>
+                            <li><a href="#desserts">Desserts</a></li>
+                            <li><a href="#drinks">Drinks</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="cuisine-filter" role="group" aria-label="Show dishes from">
+                        <button type="button" class="chip" data-cuisine="all" aria-pressed="true">All cuisines</button>
+                        <button type="button" class="chip" data-cuisine="italian" aria-pressed="false">Italian</button>
+                        <button type="button" class="chip" data-cuisine="indian" aria-pressed="false">Indian</button>
+                        <button type="button" class="chip" data-cuisine="asian" aria-pressed="false">Asian</button>
+                        <button type="button" class="chip" data-cuisine="mediterranean" aria-pressed="false">Mediterranean</button>
+                    </div>
+                </div>
+
+                <dl class="legend">
+                    <div><dt><abbr title="Vegetarian">V</abbr></dt><dd>Vegetarian</dd></div>
+                    <div><dt><abbr title="Vegan">VG</abbr></dt><dd>Vegan</dd></div>
+                    <div><dt><abbr title="Gluten-free">GF</abbr></dt><dd>Gluten-free</dd></div>
+                </dl>
+
+                <p class="visually-hidden" id="menu-status" role="status"></p>
+
+                <div class="menu-grid">
+
+                    <!-- starters -->
+                    <section class="course" id="starters" aria-labelledby="starters-title">
+                        <h3 id="starters-title">Starters</h3>
+                        <ul class="dish-list">
+                            <li class="dish" data-cuisine="italian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Burrata &amp; Heirloom Tomatoes</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="14">$14</data></p>
+                                    </div>
+                                    <p class="dish-desc">Creamy burrata, sweet tomatoes, basil oil and sea salt.</p>
+                                    <p class="dish-tags"><span class="cuisine">Italian</span> <abbr title="Vegetarian">V</abbr> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="indian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Vegetable Samosas</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="9">$9</data></p>
+                                    </div>
+                                    <p class="dish-desc">Crisp pastry filled with spiced potato and peas, with tamarind chutney.</p>
+                                    <p class="dish-tags"><span class="cuisine">Indian</span> <abbr title="Vegan">VG</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="asian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Chicken Gyoza</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="12">$12</data></p>
+                                    </div>
+                                    <p class="dish-desc">Pan-fried dumplings with ginger, spring onion and a soy dipping sauce.</p>
+                                    <p class="dish-tags"><span class="cuisine">Asian</span></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="mediterranean">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Mezze Platter</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="16">$16</data></p>
+                                    </div>
+                                    <p class="dish-desc">Hummus, baba ganoush, falafel, pickles and warm pita for sharing.</p>
+                                    <p class="dish-tags"><span class="cuisine">Mediterranean</span> <abbr title="Vegan">VG</abbr></p>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- mains -->
+                    <section class="course" id="mains" aria-labelledby="mains-title">
+                        <h3 id="mains-title">Mains</h3>
+                        <ul class="dish-list">
+                            <li class="dish" data-cuisine="italian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Wood-Fired Margherita</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="18">$18</data></p>
+                                    </div>
+                                    <p class="dish-desc">San Marzano tomato, fior di latte and fresh basil on a slow-proved base.</p>
+                                    <p class="dish-tags"><span class="cuisine">Italian</span> <abbr title="Vegetarian">V</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="indian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Butter Chicken</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="22">$22</data></p>
+                                    </div>
+                                    <p class="dish-desc">Chicken in a mild tomato and cream sauce, served with saffron rice.</p>
+                                    <p class="dish-tags"><span class="cuisine">Indian</span> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="asian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Tonkotsu Ramen</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="20">$20</data></p>
+                                    </div>
+                                    <p class="dish-desc">Rich pork broth, chashu pork, soft egg, noodles and spring onion.</p>
+                                    <p class="dish-tags"><span class="cuisine">Asian</span></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="mediterranean">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Grilled Lamb Kofta</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="24">$24</data></p>
+                                    </div>
+                                    <p class="dish-desc">Spiced lamb skewers with tabbouleh, yogurt and grilled flatbread.</p>
+                                    <p class="dish-tags"><span class="cuisine">Mediterranean</span></p>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- desserts -->
+                    <section class="course" id="desserts" aria-labelledby="desserts-title">
+                        <h3 id="desserts-title">Desserts</h3>
+                        <ul class="dish-list">
+                            <li class="dish" data-cuisine="italian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Classic Tiramisu</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="9">$9</data></p>
+                                    </div>
+                                    <p class="dish-desc">Espresso-soaked sponge layered with mascarpone and cocoa.</p>
+                                    <p class="dish-tags"><span class="cuisine">Italian</span> <abbr title="Vegetarian">V</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="indian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Mango Kulfi</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="8">$8</data></p>
+                                    </div>
+                                    <p class="dish-desc">Slow-cooked milk ice cream with mango, cardamom and pistachio.</p>
+                                    <p class="dish-tags"><span class="cuisine">Indian</span> <abbr title="Vegetarian">V</abbr> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="asian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Matcha Cheesecake</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="10">$10</data></p>
+                                    </div>
+                                    <p class="dish-desc">Light baked cheesecake with Japanese green tea and a sesame crust.</p>
+                                    <p class="dish-tags"><span class="cuisine">Asian</span> <abbr title="Vegetarian">V</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="mediterranean">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Pistachio Baklava</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="8">$8</data></p>
+                                    </div>
+                                    <p class="dish-desc">Layers of crisp filo, pistachio and honey syrup.</p>
+                                    <p class="dish-tags"><span class="cuisine">Mediterranean</span> <abbr title="Vegetarian">V</abbr></p>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- drinks -->
+                    <section class="course" id="drinks" aria-labelledby="drinks-title">
+                        <h3 id="drinks-title">Drinks</h3>
+                        <ul class="dish-list">
+                            <li class="dish" data-cuisine="italian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Espresso</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="4">$4</data></p>
+                                    </div>
+                                    <p class="dish-desc">A short, strong shot from our Italian roast.</p>
+                                    <p class="dish-tags"><span class="cuisine">Italian</span> <abbr title="Vegan">VG</abbr> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="indian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Mango Lassi</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="6">$6</data></p>
+                                    </div>
+                                    <p class="dish-desc">Chilled yogurt drink blended with ripe mango.</p>
+                                    <p class="dish-tags"><span class="cuisine">Indian</span> <abbr title="Vegetarian">V</abbr> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="asian">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Iced Matcha Latte</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="6">$6</data></p>
+                                    </div>
+                                    <p class="dish-desc">Stone-ground green tea over ice with your choice of milk.</p>
+                                    <p class="dish-tags"><span class="cuisine">Asian</span> <abbr title="Vegetarian">V</abbr> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                            <li class="dish" data-cuisine="mediterranean">
+                                <article>
+                                    <div class="dish-header">
+                                        <h4>Mint Lemonade</h4>
+                                        <span class="dish-leader" aria-hidden="true"></span>
+                                        <p class="dish-price"><data value="5">$5</data></p>
+                                    </div>
+                                    <p class="dish-desc">Freshly squeezed lemons blended with mint and crushed ice.</p>
+                                    <p class="dish-tags"><span class="cuisine">Mediterranean</span> <abbr title="Vegan">VG</abbr> <abbr title="Gluten-free">GF</abbr></p>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <p class="menu-note">Please tell your server about any allergies. Our kitchen handles nuts, gluten, dairy and sesame.</p>
+            </div>
+        </section>
+
+        <!-- chef -->
+        <section class="section" id="chef" aria-labelledby="chef-title">
+            <div class="container chef-inner">
+                <figure class="chef-image">
+                    <img src="images/chef-plating.webp" alt="The chef plating a grilled dish with tongs at the kitchen pass" width="900" height="1125" loading="lazy">
+                </figure>
+                <article class="chef-text">
+                    <p class="eyebrow">Meet the chef</p>
+                    <h2 id="chef-title">Chef Maya Fernandes</h2>
+                    <p>Maya trained in Florence, cooked in Mumbai and spent two years in a Tokyo ramen bar before opening Saffron &amp; Sage. The menu brings those kitchens together, with each dish cooked the way it is cooked at home.</p>
+                    <blockquote class="chef-quote">
+                        <p>Good food travels well. I want every guest to taste a little of somewhere new, and still feel at home.</p>
+                    </blockquote>
+                    <h3>Signature dishes</h3>
+                    <ul class="signature-list">
+                        <li>Butter Chicken with saffron rice</li>
+                        <li>Tonkotsu Ramen</li>
+                        <li>Wood-Fired Margherita</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <!-- gallery -->
+        <section class="section section-alt" id="gallery" aria-labelledby="gallery-title">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">Gallery</p>
+                    <h2 id="gallery-title">From our kitchen and dining room</h2>
+                    <p>Select a photo to see it larger.</p>
+                </header>
+
+                <ul class="gallery-grid">
+                    <li class="gallery-item wide">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-pizza-oven.webp">
+                                <img src="images/gallery-pizza-oven.webp" alt="Pizza baking in a wood-fired oven next to the flames" width="1200" height="800" loading="lazy">
+                            </a>
+                            <figcaption>Our wood-fired oven</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item tall">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-ramen.webp">
+                                <img src="images/gallery-ramen.webp" alt="Bowl of ramen with pork, soft egg and noodles on a wooden table" width="800" height="1200" loading="lazy">
+                            </a>
+                            <figcaption>Tonkotsu ramen</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item tall">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-lemonade.webp">
+                                <img src="images/gallery-lemonade.webp" alt="Mint lemonade and a red fruit drink on a wooden bar" width="800" height="1200" loading="lazy">
+                            </a>
+                            <figcaption>Fresh drinks</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-pasta.webp">
+                                <img src="images/gallery-pasta.webp" alt="Fresh green pasta with basil in a white bowl" width="1200" height="900" loading="lazy">
+                            </a>
+                            <figcaption>Fresh pasta</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-tiramisu.webp">
+                                <img src="images/gallery-tiramisu.webp" alt="Slice of tiramisu dusted with cocoa" width="1000" height="800" loading="lazy">
+                            </a>
+                            <figcaption>Classic tiramisu</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item big">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-mezze.webp">
+                                <img src="images/gallery-mezze.webp" alt="Large mezze platter with dips, falafel and flatbreads" width="1000" height="1000" loading="lazy">
+                            </a>
+                            <figcaption>Mezze for sharing</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item wide">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-butter-chicken.webp">
+                                <img src="images/gallery-butter-chicken.webp" alt="Butter chicken in a copper pan surrounded by whole spices" width="1200" height="800" loading="lazy">
+                            </a>
+                            <figcaption>Butter chicken</figcaption>
+                        </figure>
+                    </li>
+                    <li class="gallery-item wide">
+                        <figure>
+                            <a class="gallery-link" href="images/gallery-dining-room.webp">
+                                <img src="images/gallery-dining-room.webp" alt="Table set for dinner with folded napkins and wine glasses" width="1200" height="800" loading="lazy">
+                            </a>
+                            <figcaption>The dining room</figcaption>
+                        </figure>
+                    </li>
+                </ul>
+            </div>
+
+            <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+                <figure class="lightbox-figure">
+                    <img id="lightbox-image" src="images/gallery-pizza-oven.webp" alt="Pizza baking in a wood-fired oven next to the flames">
+                    <figcaption id="lightbox-caption"></figcaption>
+                </figure>
+                <button class="lightbox-btn lightbox-close" type="button" aria-label="Close photo viewer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+                <button class="lightbox-btn lightbox-prev" type="button" aria-label="Previous photo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+                </button>
+                <button class="lightbox-btn lightbox-next" type="button" aria-label="Next photo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </dialog>
+        </section>
+
+        <!-- reservations -->
+        <section class="section" id="reservations" aria-labelledby="reservations-title">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">Reservations</p>
+                    <h2 id="reservations-title">Book a table</h2>
+                    <p>Request a table online and we will confirm by email within a few hours.</p>
+                </header>
+
+                <div class="reserve-inner">
+                    <form class="reserve-form" action="#" method="post">
+                        <p class="form-note">All fields are required unless marked optional.</p>
+
+                        <fieldset>
+                            <legend>Your booking</legend>
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="date">Date</label>
+                                    <input type="date" id="date" name="date" aria-describedby="date-hint" required>
+                                    <p class="field-hint" id="date-hint">Closed on Mondays.</p>
+                                </div>
+                                <div class="form-field">
+                                    <label for="time">Time</label>
+                                    <select id="time" name="time" aria-describedby="time-hint" required>
+                                        <option value="">Choose a time</option>
+                                        <optgroup label="Lunch">
+                                            <option>12:00</option>
+                                            <option>12:30</option>
+                                            <option>13:00</option>
+                                            <option>13:30</option>
+                                            <option>14:00</option>
+                                        </optgroup>
+                                        <optgroup label="Dinner">
+                                            <option>18:00</option>
+                                            <option>18:30</option>
+                                            <option>19:00</option>
+                                            <option>19:30</option>
+                                            <option>20:00</option>
+                                            <option>20:30</option>
+                                            <option>21:00</option>
+                                        </optgroup>
+                                    </select>
+                                    <p class="field-hint" id="time-hint">No dinner on Sundays.</p>
+                                </div>
+                                <div class="form-field">
+                                    <label for="guests">Guests</label>
+                                    <select id="guests" name="guests" aria-describedby="guests-hint" required>
+                                        <option value="1">1 guest</option>
+                                        <option value="2" selected>2 guests</option>
+                                        <option value="3">3 guests</option>
+                                        <option value="4">4 guests</option>
+                                        <option value="5">5 guests</option>
+                                        <option value="6">6 guests</option>
+                                        <option value="7">7 guests</option>
+                                        <option value="8">8 guests</option>
+                                        <option value="9">9 guests</option>
+                                        <option value="10">10 guests</option>
+                                    </select>
+                                    <p class="field-hint" id="guests-hint">More than 10? Please call us.</p>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Your details</legend>
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="name">Full name</label>
+                                    <input type="text" id="name" name="name" autocomplete="name" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" autocomplete="email" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="occasion">Occasion <span class="optional">(optional)</span></label>
+                                    <select id="occasion" name="occasion">
+                                        <option value="">None</option>
+                                        <option>Birthday</option>
+                                        <option>Anniversary</option>
+                                        <option>Business meal</option>
+                                        <option>Other celebration</option>
+                                    </select>
+                                </div>
+                                <div class="form-field form-field-wide">
+                                    <label for="requests">Allergies or requests <span class="optional">(optional)</span></label>
+                                    <textarea id="requests" name="requests" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <button class="btn btn-gold" type="submit">Request booking</button>
+                        <p class="form-status" id="form-status" role="status"></p>
+                    </form>
+
+                    <div class="visit-info">
+                        <table class="hours">
+                            <caption>Opening hours</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Day</th>
+                                    <th scope="col">Lunch</th>
+                                    <th scope="col">Dinner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-day="1">
+                                    <th scope="row">Monday</th>
+                                    <td colspan="2">Closed</td>
+                                </tr>
+                                <tr data-day="2">
+                                    <th scope="row">Tuesday</th>
+                                    <td><time>12:00</time>&ndash;<time>15:00</time></td>
+                                    <td><time>18:00</time>&ndash;<time>22:00</time></td>
+                                </tr>
+                                <tr data-day="3">
+                                    <th scope="row">Wednesday</th>
+                                    <td><time>12:00</time>&ndash;<time>15:00</time></td>
+                                    <td><time>18:00</time>&ndash;<time>22:00</time></td>
+                                </tr>
+                                <tr data-day="4">
+                                    <th scope="row">Thursday</th>
+                                    <td><time>12:00</time>&ndash;<time>15:00</time></td>
+                                    <td><time>18:00</time>&ndash;<time>22:00</time></td>
+                                </tr>
+                                <tr data-day="5">
+                                    <th scope="row">Friday</th>
+                                    <td><time>12:00</time>&ndash;<time>15:00</time></td>
+                                    <td><time>18:00</time>&ndash;<time>23:00</time></td>
+                                </tr>
+                                <tr data-day="6">
+                                    <th scope="row">Saturday</th>
+                                    <td><time>12:00</time>&ndash;<time>15:00</time></td>
+                                    <td><time>18:00</time>&ndash;<time>23:00</time></td>
+                                </tr>
+                                <tr data-day="0">
+                                    <th scope="row">Sunday</th>
+                                    <td><time>12:00</time>&ndash;<time>16:00</time></td>
+                                    <td>Closed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="contact-block">
+                            <h3>Find us</h3>
+                            <address>
+                                27 Harbour Street<br>
+                                Springfield<br>
+                                <a href="tel:+15550144">+1 555 0144</a><br>
+                                <a href="mailto:book@saffronandsage.example.com">book@saffronandsage.example.com</a>
+                            </address>
+                            <p>Street parking nearby. Step-free entrance and accessible toilet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <p class="footer-logo">Saffron &amp; Sage</p>
+                <p>Four kitchens. One table.</p>
+            </div>
+            <nav aria-label="Footer">
+                <ul class="footer-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Our menu</a></li>
+                    <li><a href="#chef">Chef</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#reservations">Book a table</a></li>
+                </ul>
+            </nav>
+            <p class="footer-hours">Tuesday to Sunday from 12:00<br>Closed on Mondays</p>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Saffron &amp; Sage. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

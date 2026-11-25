@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Green Corner: healthy houseplants and succulents delivered next day, with a 30-day happy plant guarantee.">
+    <title>Green Corner | Houseplants Delivered</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/basket.js" defer></script>
+    <script src="js/home.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#plants">Skip to the plants</a>
+
+    <p class="demo-note">Demo shop: Green Corner is fictional, so nothing can be bought. Reviews are written examples.</p>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="index.html" aria-label="Green Corner home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8"/><path class="leaf" d="M9 23c0-8 5-13 14-14 0 9-5 14-13 14"/><path class="vein" d="M9 23l8-8"/></svg>
+                <span>Green Corner</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <ul>
+                    <li><a href="#plants">Shop all</a></li>
+                    <li><a href="#needs">Shop by need</a></li>
+                    <li><a href="#why">Why Green Corner</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-link basket-btn" type="button" id="basket-btn" aria-haspopup="dialog" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+                    <span class="visually-hidden" id="basket-label">Basket, empty</span>
+                    <span class="count" id="basket-count" hidden>0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <section class="hero" aria-labelledby="hero-title">
+            <img class="hero-image" src="images/hero-living-room.webp" alt="" width="1920" height="1080" fetchpriority="high">
+            <div class="container hero-inner">
+                <p class="hero-eyebrow">Order before 2 pm for next-day delivery</p>
+                <h1 id="hero-title">Plants that make a house a home</h1>
+                <p class="hero-lead">Healthy, hand-picked houseplants and succulents, grown in the UK and delivered in plastic-free packaging.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#plants">Shop all plants</a>
+                    <a class="btn btn-light" href="?filter=pet-safe#plants" data-filter-link="pet-safe">Pet-safe plants</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="trust" aria-label="Why shop with us">
+            <ul class="container trust-list">
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+                    <span><strong>Next-day delivery</strong> on weekday orders before 2 pm</span>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span><strong>30-day guarantee:</strong> healthy plants or we replace them</span>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 20V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                    <span><strong>Free delivery</strong> on orders over &pound;40</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="needs container" id="needs" aria-labelledby="needs-title">
+            <div class="section-head">
+                <h2 id="needs-title">Shop by need</h2>
+                <p>Not sure where to start? Pick the plants that suit your home.</p>
+            </div>
+            <ul class="need-grid">
+                <li>
+                    <a class="need-tile" href="?filter=pet-safe#plants" data-filter-link="pet-safe">
+                        <img src="images/plants/calathea-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <span class="need-text"><strong>Pet safe</strong>Non-toxic to cats and dogs</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="need-tile" href="?filter=low-light#plants" data-filter-link="low-light">
+                        <img src="images/plants/snake-plant-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <span class="need-text"><strong>Low light</strong>Happy in darker rooms</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="need-tile" href="?filter=succulents#plants" data-filter-link="succulents">
+                        <img src="images/plants/echeveria-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <span class="need-text"><strong>Succulents</strong>Water every few weeks</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="need-tile" href="?filter=accessories#plants" data-filter-link="accessories">
+                        <img src="images/plants/ceramic-pot-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <span class="need-text"><strong>Pots &amp; care</strong>Pots, hangers, cans and feed</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="shop container" id="plants" aria-labelledby="plants-title">
+            <div class="section-head">
+                <h2 id="plants-title">Shop the collection</h2>
+                <p>Eight plants in three sizes each, plus pots and care essentials. Choose a product to see its photos, options and details.</p>
+            </div>
+
+            <form class="shop-filters" id="shop-filters" aria-label="Filter plants">
+                <fieldset class="chips">
+                    <legend class="visually-hidden">Show</legend>
+                    <label class="chip"><input type="radio" name="filter" value="all" checked> Everything</label>
+                    <label class="chip"><input type="radio" name="filter" value="indoor"> Indoor plants</label>
+                    <label class="chip"><input type="radio" name="filter" value="succulents"> Succulents</label>
+                    <label class="chip"><input type="radio" name="filter" value="pet-safe"> Pet safe</label>
+                    <label class="chip"><input type="radio" name="filter" value="low-light"> Low light</label>
+                    <label class="chip"><input type="radio" name="filter" value="accessories"> Pots &amp; care</label>
+                </fieldset>
+                <div class="sort">
+                    <label for="sort">Sort by</label>
+                    <select id="sort">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: low to high</option>
+                        <option value="price-high">Price: high to low</option>
+                        <option value="rating">Best rated</option>
+                    </select>
+                </div>
+            </form>
+
+            <p class="result-count" id="result-count" aria-live="polite">Showing all 12 products</p>
+
+            <ul class="plant-grid" id="plant-grid">
+                <li data-category="indoor" data-pets="false" data-light="bright" data-price="21.99" data-rating="4.75" data-order="0">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/monstera-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/monstera-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-low">Low stock</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Indoor plants</p>
+                            <h3><a href="monstera.html">Monstera Deliciosa</a></h3>
+                            <p class="card-latin"><i lang="la">Monstera deliciosa</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="21.99">&pound;21.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="indoor" data-pets="false" data-light="low" data-price="11.99" data-rating="4.75" data-order="1">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/snake-plant-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/snake-plant-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-light">Low light</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Indoor plants</p>
+                            <h3><a href="snake-plant.html">Snake Plant</a></h3>
+                            <p class="card-latin"><i lang="la">Dracaena trifasciata</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="11.99">&pound;11.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="indoor" data-pets="false" data-light="low" data-price="8.99" data-rating="4.75" data-order="2">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/golden-pothos-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/golden-pothos-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-light">Low light</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Indoor plants</p>
+                            <h3><a href="golden-pothos.html">Golden Pothos</a></h3>
+                            <p class="card-latin"><i lang="la">Epipremnum aureum</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="8.99">&pound;8.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="indoor" data-pets="true" data-light="bright" data-price="18.99" data-rating="4.25" data-order="3">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/calathea-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/calathea-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-safe">Pet safe</span><span class="badge badge-low">Low stock</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Indoor plants</p>
+                            <h3><a href="calathea.html">Calathea Orbifolia</a></h3>
+                            <p class="card-latin"><i lang="la">Goeppertia orbifolia</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;<span class="star-empty">&#9733;</span></span> 4.2<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="18.99">&pound;18.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="indoor" data-pets="true" data-light="bright" data-price="7.99" data-rating="4.75" data-order="4">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/spider-plant-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/spider-plant-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-safe">Pet safe</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Indoor plants</p>
+                            <h3><a href="spider-plant.html">Spider Plant</a></h3>
+                            <p class="card-latin"><i lang="la">Chlorophytum comosum</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="7.99">&pound;7.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="succulents" data-pets="true" data-light="bright" data-price="11.99" data-rating="4.75" data-order="5">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/echeveria-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/echeveria-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-safe">Pet safe</span><span class="badge badge-low">Low stock</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Succulents</p>
+                            <h3><a href="echeveria.html">Echeveria</a></h3>
+                            <p class="card-latin"><i lang="la">Echeveria elegans</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="11.99">&pound;11.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="succulents" data-pets="false" data-light="bright" data-price="6.99" data-rating="4.75" data-order="6">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/aloe-vera-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/aloe-vera-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Succulents</p>
+                            <h3><a href="aloe-vera.html">Aloe Vera</a></h3>
+                            <p class="card-latin"><i lang="la">Aloe barbadensis miller</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="6.99">&pound;6.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="succulents" data-pets="true" data-light="bright" data-price="5.99" data-rating="4.75" data-order="7">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/zebra-haworthia-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/zebra-haworthia-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-safe">Pet safe</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Succulents</p>
+                            <h3><a href="zebra-haworthia.html">Zebra Haworthia</a></h3>
+                            <p class="card-latin"><i lang="la">Haworthiopsis attenuata</i></p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="5.99">&pound;5.99</data> <span>3 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="accessories" data-pets="false" data-light="bright" data-price="22.00" data-rating="4.75" data-order="8">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/ceramic-pot-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/ceramic-pot-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-low">Low stock</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Accessories</p>
+                            <h3><a href="ceramic-pot.html">Ceramic Plant Pot (15 cm)</a></h3>
+                            <p class="card-latin">Matte-glazed stoneware cover pot</p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="22.00">&pound;22.00</data> <span>3 colours</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="accessories" data-pets="false" data-light="bright" data-price="16.50" data-rating="4.75" data-order="9">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/macrame-planter-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/macrame-planter-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-low">Low stock</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Accessories</p>
+                            <h3><a href="macrame-planter.html">Macramé Hanging Planter</a></h3>
+                            <p class="card-latin">Hand-knotted recycled cotton</p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="16.50">&pound;16.50</data> <span>3 lengths</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="accessories" data-pets="false" data-light="bright" data-price="27.00" data-rating="4.75" data-order="10">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/watering-can-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/watering-can-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"><span class="badge badge-low">Low stock</span></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Accessories</p>
+                            <h3><a href="watering-can.html">Brass Watering Can</a></h3>
+                            <p class="card-latin">Long-spout indoor watering can</p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="27.00">&pound;27.00</data> <span>2 sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+                <li data-category="accessories" data-pets="false" data-light="bright" data-price="8.99" data-rating="4.75" data-order="11">
+                    <article class="plant-card">
+                        <div class="card-media">
+                            <img src="images/plants/plant-food-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <img class="card-hover" src="images/plants/plant-food-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <p class="card-badges"></p>
+                        </div>
+                        <div class="card-body">
+                            <p class="related-category">Accessories</p>
+                            <h3><a href="plant-food.html">Slow-Release Plant Food</a></h3>
+                            <p class="card-latin">Feeds for up to 6 months</p>
+                            <p class="card-rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                            <p class="card-price">From <data value="8.99">&pound;8.99</data> <span>2 pack sizes</span></p>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="why container" id="why" aria-labelledby="why-title">
+            <div class="section-head">
+                <h2 id="why-title">Why Green Corner</h2>
+            </div>
+            <ul class="why-grid">
+                <li>
+                    <h3>Grown, not stored</h3>
+                    <p>Plants come straight from UK growers and are hardened off for real homes, not warehouses.</p>
+                </li>
+                <li>
+                    <h3>Honest care guides</h3>
+                    <p>Every plant page tells you how much light and water it needs, and whether it is safe for pets.</p>
+                </li>
+                <li>
+                    <h3>Packed to arrive happy</h3>
+                    <p>Cushioned, recyclable boxes, and a free replacement if anything arrives damaged.</p>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Green Corner (fictional demo shop). Photos from <a href="https://www.pexels.com/">Pexels</a>.</p>
+        </div>
+    </footer>
+
+    <dialog class="basket" id="basket" aria-labelledby="basket-title">
+        <div class="basket-inner">
+            <div class="basket-head">
+                <h2 id="basket-title" tabindex="-1">Your basket</h2>
+                <button class="close-btn" type="button" data-close aria-label="Close basket">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
+            <p class="basket-message" id="basket-message"></p>
+            <div class="free-delivery">
+                <p id="free-text"></p>
+                <progress id="free-progress" max="40" value="0"></progress>
+            </div>
+            <ul class="basket-list" id="basket-list"></ul>
+            <p class="basket-empty" id="basket-empty">Your basket is empty.</p>
+            <div class="basket-foot">
+                <p class="subtotal">Subtotal <output id="subtotal">&pound;0.00</output></p>
+                <button class="btn btn-primary" type="button" id="checkout">Checkout</button>
+                <button class="btn btn-secondary" type="button" data-close>Keep shopping</button>
+            </div>
+        </div>
+    </dialog>
+
+</body>
+
+</html>

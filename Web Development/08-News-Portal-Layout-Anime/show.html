@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Show details on Panel &amp; Pixel: synopsis, score, rankings, characters, next episode and related news.">
+    <title>Show | Panel &amp; Pixel</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js'); try { const theme = localStorage.getItem('panel-theme'); if (theme) document.documentElement.dataset.theme = theme; } catch (error) {}</script>
+    <script src="js/snapshot.js" defer></script>
+    <script src="js/anilist.js" defer></script>
+    <script src="js/common.js" defer></script>
+    <script src="js/show.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#show">Skip to the show</a>
+
+    <p class="demo-note">Demo site: Panel &amp; Pixel is not a real news outlet. Show information comes from AniList.</p>
+
+    <header class="masthead" id="top">
+        <div class="container">
+            <div class="masthead-top">
+                <p class="dateline"><time id="today"></time></p>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="visually-hidden">Dark mode</span><span class="theme-label" aria-hidden="true">Light</span>
+                </button>
+            </div>
+            <div class="masthead-title">
+                <a class="logo" href="index.html">Panel <span>&amp;</span> Pixel</a>
+            </div>
+            <nav class="sections" aria-label="Sections">
+                <ul>
+                    <li><a href="index.html#top-stories">Top stories</a></li>
+                    <li><a href="index.html#schedule">This week</a></li>
+                    <li><a href="index.html#trending">Trending</a></li>
+                    <li><a href="index.html#season">Season chart</a></li>
+                    <li><a href="index.html#favourites">Fan favourites</a></li>
+                    <li><a href="index.html#upcoming">Coming soon</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="show">
+        <p class="not-found" id="show-loading">Loading the show&hellip;</p>
+        <noscript>
+            <p class="not-found">This page needs JavaScript to load the show. <a href="index.html">Go back to the front page</a>.</p>
+        </noscript>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="logo">Panel <span>&amp;</span> Pixel</p>
+                <p>A demo news portal. Show data, cover art and character images come from AniList and belong to their owners.</p>
+            </div>
+            <div>
+                <h2>Data sources</h2>
+                <ul>
+                    <li><a href="https://anilist.co/">AniList</a>: shows, scores, rankings, characters</li>
+                    <li>Crunchyroll News, Anime News Network, MyAnimeList: related news</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <a class="back-to-top" id="back-to-top" href="#top">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span class="visually-hidden">Back to top</span>
+    </a>
+
+</body>
+
+</html>

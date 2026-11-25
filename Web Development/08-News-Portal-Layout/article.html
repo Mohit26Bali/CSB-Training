@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A space news story on Orbit Daily, with a link to the full article.">
+    <title>Story | Orbit Daily</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js'); try { const theme = localStorage.getItem('orbit-theme'); if (theme) document.documentElement.dataset.theme = theme; } catch (error) {}</script>
+    <script src="js/snapshot.js" defer></script>
+    <script src="js/common.js" defer></script>
+    <script src="js/article.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#story">Skip to the story</a>
+
+    <p class="demo-note">Demo site: Orbit Daily is not a real news outlet. This summary and image come from the original publisher through the Spaceflight News API.</p>
+
+    <header class="masthead masthead-small" id="top">
+        <div class="container">
+            <div class="masthead-top">
+                <p class="dateline"><time id="today"></time></p>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="visually-hidden">Dark mode</span><span class="theme-label" aria-hidden="true">Light</span>
+                </button>
+            </div>
+            <div class="masthead-title">
+                <a class="logo" href="index.html">Orbit <span>Daily</span></a>
+            </div>
+            <nav class="sections" aria-label="Sections">
+                <ul>
+                    <li><a href="index.html#top-stories">Top stories</a></li>
+                    <li><a href="index.html#briefing">Briefing</a></li>
+                    <li><a href="index.html#launches">Launches</a></li>
+                    <li><a href="index.html#iss">ISS tracker</a></li>
+                    <li><a href="index.html#moon">Moon</a></li>
+                    <li><a href="index.html#mars">Mars</a></li>
+                    <li><a href="index.html#earth">Earth</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <article class="article-page" id="story">
+            <p class="not-found" id="story-loading">Loading the story&hellip;</p>
+            <noscript>
+                <p class="not-found">This page needs JavaScript to load the story. <a href="index.html">Go back to the front page</a>, where every story is listed.</p>
+            </noscript>
+        </article>
+
+        <section class="related" id="related-source" aria-labelledby="related-source-title" hidden>
+            <div class="section-head">
+                <h2 id="related-source-title">More from this publisher</h2>
+            </div>
+            <div class="topic-grid topic-cards" id="related-source-grid"></div>
+        </section>
+
+        <section class="related" id="related-topic" aria-labelledby="related-topic-title" hidden>
+            <div class="section-head">
+                <h2 id="related-topic-title">Related stories</h2>
+            </div>
+            <div class="topic-grid topic-cards" id="related-topic-grid"></div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="logo">Orbit <span>Daily</span></p>
+                <p>A demo news portal. Stories are summaries; the full article is on the publisher's site.</p>
+            </div>
+            <div>
+                <h2>Data sources</h2>
+                <ul>
+                    <li><a href="https://spaceflightnewsapi.net/">Spaceflight News API</a>: stories and images</li>
+                    <li><a href="https://thespacedevs.com/llapi">Launch Library 2</a>: launch schedule</li>
+                </ul>
+            </div>
+            <div>
+                <h2>About the images</h2>
+                <p>Story images belong to their publishers and are shown with a link to the source.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a class="back-to-top" id="back-to-top" href="#top">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span class="visually-hidden">Back to top</span>
+    </a>
+
+</body>
+
+</html>

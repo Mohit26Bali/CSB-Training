@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wanderlane Travel: hand-picked holidays to Japan, Greece, Iceland, Peru and more, with flights, hotels and expert guides included.">
+    <title>Wanderlane Travel | Holidays Planned by People Who Have Been There</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <p class="demo-note">Demo site: Wanderlane Travel is a fictional company. Prices, packages and reviews are examples, and nothing can be booked. Destination weather is live.</p>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Wanderlane Travel home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="14"/><path d="M6 21c4-1 6-6 10-6s6 5 10 6M16 7v4M12.5 9.5 16 7l3.5 2.5"/></svg>
+                <span>Wanderlane</span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                <span class="visually-hidden">Menu</span>
+            </button>
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#packages">Packages</a></li>
+                    <li><a href="#why-us">Why us</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a class="btn btn-primary nav-cta" href="#enquire-general">Plan my trip</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <img class="hero-image" src="images/hero-alpine-lake.webp" alt="" width="1920" height="1080">
+            <div class="container hero-inner">
+                <p class="eyebrow">Small-group and tailor-made holidays</p>
+                <h1 id="hero-title">Travel planned by people who&rsquo;ve been there</h1>
+                <p class="hero-lead">Hand-picked trips to eight unforgettable places, with flights, hotels and local guides included.</p>
+
+                <form class="trip-search" id="trip-search" role="search" aria-label="Find a trip">
+                    <div class="search-field">
+                        <label for="search-country">Where to?</label>
+                        <select id="search-country">
+                            <option value="all">Anywhere</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Tanzania">Tanzania</option>
+                        </select>
+                    </div>
+                    <div class="search-field">
+                        <label for="search-month">When?</label>
+                        <input id="search-month" type="month">
+                    </div>
+                    <div class="search-field">
+                        <label for="search-travellers">Travellers</label>
+                        <input id="search-travellers" type="number" inputmode="numeric" min="1" max="8" step="1" value="2" aria-describedby="travellers-error">
+                    </div>
+                    <button class="btn btn-primary search-btn" type="submit">Find trips</button>
+                    <p class="field-error search-error" id="travellers-error" role="alert"></p>
+                </form>
+            </div>
+        </section>
+
+        <section class="trust" aria-label="Wanderlane in numbers">
+            <ul class="container trust-list">
+                <li><strong>12</strong> years planning trips</li>
+                <li><strong>8</strong> destinations we know inside out</li>
+                <li><strong>24/7</strong> support while you travel</li>
+                <li><strong>0</strong> booking fees</li>
+            </ul>
+        </section>
+
+        <section class="destinations container" id="destinations" aria-labelledby="destinations-title">
+            <div class="section-head">
+                <p class="eyebrow">Destinations</p>
+                <h2 id="destinations-title">Where will you go next?</h2>
+                <p>Live local time and weather, so you can picture yourself there right now.</p>
+            </div>
+            <ul class="dest-grid">
+                <li class="big">
+                    <article class="destination" data-lat="35.0116" data-lon="135.7681" data-tz="Asia/Tokyo">
+                        <img src="images/destinations/kyoto.webp" alt="The red pagoda and wooden halls of Kiyomizu-dera temple in Kyoto" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Japan &middot; Asia</p>
+                            <h3>Kyoto</h3>
+                            <p class="dest-line">Temples, tea houses and autumn leaves</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Trips from <strong>&pound;2,450</strong></p>
+                            <a class="dest-link" href="#packages" data-country="Japan">See trips<span class="visually-hidden"> to Japan</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li class="tall">
+                    <article class="destination" data-lat="36.3932" data-lon="25.4615" data-tz="Europe/Athens">
+                        <img src="images/destinations/santorini.webp" alt="White cliff-top houses of Santorini above the deep blue Aegean Sea" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Greece &middot; Europe</p>
+                            <h3>Santorini</h3>
+                            <p class="dest-line">Sunsets over the caldera</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Trips from <strong>&pound;1,290</strong></p>
+                            <a class="dest-link" href="#packages" data-country="Greece">See trips<span class="visually-hidden"> to Greece</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li>
+                    <article class="destination" data-lat="51.1784" data-lon="-115.5708" data-tz="America/Edmonton">
+                        <img src="images/destinations/banff.webp" alt="A turquoise mountain lake surrounded by pine forest in Banff National Park" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Canada &middot; Americas</p>
+                            <h3>Banff</h3>
+                            <p class="dest-line">Glacier lakes and Rocky Mountain trails</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Trips from <strong>&pound;1,980</strong></p>
+                            <a class="dest-link" href="#packages" data-country="Canada">See trips<span class="visually-hidden"> to Canada</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li>
+                    <article class="destination" data-lat="31.6295" data-lon="-7.9811" data-tz="Africa/Casablanca">
+                        <img src="images/destinations/marrakech.webp" alt="A busy street in the Marrakech medina lined with colourful shops" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Morocco &middot; Africa</p>
+                            <h3>Marrakech</h3>
+                            <p class="dest-line">Souks, spice and riad courtyards</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Trips from <strong>&pound;890</strong></p>
+                            <a class="dest-link" href="#packages" data-country="Morocco">See trips<span class="visually-hidden"> to Morocco</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li>
+                    <article class="destination" data-lat="-8.5069" data-lon="115.2625" data-tz="Asia/Makassar">
+                        <img src="images/destinations/bali.webp" alt="Green rice terraces and palm trees in Bali seen from above" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Indonesia &middot; Asia</p>
+                            <h3>Bali</h3>
+                            <p class="dest-line">Rice terraces and surf beaches</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Tailor-made trips</p>
+                            <a class="dest-link" href="#enquire-general">Ask an expert<span class="visually-hidden"> about Bali</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li>
+                    <article class="destination" data-lat="64.1466" data-lon="-21.9426" data-tz="Atlantic/Reykjavik">
+                        <img src="images/destinations/iceland.webp" alt="The Seljalandsfoss waterfall pouring over a cliff in south Iceland" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Iceland &middot; Europe</p>
+                            <h3>South Iceland</h3>
+                            <p class="dest-line">Waterfalls, glaciers and the northern lights</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Trips from <strong>&pound;1,150</strong></p>
+                            <a class="dest-link" href="#packages" data-country="Iceland">See trips<span class="visually-hidden"> to Iceland</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li>
+                    <article class="destination" data-lat="-33.9249" data-lon="18.4241" data-tz="Africa/Johannesburg">
+                        <img src="images/destinations/cape-town.webp" alt="Table Mountain rising behind the city of Cape Town at sunset" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">South Africa &middot; Africa</p>
+                            <h3>Cape Town</h3>
+                            <p class="dest-line">Table Mountain and the winelands</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Tailor-made trips</p>
+                            <a class="dest-link" href="#enquire-general">Ask an expert<span class="visually-hidden"> about Cape Town</span></a>
+                        </div>
+                    </article>
+                </li>
+                <li class="wide-md">
+                    <article class="destination" data-lat="-13.1631" data-lon="-72.545" data-tz="America/Lima">
+                        <img src="images/destinations/machu-picchu.webp" alt="The Inca ruins of Machu Picchu on a green mountain ridge under clouds" width="720" height="900" loading="lazy">
+                        <div class="dest-text">
+                            <p class="dest-country">Peru &middot; Americas</p>
+                            <h3>Machu Picchu</h3>
+                            <p class="dest-line">The lost city of the Incas</p>
+                            <p class="dest-live" aria-live="off"><span class="dest-time"></span><span class="dest-weather"></span></p>
+                            <p class="dest-price">Trips from <strong>&pound;2,690</strong></p>
+                            <a class="dest-link" href="#packages" data-country="Peru">See trips<span class="visually-hidden"> to Peru</span></a>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+            <p class="weather-note" id="weather-note">Weather from <a href="https://open-meteo.com/">Open-Meteo</a>.</p>
+        </section>
+
+        <section class="packages" id="packages" aria-labelledby="packages-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="eyebrow">Holiday packages</p>
+                    <h2 id="packages-title">Trips with everything sorted</h2>
+                    <p>Prices are per person, including flights from London.</p>
+                </div>
+
+                <form class="filters" id="filters" aria-label="Filter packages">
+                    <fieldset class="chips">
+                        <legend class="visually-hidden">Type of trip</legend>
+                        <label class="chip"><input type="radio" name="type" value="all" checked> All trips</label>
+                        <label class="chip"><input type="radio" name="type" value="beach"> Beach</label>
+                        <label class="chip"><input type="radio" name="type" value="culture"> Culture</label>
+                        <label class="chip"><input type="radio" name="type" value="adventure"> Adventure</label>
+                    </fieldset>
+                    <div class="filter-row">
+                        <div class="filter-field">
+                            <label for="filter-country">Country</label>
+                            <select id="filter-country">
+                                <option value="all">All countries</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Tanzania">Tanzania</option>
+                            </select>
+                        </div>
+                        <div class="filter-field">
+                            <label for="filter-nights">Length</label>
+                            <select id="filter-nights">
+                                <option value="all">Any length</option>
+                                <option value="short">Up to 7 nights</option>
+                                <option value="medium">8 to 10 nights</option>
+                                <option value="long">11 nights or more</option>
+                            </select>
+                        </div>
+                        <div class="filter-field filter-budget">
+                            <label for="filter-budget">Budget per person: up to <output id="budget-output" for="filter-budget">&pound;3,500</output></label>
+                            <input id="filter-budget" type="range" min="800" max="3500" step="100" value="3500">
+                        </div>
+                        <div class="filter-field">
+                            <label for="sort">Sort by</label>
+                            <select id="sort">
+                                <option value="recommended">Recommended</option>
+                                <option value="price">Price: low to high</option>
+                                <option value="nights">Length: short to long</option>
+                            </select>
+                        </div>
+                        <label class="check saved-only" hidden><input type="checkbox" id="filter-saved"> <span>Saved only (<span id="saved-count">0</span>)</span></label>
+                        <button class="btn-text" type="reset">Clear filters</button>
+                    </div>
+                </form>
+
+                <p class="result-count" id="result-count" aria-live="polite">Showing all 8 trips</p>
+
+                <ul class="package-grid" id="package-grid">
+                <li class="package" data-id="japan" data-country="Japan" data-type="culture" data-nights="10" data-price="2450" data-best="3,4,5,10,11">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/japan.webp" alt="A red five-storey pagoda among green trees at Kiyomizu temple" width="800" height="533" loading="lazy">
+                            <p class="package-type type-culture">Culture</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Japan: Temples &amp; Neon</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Japan</p>
+                            <h3>Japan: Temples &amp; Neon</h3>
+                            <p class="package-route">Tokyo, Hakone and Kyoto</p>
+                            <ul class="package-facts">
+                                <li><strong>10</strong> nights</li>
+                                <li>Small group, max 12</li>
+                                <li>Best: Mar&ndash;May, Oct&ndash;Nov</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and 4-star hotels</li>
+                                <li>7-day Japan Rail Pass</li>
+                                <li>Guided day in Kyoto&#x27;s temples</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="2450">&pound;2,450</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="japan">Enquire<span class="visually-hidden"> about Japan: Temples &amp; Neon</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="greek-islands" data-country="Greece" data-type="beach" data-nights="8" data-price="1290" data-best="5,6,7,8,9">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/greek-islands.webp" alt="White houses and a blue pool on the cliffs of Santorini" width="800" height="533" loading="lazy">
+                            <p class="package-type type-beach">Beach</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Greek Island Hopping</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Greece</p>
+                            <h3>Greek Island Hopping</h3>
+                            <p class="package-route">Athens, Santorini and Naxos</p>
+                            <ul class="package-facts">
+                                <li><strong>8</strong> nights</li>
+                                <li>Small group, max 16</li>
+                                <li>Best: May&ndash;Sep</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and ferry tickets</li>
+                                <li>Cave hotel with a pool in Santorini</li>
+                                <li>Sunset sailing trip</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="1290">&pound;1,290</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="greek-islands">Enquire<span class="visually-hidden"> about Greek Island Hopping</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="tanzania-safari" data-country="Tanzania" data-type="adventure" data-nights="7" data-price="3180" data-best="1,2,6,7,8,9,10">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/tanzania-safari.webp" alt="A safari jeep on a dirt track with a giraffe standing beside it" width="800" height="533" loading="lazy">
+                            <p class="package-type type-adventure">Adventure</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Tanzania Safari</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Tanzania</p>
+                            <h3>Tanzania Safari</h3>
+                            <p class="package-route">Serengeti and Ngorongoro Crater</p>
+                            <ul class="package-facts">
+                                <li><strong>7</strong> nights</li>
+                                <li>Small group, max 8</li>
+                                <li>Best: Jan&ndash;Feb, Jun&ndash;Oct</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and safari lodges</li>
+                                <li>Daily game drives with a guide</li>
+                                <li>All meals on safari</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="3180">&pound;3,180</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="tanzania-safari">Enquire<span class="visually-hidden"> about Tanzania Safari</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="northern-lights" data-country="Iceland" data-type="adventure" data-nights="5" data-price="1150" data-best="1,2,3,9,10,11,12">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/northern-lights.webp" alt="Green and purple northern lights swirling across a starry sky" width="800" height="533" loading="lazy">
+                            <p class="package-type type-adventure">Adventure</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Iceland Northern Lights</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Iceland</p>
+                            <h3>Iceland Northern Lights</h3>
+                            <p class="package-route">Reykjavik, Golden Circle and the south coast</p>
+                            <ul class="package-facts">
+                                <li><strong>5</strong> nights</li>
+                                <li>Small group, max 14</li>
+                                <li>Best: Jan&ndash;Mar, Sep&ndash;Dec</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and hotels</li>
+                                <li>Northern lights tour by night</li>
+                                <li>Glacier walk with crampons</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="1150">&pound;1,150</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="northern-lights">Enquire<span class="visually-hidden"> about Iceland Northern Lights</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="maldives" data-country="Maldives" data-type="beach" data-nights="7" data-price="2890" data-best="1,2,3,4,11,12">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/maldives.webp" alt="An aerial view of a white beach, palm trees and turquoise water in the Maldives" width="800" height="533" loading="lazy">
+                            <p class="package-type type-beach">Beach</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Maldives Island Escape</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Maldives</p>
+                            <h3>Maldives Island Escape</h3>
+                            <p class="package-route">A private island in the South Malé Atoll</p>
+                            <ul class="package-facts">
+                                <li><strong>7</strong> nights</li>
+                                <li>Private trip</li>
+                                <li>Best: Jan&ndash;Apr, Nov&ndash;Dec</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and speedboat transfers</li>
+                                <li>Overwater villa, half board</li>
+                                <li>Snorkelling with reef sharks</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="2890">&pound;2,890</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="maldives">Enquire<span class="visually-hidden"> about Maldives Island Escape</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="inca-trail" data-country="Peru" data-type="adventure" data-nights="12" data-price="2690" data-best="4,5,6,7,8,9,10">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/inca-trail.webp" alt="Machu Picchu&#x27;s stone terraces seen from above at sunset" width="800" height="533" loading="lazy">
+                            <p class="package-type type-adventure">Adventure</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Peru &amp; the Inca Trail</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Peru</p>
+                            <h3>Peru &amp; the Inca Trail</h3>
+                            <p class="package-route">Lima, Cusco and the Sacred Valley</p>
+                            <ul class="package-facts">
+                                <li><strong>12</strong> nights</li>
+                                <li>Small group, max 12</li>
+                                <li>Best: Apr&ndash;Oct</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and hotels</li>
+                                <li>4-day Inca Trail trek with porters</li>
+                                <li>Guided tour of Machu Picchu</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="2690">&pound;2,690</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="inca-trail">Enquire<span class="visually-hidden"> about Peru &amp; the Inca Trail</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="canadian-rockies" data-country="Canada" data-type="adventure" data-nights="9" data-price="1980" data-best="6,7,8,9">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/canadian-rockies.webp" alt="A calm lake reflecting autumn trees and snowy peaks in the Canadian Rockies" width="800" height="533" loading="lazy">
+                            <p class="package-type type-adventure">Adventure</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Canadian Rockies Road Trip</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Canada</p>
+                            <h3>Canadian Rockies Road Trip</h3>
+                            <p class="package-route">Calgary, Banff and Jasper</p>
+                            <ul class="package-facts">
+                                <li><strong>9</strong> nights</li>
+                                <li>Private trip</li>
+                                <li>Best: Jun&ndash;Sep</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and car hire</li>
+                                <li>Mountain lodges in Banff and Jasper</li>
+                                <li>Icefields Parkway route guide</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="1980">&pound;1,980</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="canadian-rockies">Enquire<span class="visually-hidden"> about Canadian Rockies Road Trip</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="package" data-id="morocco" data-country="Morocco" data-type="culture" data-nights="6" data-price="890" data-best="3,4,5,9,10,11">
+                    <article class="package-card">
+                        <div class="package-media">
+                            <img src="images/packages/morocco.webp" alt="The Marrakech skyline with the Koutoubia mosque tower at dusk" width="800" height="533" loading="lazy">
+                            <p class="package-type type-culture">Culture</p>
+                            <button class="save-btn" type="button" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="visually-hidden">Save Morocco: Medinas &amp; Sahara</span>
+                            </button>
+                        </div>
+                        <div class="package-body">
+                            <p class="package-country">Morocco</p>
+                            <h3>Morocco: Medinas &amp; Sahara</h3>
+                            <p class="package-route">Marrakech, the Atlas Mountains and the Sahara</p>
+                            <ul class="package-facts">
+                                <li><strong>6</strong> nights</li>
+                                <li>Small group, max 14</li>
+                                <li>Best: Mar&ndash;May, Sep&ndash;Nov</li>
+                            </ul>
+                            <ul class="package-includes">
+                                <li>Return flights and riad stays</li>
+                                <li>Night in a Sahara desert camp</li>
+                                <li>Cooking class in Marrakech</li>
+                            </ul>
+                            <p class="season-note" hidden></p>
+                            <div class="package-footer">
+                                <p class="package-price">From <data value="890">&pound;890</data> <span>per person</span><span class="package-total"></span></p>
+                                <button class="btn btn-primary" type="button" data-enquire="morocco">Enquire<span class="visually-hidden"> about Morocco: Medinas &amp; Sahara</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                </ul>
+
+                <div class="no-results" id="no-results" hidden>
+                    <p><strong>No trips match.</strong> Try a bigger budget or another country, or ask us for a tailor-made trip.</p>
+                    <button class="btn btn-ghost" type="button" id="clear-from-empty">Clear filters</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="why container" id="why-us" aria-labelledby="why-title">
+            <div class="section-head">
+                <p class="eyebrow">Why Wanderlane</p>
+                <h2 id="why-title">Holidays without the hard work</h2>
+            </div>
+            <ul class="why-grid">
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>
+                    <h3>Experts who&rsquo;ve been there</h3>
+                    <p>Every trip is planned by someone who has travelled it, not copied from a brochure.</p>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <h3>Protected and flexible</h3>
+                    <p>Change your dates for free up to 60 days before you go.</p>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <h3>Help day and night</h3>
+                    <p>A real person answers our travel line 24 hours a day while you&rsquo;re away.</p>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 20c-2-6 3-12 13-15-1 9-6 14-13 15zM4 21l7-7"/></svg>
+                    <h3>Lighter footprint</h3>
+                    <p>Small groups, local guides and locally owned hotels on every trip.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section class="reviews" id="reviews" aria-labelledby="reviews-title">
+            <div class="container">
+                <div class="section-head section-head-row">
+                    <div>
+                        <p class="eyebrow">Customer stories</p>
+                        <h2 id="reviews-title">What our travellers say</h2>
+                        <p class="review-note">Example reviews written for this demo.</p>
+                    </div>
+                    <div class="carousel-buttons">
+                        <button class="carousel-btn" type="button" id="review-prev" aria-controls="review-list" hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>
+                            <span class="visually-hidden">Previous reviews</span>
+                        </button>
+                        <button class="carousel-btn" type="button" id="review-next" aria-controls="review-list" hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg>
+                            <span class="visually-hidden">Next reviews</span>
+                        </button>
+                    </div>
+                </div>
+
+                <ul class="review-list" id="review-list" tabindex="0" aria-label="Customer reviews, scroll sideways for more">
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
+                            <blockquote>
+                                <p>Our guide in Kyoto took us to a tiny tea house we&rsquo;d never have found alone. The rail pass made getting around Japan so easy.</p>
+                            </blockquote>
+                            <figcaption>
+                                <span class="avatar" aria-hidden="true">PS</span>
+                                <span><strong>Priya S.</strong> Japan: Temples &amp; Neon, <time datetime="2026-04">April 2026</time></span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
+                            <blockquote>
+                                <p>We saw the northern lights on our very first night. The glacier walk was the highlight for our teenagers.</p>
+                            </blockquote>
+                            <figcaption>
+                                <span class="avatar" aria-hidden="true">TO</span>
+                                <span><strong>Tom O.</strong> Iceland Northern Lights, <time datetime="2026-02">February 2026</time></span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="Rated 4 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;</span><span class="star-empty" aria-hidden="true">&#9733;</span></p>
+                            <blockquote>
+                                <p>The Inca Trail was tough but unforgettable, and the porters were amazing. I&rsquo;d add one more rest day in Cusco to get used to the altitude.</p>
+                            </blockquote>
+                            <figcaption>
+                                <span class="avatar" aria-hidden="true">LM</span>
+                                <span><strong>Lucía M.</strong> Peru &amp; the Inca Trail, <time datetime="2025-09">September 2025</time></span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
+                            <blockquote>
+                                <p>Waking up to giraffes outside the lodge is something I&rsquo;ll never forget. Every detail was taken care of.</p>
+                            </blockquote>
+                            <figcaption>
+                                <span class="avatar" aria-hidden="true">DA</span>
+                                <span><strong>Daniel A.</strong> Tanzania Safari, <time datetime="2025-08">August 2025</time></span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
+                            <blockquote>
+                                <p>The Sahara camp was magical: dinner under the stars, then sunrise over the dunes. Brilliant value too.</p>
+                            </blockquote>
+                            <figcaption>
+                                <span class="avatar" aria-hidden="true">AK</span>
+                                <span><strong>Aisha K.</strong> Morocco: Medinas &amp; Sahara, <time datetime="2026-03">March 2026</time></span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="Rated 4 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;</span><span class="star-empty" aria-hidden="true">&#9733;</span></p>
+                            <blockquote>
+                                <p>The road trip route was perfect and the lodges were cosy. Book the Lake Louise canoe early. It sells out!</p>
+                            </blockquote>
+                            <figcaption>
+                                <span class="avatar" aria-hidden="true">MW</span>
+                                <span><strong>Mei W.</strong> Canadian Rockies Road Trip, <time datetime="2025-07">July 2025</time></span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="faq container" id="faq" aria-labelledby="faq-title">
+            <div class="section-head">
+                <p class="eyebrow">Questions</p>
+                <h2 id="faq-title">Good to know</h2>
+            </div>
+            <details>
+                <summary>What is included in the price?</summary>
+                <p>Return flights from London, all hotels, the transport and activities listed on each trip, and a local guide where shown. Travel insurance is not included.</p>
+            </details>
+            <details>
+                <summary>Can I change the trip?</summary>
+                <p>Yes. Every package can be adjusted: add nights, upgrade hotels or fly from another airport. Send an enquiry and an expert will reply within one working day.</p>
+            </details>
+            <details>
+                <summary>How much do I pay to book?</summary>
+                <p>A 20% deposit holds your place. The rest is due 10 weeks before you travel.</p>
+            </details>
+            <details>
+                <summary>Do I need a visa?</summary>
+                <p>It depends on your passport. We send a checklist for your destination when you book, but always check the official government advice before you travel.</p>
+            </details>
+        </section>
+
+        <section class="enquire container" id="enquire-general" aria-labelledby="enquire-title">
+            <div class="enquire-text">
+                <p class="eyebrow">Not sure yet?</p>
+                <h2 id="enquire-title">Talk to a travel expert</h2>
+                <p>Tell us where you&rsquo;re dreaming of and we&rsquo;ll plan a trip around you. Call <a href="tel:+442079460000">020 7946 0000</a>, or leave your details.</p>
+            </div>
+            <form class="enquire-form" id="general-form" novalidate>
+                <div class="field">
+                    <label for="general-name">Your name</label>
+                    <input id="general-name" name="name" type="text" autocomplete="name" required maxlength="60" aria-describedby="general-name-error">
+                    <p class="field-error" id="general-name-error"></p>
+                </div>
+                <div class="field">
+                    <label for="general-email">Email</label>
+                    <input id="general-email" name="email" type="email" autocomplete="email" required maxlength="100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" aria-describedby="general-email-error">
+                    <p class="field-error" id="general-email-error"></p>
+                </div>
+                <div class="field field-full">
+                    <label for="general-idea">Your dream trip <span class="optional">(optional)</span></label>
+                    <textarea id="general-idea" name="idea" rows="3" maxlength="500"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Request a call back</button>
+                <p class="form-message" id="general-message" role="status"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="footer-logo">Wanderlane</p>
+                <p>14 Compass Row, London EC1V 9AA (fictional)<br><a href="mailto:hello@wanderlane.example">hello@wanderlane.example</a></p>
+            </div>
+            <nav aria-label="Footer">
+                <h2>Explore</h2>
+                <ul>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#packages">Packages</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <div>
+                <h2>Credits</h2>
+                <p>Photos from <a href="https://www.pexels.com/">Pexels</a>. Weather from <a href="https://open-meteo.com/">Open-Meteo</a>.</p>
+            </div>
+        </div>
+        <p class="container copyright">&copy; 2026 Wanderlane Travel (fictional demo).</p>
+    </footer>
+
+    <dialog class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
+        <form class="enquiry-form" id="enquiry-form" method="dialog" novalidate>
+            <div class="dialog-head">
+                <div>
+                    <p class="eyebrow">Enquire about</p>
+                    <h2 id="enquiry-title">Trip</h2>
+                </div>
+                <button class="dialog-close" type="button" data-close aria-label="Close">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
+            <div id="enquiry-step">
+                <div class="field-pair">
+                    <div class="field">
+                        <label for="enq-name">Your name</label>
+                        <input id="enq-name" name="name" type="text" autocomplete="name" required maxlength="60" aria-describedby="enq-name-error">
+                        <p class="field-error" id="enq-name-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="enq-email">Email</label>
+                        <input id="enq-email" name="email" type="email" autocomplete="email" required maxlength="100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" aria-describedby="enq-email-error">
+                        <p class="field-error" id="enq-email-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="enq-month">Month you&rsquo;d like to go</label>
+                        <input id="enq-month" name="month" type="month" required aria-describedby="enq-month-error">
+                        <p class="field-error" id="enq-month-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="enq-travellers">Travellers</label>
+                        <input id="enq-travellers" name="travellers" type="number" inputmode="numeric" required min="1" max="8" step="1" value="2" aria-describedby="enq-travellers-error">
+                        <p class="field-error" id="enq-travellers-error"></p>
+                    </div>
+                </div>
+                <div class="enquiry-total">
+                    <p id="enq-summary"></p>
+                    <p class="total">Estimated total <output id="enq-total">&pound;0</output></p>
+                </div>
+                <div class="dialog-actions">
+                    <button class="btn btn-ghost" type="button" data-close>Cancel</button>
+                    <button class="btn btn-primary" type="submit">Send enquiry</button>
+                </div>
+            </div>
+            <div class="enquiry-done" id="enquiry-done" hidden>
+                <p class="done-icon" aria-hidden="true">&#10003;</p>
+                <h3 id="done-title" tabindex="-1">Thanks, we&rsquo;ll be in touch!</h3>
+                <p id="done-text"></p>
+                <div class="dialog-actions">
+                    <button class="btn btn-primary" type="button" data-close>Done</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+</body>
+
+</html>

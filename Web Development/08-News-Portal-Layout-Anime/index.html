@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel &amp; Pixel: live anime news, this week's airing schedule, trending shows and the seasonal chart.">
+    <title>Panel &amp; Pixel | Anime News</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js'); try { const theme = localStorage.getItem('panel-theme'); if (theme) document.documentElement.dataset.theme = theme; } catch (error) {}</script>
+    <script src="js/snapshot.js" defer></script>
+    <script src="js/anilist.js" defer></script>
+    <script src="js/common.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#top-stories">Skip to top stories</a>
+
+    <p class="demo-note">Demo site: Panel &amp; Pixel is not a real news outlet. Headlines come from Crunchyroll, Anime News Network and MyAnimeList and link to the original articles; show data comes from AniList.</p>
+
+    <header class="masthead" id="top">
+        <div class="container">
+            <div class="masthead-top">
+                <p class="dateline"><time id="today"></time></p>
+                <p class="live-status is-saved" id="live-status" role="status">Showing data saved 8 Oct, 21:52</p>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="visually-hidden">Dark mode</span><span class="theme-label" aria-hidden="true">Light</span>
+                </button>
+            </div>
+            <div class="masthead-title">
+                <h1 class="logo-heading"><a class="logo" href="index.html">Panel <span>&amp;</span> Pixel</a></h1>
+                <p class="tagline"><span lang="ja">パネル＆ピクセル</span> · Anime news, airing schedules and seasonal charts</p>
+            </div>
+            <nav class="sections" aria-label="Sections">
+                <ul>
+                    <li><a href="#top-stories">Top stories</a></li>
+                    <li><a href="#briefing">Briefing</a></li>
+                    <li><a href="#schedule">This week</a></li>
+                    <li><a href="#trending">Trending</a></li>
+                    <li><a href="#season">Season chart</a></li>
+                    <li><a href="#favourites">Fan favourites</a></li>
+                    <li><a href="#upcoming">Coming soon</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="ticker" id="ticker" role="region" aria-label="Latest headlines">
+        <p class="ticker-label">Latest</p>
+        <div class="ticker-window">
+            <ul class="ticker-track" id="ticker-track">
+<li><a href="https://www.animenewsnetwork.com/news/2026-10-08/shallm-perform-opening-theme-song-for-now-that-we-draw-anime/.242638">shallm Perform Opening Theme Song for 'Now That We Draw' Anime</a></li><li><a href="https://crunchyroll.com/news/latest/2026/10/8/go-with-the-clouds-north-by-northwest-anime-2027-debut-trailer-visual">Go with the Clouds, North-by-Northwest Anime Debuts in 2027</a></li><li><a href="https://www.animenewsnetwork.com/news/2026-10-08/go-with-the-clouds-north-by-northwest-anime-1st-promo-video-reveals-2027-premiere-on-netflix/.242639">'Go with the Clouds, North by Northwest' Anime's 1st Promo Video Reveals 2027 Premiere on Netflix</a></li><li><a href="https://myanimelist.net/news/74802125?_location=rss">'Hokuhokusei ni Kumo to Ike' Reveals Lead Cast, Staff, First Promo, 2027 Debut</a></li><li><a href="https://myanimelist.net/news/74802115?_location=rss">'Magic Knight Rayearth' Reveals Additional Cast</a></li><li><a href="https://www.animenewsnetwork.com/news/2026-10-08/crunchyroll-acquires-the-apothecary-diaries-anime-film/.242637">Crunchyroll Acquires The Apothecary Diaries Anime Film</a></li><li><a href="https://myanimelist.net/news/74802040?_location=rss">Manga 'Kimi wa Yotsuba no Clover' Ends in Next Chapter</a></li><li><a href="https://myanimelist.net/news/74801996?_location=rss">Additional Cast for 'Marronnier Oukoku no Shichinin no Kishi' Announced</a></li><li><a href="https://crunchyroll.com/news/latest/2026/10/8/bless-anime-casts-yoshiki-nakajima-as-joe-osaki">Bless Anime Casts Yoshiki Nakajima as Joe Osaki</a></li><li><a href="https://crunchyroll.com/news/latest/2026/10/8/the-seven-knights-of-the-marronnier-kingdom-anime-new-cast-members">The Seven Knights of the Marronnier Kingdom Anime Adds Three More Cast Members</a></li><li aria-hidden="true"><a href="https://www.animenewsnetwork.com/news/2026-10-08/shallm-perform-opening-theme-song-for-now-that-we-draw-anime/.242638" tabindex="-1">shallm Perform Opening Theme Song for 'Now That We Draw' Anime</a></li><li aria-hidden="true"><a href="https://crunchyroll.com/news/latest/2026/10/8/go-with-the-clouds-north-by-northwest-anime-2027-debut-trailer-visual" tabindex="-1">Go with the Clouds, North-by-Northwest Anime Debuts in 2027</a></li><li aria-hidden="true"><a href="https://www.animenewsnetwork.com/news/2026-10-08/go-with-the-clouds-north-by-northwest-anime-1st-promo-video-reveals-2027-premiere-on-netflix/.242639" tabindex="-1">'Go with the Clouds, North by Northwest' Anime's 1st Promo Video Reveals 2027 Premiere on Netflix</a></li><li aria-hidden="true"><a href="https://myanimelist.net/news/74802125?_location=rss" tabindex="-1">'Hokuhokusei ni Kumo to Ike' Reveals Lead Cast, Staff, First Promo, 2027 Debut</a></li><li aria-hidden="true"><a href="https://myanimelist.net/news/74802115?_location=rss" tabindex="-1">'Magic Knight Rayearth' Reveals Additional Cast</a></li><li aria-hidden="true"><a href="https://www.animenewsnetwork.com/news/2026-10-08/crunchyroll-acquires-the-apothecary-diaries-anime-film/.242637" tabindex="-1">Crunchyroll Acquires The Apothecary Diaries Anime Film</a></li><li aria-hidden="true"><a href="https://myanimelist.net/news/74802040?_location=rss" tabindex="-1">Manga 'Kimi wa Yotsuba no Clover' Ends in Next Chapter</a></li><li aria-hidden="true"><a href="https://myanimelist.net/news/74801996?_location=rss" tabindex="-1">Additional Cast for 'Marronnier Oukoku no Shichinin no Kishi' Announced</a></li><li aria-hidden="true"><a href="https://crunchyroll.com/news/latest/2026/10/8/bless-anime-casts-yoshiki-nakajima-as-joe-osaki" tabindex="-1">Bless Anime Casts Yoshiki Nakajima as Joe Osaki</a></li><li aria-hidden="true"><a href="https://crunchyroll.com/news/latest/2026/10/8/the-seven-knights-of-the-marronnier-kingdom-anime-new-cast-members" tabindex="-1">The Seven Knights of the Marronnier Kingdom Anime Adds Three More Cast Members</a></li>
+</ul>
+        </div>
+        <button class="ticker-pause" id="ticker-pause" type="button" aria-pressed="false" hidden>Pause</button>
+    </div>
+
+    <main class="container">
+
+        <section class="top-stories" id="top-stories" aria-labelledby="top-title">
+            <h2 class="visually-hidden" id="top-title">Top stories</h2>
+            <div class="front" id="front">
+<article class="story story-lead">
+    <img class="story-image" src="images/saved/news-691ea0e95e96.webp" alt="" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">News</p>
+        <h2 class="headline"><a href="https://crunchyroll.com/news/latest/2026/10/8/go-with-the-clouds-north-by-northwest-anime-2027-debut-trailer-visual">Go with the Clouds, North-by-Northwest Anime Debuts in 2027</a></h2>
+        <p class="standfirst">Key art, trailer, staff and more revealed for the adaptation of Aki Irie's manga</p>
+        <p class="byline">By Paul Chapman · <span class="source">Crunchyroll News</span> · <time datetime="2026-10-08T21:01:00+05:30" data-relative="">54 minutes ago</time></p>
+    </div>
+</article>
+<article class="story story-second">
+    <img class="story-image" src="images/saved/news-5168330e0030.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">News</p>
+        <h3 class="headline"><a href="https://myanimelist.net/news/74802125?_location=rss">'Hokuhokusei ni Kumo to Ike' Reveals Lead Cast, Staff, First Promo, 2027 Debut</a></h3>
+        <p class="standfirst">The official website for the television anime adaptation of Aki Irie's Hokuhokusei ni Kumo to Ike (Go with the Clouds, North-by-Northwest) manga revealed the lead cast, main staff, a key visual (pictured), and the first promotional video on Thursday. The anime series will premiere on TBS in 2027 and will stream worldwide exclusively on Netflix. Voice actors Tomohiro Ono (Tomodachi Game) is starrin</p>
+        <p class="byline"><span class="source">MyAnimeList</span> · <time datetime="2026-10-08T20:00:57+05:30" data-relative="">2 hours ago</time></p>
+    </div>
+</article>
+<article class="story story-second">
+    <img class="story-image" src="images/saved/news-41894e35d339.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="story-text">
+        <p class="kicker">News</p>
+        <h3 class="headline"><a href="https://myanimelist.net/news/74802115?_location=rss">'Magic Knight Rayearth' Reveals Additional Cast</a></h3>
+        <p class="standfirst">The official website for the new Magic Knight Rayearth (Mahou Kishi Rayearth) television anime announced additional cast members on Thursday. The anime series premiered on October 7 at 11.45 p.m. on TV Asahi's "IMAnimation W" frame. Voice actors Mao Ichimichi (Tensei shitara Slime Datta Ken), Natsumi Takamori (5-toubun no Hanayome), and Miyuki Sakurai (Kekkon Yubiwa Monogatari II) joined the cast </p>
+        <p class="byline"><span class="source">MyAnimeList</span> · <time datetime="2026-10-08T19:54:08+05:30" data-relative="">2 hours ago</time></p>
+    </div>
+</article>
+<section class="latest" aria-labelledby="latest-title">
+    <h2 class="section-label" id="latest-title">Latest</h2>
+    <ol class="latest-list"><li>
+        <time datetime="2026-10-08T21:01:20+05:30" data-relative="">54 minutes ago</time>
+        <a href="https://www.animenewsnetwork.com/news/2026-10-08/shallm-perform-opening-theme-song-for-now-that-we-draw-anime/.242638">shallm Perform Opening Theme Song for 'Now That We Draw' Anime</a>
+        <span class="source">Anime News Network</span>
+    </li><li>
+        <time datetime="2026-10-08T20:14:32+05:30" data-relative="">2 hours ago</time>
+        <a href="https://www.animenewsnetwork.com/news/2026-10-08/go-with-the-clouds-north-by-northwest-anime-1st-promo-video-reveals-2027-premiere-on-netflix/.242639">'Go with the Clouds, North by Northwest' Anime's 1st Promo Video Reveals 2027 Premiere on Netflix</a>
+        <span class="source">Anime News Network</span>
+    </li><li>
+        <time datetime="2026-10-08T19:40:33+05:30" data-relative="">2 hours ago</time>
+        <a href="https://www.animenewsnetwork.com/news/2026-10-08/crunchyroll-acquires-the-apothecary-diaries-anime-film/.242637">Crunchyroll Acquires The Apothecary Diaries Anime Film</a>
+        <span class="source">Anime News Network</span>
+    </li><li>
+        <time datetime="2026-10-08T19:13:58+05:30" data-relative="">3 hours ago</time>
+        <a href="https://myanimelist.net/news/74802040?_location=rss">Manga 'Kimi wa Yotsuba no Clover' Ends in Next Chapter</a>
+        <span class="source">MyAnimeList</span>
+    </li><li>
+        <time datetime="2026-10-08T18:49:31+05:30" data-relative="">3 hours ago</time>
+        <a href="https://myanimelist.net/news/74801996?_location=rss">Additional Cast for 'Marronnier Oukoku no Shichinin no Kishi' Announced</a>
+        <span class="source">MyAnimeList</span>
+    </li><li>
+        <time datetime="2026-10-08T18:46:00+05:30" data-relative="">3 hours ago</time>
+        <a href="https://crunchyroll.com/news/latest/2026/10/8/bless-anime-casts-yoshiki-nakajima-as-joe-osaki">Bless Anime Casts Yoshiki Nakajima as Joe Osaki</a>
+        <span class="source">Crunchyroll News</span>
+    </li></ol>
+</section>
+<section class="next-episode" aria-labelledby="next-episode-title">
+    <h2 class="section-label" id="next-episode-title">Next big episode</h2>
+    <a class="next-episode-link" href="show.html?id=210482">
+        <img class="next-cover" src="images/saved/cover-210482.webp" alt="" decoding="async" data-fallback="">
+        <span class="next-text">
+            <span class="next-title">STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE</span>
+            <span class="next-meta">Episode 3 · <time datetime="2026-10-09T08:00:00.000Z">Fri 9 Oct, 13:30</time></span>
+        </span>
+    </a>
+    <p class="countdown" role="timer" data-countdown="2026-10-09T08:00:00.000Z">15:35:01</p>
+    <a class="more-link" href="#schedule">Full airing schedule</a>
+</section>
+</div>
+        </section>
+
+        <section class="briefing" id="briefing" aria-labelledby="briefing-title">
+            <div class="section-head">
+                <h2 id="briefing-title">The briefing</h2>
+                <p>Six more headlines, in brief.</p>
+            </div>
+            <div class="briefing-columns" id="briefing-columns">
+<article class="brief">
+    <p class="kicker">Crunchyroll News</p>
+    <h3 class="headline"><a href="https://crunchyroll.com/news/latest/2026/10/8/the-seven-knights-of-the-marronnier-kingdom-anime-new-cast-members">The Seven Knights of the Marronnier Kingdom Anime Adds Three More Cast Members</a></h3>
+    <p>Adaptation based on josei manga by Nao Iwamoto is currently broadcasting in Japan</p>
+    <p class="byline">By Paul Chapman · <time datetime="2026-10-08T18:43:00+05:30" data-relative="">3 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Crunchyroll News</p>
+    <h3 class="headline"><a href="https://crunchyroll.com/news/announcements/2026/10/8/the-apothecary-diaries-the-late-ladys-treasure-anime-film-crunchyroll-worldwide-release">Crunchyroll to Bring The Apothecary Diaries: The Late Lady’s Treasure Anime Film to Theaters</a></h3>
+    <p>Crunchyroll announces release for North America and international regions</p>
+    <p class="byline">By Joseph Luster · <time datetime="2026-10-08T18:30:00+05:30" data-relative="">3 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Crunchyroll News</p>
+    <h3 class="headline"><a href="https://crunchyroll.com/news/latest/2026/10/8/horror-collector-anime-three-cast-members">HORROR COLLECTOR Anime Reveals Three New Cast Members</a></h3>
+    <p>Crunchyroll streams adaptation based on novel series beginning October 10</p>
+    <p class="byline">By Paul Chapman · <time datetime="2026-10-08T18:29:00+05:30" data-relative="">3 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Crunchyroll News</p>
+    <h3 class="headline"><a href="https://crunchyroll.com/news/latest/2026/10/8/firefly-wedding-shinpei-goto-character-trailer">Firefly Wedding Anime Introduces Shinpei Goto in New Character Trailer</a></h3>
+    <p>Crunchyroll streams adaptation of Oreco Tachibana's manga beginning October 9</p>
+    <p class="byline">By Paul Chapman · <time datetime="2026-10-08T18:16:00+05:30" data-relative="">4 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">MyAnimeList</p>
+    <h3 class="headline"><a href="https://myanimelist.net/news/74801885?_location=rss">'Kyoufu Collector' Announces Additional Cast</a></h3>
+    <p>The official website for the television anime adaptation of Midori Satou's Kyoufu Collector (Horror Collector) novel announced three additional cast members on Thursday. The anime series is scheduled to premiere on October 10 at 11:45 p.m. on NHK-G. Cast Momo: Sae Hiratsuka (Osananajimi to wa Love Comedy ni Naranai) Raita: Ryouta Oosaka (Hataraku Maou-sama!) Sachiko Konno: Hana Hishikawa (Sayonara</p>
+    <p class="byline"><time datetime="2026-10-08T17:05:42+05:30" data-relative="">5 hours ago</time></p>
+</article>
+<article class="brief">
+    <p class="kicker">Anime News Network</p>
+    <h3 class="headline"><a href="https://www.animenewsnetwork.com/news/2026-10-08/bless-tv-anime-casts-yoshiki-nakajima/.242634">Bless TV Anime Casts Yoshiki Nakajima</a></h3>
+    <p>Nakajima vioces Joe Osaki in series debuting in January 2027</p>
+    <p class="byline"><time datetime="2026-10-08T16:48:22+05:30" data-relative="">5 hours ago</time></p>
+</article>
+</div>
+        </section>
+
+        <section class="schedule" id="schedule" aria-labelledby="schedule-title">
+            <div class="section-head">
+                <h2 id="schedule-title">Airing this week</h2>
+                <p>New episodes of the 50 most popular shows, in your time zone.</p>
+            </div>
+            <div id="schedule-days">
+<div class="tabs" role="tablist" aria-label="Days of the week"><button class="tab" type="button" role="tab" id="day-tab-0" aria-controls="day-panel-0" aria-selected="true" tabindex="0">Today <span class="tab-date">8 Oct</span></button><button class="tab" type="button" role="tab" id="day-tab-1" aria-controls="day-panel-1" aria-selected="false" tabindex="-1">Tomorrow <span class="tab-date">9 Oct</span></button><button class="tab" type="button" role="tab" id="day-tab-2" aria-controls="day-panel-2" aria-selected="false" tabindex="-1">Saturday <span class="tab-date">10 Oct</span></button><button class="tab" type="button" role="tab" id="day-tab-3" aria-controls="day-panel-3" aria-selected="false" tabindex="-1">Sunday <span class="tab-date">11 Oct</span></button><button class="tab" type="button" role="tab" id="day-tab-4" aria-controls="day-panel-4" aria-selected="false" tabindex="-1">Monday <span class="tab-date">12 Oct</span></button><button class="tab" type="button" role="tab" id="day-tab-5" aria-controls="day-panel-5" aria-selected="false" tabindex="-1">Tuesday <span class="tab-date">13 Oct</span></button><button class="tab" type="button" role="tab" id="day-tab-6" aria-controls="day-panel-6" aria-selected="false" tabindex="-1">Wednesday <span class="tab-date">14 Oct</span></button></div>
+<div class="tab-panel" id="day-panel-0" role="tabpanel" aria-labelledby="day-tab-0" tabindex="0">
+    <h3 class="panel-title">Today</h3>
+    <p class="empty-day">No more episodes of the 50 most popular shows today. Try Tomorrow.</p>
+</div>
+<div class="tab-panel" id="day-panel-1" role="tabpanel" aria-labelledby="day-tab-1" tabindex="0" hidden="">
+    <h3 class="panel-title">Tomorrow</h3>
+    <ol class="schedule-list"><li>
+            <time class="slot-time" datetime="2026-10-09T03:00:00.000Z">08:30</time>
+            <img class="slot-cover" src="images/saved/cover-191832.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=191832">Link Click Season 3</a><span>Episode 10</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T03:00:00.000Z">10:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T08:00:00.000Z">13:30</time>
+            <img class="slot-cover" src="images/saved/cover-210482.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=210482">STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T08:00:00.000Z">15:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T09:55:00.000Z">15:25</time>
+            <img class="slot-cover" src="images/saved/cover-158871.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=158871">Pokémon Horizons: The Series</a><span>Episode 152</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T09:55:00.000Z">17:30:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T14:00:00.000Z">19:30</time>
+            <img class="slot-cover" src="images/saved/cover-195516.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=195516">The Apothecary Diaries Season 3</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T14:00:00.000Z">21:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T14:30:00.000Z">20:00</time>
+            <img class="slot-cover" src="images/saved/cover-205909.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=205909">Firefly Wedding</a><span>Episode 1</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T14:30:00.000Z">22:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T14:30:00.000Z">20:00</time>
+            <img class="slot-cover" src="images/saved/cover-204650.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=204650">TOUGEN ANKI: Nikko Kegon Falls Arc</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T14:30:00.000Z">22:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T15:00:00.000Z">20:30</time>
+            <img class="slot-cover" src="images/saved/cover-203490.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=203490">Please Excuse My Younger Brothers</a><span>Episode 14</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T15:00:00.000Z">22:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-09T16:53:00.000Z">22:23</time>
+            <img class="slot-cover" src="images/saved/cover-178083.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=178083">Tokyo Revengers: War of the Three Titans Arc</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T16:53:00.000Z">1d 00:28:01</span>
+        </li></ol>
+</div>
+<div class="tab-panel" id="day-panel-2" role="tabpanel" aria-labelledby="day-tab-2" tabindex="0" hidden="">
+    <h3 class="panel-title">Saturday</h3>
+    <ol class="schedule-list"><li>
+            <time class="slot-time" datetime="2026-10-09T22:16:00.000Z">03:46</time>
+            <img class="slot-cover" src="images/saved/cover-169581.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=169581">Magical Explorer</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-09T22:16:00.000Z">1d 05:51:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T07:30:00.000Z">13:00</time>
+            <img class="slot-cover" src="images/saved/cover-966.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=966">Shin Chan</a><span>Episode 1356</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T07:30:00.000Z">1d 15:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T08:00:00.000Z">13:30</time>
+            <img class="slot-cover" src="images/saved/cover-8687.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=8687">Doraemon (2005)</a><span>Episode 936</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T08:00:00.000Z">1d 15:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T09:00:00.000Z">14:30</time>
+            <img class="slot-cover" src="images/saved/cover-235.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=235">Detective Conan</a><span>Episode 1216</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T09:00:00.000Z">1d 16:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T12:00:00.000Z">17:30</time>
+            <img class="slot-cover" src="images/saved/cover-180894.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=180894">Romelia War Chronicle</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T12:00:00.000Z">1d 19:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T13:00:00.000Z">18:30</time>
+            <img class="slot-cover" src="images/saved/cover-187402.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=187402">A Tale of the Secret Saint</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T13:00:00.000Z">1d 20:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T13:30:00.000Z">19:00</time>
+            <img class="slot-cover" src="images/saved/cover-204389.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=204389">A Wild Last Boss Appeared! Season 2</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T13:30:00.000Z">1d 21:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T14:00:00.000Z">19:30</time>
+            <img class="slot-cover" src="images/saved/cover-195604.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=195604">Black Clover Season 2</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T14:00:00.000Z">1d 21:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T14:30:00.000Z">20:00</time>
+            <img class="slot-cover" src="images/saved/cover-199007.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=199007">#I'm Looking For a Zombie</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T14:30:00.000Z">1d 22:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T15:30:00.000Z">21:00</time>
+            <img class="slot-cover" src="images/saved/cover-191656.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=191656">Even the Student Council Has Its Holes!</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T15:30:00.000Z">1d 23:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T15:56:00.000Z">21:26</time>
+            <img class="slot-cover" src="images/saved/cover-209872.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=209872">Ranma1/2 (2024) Season 3</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T15:56:00.000Z">1d 23:31:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-10T16:30:00.000Z">22:00</time>
+            <img class="slot-cover" src="images/saved/cover-202250.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=202250">Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest!</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T16:30:00.000Z">2d 00:05:01</span>
+        </li></ol>
+</div>
+<div class="tab-panel" id="day-panel-3" role="tabpanel" aria-labelledby="day-tab-3" tabindex="0" hidden="">
+    <h3 class="panel-title">Sunday</h3>
+    <ol class="schedule-list"><li>
+            <time class="slot-time" datetime="2026-10-10T23:30:00.000Z">05:00</time>
+            <img class="slot-cover" src="images/saved/cover-202957.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=202957">Star Detective Precure!</a><span>Episode 37</span></span>
+            <span class="countdown-small" data-countdown="2026-10-10T23:30:00.000Z">2d 07:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T07:30:00.000Z">13:00</time>
+            <img class="slot-cover" src="images/saved/cover-189123.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=189123">Blue Box Season 2</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T07:30:00.000Z">2d 15:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T08:00:00.000Z">13:30</time>
+            <img class="slot-cover" src="images/saved/cover-191788.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=191788">Aoashi Season 2</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T08:00:00.000Z">2d 15:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T09:00:00.000Z">14:30</time>
+            <img class="slot-cover" src="images/saved/cover-118123.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=118123">Holo no Graffiti</a><span>Episode 387</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T09:00:00.000Z">2d 16:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T12:30:00.000Z">18:00</time>
+            <img class="slot-cover" src="images/saved/cover-186541.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=186541">Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T12:30:00.000Z">2d 20:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T14:30:00.000Z">20:00</time>
+            <img class="slot-cover" src="images/saved/cover-212888.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=212888">Overgeared</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T14:30:00.000Z">2d 22:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T14:30:00.000Z">20:00</time>
+            <img class="slot-cover" src="images/saved/cover-185756.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=185756">As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Season 3</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T14:30:00.000Z">2d 22:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T14:30:00.000Z">20:00</time>
+            <img class="slot-cover" src="images/saved/cover-200455.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=200455">Even Though I'm a Super Timid Noble Girl, I Accepted the Bet From My Cunning Fiancé</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T14:30:00.000Z">2d 22:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T16:05:00.000Z">21:35</time>
+            <img class="slot-cover" src="images/saved/cover-211877.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=211877">My Girlfriend's Friend</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T16:05:00.000Z">2d 23:40:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-11T16:20:00.000Z">21:50</time>
+            <img class="slot-cover" src="images/saved/cover-208025.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=208025">I'm Dating a Dark Summoner</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-11T16:20:00.000Z">2d 23:55:01</span>
+        </li></ol>
+</div>
+<div class="tab-panel" id="day-panel-4" role="tabpanel" aria-labelledby="day-tab-4" tabindex="0" hidden="">
+    <h3 class="panel-title">Monday</h3>
+    <ol class="schedule-list"><li>
+            <time class="slot-time" datetime="2026-10-12T12:30:00.000Z">18:00</time>
+            <img class="slot-cover" src="images/saved/cover-207191.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=207191">Hello, I am a Witch and my Crush Wants me to Make a Love Potion!</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-12T12:30:00.000Z">3d 20:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-12T13:00:00.000Z">18:30</time>
+            <img class="slot-cover" src="images/saved/cover-209219.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=209219">So What's Wrong with Getting Reborn as a Goblin?</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-12T13:00:00.000Z">3d 20:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-12T14:00:00.000Z">19:30</time>
+            <img class="slot-cover" src="images/saved/cover-204011.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=204011">PSYREN</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-12T14:00:00.000Z">3d 21:35:01</span>
+        </li></ol>
+</div>
+<div class="tab-panel" id="day-panel-5" role="tabpanel" aria-labelledby="day-tab-5" tabindex="0" hidden="">
+    <h3 class="panel-title">Tuesday</h3>
+    <ol class="schedule-list"><li>
+            <time class="slot-time" datetime="2026-10-13T12:26:00.000Z">17:56</time>
+            <img class="slot-cover" src="images/saved/cover-206949.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=206949">Nia Liston: The Merciless Maiden</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-13T12:26:00.000Z">4d 20:01:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-13T13:00:00.000Z">18:30</time>
+            <img class="slot-cover" src="images/saved/cover-209502.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=209502">The Cold Sato-san is Only Sweet to Me</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-13T13:00:00.000Z">4d 20:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-13T15:00:00.000Z">20:30</time>
+            <img class="slot-cover" src="images/saved/cover-207329.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=207329">The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-13T15:00:00.000Z">4d 22:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-13T16:35:00.000Z">22:05</time>
+            <img class="slot-cover" src="images/saved/cover-207809.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=207809">Red River</a><span>Episode 15</span></span>
+            <span class="countdown-small" data-countdown="2026-10-13T16:35:00.000Z">5d 00:10:01</span>
+        </li></ol>
+</div>
+<div class="tab-panel" id="day-panel-6" role="tabpanel" aria-labelledby="day-tab-6" tabindex="0" hidden="">
+    <h3 class="panel-title">Wednesday</h3>
+    <ol class="schedule-list"><li>
+            <time class="slot-time" datetime="2026-10-14T12:30:00.000Z">18:00</time>
+            <img class="slot-cover" src="images/saved/cover-152677.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=152677">The Detective Is Already Dead Season 2</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-14T12:30:00.000Z">5d 20:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-14T13:00:00.000Z">18:30</time>
+            <img class="slot-cover" src="images/saved/cover-176314.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=176314">Sasaki and Peeps Season 2</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-14T13:00:00.000Z">5d 20:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-14T13:00:00.000Z">18:30</time>
+            <img class="slot-cover" src="images/saved/cover-211778.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=211778">The World's Strongest Witch</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-14T13:00:00.000Z">5d 20:35:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-14T14:46:00.000Z">20:16</time>
+            <img class="slot-cover" src="images/saved/cover-178868.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=178868">Magic Knight Rayearth (2026)</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-14T14:46:00.000Z">5d 22:21:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-14T15:30:00.000Z">21:00</time>
+            <img class="slot-cover" src="images/saved/cover-159042.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=159042">Reincarnated as a Sword Season 2</a><span>Episode 3</span></span>
+            <span class="countdown-small" data-countdown="2026-10-14T15:30:00.000Z">5d 23:05:01</span>
+        </li><li>
+            <time class="slot-time" datetime="2026-10-14T15:45:00.000Z">21:15</time>
+            <img class="slot-cover" src="images/saved/cover-172192.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="slot-text"><a href="show.html?id=172192">A Returner's Magic Should be Special Season 2</a><span>Episode 2</span></span>
+            <span class="countdown-small" data-countdown="2026-10-14T15:45:00.000Z">5d 23:20:01</span>
+        </li></ol>
+</div>
+</div>
+        </section>
+
+        <section class="trending" id="trending" aria-labelledby="trending-title">
+            <div class="section-head">
+                <h2 id="trending-title">Trending now</h2>
+                <p>The ten shows most talked about on AniList right now.</p>
+            </div>
+            <ol class="trending-list" id="trending-list">
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 1">1</p>
+        <img class="anime-cover" src="images/saved/cover-206401.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=206401">FX Fighter Kurumi-chan</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 69 out of 100">69<span aria-hidden="true">%</span></span> Passione</p>
+            <p class="anime-next">Ep 3 in <span data-countdown="2026-10-15T12:30:00.000Z">6d 20:05:01</span></p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 2">2</p>
+        <img class="anime-cover" src="images/saved/cover-21.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=21">ONE PIECE</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 87 out of 100">87<span aria-hidden="true">%</span></span> Toei Animation</p>
+            <p class="anime-next">Ep 1181 in <span data-countdown="2027-01-03T14:16:00.000Z">86d 21:51:01</span></p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 3">3</p>
+        <img class="anime-cover" src="images/saved/cover-207329.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=207329">The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 72 out of 100">72<span aria-hidden="true">%</span></span> P.A.WORKS</p>
+            <p class="anime-next">Ep 2 in <span data-countdown="2026-10-13T15:00:00.000Z">4d 22:35:01</span></p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 4">4</p>
+        <img class="anime-cover" src="images/saved/cover-97940.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=97940">Black Clover</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 79 out of 100">79<span aria-hidden="true">%</span></span> Studio Pierrot</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 5">5</p>
+        <img class="anime-cover" src="images/saved/cover-159042.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=159042">Reincarnated as a Sword Season 2</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 75 out of 100">75<span aria-hidden="true">%</span></span> C2C</p>
+            <p class="anime-next">Ep 3 in <span data-countdown="2026-10-14T15:30:00.000Z">5d 23:05:01</span></p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 6">6</p>
+        <img class="anime-cover" src="images/saved/cover-172192.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=172192">A Returner's Magic Should be Special Season 2</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 68 out of 100">68<span aria-hidden="true">%</span></span> Arvo Animation</p>
+            <p class="anime-next">Ep 2 in <span data-countdown="2026-10-14T15:45:00.000Z">5d 23:20:01</span></p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 7">7</p>
+        <img class="anime-cover" src="images/saved/cover-213805.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=213805">The Ramparts of Ice Season 2</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 82 out of 100">82<span aria-hidden="true">%</span></span> Studio KAI</p>
+            <p class="anime-next">Ep 3 in <span data-countdown="2026-10-15T14:56:00.000Z">6d 22:31:01</span></p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 8">8</p>
+        <img class="anime-cover" src="images/saved/cover-189046.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=189046">Re:ZERO -Starting Life in Another World- Season 4</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 90 out of 100">90<span aria-hidden="true">%</span></span> WHITE FOX</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 9">9</p>
+        <img class="anime-cover" src="images/saved/cover-210031.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=210031">You and I Are Polar Opposites Season 2</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 84 out of 100">84<span aria-hidden="true">%</span></span> Lapin Track</p>
+        </div>
+    </article>
+</li>
+<li>
+    <article class="anime-card">
+        <p class="rank" aria-label="Trending number 10">10</p>
+        <img class="anime-cover" src="images/saved/cover-178789.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="anime-text">
+            <h3 class="anime-title"><a href="show.html?id=178789">Mushoku Tensei: Jobless Reincarnation Season 3</a></h3>
+            <p class="anime-meta"><span class="score" aria-label="Average score 86 out of 100">86<span aria-hidden="true">%</span></span> Studio Bind</p>
+        </div>
+    </article>
+</li>
+</ol>
+        </section>
+
+        <section class="season" id="season" aria-labelledby="season-title">
+            <div class="section-head">
+                <h2 id="season-title">Fall 2026 season</h2>
+                <p>The twelve most popular new and returning shows.</p>
+            </div>
+            <ul class="poster-grid" id="season-grid">
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-195516.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 85 out of 100">85<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=195516">The Apothecary Diaries Season 3</a></h3>
+        <p class="anime-meta">OLM · TV series</p>
+        <p class="genres">Drama, Mystery</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-195604.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 86 out of 100">86<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=195604">Black Clover Season 2</a></h3>
+        <p class="anime-meta">Studio Pierrot · TV series</p>
+        <p class="genres">Action, Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-195539.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=195539">Cyberpunk: Edgerunners 2</a></h3>
+        <p class="anime-meta">TRIGGER · ONA</p>
+        <p class="genres">Action, Drama</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-159042.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 75 out of 100">75<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=159042">Reincarnated as a Sword Season 2</a></h3>
+        <p class="anime-meta">C2C · ONA</p>
+        <p class="genres">Action, Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-189123.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 80 out of 100">80<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=189123">Blue Box Season 2</a></h3>
+        <p class="anime-meta">Electric Circus · TV series</p>
+        <p class="genres">Romance, Slice of Life</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-160275.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=160275">Made in Abyss: Mezameru Shinpi</a></h3>
+        <p class="anime-meta">Kinema Citrus · MOVIE</p>
+        <p class="genres">Adventure, Drama</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-143103.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=143103">Witch on the Holy Night</a></h3>
+        <p class="anime-meta">ufotable · MOVIE</p>
+        <p class="genres">Action, Drama</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-210482.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 85 out of 100">85<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=210482">STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE</a></h3>
+        <p class="anime-meta">david production · ONA</p>
+        <p class="genres">Action, Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-199340.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=199340">Rascal Does Not Dream of a Dear Friend</a></h3>
+        <p class="anime-meta">CloverWorks · MOVIE</p>
+        <p class="genres">Drama, Psychological</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-178083.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 76 out of 100">76<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=178083">Tokyo Revengers: War of the Three Titans Arc</a></h3>
+        <p class="anime-meta">LIDENFILMS · TV series</p>
+        <p class="genres">Action, Drama</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-212888.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 75 out of 100">75<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=212888">Overgeared</a></h3>
+        <p class="anime-meta">J.C.STAFF · ONA</p>
+        <p class="genres">Action, Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-213805.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score" aria-label="Average score 82 out of 100">82<span aria-hidden="true">%</span></span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=213805">The Ramparts of Ice Season 2</a></h3>
+        <p class="anime-meta">Studio KAI · TV series</p>
+        <p class="genres">Comedy, Drama</p>
+    </article>
+</li>
+</ul>
+        </section>
+
+        <section class="favourites" id="favourites" aria-labelledby="favourites-title">
+            <div class="section-head">
+                <h2 id="favourites-title">Fan favourites</h2>
+                <p>Two of the best-loved anime ever made, with live rankings.</p>
+            </div>
+            <div class="favourites-grid" id="favourites-grid">
+<article class="favourite">
+    <img class="favourite-banner" src="images/saved/banner-5114.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="favourite-inner">
+        <img class="favourite-cover" src="images/saved/cover-5114.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="favourite-text">
+            <p class="kicker">Fan favourite</p>
+            <h3><a href="show.html?id=5114">Fullmetal Alchemist: Brotherhood</a></h3>
+            <p class="native-title" lang="ja">鋼の錬金術師 FULLMETAL ALCHEMIST</p>
+            <ul class="rank-badges"><li>#4 highest rated of all time</li><li>#11 most popular of all time</li></ul>
+        </div>
+        <dl class="favourite-stats">
+            <div><dt>Score</dt><dd>90%</dd></div>
+            <div><dt>Fans</dt><dd>734,762</dd></div>
+            <div><dt>Episodes</dt><dd>64</dd></div>
+            <div><dt>Studio</dt><dd>bones</dd></div>
+        </dl>
+        <p class="favourite-synopsis">"In order for something to be obtained, something of equal value must be lost."</p>
+        <p class="favourite-links">
+            <a class="btn" href="show.html?id=5114">More about this show</a>
+            <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=1ac3_YdSSy0">Watch the trailer<span class="visually-hidden"> for Fullmetal Alchemist: Brotherhood on YouTube</span></a>
+        </p>
+    </div>
+</article>
+<article class="favourite">
+    <img class="favourite-banner" src="images/saved/banner-101922.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+    <div class="favourite-inner">
+        <img class="favourite-cover" src="images/saved/cover-101922.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+        <div class="favourite-text">
+            <p class="kicker">Fan favourite</p>
+            <h3><a href="show.html?id=101922">Demon Slayer: Kimetsu no Yaiba</a></h3>
+            <p class="native-title" lang="ja">鬼滅の刃</p>
+            <ul class="rank-badges"><li>#184 highest rated of all time</li><li>#2 most popular of all time</li></ul>
+        </div>
+        <dl class="favourite-stats">
+            <div><dt>Score</dt><dd>82%</dd></div>
+            <div><dt>Fans</dt><dd>1,002,158</dd></div>
+            <div><dt>Episodes</dt><dd>26</dd></div>
+            <div><dt>Studio</dt><dd>ufotable</dd></div>
+        </dl>
+        <p class="favourite-synopsis">It is the Taisho Period in Japan. Tanjiro, a kindhearted boy who sells charcoal for a living, finds his family slaughtered by a demon. To make matters worse, his younger sister Nezuko, the sole survivor, has been transformed into a demon herself. Though devastated by this grim reality, Tanjiro resolves to become a “demon slayer” so that he can turn his sister back into a human, and kill the demon that massacred his family.</p>
+        <p class="favourite-links">
+            <a class="btn" href="show.html?id=101922">More about this show</a>
+            <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=6vMuWuWlW4I">Watch the trailer<span class="visually-hidden"> for Demon Slayer: Kimetsu no Yaiba on YouTube</span></a>
+        </p>
+    </div>
+</article>
+</div>
+        </section>
+
+        <section class="upcoming" id="upcoming" aria-labelledby="upcoming-title">
+            <div class="section-head">
+                <h2 id="upcoming-title">Coming in Winter 2027</h2>
+                <p>The most anticipated shows starting next season.</p>
+            </div>
+            <ul class="poster-grid poster-grid-small" id="upcoming-grid">
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-177704.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=177704">MASHLE: Sanma Taisou Shinkakusha Saishuu Shiken-hen</a></h3>
+        <p class="anime-meta">A-1 Pictures · TV series</p>
+        <p class="genres">Action, Comedy</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-189323.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=189323">Shangri-La Frontier Season 3</a></h3>
+        <p class="anime-meta">C2C · TV series</p>
+        <p class="genres">Action, Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-169579.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=169579">Sekai Saikou no Ansatsusha, Isekai Kizoku ni Tensei suru 2nd Season</a></h3>
+        <p class="anime-meta">SILVER LINK. · TV series</p>
+        <p class="genres">Action, Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-171630.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=171630">THE ONE PIECE</a></h3>
+        <p class="anime-meta">WIT STUDIO</p>
+        <p class="genres">Adventure</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-204363.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=204363">SAKAMOTO DAYS Season 2</a></h3>
+        <p class="anime-meta">TMS Entertainment · TV series</p>
+        <p class="genres">Action, Comedy</p>
+    </article>
+</li>
+<li>
+    <article class="poster">
+        <div class="poster-image">
+            <img class="anime-cover" src="images/saved/cover-186822.webp" alt="" loading="lazy" decoding="async" data-fallback="">
+            <span class="score score-none">New</span>
+        </div>
+        <h3 class="anime-title"><a href="show.html?id=186822">The Guy She Was Interested In Wasn't a Guy At All</a></h3>
+        <p class="anime-meta">CloverWorks · TV series</p>
+        <p class="genres">Music, Romance</p>
+    </article>
+</li>
+</ul>
+        </section>
+
+        <section class="newsletter" aria-labelledby="newsletter-title">
+            <h2 id="newsletter-title">The weekly round-up</h2>
+            <p>The week's biggest anime news and what to watch, every Friday.</p>
+            <form class="newsletter-form" id="newsletter-form" novalidate>
+                <label for="newsletter-email">Email address</label>
+                <div class="newsletter-row">
+                    <input id="newsletter-email" type="email" autocomplete="email" required aria-describedby="newsletter-message">
+                    <button class="btn" type="submit">Subscribe</button>
+                </div>
+                <p class="newsletter-message" id="newsletter-message" role="status"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="logo">Panel <span>&amp;</span> Pixel</p>
+                <p>A demo news portal. Headlines link to the full articles on the publishers' sites.</p>
+            </div>
+            <div>
+                <h2>Data sources</h2>
+                <ul>
+                    <li><a href="https://www.crunchyroll.com/news">Crunchyroll News</a>, <a href="https://www.animenewsnetwork.com/">Anime News Network</a> and <a href="https://myanimelist.net/news">MyAnimeList</a>: news headlines</li>
+                    <li><a href="https://anilist.co/">AniList</a>: shows, scores, rankings and airing times</li>
+                </ul>
+            </div>
+            <div>
+                <h2>About the images</h2>
+                <p>Cover art, banners and news images belong to their studios and publishers and are shown with links to the source.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a class="back-to-top" id="back-to-top" href="#top">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <span class="visually-hidden">Back to top</span>
+    </a>
+
+</body>
+
+</html>

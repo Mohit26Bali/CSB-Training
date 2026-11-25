@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neon Frame Festival 2026: three days of anime screenings, cosplay, workshops and karaoke. Browse events, see the schedule and book seats.">
+    <meta name="theme-color" content="#0b0820">
+    <title>Neon Frame Festival 2026 | Anime &amp; Film Events</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Unbounded:wght@600;800&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#events">Skip to events</a>
+
+    <p class="demo-note">Demo page: Neon Frame Festival is fictional. The films are real, but the festival is not connected to their studios. Photos show fan cosplay and merchandise, from Pexels. Bookings are saved only in your browser.</p>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Neon Frame Festival home">
+                <span class="logo-mark" aria-hidden="true">NF</span>
+                <span class="logo-text">Neon<span>Frame</span></span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-menu">
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                    <li><a href="#venue">Venue</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="my-tickets" type="button" id="open-tickets" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/></svg>
+                My tickets <span class="ticket-count" id="ticket-count">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <section class="hero" aria-labelledby="hero-title">
+            <img class="hero-image" src="images/hero-tokyo-neon.webp" alt="" width="1920" height="1200">
+            <div class="container hero-inner">
+                <p class="hero-dates"><time datetime="2026-11-20">20</time>&ndash;<time datetime="2026-11-22">22 November 2026</time> &middot; Lumen Arts Centre, Manchester</p>
+                <h1 id="hero-title"><span class="glow-pink">Neon</span> <span class="glow-cyan">Frame</span> <span class="hero-year">Festival 2026</span></h1>
+                <p class="hero-lead">Three days of anime on the big screen, cosplay, workshops and karaoke. 15 events, 4 venues, one weekend.</p>
+
+                <div class="countdown" id="countdown" hidden>
+                    <p class="countdown-label">Opening night starts in</p>
+                    <p class="countdown-units" role="timer" aria-live="off">
+                        <span><strong id="cd-days">0</strong> days</span>
+                        <span><strong id="cd-hours">0</strong> hours</span>
+                        <span><strong id="cd-minutes">0</strong> minutes</span>
+                    </p>
+                </div>
+
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#events">Browse events</a>
+                    <a class="btn btn-ghost" href="#schedule">See the schedule</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured container" aria-labelledby="featured-title">
+            <article class="featured-card">
+                <img src="images/events/spirited-away.webp" alt="A cosplayer dressed as No-Face from Spirited Away" width="800" height="533">
+                <div class="featured-body">
+                    <p class="eyebrow">Opening night</p>
+                    <h2 id="featured-title">Spirited Away on the big screen</h2>
+                    <p><time datetime="2026-11-20T19:00">Friday 20 November, 19:00</time> &middot; Screen 1 &middot; <span id="featured-left">Only 8 seats left</span></p>
+                    <a class="btn btn-primary" href="#event-spirited-away">See event details</a>
+                </div>
+            </article>
+        </section>
+
+        <section class="events container" id="events" aria-labelledby="events-title">
+            <div class="section-head">
+                <h2 id="events-title">Upcoming events</h2>
+                <p>Screenings, cosplay, workshops and more. Filter to find your thing.</p>
+            </div>
+
+            <form class="filters" role="search" aria-label="Filter events">
+                <div class="filter-search">
+                    <label for="search">Search events</label>
+                    <input id="search" type="search" placeholder="Try &quot;Ghibli&quot; or &quot;workshop&quot;" autocomplete="off">
+                </div>
+                <fieldset class="chips">
+                    <legend class="visually-hidden">Category</legend>
+                    <label class="chip"><input type="radio" name="category" value="all" checked> All</label>
+                        <label class="chip"><input type="radio" name="category" value="screening"> Screening</label>
+                        <label class="chip"><input type="radio" name="category" value="cosplay"> Cosplay</label>
+                        <label class="chip"><input type="radio" name="category" value="workshop"> Workshop</label>
+                        <label class="chip"><input type="radio" name="category" value="gaming"> Gaming</label>
+                        <label class="chip"><input type="radio" name="category" value="music"> Music & talks</label>
+                </fieldset>
+                <div class="filter-row">
+                    <div class="filter-field">
+                        <label for="filter-day">Day</label>
+                        <select id="filter-day">
+                            <option value="all">All days</option>
+                            <option value="fri">Friday 20</option>
+                            <option value="sat">Saturday 21</option>
+                            <option value="sun">Sunday 22</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label for="sort">Sort by</label>
+                        <select id="sort">
+                            <option value="date">Date and time</option>
+                            <option value="price-low">Price: low to high</option>
+                            <option value="seats">Fewest seats left</option>
+                        </select>
+                    </div>
+                    <label class="check"><input type="checkbox" id="filter-available"> Hide sold out</label>
+                    <label class="check"><input type="checkbox" id="filter-free"> Free only</label>
+                    <button class="btn-text" type="reset">Clear filters</button>
+                </div>
+            </form>
+
+            <p class="result-count" id="result-count" aria-live="polite">Showing all 15 events</p>
+
+            <ul class="event-grid" id="event-grid">
+                <li class="event" id="event-opening-party" data-id="opening-party" data-max="4" data-category="cosplay" data-day="fri" data-price="0" data-start="2026-11-20T17:30" data-left="400" data-booking="dropin" data-search="cosplay meet-up &amp; opening party cosplay main hall start the weekend in costume. meet other fans, browse the artist alley stalls and pick up your festival lanyard. friday">
+                    <article class="event-card cat-cosplay" aria-labelledby="opening-party-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/artist-alley.webp" alt="Shelves of anime figures and collectibles in a brightly lit shop" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Fri</span> <span class="date-num">20</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Cosplay</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="opening-party-title">Cosplay Meet-up &amp; Opening Party</h3>
+                            <p class="event-when"><time datetime="2026-11-20T17:30">Friday 17:30</time> &ndash; <time datetime="2026-11-20T19:00">19:00</time></p>
+                            <p class="event-where">Main Hall</p>
+                            <p class="event-desc">Start the weekend in costume. Meet other fans, browse the artist alley stalls and pick up your festival lanyard.</p>
+                            <div class="seats">
+                                <p class="seats-text">Drop in, no booking needed</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="0">Free</data></p>
+                                <p class="no-booking">Just turn up</p>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="opening-party" hidden>Add to calendar<span class="visually-hidden">: Cosplay Meet-up &amp; Opening Party</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event is-low" id="event-spirited-away" data-id="spirited-away" data-max="6" data-category="screening" data-day="fri" data-price="12" data-start="2026-11-20T19:00" data-left="8" data-booking="seats" data-search="spirited away screening screen 1 opening night: studio ghibli&#x27;s oscar-winning classic by hayao miyazaki (2001, 125 min), in japanese with english subtitles. friday">
+                    <article class="event-card cat-screening" aria-labelledby="spirited-away-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/spirited-away.webp" alt="A cosplayer dressed as No-Face from Spirited Away next to a fan in a white costume" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Fri</span> <span class="date-num">20</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="spirited-away-title">Spirited Away</h3>
+                            <p class="event-when"><time datetime="2026-11-20T19:00">Friday 19:00</time> &ndash; <time datetime="2026-11-20T21:30">21:30</time></p>
+                            <p class="event-where">Screen 1</p>
+                            <p class="event-desc">Opening night: Studio Ghibli&#x27;s Oscar-winning classic by Hayao Miyazaki (2001, 125 min), in Japanese with English subtitles.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="88" aria-label="88 of 96 seats booked"></meter>
+                                <p class="seats-text">Only 8 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="12">&pound;12</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="spirited-away">Choose seats<span class="visually-hidden">: Spirited Away</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="spirited-away" hidden>Add to calendar<span class="visually-hidden">: Spirited Away</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-karaoke" data-id="karaoke" data-max="4" data-category="music" data-day="fri" data-price="8" data-start="2026-11-20T21:30" data-left="53" data-booking="tickets" data-search="anime karaoke night music &amp; talks main hall opening themes, ending themes and the big ballads. lyrics on screen in japanese and english. friday">
+                    <article class="event-card cat-music" aria-labelledby="karaoke-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/karaoke.webp" alt="Friends singing into a microphone under a neon karaoke sign" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Fri</span> <span class="date-num">20</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Music & talks</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="karaoke-title">Anime Karaoke Night</h3>
+                            <p class="event-when"><time datetime="2026-11-20T21:30">Friday 21:30</time> &ndash; <time datetime="2026-11-20T23:30">23:30</time></p>
+                            <p class="event-where">Main Hall</p>
+                            <p class="event-desc">Opening themes, ending themes and the big ballads. Lyrics on screen in Japanese and English.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="150" low="90" high="135" optimum="0" value="97" aria-label="97 of 150 places booked"></meter>
+                                <p class="seats-text">53 of 150 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="8">&pound;8</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="karaoke">Book tickets<span class="visually-hidden">: Anime Karaoke Night</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="karaoke" hidden>Add to calendar<span class="visually-hidden">: Anime Karaoke Night</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event is-low" id="event-manga-drawing" data-id="manga-drawing" data-max="4" data-category="workshop" data-day="sat" data-price="15" data-start="2026-11-21T10:00" data-left="6" data-booking="tickets" data-search="manga drawing workshop workshop studio learn faces, expressions and speech bubbles with a professional manga artist. paper and pens provided. saturday">
+                    <article class="event-card cat-workshop" aria-labelledby="manga-drawing-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/manga-drawing.webp" alt="A hand-drawn manga character on a card resting on an open book" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sat</span> <span class="date-num">21</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Workshop</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="manga-drawing-title">Manga Drawing Workshop</h3>
+                            <p class="event-when"><time datetime="2026-11-21T10:00">Saturday 10:00</time> &ndash; <time datetime="2026-11-21T12:00">12:00</time></p>
+                            <p class="event-where">Studio</p>
+                            <p class="event-desc">Learn faces, expressions and speech bubbles with a professional manga artist. Paper and pens provided.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="20" low="12" high="18" optimum="0" value="14" aria-label="14 of 20 places booked"></meter>
+                                <p class="seats-text">Only 6 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="15">&pound;15</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="manga-drawing">Book tickets<span class="visually-hidden">: Manga Drawing Workshop</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="manga-drawing" hidden>Add to calendar<span class="visually-hidden">: Manga Drawing Workshop</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event is-sold-out" id="event-totoro" data-id="totoro" data-max="6" data-category="screening" data-day="sat" data-price="6" data-start="2026-11-21T10:30" data-left="0" data-booking="seats" data-search="my neighbor totoro: family matinee screening screen 2 a relaxed studio ghibli screening for families (1988, 86 min), english dub, with the lights left slightly up. saturday">
+                    <article class="event-card cat-screening" aria-labelledby="totoro-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/totoro.webp" alt="A large wooden Totoro sculpture beside a Japanese street sign" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sat</span> <span class="date-num">21</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="totoro-title">My Neighbor Totoro: Family Matinee</h3>
+                            <p class="event-when"><time datetime="2026-11-21T10:30">Saturday 10:30</time> &ndash; <time datetime="2026-11-21T12:00">12:00</time></p>
+                            <p class="event-where">Screen 2</p>
+                            <p class="event-desc">A relaxed Studio Ghibli screening for families (1988, 86 min), English dub, with the lights left slightly up.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="96" aria-label="96 of 96 seats booked"></meter>
+                                <p class="seats-text">Sold out</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="6">&pound;6</data></p>
+                                <button class="btn btn-waitlist" type="button" data-action="waitlist" data-id="totoro">Join waiting list<span class="visually-hidden">: My Neighbor Totoro: Family Matinee</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="totoro" hidden>Add to calendar<span class="visually-hidden">: My Neighbor Totoro: Family Matinee</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-cosplay-championship" data-id="cosplay-championship" data-max="4" data-category="cosplay" data-day="sat" data-price="0" data-start="2026-11-21T14:00" data-left="88" data-booking="tickets" data-search="cosplay championship cosplay main hall thirty finalists on the big stage, judged on craft and performance. free to watch; tickets guarantee a seat. saturday">
+                    <article class="event-card cat-cosplay" aria-labelledby="cosplay-championship-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/cosplay.webp" alt="A big group of cosplayers in colourful anime costumes, some holding guitars" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sat</span> <span class="date-num">21</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Cosplay</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="cosplay-championship-title">Cosplay Championship</h3>
+                            <p class="event-when"><time datetime="2026-11-21T14:00">Saturday 14:00</time> &ndash; <time datetime="2026-11-21T16:30">16:30</time></p>
+                            <p class="event-where">Main Hall</p>
+                            <p class="event-desc">Thirty finalists on the big stage, judged on craft and performance. Free to watch; tickets guarantee a seat.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="300" low="180" high="270" optimum="0" value="212" aria-label="212 of 300 places booked"></meter>
+                                <p class="seats-text">88 of 300 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="0">Free</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="cosplay-championship">Register<span class="visually-hidden">: Cosplay Championship</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="cosplay-championship" hidden>Add to calendar<span class="visually-hidden">: Cosplay Championship</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-one-piece" data-id="one-piece" data-max="6" data-category="screening" data-day="sat" data-price="12" data-start="2026-11-21T16:30" data-left="31" data-booking="seats" data-search="one piece film: red screening screen 1 the concert movie (2022, 115 min) as a sing-along screening, with lyrics subtitled on screen. saturday">
+                    <article class="event-card cat-screening" aria-labelledby="one-piece-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/one-piece.webp" alt="A fan holding up the Straw Hat Pirates&#x27; Jolly Roger flag" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sat</span> <span class="date-num">21</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="one-piece-title">One Piece Film: Red</h3>
+                            <p class="event-when"><time datetime="2026-11-21T16:30">Saturday 16:30</time> &ndash; <time datetime="2026-11-21T18:30">18:30</time></p>
+                            <p class="event-where">Screen 1</p>
+                            <p class="event-desc">The concert movie (2022, 115 min) as a sing-along screening, with lyrics subtitled on screen.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="65" aria-label="65 of 96 seats booked"></meter>
+                                <p class="seats-text">31 of 96 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="12">&pound;12</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="one-piece">Choose seats<span class="visually-hidden">: One Piece Film: Red</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="one-piece" hidden>Add to calendar<span class="visually-hidden">: One Piece Film: Red</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event is-low" id="event-demon-slayer" data-id="demon-slayer" data-max="6" data-category="screening" data-day="sat" data-price="12" data-start="2026-11-21T19:00" data-left="5" data-booking="seats" data-search="demon slayer: infinity castle screening screen 1 saturday night headliner: tanjiro and the hashira fall into muzan&#x27;s fortress in the first film of the final arc (2025, 155 min), in japanese with english subtitles. saturday">
+                    <article class="event-card cat-screening" aria-labelledby="demon-slayer-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/demon-slayer.webp" alt="A cosplayer dressed as Tanjiro from Demon Slayer, in a green and black checked jacket, raising a katana" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sat</span> <span class="date-num">21</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="demon-slayer-title">Demon Slayer: Infinity Castle</h3>
+                            <p class="event-when"><time datetime="2026-11-21T19:00">Saturday 19:00</time> &ndash; <time datetime="2026-11-21T22:00">22:00</time></p>
+                            <p class="event-where">Screen 1</p>
+                            <p class="event-desc">Saturday night headliner: Tanjiro and the Hashira fall into Muzan&#x27;s fortress in the first film of the final arc (2025, 155 min), in Japanese with English subtitles.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="91" aria-label="91 of 96 seats booked"></meter>
+                                <p class="seats-text">Only 5 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="12">&pound;12</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="demon-slayer">Choose seats<span class="visually-hidden">: Demon Slayer: Infinity Castle</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="demon-slayer" hidden>Add to calendar<span class="visually-hidden">: Demon Slayer: Infinity Castle</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-naruto" data-id="naruto" data-max="6" data-category="screening" data-day="sat" data-price="10" data-start="2026-11-21T21:00" data-left="19" data-booking="seats" data-search="naruto late-night marathon screening screen 2 six fan-favourite shippuden episodes chosen by festival vote, with a ramen break at half time. saturday">
+                    <article class="event-card cat-screening" aria-labelledby="naruto-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/naruto.webp" alt="Cosplayers dressed as Naruto and Hinata in fighting poses" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sat</span> <span class="date-num">21</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="naruto-title">Naruto Late-Night Marathon</h3>
+                            <p class="event-when"><time datetime="2026-11-21T21:00">Saturday 21:00</time> &ndash; <time datetime="2026-11-21T23:59">00:00</time></p>
+                            <p class="event-where">Screen 2</p>
+                            <p class="event-desc">Six fan-favourite Shippuden episodes chosen by festival vote, with a ramen break at half time.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="77" aria-label="77 of 96 seats booked"></meter>
+                                <p class="seats-text">19 of 96 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="10">&pound;10</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="naruto">Choose seats<span class="visually-hidden">: Naruto Late-Night Marathon</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="naruto" hidden>Add to calendar<span class="visually-hidden">: Naruto Late-Night Marathon</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event is-low" id="event-figure-painting" data-id="figure-painting" data-max="4" data-category="workshop" data-day="sun" data-price="20" data-start="2026-11-22T10:30" data-left="3" data-booking="tickets" data-search="figure painting workshop workshop studio paint your own resin figure with a model maker. brushes, paints and a figure to take home included. sunday">
+                    <article class="event-card cat-workshop" aria-labelledby="figure-painting-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/figure-painting.webp" alt="An anime figure in a black cloak with red clouds on a display shelf" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sun</span> <span class="date-num">22</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Workshop</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="figure-painting-title">Figure Painting Workshop</h3>
+                            <p class="event-when"><time datetime="2026-11-22T10:30">Sunday 10:30</time> &ndash; <time datetime="2026-11-22T12:30">12:30</time></p>
+                            <p class="event-where">Studio</p>
+                            <p class="event-desc">Paint your own resin figure with a model maker. Brushes, paints and a figure to take home included.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="16" low="10" high="14" optimum="0" value="13" aria-label="13 of 16 places booked"></meter>
+                                <p class="seats-text">Only 3 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="20">&pound;20</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="figure-painting">Book tickets<span class="visually-hidden">: Figure Painting Workshop</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="figure-painting" hidden>Add to calendar<span class="visually-hidden">: Figure Painting Workshop</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-fullmetal-alchemist" data-id="fullmetal-alchemist" data-max="6" data-category="screening" data-day="sun" data-price="10" data-start="2026-11-22T11:00" data-left="37" data-booking="seats" data-search="fullmetal alchemist: the sacred star of milos screening screen 2 edward and alphonse elric chase an escaped prisoner to the valley of milos (2011, 110 min), in japanese with english subtitles. sunday">
+                    <article class="event-card cat-screening" aria-labelledby="fullmetal-alchemist-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/fullmetal-alchemist.webp" alt="A glowing circle of orange sparks against a dark night sky, like a transmutation circle" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sun</span> <span class="date-num">22</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="fullmetal-alchemist-title">Fullmetal Alchemist: The Sacred Star of Milos</h3>
+                            <p class="event-when"><time datetime="2026-11-22T11:00">Sunday 11:00</time> &ndash; <time datetime="2026-11-22T13:00">13:00</time></p>
+                            <p class="event-where">Screen 2</p>
+                            <p class="event-desc">Edward and Alphonse Elric chase an escaped prisoner to the valley of Milos (2011, 110 min), in Japanese with English subtitles.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="59" aria-label="59 of 96 seats booked"></meter>
+                                <p class="seats-text">37 of 96 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="10">&pound;10</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="fullmetal-alchemist">Choose seats<span class="visually-hidden">: Fullmetal Alchemist: The Sacred Star of Milos</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="fullmetal-alchemist" hidden>Add to calendar<span class="visually-hidden">: Fullmetal Alchemist: The Sacred Star of Milos</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-pokemon-tcg" data-id="pokemon-tcg" data-max="1" data-category="gaming" data-day="sun" data-price="5" data-start="2026-11-22T11:00" data-left="23" data-booking="tickets" data-search="pokémon tcg tournament gaming main hall swiss rounds and a top-8 final. bring a legal standard deck; one entry per player. sunday">
+                    <article class="event-card cat-gaming" aria-labelledby="pokemon-tcg-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/pokemon-cards.webp" alt="Pokémon trading cards in protective cases on a wooden table" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sun</span> <span class="date-num">22</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Gaming</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="pokemon-tcg-title">Pokémon TCG Tournament</h3>
+                            <p class="event-when"><time datetime="2026-11-22T11:00">Sunday 11:00</time> &ndash; <time datetime="2026-11-22T15:00">15:00</time></p>
+                            <p class="event-where">Main Hall</p>
+                            <p class="event-desc">Swiss rounds and a top-8 final. Bring a legal Standard deck; one entry per player.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="64" low="38" high="58" optimum="0" value="41" aria-label="41 of 64 places booked"></meter>
+                                <p class="seats-text">23 of 64 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="5">&pound;5</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="pokemon-tcg">Book tickets<span class="visually-hidden">: Pokémon TCG Tournament</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="pokemon-tcg" hidden>Add to calendar<span class="visually-hidden">: Pokémon TCG Tournament</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-dragon-ball" data-id="dragon-ball" data-max="6" data-category="screening" data-day="sun" data-price="10" data-start="2026-11-22T13:00" data-left="44" data-booking="seats" data-search="dragon ball super: super hero screening screen 1 gohan and piccolo take the lead in this action-packed film (2022, 100 min), english dub. sunday">
+                    <article class="event-card cat-screening" aria-labelledby="dragon-ball-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/dragon-ball.webp" alt="A large Goku figure surrounded by collectible toys" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sun</span> <span class="date-num">22</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="dragon-ball-title">Dragon Ball Super: Super Hero</h3>
+                            <p class="event-when"><time datetime="2026-11-22T13:00">Sunday 13:00</time> &ndash; <time datetime="2026-11-22T15:00">15:00</time></p>
+                            <p class="event-where">Screen 1</p>
+                            <p class="event-desc">Gohan and Piccolo take the lead in this action-packed film (2022, 100 min), English dub.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="52" aria-label="52 of 96 seats booked"></meter>
+                                <p class="seats-text">44 of 96 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="10">&pound;10</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="dragon-ball">Choose seats<span class="visually-hidden">: Dragon Ball Super: Super Hero</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="dragon-ball" hidden>Add to calendar<span class="visually-hidden">: Dragon Ball Super: Super Hero</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-voice-acting" data-id="voice-acting" data-max="6" data-category="music" data-day="sun" data-price="10" data-start="2026-11-22T15:30" data-left="46" data-booking="seats" data-search="voice acting masterclass music &amp; talks screen 2 how anime is dubbed into english, with live demos and audience volunteers on the mic. sunday">
+                    <article class="event-card cat-music" aria-labelledby="voice-acting-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/voice-acting.webp" alt="A studio microphone with a pop filter in a dim recording booth" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sun</span> <span class="date-num">22</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Music & talks</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="voice-acting-title">Voice Acting Masterclass</h3>
+                            <p class="event-when"><time datetime="2026-11-22T15:30">Sunday 15:30</time> &ndash; <time datetime="2026-11-22T17:00">17:00</time></p>
+                            <p class="event-where">Screen 2</p>
+                            <p class="event-desc">How anime is dubbed into English, with live demos and audience volunteers on the mic.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="50" aria-label="50 of 96 seats booked"></meter>
+                                <p class="seats-text">46 of 96 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="10">&pound;10</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="voice-acting">Choose seats<span class="visually-hidden">: Voice Acting Masterclass</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="voice-acting" hidden>Add to calendar<span class="visually-hidden">: Voice Acting Masterclass</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                <li class="event" id="event-attack-on-titan" data-id="attack-on-titan" data-max="6" data-category="screening" data-day="sun" data-price="12" data-start="2026-11-22T19:00" data-left="12" data-booking="seats" data-search="attack on titan: the last attack screening screen 1 closing night: the final chapters on the big screen (2024, 145 min), in japanese with english subtitles. sunday">
+                    <article class="event-card cat-screening" aria-labelledby="attack-on-titan-title" tabindex="-1">
+                        <div class="event-media">
+                            <img src="images/events/attack-on-titan.webp" alt="Three cosplayers dressed as Survey Corps soldiers from Attack on Titan, posing in a forest" width="800" height="533" loading="lazy">
+                            <p class="date-badge"><span class="date-day">Sun</span> <span class="date-num">22</span> <span class="date-month">Nov</span></p>
+                            <p class="cat-tag">Screening</p>
+                        </div>
+                        <div class="event-body">
+                            <h3 id="attack-on-titan-title">Attack on Titan: The Last Attack</h3>
+                            <p class="event-when"><time datetime="2026-11-22T19:00">Sunday 19:00</time> &ndash; <time datetime="2026-11-22T21:30">21:30</time></p>
+                            <p class="event-where">Screen 1</p>
+                            <p class="event-desc">Closing night: the final chapters on the big screen (2024, 145 min), in Japanese with English subtitles.</p>
+                            <div class="seats">
+                                <meter class="seats-meter" min="0" max="96" low="58" high="86" optimum="0" value="84" aria-label="84 of 96 seats booked"></meter>
+                                <p class="seats-text">12 of 96 left</p>
+                            </div>
+                            <div class="event-footer">
+                                <p class="price"><data value="12">&pound;12</data></p>
+                                <button class="btn btn-book" type="button" data-action="book" data-id="attack-on-titan">Choose seats<span class="visually-hidden">: Attack on Titan: The Last Attack</span></button>
+                                <button class="btn-calendar" type="button" data-action="calendar" data-id="attack-on-titan" hidden>Add to calendar<span class="visually-hidden">: Attack on Titan: The Last Attack</span></button>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+
+            <div class="no-results" id="no-results" hidden>
+                <p><strong>No events match.</strong> Try another day or category.</p>
+                <button class="btn btn-ghost" type="button" id="clear-from-empty">Clear filters</button>
+            </div>
+
+            <p class="box-office">Booking online needs JavaScript. You can also book at the box office: <a href="tel:+441614960000">0161 496 0000</a>.</p>
+        </section>
+
+        <section class="schedule" id="schedule" aria-labelledby="schedule-title">
+            <div class="container">
+                <div class="section-head">
+                    <h2 id="schedule-title">Festival schedule</h2>
+                    <p>Every event by time and venue. Select an event to see its details and book.</p>
+                </div>
+
+                <div class="tabs" role="tablist" aria-label="Festival days">
+                <button class="tab" type="button" role="tab" id="tab-fri" aria-controls="panel-fri" aria-selected="true">Friday <span class="tab-date">20 Nov</span></button>
+                <button class="tab" type="button" role="tab" id="tab-sat" aria-controls="panel-sat" aria-selected="false" tabindex="-1">Saturday <span class="tab-date">21 Nov</span></button>
+                <button class="tab" type="button" role="tab" id="tab-sun" aria-controls="panel-sun" aria-selected="false" tabindex="-1">Sunday <span class="tab-date">22 Nov</span></button>
+                </div>
+
+            <div class="tab-panel" id="panel-fri" role="tabpanel" aria-labelledby="tab-fri" tabindex="0">
+                <h3 class="panel-title">Friday 20 Nov</h3>
+                <div class="timetable" style="--rows: 13">
+                    <p class="tt-venue" style="--col: 2" aria-hidden="true">Screen 1</p>
+                    <p class="tt-venue" style="--col: 3" aria-hidden="true">Screen 2</p>
+                    <p class="tt-venue" style="--col: 4" aria-hidden="true">Main Hall</p>
+                    <p class="tt-venue" style="--col: 5" aria-hidden="true">Studio</p>
+                    <p class="tt-time" style="--row: 3" aria-hidden="true">18:00</p>
+                    <p class="tt-time" style="--row: 5" aria-hidden="true">19:00</p>
+                    <p class="tt-time" style="--row: 7" aria-hidden="true">20:00</p>
+                    <p class="tt-time" style="--row: 9" aria-hidden="true">21:00</p>
+                    <p class="tt-time" style="--row: 11" aria-hidden="true">22:00</p>
+                    <p class="tt-time" style="--row: 13" aria-hidden="true">23:00</p>
+                    <article class="slot cat-cosplay" style="--col: 4; --start: 2; --end: 5">
+                        <h4><a href="#event-opening-party">Cosplay Meet-up &amp; Opening Party</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-20T17:30">17:30</time>&ndash;19:00 &middot; Main Hall</p>
+                        <span class="slot-status">Drop in</span>
+                    </article>
+                    <article class="slot cat-screening" style="--col: 2; --start: 5; --end: 10">
+                        <h4><a href="#event-spirited-away">Spirited Away</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-20T19:00">19:00</time>&ndash;21:30 &middot; Screen 1</p>
+                        
+                    </article>
+                    <article class="slot cat-music" style="--col: 4; --start: 10; --end: 14">
+                        <h4><a href="#event-karaoke">Anime Karaoke Night</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-20T21:30">21:30</time>&ndash;23:30 &middot; Main Hall</p>
+                        
+                    </article>
+                </div>
+            </div>
+            <div class="tab-panel" id="panel-sat" role="tabpanel" aria-labelledby="tab-sat" tabindex="0">
+                <h3 class="panel-title">Saturday 21 Nov</h3>
+                <p class="tt-note">All day 10:00&ndash;18:00: <strong>Artist Alley &amp; merch market</strong> in the Foyer. Free entry, no booking.</p>
+                <div class="timetable" style="--rows: 28">
+                    <p class="tt-venue" style="--col: 2" aria-hidden="true">Screen 1</p>
+                    <p class="tt-venue" style="--col: 3" aria-hidden="true">Screen 2</p>
+                    <p class="tt-venue" style="--col: 4" aria-hidden="true">Main Hall</p>
+                    <p class="tt-venue" style="--col: 5" aria-hidden="true">Studio</p>
+                    <p class="tt-time" style="--row: 2" aria-hidden="true">10:00</p>
+                    <p class="tt-time" style="--row: 4" aria-hidden="true">11:00</p>
+                    <p class="tt-time" style="--row: 6" aria-hidden="true">12:00</p>
+                    <p class="tt-time" style="--row: 8" aria-hidden="true">13:00</p>
+                    <p class="tt-time" style="--row: 10" aria-hidden="true">14:00</p>
+                    <p class="tt-time" style="--row: 12" aria-hidden="true">15:00</p>
+                    <p class="tt-time" style="--row: 14" aria-hidden="true">16:00</p>
+                    <p class="tt-time" style="--row: 16" aria-hidden="true">17:00</p>
+                    <p class="tt-time" style="--row: 18" aria-hidden="true">18:00</p>
+                    <p class="tt-time" style="--row: 20" aria-hidden="true">19:00</p>
+                    <p class="tt-time" style="--row: 22" aria-hidden="true">20:00</p>
+                    <p class="tt-time" style="--row: 24" aria-hidden="true">21:00</p>
+                    <p class="tt-time" style="--row: 26" aria-hidden="true">22:00</p>
+                    <p class="tt-time" style="--row: 28" aria-hidden="true">23:00</p>
+                    <article class="slot cat-workshop" style="--col: 5; --start: 2; --end: 6">
+                        <h4><a href="#event-manga-drawing">Manga Drawing Workshop</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-21T10:00">10:00</time>&ndash;12:00 &middot; Studio</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 3; --start: 3; --end: 6">
+                        <h4><a href="#event-totoro">My Neighbor Totoro: Family Matinee</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-21T10:30">10:30</time>&ndash;12:00 &middot; Screen 2</p>
+                        <span class="slot-status">Sold out</span>
+                    </article>
+                    <article class="slot cat-cosplay" style="--col: 4; --start: 10; --end: 15">
+                        <h4><a href="#event-cosplay-championship">Cosplay Championship</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-21T14:00">14:00</time>&ndash;16:30 &middot; Main Hall</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 2; --start: 15; --end: 19">
+                        <h4><a href="#event-one-piece">One Piece Film: Red</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-21T16:30">16:30</time>&ndash;18:30 &middot; Screen 1</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 2; --start: 20; --end: 26">
+                        <h4><a href="#event-demon-slayer">Demon Slayer: Infinity Castle</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-21T19:00">19:00</time>&ndash;22:00 &middot; Screen 1</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 3; --start: 24; --end: 30">
+                        <h4><a href="#event-naruto">Naruto Late-Night Marathon</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-21T21:00">21:00</time>&ndash;00:00 &middot; Screen 2</p>
+                        
+                    </article>
+                </div>
+            </div>
+            <div class="tab-panel" id="panel-sun" role="tabpanel" aria-labelledby="tab-sun" tabindex="0">
+                <h3 class="panel-title">Sunday 22 Nov</h3>
+                <p class="tt-note">All day 10:00&ndash;18:00: <strong>Artist Alley &amp; merch market</strong> in the Foyer. Free entry, no booking.</p>
+                <div class="timetable" style="--rows: 28">
+                    <p class="tt-venue" style="--col: 2" aria-hidden="true">Screen 1</p>
+                    <p class="tt-venue" style="--col: 3" aria-hidden="true">Screen 2</p>
+                    <p class="tt-venue" style="--col: 4" aria-hidden="true">Main Hall</p>
+                    <p class="tt-venue" style="--col: 5" aria-hidden="true">Studio</p>
+                    <p class="tt-time" style="--row: 2" aria-hidden="true">10:00</p>
+                    <p class="tt-time" style="--row: 4" aria-hidden="true">11:00</p>
+                    <p class="tt-time" style="--row: 6" aria-hidden="true">12:00</p>
+                    <p class="tt-time" style="--row: 8" aria-hidden="true">13:00</p>
+                    <p class="tt-time" style="--row: 10" aria-hidden="true">14:00</p>
+                    <p class="tt-time" style="--row: 12" aria-hidden="true">15:00</p>
+                    <p class="tt-time" style="--row: 14" aria-hidden="true">16:00</p>
+                    <p class="tt-time" style="--row: 16" aria-hidden="true">17:00</p>
+                    <p class="tt-time" style="--row: 18" aria-hidden="true">18:00</p>
+                    <p class="tt-time" style="--row: 20" aria-hidden="true">19:00</p>
+                    <p class="tt-time" style="--row: 22" aria-hidden="true">20:00</p>
+                    <p class="tt-time" style="--row: 24" aria-hidden="true">21:00</p>
+                    <p class="tt-time" style="--row: 26" aria-hidden="true">22:00</p>
+                    <p class="tt-time" style="--row: 28" aria-hidden="true">23:00</p>
+                    <article class="slot cat-workshop" style="--col: 5; --start: 3; --end: 7">
+                        <h4><a href="#event-figure-painting">Figure Painting Workshop</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-22T10:30">10:30</time>&ndash;12:30 &middot; Studio</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 3; --start: 4; --end: 8">
+                        <h4><a href="#event-fullmetal-alchemist">Fullmetal Alchemist: The Sacred Star of Milos</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-22T11:00">11:00</time>&ndash;13:00 &middot; Screen 2</p>
+                        
+                    </article>
+                    <article class="slot cat-gaming" style="--col: 4; --start: 4; --end: 12">
+                        <h4><a href="#event-pokemon-tcg">Pokémon TCG Tournament</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-22T11:00">11:00</time>&ndash;15:00 &middot; Main Hall</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 2; --start: 8; --end: 12">
+                        <h4><a href="#event-dragon-ball">Dragon Ball Super: Super Hero</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-22T13:00">13:00</time>&ndash;15:00 &middot; Screen 1</p>
+                        
+                    </article>
+                    <article class="slot cat-music" style="--col: 3; --start: 13; --end: 16">
+                        <h4><a href="#event-voice-acting">Voice Acting Masterclass</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-22T15:30">15:30</time>&ndash;17:00 &middot; Screen 2</p>
+                        
+                    </article>
+                    <article class="slot cat-screening" style="--col: 2; --start: 20; --end: 25">
+                        <h4><a href="#event-attack-on-titan">Attack on Titan: The Last Attack</a></h4>
+                        <p class="slot-meta"><time datetime="2026-11-22T19:00">19:00</time>&ndash;21:30 &middot; Screen 1</p>
+                        
+                    </article>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="venue container" id="venue" aria-labelledby="venue-title">
+            <figure class="venue-photo">
+                <img src="images/venue-cinema-sign.webp" alt="A red neon cinema sign reflected on a wet street at night" width="1000" height="1240" loading="lazy">
+            </figure>
+            <div class="venue-body">
+                <h2 id="venue-title">The venue</h2>
+                <p>Lumen Arts Centre has two cinema screens, a 400-seat main hall and a workshop studio, all under one roof.</p>
+                <dl class="venue-facts">
+                    <div>
+                        <dt>Address</dt>
+                        <dd><address>Lumen Arts Centre, 12 Neon Street, Manchester M1 4NF</address></dd>
+                    </div>
+                    <div>
+                        <dt>Getting there</dt>
+                        <dd>5 minutes' walk from Piccadilly station. No parking on site.</dd>
+                    </div>
+                    <div>
+                        <dt>Access</dt>
+                        <dd>Step-free throughout. Wheelchair spaces in every screen (choose them in the seat map), hearing loops and a quiet room.</dd>
+                    </div>
+                    <div>
+                        <dt>Subtitles</dt>
+                        <dd>All Japanese-language screenings have English subtitles.</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <section class="faq container" id="faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Questions</h2>
+            <details>
+                <summary>Can I come in cosplay?</summary>
+                <p>Yes, please do! Props must be light and not look like real weapons. There is a cloakroom for large props.</p>
+            </details>
+            <details>
+                <summary>Are the screenings suitable for children?</summary>
+                <p>The Saturday Totoro matinee is made for families. Other screenings follow their usual age ratings, which are shown at the box office.</p>
+            </details>
+            <details>
+                <summary>What happens if an event is sold out?</summary>
+                <p>Join the waiting list. If someone cancels, the next person on the list gets an email and has 24 hours to accept.</p>
+            </details>
+            <details>
+                <summary>Can I get a refund?</summary>
+                <p>Yes, up to 48 hours before the event. Cancel from "My tickets" and the seats go back on sale.</p>
+            </details>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p class="logo-text">Neon<span>Frame</span></p>
+            <p>&copy; 2026 Neon Frame Festival (fictional).</p>
+            <p>Box office: <a href="tel:+441614960000">0161 496 0000</a> &middot; <a href="mailto:hello@neonframe.example">hello@neonframe.example</a></p>
+        </div>
+    </footer>
+
+    <dialog class="booking" id="booking" aria-labelledby="booking-title">
+        <form class="booking-form" id="booking-form" method="dialog" novalidate>
+            <div class="dialog-head">
+                <div>
+                    <p class="eyebrow" id="booking-type">Book tickets</p>
+                    <h2 id="booking-title">Event</h2>
+                    <p class="booking-meta" id="booking-meta"></p>
+                </div>
+                <button class="dialog-close" type="button" data-close aria-label="Close">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
+
+            <div class="booking-step" id="booking-step">
+                <fieldset class="seat-picker" id="seat-picker" aria-describedby="seat-help seat-error">
+                    <legend>Choose your seats</legend>
+                    <p class="hint" id="seat-help">Up to 6 seats. Seats H1 and H12 are wheelchair spaces.</p>
+                    <p class="screen-label" aria-hidden="true">Screen</p>
+                    <div class="seat-map" id="seat-map"></div>
+                    <ul class="seat-key" aria-hidden="true">
+                        <li><span class="key key-free"></span>Free</li>
+                        <li><span class="key key-chosen"></span>Your choice</li>
+                        <li><span class="key key-taken">&times;</span>Taken</li>
+                        <li><span class="key key-wheelchair">&#9855;</span>Wheelchair space</li>
+                    </ul>
+                    <p class="field-error" id="seat-error"></p>
+                </fieldset>
+
+                <div class="field" id="quantity-field">
+                    <label for="quantity">Number of tickets</label>
+                    <input id="quantity" name="quantity" type="number" inputmode="numeric" min="1" max="4" step="1" value="1" required aria-describedby="quantity-hint quantity-error">
+                    <p class="hint" id="quantity-hint">Up to 4 per booking.</p>
+                    <p class="field-error" id="quantity-error"></p>
+                </div>
+
+                <div class="field-pair">
+                    <div class="field">
+                        <label for="booker-name">Your name</label>
+                        <input id="booker-name" name="name" type="text" autocomplete="name" required maxlength="60" aria-describedby="booker-name-error">
+                        <p class="field-error" id="booker-name-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="booker-email">Email</label>
+                        <input id="booker-email" name="email" type="email" autocomplete="email" required maxlength="100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" aria-describedby="booker-email-error">
+                        <p class="field-error" id="booker-email-error"></p>
+                    </div>
+                </div>
+
+                <div class="booking-total">
+                    <p id="booking-summary">No seats chosen</p>
+                    <p class="total">Total <output id="booking-total">&pound;0</output></p>
+                </div>
+
+                <div class="dialog-actions">
+                    <button class="btn btn-ghost" type="button" data-close>Cancel</button>
+                    <button class="btn btn-primary" type="submit" id="booking-submit">Confirm booking</button>
+                </div>
+            </div>
+
+            <div class="booking-done" id="booking-done" hidden>
+                <p class="done-icon" aria-hidden="true">&#10003;</p>
+                <h3 id="done-title" tabindex="-1">You're booked!</h3>
+                <p id="done-text"></p>
+                <div class="dialog-actions">
+                    <button class="btn btn-ghost" type="button" id="done-calendar">Add to calendar</button>
+                    <button class="btn btn-primary" type="button" data-close>Done</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="tickets-dialog" id="tickets" aria-labelledby="tickets-title">
+        <div class="dialog-head">
+            <h2 id="tickets-title">My tickets</h2>
+            <button class="dialog-close" type="button" data-close aria-label="Close">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
+        </div>
+        <p class="tickets-empty" id="tickets-empty">You haven't booked anything yet. Find an event and choose "Book".</p>
+        <ul class="ticket-list" id="ticket-list"></ul>
+    </dialog>
+
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register for Northlight Dev Summit 2027, a two-day conference for developers and designers.">
+    <title>Register | Northlight Dev Summit 2027</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#registration">Skip to the form</a>
+
+    <p class="demo-note">Demo page: Northlight Dev Summit is a fictional event. Nothing you enter is sent or saved.</p>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Northlight Dev Summit home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9"/><path d="M7 23 13 11l4 7 3-5 5 10"/><circle cx="23" cy="8" r="2"/></svg>
+                <span>Northlight <span class="logo-sub">Dev Summit</span></span>
+            </a>
+            <p class="header-help">Questions? <a href="mailto:tickets@northlight.example">tickets@northlight.example</a></p>
+        </div>
+    </header>
+
+    <main id="top" class="container layout">
+
+        <aside class="event-panel" aria-labelledby="event-title">
+            <figure class="event-photo">
+                <img src="images/summit-stage.webp" alt="A speaker on stage in front of a large audience holding up phone lights" width="1200" height="902">
+            </figure>
+
+            <div class="event-body">
+                <p class="eyebrow">15 &ndash; 16 April 2027</p>
+                <h2 id="event-title">Northlight Dev Summit</h2>
+                <p>Two days of talks and hands-on workshops on the web, design and AI tools, with 40 speakers and 1,200 developers.</p>
+
+                <dl class="event-facts">
+                    <div>
+                        <dt>When</dt>
+                        <dd><time datetime="2027-04-15">Thu 15</time> &ndash; <time datetime="2027-04-16">Fri 16 April 2027</time></dd>
+                    </div>
+                    <div>
+                        <dt>Where</dt>
+                        <dd>Northlight Hall, Manchester</dd>
+                    </div>
+                    <div class="order-row">
+                        <dt>Your ticket</dt>
+                        <dd><output id="order-ticket" for="ticket-student ticket-standard ticket-workshop">None chosen yet</output></dd>
+                    </div>
+                    <div class="order-row order-total">
+                        <dt>Total</dt>
+                        <dd><output id="order-total" for="ticket-student ticket-standard ticket-workshop">&pound;0</output></dd>
+                    </div>
+                </dl>
+
+                <h3 class="progress-title">Your progress</h3>
+                <ol class="progress">
+                    <li data-section="about"><span class="progress-mark" aria-hidden="true"></span>About you<span class="visually-hidden progress-state"> (not complete)</span></li>
+                    <li data-section="account"><span class="progress-mark" aria-hidden="true"></span>Your account<span class="visually-hidden progress-state"> (not complete)</span></li>
+                    <li data-section="ticket"><span class="progress-mark" aria-hidden="true"></span>Your ticket<span class="visually-hidden progress-state"> (not complete)</span></li>
+                    <li data-section="final"><span class="progress-mark" aria-hidden="true"></span>Final details<span class="visually-hidden progress-state"> (not complete)</span></li>
+                </ol>
+            </div>
+        </aside>
+
+        <section class="form-area" aria-labelledby="form-title">
+            <h1 id="form-title">Register for the Summit</h1>
+            <p class="form-intro">It takes about 3 minutes. All fields are required unless they are marked <strong>optional</strong>.</p>
+
+            <div class="error-summary" id="error-summary" tabindex="-1" hidden>
+                <h2 id="error-summary-title">There is a problem</h2>
+                <ul id="error-list"></ul>
+            </div>
+
+            <form id="registration" class="reg-form" action="" method="post">
+
+                <fieldset class="form-section" id="section-about" data-section="about">
+                    <legend><span class="step">1</span>About you</legend>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="first-name">First name</label>
+                            <input id="first-name" name="firstName" type="text" autocomplete="given-name" required maxlength="40" aria-describedby="first-name-error">
+                            <p class="error" id="first-name-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="last-name">Last name</label>
+                            <input id="last-name" name="lastName" type="text" autocomplete="family-name" required maxlength="40" aria-describedby="last-name-error">
+                            <p class="error" id="last-name-error"></p>
+                        </div>
+                        <div class="field field-full">
+                            <label for="email">Email address</label>
+                            <p class="hint" id="email-hint">We will send your ticket here.</p>
+                            <input id="email" name="email" type="email" autocomplete="email" required maxlength="100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" spellcheck="false" aria-describedby="email-hint email-error">
+                            <p class="error" id="email-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="phone">Mobile number</label>
+                            <p class="hint" id="phone-hint">For event-day updates only. For example +44 7700 900123.</p>
+                            <input id="phone" name="phone" type="tel" autocomplete="tel" required pattern="[0-9 \+\(\)\-]{7,20}" aria-describedby="phone-hint phone-error">
+                            <p class="error" id="phone-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="dob">Date of birth</label>
+                            <p class="hint" id="dob-hint">You must be 16 or older on 15 April 2027.</p>
+                            <input id="dob" name="dob" type="date" autocomplete="bday" required min="1920-01-01" max="2011-04-15" aria-describedby="dob-hint dob-error">
+                            <p class="error" id="dob-error"></p>
+                        </div>
+                        <div class="field field-full">
+                            <label for="country">Country you live in</label>
+                            <select id="country" name="country" autocomplete="country" required aria-describedby="country-error">
+                                <option value="">Choose a country</option>
+                                <option value="AU">Australia</option>
+                                <option value="BD">Bangladesh</option>
+                                <option value="CA">Canada</option>
+                                <option value="FR">France</option>
+                                <option value="DE">Germany</option>
+                                <option value="IN">India</option>
+                                <option value="IE">Ireland</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="NG">Nigeria</option>
+                                <option value="PK">Pakistan</option>
+                                <option value="PL">Poland</option>
+                                <option value="ES">Spain</option>
+                                <option value="AE">United Arab Emirates</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="US">United States</option>
+                                <option value="other">Another country</option>
+                            </select>
+                            <p class="error" id="country-error"></p>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-section" id="section-account" data-section="account">
+                    <legend><span class="step">2</span>Your account</legend>
+                    <p class="section-intro">You will use this to sign in to the Summit app and book workshop seats.</p>
+                    <div class="field-grid">
+                        <div class="field field-full">
+                            <label for="username">Username</label>
+                            <p class="hint" id="username-hint">3 to 20 characters: lowercase letters, numbers and underscores.</p>
+                            <input id="username" name="username" type="text" autocomplete="username" required minlength="3" maxlength="20" pattern="[a-z0-9_]{3,20}" autocapitalize="none" spellcheck="false" aria-describedby="username-hint username-error">
+                            <p class="error" id="username-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <p class="hint" id="password-hint">At least 8 characters, with a letter and a number.</p>
+                            <div class="password-wrap">
+                                <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="64" pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,64}" aria-describedby="password-hint password-error">
+                                <button class="show-password" type="button" aria-controls="password" hidden>Show<span class="visually-hidden"> password</span></button>
+                            </div>
+                            <div class="strength" hidden>
+                                <meter id="strength-meter" min="0" max="4" low="2" high="3" optimum="4" value="0" aria-labelledby="strength-text"></meter>
+                                <p class="strength-text" id="strength-text">Password strength: <span id="strength-word">not set</span></p>
+                            </div>
+                            <p class="error" id="password-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="confirm-password">Confirm password</label>
+                            <p class="hint" id="confirm-hint">Type the same password again.</p>
+                            <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required maxlength="64" aria-describedby="confirm-hint confirm-password-error">
+                            <p class="error" id="confirm-password-error"></p>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-section" id="section-ticket" data-section="ticket">
+                    <legend><span class="step">3</span>Your ticket</legend>
+
+                    <fieldset class="group" aria-describedby="ticket-error">
+                        <legend class="group-label">Ticket type</legend>
+                        <div class="ticket-grid">
+                            <label class="ticket-card" for="ticket-student">
+                                <input id="ticket-student" name="ticket" type="radio" value="student" data-price="49" data-label="Student" required>
+                                <span class="ticket-name">Student</span>
+                                <span class="ticket-price"><data value="49">&pound;49</data></span>
+                                <span class="ticket-info">Both days of talks. Bring a valid student card.</span>
+                            </label>
+                            <label class="ticket-card" for="ticket-standard">
+                                <input id="ticket-standard" name="ticket" type="radio" value="standard" data-price="149" data-label="Standard">
+                                <span class="ticket-name">Standard</span>
+                                <span class="ticket-price"><data value="149">&pound;149</data></span>
+                                <span class="ticket-info">Both days of talks, lunch and the evening social.</span>
+                            </label>
+                            <label class="ticket-card" for="ticket-workshop">
+                                <input id="ticket-workshop" name="ticket" type="radio" value="workshop" data-price="229" data-label="Workshop pass">
+                                <span class="ticket-name">Workshop pass</span>
+                                <span class="ticket-price"><data value="229">&pound;229</data></span>
+                                <span class="ticket-info">Everything in Standard, plus guaranteed seats in 2 workshops.</span>
+                            </label>
+                        </div>
+                        <p class="error" id="ticket-error"></p>
+                    </fieldset>
+
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="arrival">Arrival date</label>
+                            <p class="hint" id="arrival-hint">Between 14 and 16 April 2027. Badges can be collected the evening before.</p>
+                            <input id="arrival" name="arrival" type="date" required min="2027-04-14" max="2027-04-16" aria-describedby="arrival-hint arrival-error">
+                            <p class="error" id="arrival-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="experience">Years of experience</label>
+                            <p class="hint" id="experience-hint">A whole number from 0 to 50. Students can enter 0.</p>
+                            <input id="experience" name="experience" type="number" inputmode="numeric" required min="0" max="50" step="1" aria-describedby="experience-hint experience-error">
+                            <p class="error" id="experience-error"></p>
+                        </div>
+                        <div class="field field-full">
+                            <label for="role">Job role</label>
+                            <p class="hint" id="role-hint">Pick a suggestion or type your own.</p>
+                            <input id="role" name="role" type="text" list="role-options" autocomplete="organization-title" required maxlength="60" aria-describedby="role-hint role-error">
+                            <datalist id="role-options">
+                                <option value="Front-end developer"></option>
+                                <option value="Back-end developer"></option>
+                                <option value="Full-stack developer"></option>
+                                <option value="Mobile developer"></option>
+                                <option value="UX or UI designer"></option>
+                                <option value="Data scientist"></option>
+                                <option value="DevOps engineer"></option>
+                                <option value="Engineering manager"></option>
+                                <option value="Student"></option>
+                            </datalist>
+                            <p class="error" id="role-error"></p>
+                        </div>
+                    </div>
+
+                    <fieldset class="group" aria-describedby="workshops-hint workshops-error">
+                        <legend class="group-label">Workshops <span class="optional">(optional)</span></legend>
+                        <p class="hint" id="workshops-hint">Choose up to 2. Workshop pass holders are guaranteed a seat; other tickets join a waiting list.</p>
+                        <div class="check-grid">
+                            <label class="check"><input type="checkbox" name="workshops" value="Accessible forms in practice"> Accessible forms in practice</label>
+                            <label class="check"><input type="checkbox" name="workshops" value="Modern CSS layout"> Modern CSS layout</label>
+                            <label class="check"><input type="checkbox" name="workshops" value="Testing JavaScript"> Testing JavaScript</label>
+                            <label class="check"><input type="checkbox" name="workshops" value="Design systems"> Design systems</label>
+                            <label class="check"><input type="checkbox" name="workshops" value="AI tools for developers"> AI tools for developers</label>
+                            <label class="check"><input type="checkbox" name="workshops" value="Web performance"> Web performance</label>
+                        </div>
+                        <p class="error" id="workshops-error"></p>
+                    </fieldset>
+                </fieldset>
+
+                <fieldset class="form-section" id="section-final" data-section="final">
+                    <legend><span class="step">4</span>Final details</legend>
+                    <div class="field-grid">
+                        <div class="field field-full">
+                            <label for="portfolio">Portfolio, GitHub or LinkedIn link <span class="optional">(optional)</span></label>
+                            <p class="hint" id="portfolio-hint">Shown on your badge's QR code. Start with https://</p>
+                            <input id="portfolio" name="portfolio" type="url" autocomplete="url" maxlength="200" pattern="https?://.+" placeholder="https://" spellcheck="false" aria-describedby="portfolio-hint portfolio-error">
+                            <p class="error" id="portfolio-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="shirt">T-shirt size</label>
+                            <select id="shirt" name="shirt" required aria-describedby="shirt-error">
+                                <option value="">Choose a size</option>
+                                <option>XS</option>
+                                <option>S</option>
+                                <option>M</option>
+                                <option>L</option>
+                                <option>XL</option>
+                                <option>XXL</option>
+                                <option value="none">No T-shirt, thanks</option>
+                            </select>
+                            <p class="error" id="shirt-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="diet">Dietary needs</label>
+                            <select id="diet" name="diet" required aria-describedby="diet-error">
+                                <option value="">Choose one</option>
+                                <option value="none">No special needs</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="halal">Halal</option>
+                                <option value="gluten-free">Gluten free</option>
+                                <option value="other">Other (tell us below)</option>
+                            </select>
+                            <p class="error" id="diet-error"></p>
+                        </div>
+                        <div class="field field-full">
+                            <label for="needs">Access needs or other requests <span class="optional">(optional)</span></label>
+                            <p class="hint" id="needs-hint">For example step-free seating, a quiet room or allergies.</p>
+                            <textarea id="needs" name="needs" rows="4" maxlength="300" aria-describedby="needs-hint needs-count"></textarea>
+                            <p class="char-count" id="needs-count">Up to 300 characters</p>
+                        </div>
+                        <div class="field field-full">
+                            <label for="source">How did you hear about us? <span class="optional">(optional)</span></label>
+                            <select id="source" name="source">
+                                <option value="">Choose one</option>
+                                <option>Social media</option>
+                                <option>A friend or colleague</option>
+                                <option>Search engine</option>
+                                <option>Meetup or user group</option>
+                                <option>University or college</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="consent">
+                        <label class="check"><input type="checkbox" name="newsletter" value="yes"> <span>Send me news about future events <span class="optional">(optional)</span></span></label>
+                        <label class="check" for="terms"><input id="terms" type="checkbox" name="terms" value="yes" required aria-describedby="terms-error"> I agree to the code of conduct and ticket terms</label>
+                        <p class="error" id="terms-error"></p>
+                        <details class="terms-text" id="terms-text">
+                            <summary>Read the code of conduct and terms</summary>
+                            <p>Be respectful to everyone. Harassment of any kind is not allowed. Tickets can be transferred to someone else until 1 April 2027. Refunds are available up to 30 days before the event.</p>
+                        </details>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" type="submit">Complete registration</button>
+                    <p class="hint">You will not be charged. This is a demo.</p>
+                </div>
+            </form>
+
+            <section class="confirmation" id="confirmation" aria-labelledby="confirmation-title" hidden>
+                <svg class="confirmation-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6"/></svg>
+                <h2 id="confirmation-title" tabindex="-1">You're registered, <span id="confirm-name"></span>!</h2>
+                <p>Your booking reference is <strong id="confirm-ref"></strong>. In a real system we would email your ticket to <strong id="confirm-email"></strong>.</p>
+                <dl class="confirm-list">
+                    <div><dt>Ticket</dt><dd id="confirm-ticket"></dd></div>
+                    <div><dt>Arrival</dt><dd id="confirm-arrival"></dd></div>
+                    <div><dt>Workshops</dt><dd id="confirm-workshops"></dd></div>
+                    <div><dt>Username</dt><dd id="confirm-username"></dd></div>
+                    <div><dt>Total</dt><dd id="confirm-total"></dd></div>
+                </dl>
+                <button class="btn btn-secondary" type="button" id="register-another">Register someone else</button>
+            </section>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Northlight Dev Summit (fictional).</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

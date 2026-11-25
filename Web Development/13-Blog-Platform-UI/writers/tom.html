@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tom hikes, camps and takes the scenic line, then tells you exactly how hard it was.">
+    <title>Tom Lindqvist, trail and rail writer | Long Way Round</title>
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script>
+        // apply the saved theme and text size before the page is drawn, so it never flashes
+        try {
+            document.documentElement.dataset.theme = localStorage.getItem('lwr-theme') || 'auto';
+            document.documentElement.dataset.size = localStorage.getItem('lwr-size') || 'standard';
+        } catch (error) {}
+        document.documentElement.classList.add('js');
+    </script>
+    <script src="../js/site.js" defer></script>
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+        "@type": "Person",
+        "name": "Tom Lindqvist",
+        "jobTitle": "Trail and rail writer",
+        "homeLocation": "Gothenburg, Sweden",
+        "description": "Tom hikes, camps and takes the scenic line, then tells you exactly how hard it was."
+    }
+}
+    </script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="../index.html">
+                <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="18"/><path d="M20 6v4M20 30v4M6 20h4M30 20h4"/><path class="logo-needle" d="m25.5 14.5-3.6 7.4-7.4 3.6 3.6-7.4z"/></svg>
+                <span class="logo-text">Long Way Round<span class="logo-tag">A slow travel journal</span></span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#stories">Stories</a></li>
+                    <li><a href="../index.html#writers">Writers</a></li>
+                    <li><a href="../index.html#newsletter">Newsletter</a></li>
+                </ul>
+            </nav>
+            <details class="display-menu">
+                <summary>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 19 9 5l6 14M5.2 14h7.6M15 19l3.5-8 3.5 8M16.2 16.5h4.6"/></svg>
+                    <span>Display</span>
+                </summary>
+                <form class="display-panel" id="display-form">
+                    <fieldset>
+                        <legend>Theme</legend>
+                        <label class="option"><input type="radio" name="theme" value="auto" checked> Match device</label>
+                        <label class="option"><input type="radio" name="theme" value="light"> Light</label>
+                        <label class="option"><input type="radio" name="theme" value="sepia"> Sepia</label>
+                        <label class="option"><input type="radio" name="theme" value="dark"> Dark</label>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Text size</legend>
+                        <label class="option"><input type="radio" name="size" value="standard" checked> Standard</label>
+                        <label class="option"><input type="radio" name="size" value="large"> Large</label>
+                        <label class="option"><input type="radio" name="size" value="larger"> Larger</label>
+                    </fieldset>
+                </form>
+            </details>
+        </div>
+    </header>
+
+    <main id="main">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#writers">Writers</a></li>
+                    <li><a href="tom.html" aria-current="page">Tom Lindqvist</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        <section class="profile container" aria-labelledby="profile-name">
+            <img class="profile-photo" src="../images/writers/tom.webp" alt="Portrait of Tom Lindqvist" width="480" height="480">
+            <div class="profile-text">
+                <p class="eyebrow">Trail and rail writer</p>
+                <h1 id="profile-name">Tom Lindqvist</h1>
+                <dl class="profile-stats">
+                    <div><dt>Based in</dt><dd>Gothenburg, Sweden</dd></div>
+                    <div><dt>Stories</dt><dd>3</dd></div>
+                    <div><dt>Countries visited</dt><dd>31</dd></div>
+                    <div><dt>Writing here since</dt><dd>2020</dd></div>
+                </dl>
+                <div class="profile-bio">
+                    <p>I spent ten years as a mountain guide in northern Sweden before I started writing. I like long days on foot, cold lakes and trains that take the scenic route even when there is a faster one.</p>
+                    <p>My stories always include the boring parts: what to book, what to carry and where the hill was steeper than the map suggested.</p>
+                </div>
+                <h2 class="topics-title">Writes about</h2>
+                <ul class="topic-list">
+                        <li><a class="tag" href="../index.html?category=outdoors#stories">Outdoors</a></li>
+                        <li><a class="tag" href="../index.html?category=rail#stories">Rail journeys</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="container writer-stories" aria-labelledby="writer-stories-title">
+            <div class="section-head section-head-row">
+                <h2 id="writer-stories-title">Stories by Tom</h2>
+            </div>
+            <ul class="card-grid">
+                    <li>
+                        <article class="story-card" data-category="outdoors" data-writer="tom" data-slug="dolomites-hut-to-hut">
+                            <img class="card-image" src="../images/stories/dolomites-800.webp" srcset="../images/stories/dolomites-800.webp 800w, ../images/stories/dolomites-1600.webp 1600w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" alt="The three jagged rock towers of Tre Cime di Lavaredo under a cloudy sky" width="1600" height="900" loading="lazy">
+                            <div class="card-body">
+                                <p class="card-meta"><a class="tag" href="../index.html?category=outdoors#stories">Outdoors</a> <span class="place">Dolomites, Italy</span></p>
+                                <h3 class="card-title"><a href="../stories/dolomites-hut-to-hut.html">Hut to hut across the Dolomites</a></h3>
+                                <p class="card-dek">Six days on the Alta Via 1, sleeping in mountain huts, with nothing but a day pack and a lot of pasta.</p>
+                                <div class="byline">
+                                    <img class="avatar" src="../images/writers/tom.webp" alt="" width="40" height="40" loading="lazy">
+                                    <p><a class="byline-name" href="../writers/tom.html">Tom Lindqvist</a>
+                                        <span class="byline-meta"><time datetime="2026-09-23">23 Sep 2026</time> &middot; 2 min read</span></p>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="story-card" data-category="rail" data-writer="tom" data-slug="west-highland-line">
+                            <img class="card-image" src="../images/stories/west-highland-800.webp" srcset="../images/stories/west-highland-800.webp 800w, ../images/stories/west-highland-1600.webp 1600w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" alt="A steam train crossing a curved stone viaduct in green Scottish hills" width="1600" height="900" loading="lazy">
+                            <div class="card-body">
+                                <p class="card-meta"><a class="tag" href="../index.html?category=rail#stories">Rail journeys</a> <span class="place">Glasgow to Mallaig, Scotland</span></p>
+                                <h3 class="card-title"><a href="../stories/west-highland-line.html">The West Highland Line is the best train ride in Britain</a></h3>
+                                <p class="card-dek">Lochs, moors and a famous viaduct: five hours from Glasgow to the sea on an ordinary timetabled train.</p>
+                                <div class="byline">
+                                    <img class="avatar" src="../images/writers/tom.webp" alt="" width="40" height="40" loading="lazy">
+                                    <p><a class="byline-name" href="../writers/tom.html">Tom Lindqvist</a>
+                                        <span class="byline-meta"><time datetime="2026-08-27">27 Aug 2026</time> &middot; 2 min read</span></p>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="story-card" data-category="outdoors" data-writer="tom" data-slug="lofoten-wild-camping">
+                            <img class="card-image" src="../images/stories/lofoten-800.webp" srcset="../images/stories/lofoten-800.webp 800w, ../images/stories/lofoten-1600.webp 1600w" sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" alt="Red fishing cabins on a fjord shore below steep green mountains" width="1600" height="900" loading="lazy">
+                            <div class="card-body">
+                                <p class="card-meta"><a class="tag" href="../index.html?category=outdoors#stories">Outdoors</a> <span class="place">Lofoten, Norway</span></p>
+                                <h3 class="card-title"><a href="../stories/lofoten-wild-camping.html">Wild camping under the midnight sun in Lofoten</a></h3>
+                                <p class="card-dek">Norway&#x27;s right to roam lets you pitch a tent almost anywhere. Here is how to do it well in Lofoten.</p>
+                                <div class="byline">
+                                    <img class="avatar" src="../images/writers/tom.webp" alt="" width="40" height="40" loading="lazy">
+                                    <p><a class="byline-name" href="../writers/tom.html">Tom Lindqvist</a>
+                                        <span class="byline-meta"><time datetime="2026-08-12">12 Aug 2026</time> &middot; 2 min read</span></p>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+        </section>
+
+        <section class="container other-writers" aria-labelledby="other-writers-title">
+            <h2 id="other-writers-title">Other writers</h2>
+            <ul class="mini-writer-list">
+                    <li>
+                        <a class="mini-writer" href="clara.html">
+                            <img class="avatar" src="../images/writers/clara.webp" alt="" width="56" height="56" loading="lazy">
+                            <span><strong>Clara Mendes</strong>Editor and city walker</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mini-writer" href="sofia.html">
+                            <img class="avatar" src="../images/writers/sofia.webp" alt="" width="56" height="56" loading="lazy">
+                            <span><strong>Sofia Marchetti</strong>Rail and budget columnist</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mini-writer" href="dev.html">
+                            <img class="avatar" src="../images/writers/dev.webp" alt="" width="56" height="56" loading="lazy">
+                            <span><strong>Dev Raman</strong>Food writer</span>
+                        </a>
+                    </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <section class="footer-about" aria-labelledby="footer-title">
+                <h2 id="footer-title">Long Way Round</h2>
+                <p>Slow, honest travel stories from four writers who would rather take the train. This is a demo blog: the writers and their stories are fictional, but every place is real.</p>
+            </section>
+            <nav aria-labelledby="footer-cats">
+                <h2 id="footer-cats">Categories</h2>
+                <ul>
+                        <li><a href="../index.html?category=cities#stories">Cities</a></li>
+                        <li><a href="../index.html?category=rail#stories">Rail journeys</a></li>
+                        <li><a href="../index.html?category=food#stories">Food</a></li>
+                        <li><a href="../index.html?category=outdoors#stories">Outdoors</a></li>
+                        <li><a href="../index.html?category=budget#stories">Budget & tips</a></li>
+                </ul>
+            </nav>
+            <nav aria-labelledby="footer-writers">
+                <h2 id="footer-writers">Writers</h2>
+                <ul>
+                        <li><a href="../writers/clara.html">Clara Mendes</a></li>
+                        <li><a href="../writers/sofia.html">Sofia Marchetti</a></li>
+                        <li><a href="../writers/dev.html">Dev Raman</a></li>
+                        <li><a href="../writers/tom.html">Tom Lindqvist</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container footer-base">
+            <p>&copy; 2026 Long Way Round. Photos from <a href="https://www.pexels.com/">Pexels</a>, credited on each story.</p>
+            <a class="to-top" href="#main">Back to top</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

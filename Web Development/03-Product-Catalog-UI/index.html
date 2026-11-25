@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!-- Product Catalog UI - Green Corner plant shop -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Green Corner sells easy-care indoor plants, succulents, pots and plant care tools.">
+    <title>Green Corner | Indoor Plants and Accessories</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <a class="skip-link" href="#catalog">Skip to products</a>
+
+    <!-- header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Green Corner home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8"/><path class="leaf" d="M9 23c0-8 5-13 14-14 0 9-5 14-13 14"/><path class="vein" d="M9 23l8-8"/></svg>
+                <span>Green Corner</span>
+            </a>
+
+            <nav class="site-nav" aria-label="Primary">
+                <ul class="nav-menu">
+                    <li><a href="#catalog">Shop</a></li>
+                    <li><a href="#perks">Delivery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <p class="cart-summary">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                <span>Cart</span>
+                <span class="cart-count" id="cart-count">0</span>
+                <span class="visually-hidden">items</span>
+            </p>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <!-- intro -->
+        <section class="intro" aria-labelledby="intro-title">
+            <div class="container intro-inner">
+                <p class="eyebrow">Indoor plants and accessories</p>
+                <h1 id="intro-title">Bring a little green home</h1>
+                <p class="intro-lead">Healthy, easy-care plants delivered in recyclable packaging, with simple care tips for every one.</p>
+
+                <ul class="perks" id="perks">
+                    <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg>
+                        Free delivery on orders over $50
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+                        30-day healthy plant guarantee
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4z"/><path d="M9 9h6M9 13h4"/></svg>
+                        Care guide with every plant
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- catalog -->
+        <section class="catalog" id="catalog" aria-labelledby="catalog-title">
+            <div class="container">
+                <div class="catalog-header">
+                    <h2 id="catalog-title">Shop the collection</h2>
+                    <p class="result-count" id="result-count" aria-live="polite">Showing 12 products</p>
+                </div>
+
+                <div class="toolbar">
+                    <div class="filters" role="group" aria-label="Filter by category">
+                        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button>
+                        <button class="filter-btn" type="button" data-filter="indoor" aria-pressed="false">Indoor plants</button>
+                        <button class="filter-btn" type="button" data-filter="succulents" aria-pressed="false">Succulents &amp; cacti</button>
+                        <button class="filter-btn" type="button" data-filter="pots" aria-pressed="false">Pots &amp; planters</button>
+                        <button class="filter-btn" type="button" data-filter="care" aria-pressed="false">Care &amp; tools</button>
+                    </div>
+                    <div class="sort">
+                        <label for="sort-select">Sort by</label>
+                        <select id="sort-select">
+                            <option value="featured">Featured</option>
+                            <option value="price-asc">Price: low to high</option>
+                            <option value="price-desc">Price: high to low</option>
+                            <option value="rating">Top rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <ul class="product-grid" id="product-grid">
+
+                    <!-- 1 monstera -->
+                    <li class="product" data-category="indoor" data-price="34.99" data-rating="4.8" data-order="1">
+                        <article class="product-card" aria-labelledby="p1-name">
+                            <div class="product-media">
+                                <img src="images/monstera.webp" alt="Monstera plant with split leaves in a dark red pot" width="600" height="600">
+                                <p class="badge badge-bestseller">Bestseller</p>
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Monstera Deliciosa to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Indoor plants</p>
+                                <h3 class="product-name" id="p1-name">Monstera Deliciosa</h3>
+                                <p class="product-desc">Iconic split leaves that make a bold statement in any bright room.</p>
+                                <ul class="product-tags">
+                                    <li>Bright, indirect light</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.8" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.8 (124)</span>
+                                    <span class="visually-hidden">Rated 4.8 out of 5 from 124 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$34.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Monstera Deliciosa">Add<span class="visually-hidden"> Monstera Deliciosa</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 2 snake plant -->
+                    <li class="product" data-category="indoor" data-price="19.99" data-rating="4.7" data-order="2">
+                        <article class="product-card" aria-labelledby="p2-name">
+                            <div class="product-media">
+                                <img src="images/snake-plant.webp" alt="Tall snake plant in a white pot beside small cacti" width="600" height="600">
+                                <p class="badge badge-sale">Sale</p>
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Snake Plant to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Indoor plants</p>
+                                <h3 class="product-name" id="p2-name">Snake Plant</h3>
+                                <p class="product-desc">Upright, sword-like leaves. One of the hardest plants to kill.</p>
+                                <ul class="product-tags">
+                                    <li>Low light</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.7" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.7 (98)</span>
+                                    <span class="visually-hidden">Rated 4.7 out of 5 from 98 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">
+                                        <del><span class="visually-hidden">Was </span>$24.99</del>
+                                        <ins><span class="visually-hidden">Now </span>$19.99</ins>
+                                    </p>
+                                    <button class="btn btn-cart" type="button" data-name="Snake Plant">Add<span class="visually-hidden"> Snake Plant</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 3 golden pothos -->
+                    <li class="product" data-category="indoor" data-price="14.99" data-rating="4.6" data-order="3">
+                        <article class="product-card" aria-labelledby="p3-name">
+                            <div class="product-media">
+                                <img src="images/pothos.webp" alt="Golden pothos with heart-shaped green and yellow leaves" width="600" height="600">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Golden Pothos to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Indoor plants</p>
+                                <h3 class="product-name" id="p3-name">Golden Pothos</h3>
+                                <p class="product-desc">Trailing vines with golden marbling, perfect for shelves and hanging pots.</p>
+                                <ul class="product-tags">
+                                    <li>Low to medium light</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.6" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.6 (76)</span>
+                                    <span class="visually-hidden">Rated 4.6 out of 5 from 76 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$14.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Golden Pothos">Add<span class="visually-hidden"> Golden Pothos</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 4 calathea -->
+                    <li class="product" data-category="indoor" data-price="29.99" data-rating="4.4" data-order="4">
+                        <article class="product-card" aria-labelledby="p4-name">
+                            <div class="product-media">
+                                <img src="images/calathea.webp" alt="Calathea orbifolia with wide silver-striped leaves" width="600" height="600">
+                                <p class="badge badge-new">New</p>
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Calathea Orbifolia to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Indoor plants</p>
+                                <h3 class="product-name" id="p4-name">Calathea Orbifolia</h3>
+                                <p class="product-desc">Wide, silver-striped leaves that gently fold up at night.</p>
+                                <ul class="product-tags">
+                                    <li>Medium, indirect light</li>
+                                    <li class="tag-pet">Pet safe</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.4" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.4 (31)</span>
+                                    <span class="visually-hidden">Rated 4.4 out of 5 from 31 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$29.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Calathea Orbifolia">Add<span class="visually-hidden"> Calathea Orbifolia</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 5 spider plant -->
+                    <li class="product" data-category="indoor" data-price="12.99" data-rating="4.5" data-order="5">
+                        <article class="product-card" aria-labelledby="p5-name">
+                            <div class="product-media">
+                                <img src="images/spider-plant.webp" alt="Spider plant with long striped leaves in a white pot" width="600" height="600" loading="lazy">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Spider Plant to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Indoor plants</p>
+                                <h3 class="product-name" id="p5-name">Spider Plant</h3>
+                                <p class="product-desc">Arching striped leaves and baby plantlets you can pot up and share.</p>
+                                <ul class="product-tags">
+                                    <li>Bright, indirect light</li>
+                                    <li class="tag-pet">Pet safe</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.5" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.5 (64)</span>
+                                    <span class="visually-hidden">Rated 4.5 out of 5 from 64 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$12.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Spider Plant">Add<span class="visually-hidden"> Spider Plant</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 6 echeveria -->
+                    <li class="product" data-category="succulents" data-price="18.99" data-rating="4.6" data-order="6">
+                        <article class="product-card" aria-labelledby="p6-name">
+                            <div class="product-media">
+                                <img src="images/echeveria.webp" alt="Blue-green echeveria rosette in a terracotta pot" width="600" height="600" loading="lazy">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Echeveria to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Succulents &amp; cacti</p>
+                                <h3 class="product-name" id="p6-name">Echeveria</h3>
+                                <p class="product-desc">A blue-green rosette succulent that thrives on a sunny windowsill.</p>
+                                <ul class="product-tags">
+                                    <li>Bright, direct light</li>
+                                    <li class="tag-pet">Pet safe</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.6" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.6 (52)</span>
+                                    <span class="visually-hidden">Rated 4.6 out of 5 from 52 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$18.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Echeveria">Add<span class="visually-hidden"> Echeveria</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 7 aloe vera (out of stock) -->
+                    <li class="product is-sold-out" data-category="succulents" data-price="11.99" data-rating="4.3" data-order="7">
+                        <article class="product-card" aria-labelledby="p7-name">
+                            <div class="product-media">
+                                <img src="images/aloe-vera.webp" alt="Young aloe vera plant in a black pot" width="600" height="600" loading="lazy">
+                                <p class="badge badge-sold-out">Out of stock</p>
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Aloe Vera to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Succulents &amp; cacti</p>
+                                <h3 class="product-name" id="p7-name">Aloe Vera</h3>
+                                <p class="product-desc">Easy-care succulent with thick leaves full of soothing gel.</p>
+                                <ul class="product-tags">
+                                    <li>Bright, direct light</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.3" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.3 (47)</span>
+                                    <span class="visually-hidden">Rated 4.3 out of 5 from 47 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$11.99</p>
+                                    <button class="btn btn-cart" type="button" disabled>Out of stock</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 8 zebra haworthia -->
+                    <li class="product" data-category="succulents" data-price="9.99" data-rating="4.7" data-order="8">
+                        <article class="product-card" aria-labelledby="p8-name">
+                            <div class="product-media">
+                                <img src="images/haworthia.webp" alt="Close-up of zebra haworthia with white-striped leaves" width="600" height="600" loading="lazy">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Zebra Haworthia to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Succulents &amp; cacti</p>
+                                <h3 class="product-name" id="p8-name">Zebra Haworthia</h3>
+                                <p class="product-desc">Compact succulent with white-striped leaves, ideal for a desk.</p>
+                                <ul class="product-tags">
+                                    <li>Bright, indirect light</li>
+                                    <li class="tag-pet">Pet safe</li>
+                                </ul>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.7" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.7 (39)</span>
+                                    <span class="visually-hidden">Rated 4.7 out of 5 from 39 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$9.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Zebra Haworthia">Add<span class="visually-hidden"> Zebra Haworthia</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 9 ceramic pot -->
+                    <li class="product" data-category="pots" data-price="22.00" data-rating="4.5" data-order="9">
+                        <article class="product-card" aria-labelledby="p9-name">
+                            <div class="product-media">
+                                <img src="images/ceramic-pot.webp" alt="Pale ceramic pot holding a small succulent" width="600" height="600" loading="lazy">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Ceramic Plant Pot to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Pots &amp; planters</p>
+                                <h3 class="product-name" id="p9-name">Ceramic Plant Pot (15 cm)</h3>
+                                <p class="product-desc">Matte glazed ceramic with a drainage hole and matching saucer.</p>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.5" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.5 (58)</span>
+                                    <span class="visually-hidden">Rated 4.5 out of 5 from 58 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$22.00</p>
+                                    <button class="btn btn-cart" type="button" data-name="Ceramic Plant Pot">Add<span class="visually-hidden"> Ceramic Plant Pot</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 10 macrame planter -->
+                    <li class="product" data-category="pots" data-price="16.50" data-rating="4.4" data-order="10">
+                        <article class="product-card" aria-labelledby="p10-name">
+                            <div class="product-media">
+                                <img src="images/macrame-planter.webp" alt="White macrame hanger holding a plant against a white wall" width="600" height="600" loading="lazy">
+                                <p class="badge badge-sale">Sale</p>
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Macrame Hanging Planter to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Pots &amp; planters</p>
+                                <h3 class="product-name" id="p10-name">Macram&eacute; Hanging Planter</h3>
+                                <p class="product-desc">Hand-knotted cotton hanger that holds pots up to 18 cm wide.</p>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.4" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.4 (27)</span>
+                                    <span class="visually-hidden">Rated 4.4 out of 5 from 27 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">
+                                        <del><span class="visually-hidden">Was </span>$19.50</del>
+                                        <ins><span class="visually-hidden">Now </span>$16.50</ins>
+                                    </p>
+                                    <button class="btn btn-cart" type="button" data-name="Macrame Hanging Planter">Add<span class="visually-hidden"> Macrame Hanging Planter</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 11 brass watering can -->
+                    <li class="product" data-category="care" data-price="27.00" data-rating="4.8" data-order="11">
+                        <article class="product-card" aria-labelledby="p11-name">
+                            <div class="product-media">
+                                <img src="images/watering-can.webp" alt="Brass watering can pouring water into a potted plant" width="600" height="600" loading="lazy">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Brass Watering Can to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Care &amp; tools</p>
+                                <h3 class="product-name" id="p11-name">Brass Watering Can</h3>
+                                <p class="product-desc">Long, slim spout for precise watering without spills.</p>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.8" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.8 (44)</span>
+                                    <span class="visually-hidden">Rated 4.8 out of 5 from 44 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$27.00</p>
+                                    <button class="btn btn-cart" type="button" data-name="Brass Watering Can">Add<span class="visually-hidden"> Brass Watering Can</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- 12 plant food -->
+                    <li class="product" data-category="care" data-price="8.99" data-rating="4.6" data-order="12">
+                        <article class="product-card" aria-labelledby="p12-name">
+                            <div class="product-media">
+                                <img src="images/plant-food.webp" alt="Hands holding slow-release fertiliser granules" width="600" height="600" loading="lazy">
+                                <button class="wishlist-btn" type="button" aria-pressed="false" aria-label="Save Slow-Release Plant Food to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                                </button>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Care &amp; tools</p>
+                                <h3 class="product-name" id="p12-name">Slow-Release Plant Food</h3>
+                                <p class="product-desc">Organic granules that feed plants gently for up to three months.</p>
+                                <p class="rating">
+                                    <span class="stars" style="--rating: 4.6" aria-hidden="true"></span>
+                                    <span aria-hidden="true">4.6 (83)</span>
+                                    <span class="visually-hidden">Rated 4.6 out of 5 from 83 reviews</span>
+                                </p>
+                                <div class="product-footer">
+                                    <p class="price">$8.99</p>
+                                    <button class="btn btn-cart" type="button" data-name="Slow-Release Plant Food">Add<span class="visually-hidden"> Slow-Release Plant Food</span> to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+
+                </ul>
+
+                <p class="visually-hidden" id="announcer" role="status"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- footer -->
+    <footer class="site-footer" id="contact">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <p class="footer-logo">Green Corner</p>
+                <p>Easy-care plants and accessories for every home.</p>
+            </div>
+            <div>
+                <h2 class="footer-title">Visit or contact us</h2>
+                <address>
+                    48 Garden Lane, Springfield<br>
+                    <a href="mailto:hello@greencorner.example.com">hello@greencorner.example.com</a><br>
+                    <a href="tel:+15550188">+1 555 0188</a>
+                </address>
+            </div>
+            <div>
+                <h2 class="footer-title">Opening hours</h2>
+                <p>Monday to Saturday, 9:00 to 18:00<br>Sunday, 10:00 to 16:00</p>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Green Corner. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

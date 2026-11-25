@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Summit Bouldering: a friendly indoor climbing centre with 180 problems, beginner inductions, classes for all ages, a kids' wall and a café.">
+    <meta name="theme-color" content="#14202b">
+    <title>Summit Bouldering | Indoor climbing for everyone</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/main.js" defer></script>
+    <script src="js/booking.js" defer></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsActivityLocation",
+        "name": "Summit Bouldering",
+        "description": "Indoor bouldering centre with classes, a kids' wall and a café.",
+        "telephone": "+44 114 496 0123",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Unit 4, Foundry Lane",
+            "addressLocality": "Sheffield",
+            "postalCode": "S3 8XX",
+            "addressCountry": "GB"
+        },
+        "openingHoursSpecification": [
+            { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "07:00", "closes": "22:00" },
+            { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday", "Sunday"], "opens": "09:00", "closes": "20:00" }
+        ]
+    }
+    </script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <p class="demo-note">Demo site: Summit Bouldering is fictional, so bookings are not real and no payment is taken.</p>
+
+    <header class="site-header" id="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Summit Bouldering, back to top">
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                    <path class="logo-peak" d="M4 40 18 14l7 12 5-7 14 21z"/>
+                    <circle class="logo-hold" cx="33" cy="11" r="4"/>
+                </svg>
+                <span class="logo-text">Summit<span>Bouldering</span></span>
+            </a>
+
+            <button class="menu-toggle" type="button" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">
+                <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span class="menu-label">Menu</span>
+            </button>
+
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="#gym">The gym</a></li>
+                    <li><a href="#timetable">Timetable</a></li>
+                    <li><a href="#prices">Prices</a></li>
+                    <li><a href="#coaches">Coaches</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#visit">Visit</a></li>
+                </ul>
+                <a class="btn btn-accent nav-cta" href="#book">Book a session</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- ============ hero ============ -->
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <picture>
+                <source media="(max-width: 700px)" srcset="images/hero-960.webp">
+                <img class="hero-image" src="images/hero-1920.webp" alt="" width="1920" height="1080" fetchpriority="high">
+            </picture>
+            <svg class="hero-holds" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+                <path class="hold hold-1" d="M60 80c20-18 52-10 58 12s-12 40-34 40-44-34-24-52z"/>
+                <path class="hold hold-2" d="M300 60c26 0 42 22 34 44s-40 26-56 10-4-54 22-54z"/>
+                <path class="hold hold-3" d="M320 280c16-14 44-6 46 16s-20 34-38 30-22-32-8-46z"/>
+            </svg>
+            <div class="container hero-inner">
+                <p class="hero-eyebrow">Indoor bouldering in Sheffield &middot; open 7 days</p>
+                <h1 id="hero-title">
+                    <span class="hero-line" style="--i: 0">Climb more.</span>
+                    <span class="hero-line" style="--i: 1">Worry <em>less.</em></span>
+                </h1>
+                <p class="hero-lead">No ropes, no experience and no kit needed. Just bring comfy clothes, and our coaches will have you on the wall in 15 minutes.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-accent btn-large" href="#book">Book a taster session</a>
+                    <a class="btn btn-ghost-light btn-large" href="#timetable">See the timetable</a>
+                </div>
+                <ul class="hero-stats" aria-label="Summit in numbers">
+                    <li><strong><span class="count" data-count="180">180</span></strong> problems on the walls</li>
+                    <li><strong><span class="count" data-count="40">40</span></strong> new problems every week</li>
+                    <li><strong><span class="count" data-count="4.5" data-decimals="1">4.5</span> m</strong> walls over deep, soft mats</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <span>New problems every Monday</span><span>Shoe hire &pound;4</span><span>Kids' wall for ages 4+</span><span>Off-peak membership &pound;42</span><span>Café open all day</span><span>Free parking</span>
+                <span>New problems every Monday</span><span>Shoe hire &pound;4</span><span>Kids' wall for ages 4+</span><span>Off-peak membership &pound;42</span><span>Café open all day</span><span>Free parking</span>
+            </div>
+        </div>
+
+        <!-- ============ new to climbing ============ -->
+        <section class="section start" id="start" aria-labelledby="start-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">New to climbing?</p>
+                    <h2 id="start-title">Your first climb in three easy steps</h2>
+                    <p class="section-lead">Bouldering is climbing on short walls without ropes, over thick crash mats. It is the easiest way to start climbing, and most people can do it.</p>
+                </div>
+                <ol class="steps">
+                    <li class="step reveal">
+                        <span class="step-number" aria-hidden="true">1</span>
+                        <h3>Book a taster</h3>
+                        <p>A 60-minute session with a coach. Entry and shoe hire are included, so all you bring is yourself.</p>
+                    </li>
+                    <li class="step reveal">
+                        <span class="step-number" aria-hidden="true">2</span>
+                        <h3>Learn the basics</h3>
+                        <p>How to fall safely, read a problem by its colour and move your feet. It sounds like a lot, but it takes about 15 minutes.</p>
+                    </li>
+                    <li class="step reveal">
+                        <span class="step-number" aria-hidden="true">3</span>
+                        <h3>Climb on your own</h3>
+                        <p>After your taster you can come back any time with a day pass or membership. Problems are graded, so you always know where to start.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ============ the gym ============ -->
+        <section class="section gym" id="gym" aria-labelledby="gym-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">The gym</p>
+                    <h2 id="gym-title">Everything you need under one roof</h2>
+                </div>
+                <ul class="bento">
+                    <li class="bento-item bento-main reveal">
+                        <img src="images/gym/main-wall.webp" alt="A climber reaching across a bright yellow wall covered in holds" width="1200" height="900" loading="lazy">
+                        <div class="bento-text">
+                            <h3>The main wall</h3>
+                            <p>180 problems across slabs, overhangs and a 45&deg; cave, colour-coded from very easy to very hard.</p>
+                        </div>
+                    </li>
+                    <li class="bento-item reveal">
+                        <img src="images/gym/training.webp" alt="A climber gripping a large hold on a training wall" width="900" height="675" loading="lazy">
+                        <div class="bento-text">
+                            <h3>Training area</h3>
+                            <p>Board wall, hangboards and free weights.</p>
+                        </div>
+                    </li>
+                    <li class="bento-item reveal">
+                        <img src="images/gym/kids.webp" alt="A child in a blue jacket climbing a painted wall" width="900" height="675" loading="lazy">
+                        <div class="bento-text">
+                            <h3>Kids' wall</h3>
+                            <p>Low walls and fun shapes for ages 4 and up.</p>
+                        </div>
+                    </li>
+                    <li class="bento-item reveal">
+                        <img src="images/gym/yoga.webp" alt="People stretching on mats in a bright studio" width="900" height="675" loading="lazy">
+                        <div class="bento-text">
+                            <h3>Studio</h3>
+                            <p>Yoga, stretching and strength classes.</p>
+                        </div>
+                    </li>
+                    <li class="bento-item reveal">
+                        <img src="images/gym/cafe.webp" alt="A café counter with white tiles and bar stools" width="900" height="675" loading="lazy">
+                        <div class="bento-text">
+                            <h3>Café</h3>
+                            <p>Coffee, toasties and cake, with a view of the wall.</p>
+                        </div>
+                    </li>
+                    <li class="bento-item bento-wide reveal">
+                        <img src="images/gym/gear.webp" alt="Chalk bags and climbing shoes on the gym floor" width="900" height="675" loading="lazy">
+                        <div class="bento-text">
+                            <h3>Shoe hire and shop</h3>
+                            <p>Shoes, chalk and brushes to hire or buy.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ timetable ============ -->
+        <section class="section timetable-section" id="timetable" aria-labelledby="timetable-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Timetable</p>
+                    <h2 id="timetable-title">Classes this week</h2>
+                    <p class="section-lead">15 classes a week, from your very first climb to training for harder grades. Members get 20% off every class.</p>
+                </div>
+
+                <form class="timetable-filters" id="timetable-filters" aria-label="Filter the timetable">
+                    <fieldset class="chips">
+                        <legend>Show</legend>
+                        <label class="chip"><input type="radio" name="type" value="all" checked> All classes</label>
+                        <label class="chip"><input type="radio" name="type" value="beginners"> <span class="chip-dot type-beginners" aria-hidden="true"></span>Beginners</label>
+                        <label class="chip"><input type="radio" name="type" value="technique"> <span class="chip-dot type-technique" aria-hidden="true"></span>Technique</label>
+                        <label class="chip"><input type="radio" name="type" value="fitness"> <span class="chip-dot type-fitness" aria-hidden="true"></span>Fitness</label>
+                        <label class="chip"><input type="radio" name="type" value="kids"> <span class="chip-dot type-kids" aria-hidden="true"></span>Kids</label>
+                        <label class="chip"><input type="radio" name="type" value="social"> <span class="chip-dot type-social" aria-hidden="true"></span>Social</label>
+                    </fieldset>
+                    <fieldset class="chips day-chips" id="day-chips" hidden>
+                        <legend>Day</legend>
+                        <label class="chip chip-day"><input type="radio" name="day" value="mon"> <span aria-hidden="true">Mon</span><span class="visually-hidden">Monday</span></label>
+                        <label class="chip chip-day"><input type="radio" name="day" value="tue"> <span aria-hidden="true">Tue</span><span class="visually-hidden">Tuesday</span></label>
+                        <label class="chip chip-day"><input type="radio" name="day" value="wed"> <span aria-hidden="true">Wed</span><span class="visually-hidden">Wednesday</span></label>
+                        <label class="chip chip-day"><input type="radio" name="day" value="thu"> <span aria-hidden="true">Thu</span><span class="visually-hidden">Thursday</span></label>
+                        <label class="chip chip-day"><input type="radio" name="day" value="fri"> <span aria-hidden="true">Fri</span><span class="visually-hidden">Friday</span></label>
+                        <label class="chip chip-day"><input type="radio" name="day" value="sat"> <span aria-hidden="true">Sat</span><span class="visually-hidden">Saturday</span></label>
+                        <label class="chip chip-day"><input type="radio" name="day" value="sun"> <span aria-hidden="true">Sun</span><span class="visually-hidden">Sunday</span></label>
+                    </fieldset>
+                </form>
+
+                <p class="result-count" id="timetable-count" aria-live="polite">Showing all 15 classes</p>
+
+                <div class="timetable" id="timetable-grid">
+                    <section class="day" id="day-mon" data-day="mon" aria-labelledby="day-mon-title">
+                        <h3 id="day-mon-title">Monday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="beginners">
+                                <p class="session-time"><time datetime="18:00">18:00</time>&ndash;<time datetime="19:30">19:30</time></p>
+                                <h4 class="session-name">Intro to Bouldering</h4>
+                                <p class="session-meta"><span class="type-badge type-beginners">Beginners</span> 90 min &middot; &pound;25</p>
+                                <p class="session-foot"><span class="spaces spaces-low">3 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="mon-1800">Book<span class="visually-hidden"> Intro to Bouldering, Monday 18:00</span></button></p>
+                            </li>
+                            <li class="session" data-type="technique">
+                                <p class="session-time"><time datetime="19:45">19:45</time>&ndash;<time datetime="20:45">20:45</time></p>
+                                <h4 class="session-name">Movement &amp; Technique</h4>
+                                <p class="session-meta"><span class="type-badge type-technique">Technique</span> 60 min &middot; &pound;18</p>
+                                <p class="session-foot"><span class="spaces">6 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="mon-1945">Book<span class="visually-hidden"> Movement &amp; Technique, Monday 19:45</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                    <section class="day" id="day-tue" data-day="tue" aria-labelledby="day-tue-title">
+                        <h3 id="day-tue-title">Tuesday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="fitness">
+                                <p class="session-time"><time datetime="07:00">07:00</time>&ndash;<time datetime="07:45">07:45</time></p>
+                                <h4 class="session-name">Yoga for Climbers</h4>
+                                <p class="session-meta"><span class="type-badge type-fitness">Fitness</span> 45 min &middot; &pound;12</p>
+                                <p class="session-foot"><span class="spaces">9 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="tue-0700">Book<span class="visually-hidden"> Yoga for Climbers, Tuesday 07:00</span></button></p>
+                            </li>
+                            <li class="session" data-type="beginners">
+                                <p class="session-time"><time datetime="18:30">18:30</time>&ndash;<time datetime="20:00">20:00</time></p>
+                                <h4 class="session-name">Intro to Bouldering</h4>
+                                <p class="session-meta"><span class="type-badge type-beginners">Beginners</span> 90 min &middot; &pound;25</p>
+                                <p class="session-foot"><span class="spaces spaces-full">Full</span> <button class="btn btn-small session-book" type="button" disabled>Full<span class="visually-hidden">: Intro to Bouldering, Tuesday 18:30</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                    <section class="day" id="day-wed" data-day="wed" aria-labelledby="day-wed-title">
+                        <h3 id="day-wed-title">Wednesday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="kids">
+                                <p class="session-time"><time datetime="16:30">16:30</time>&ndash;<time datetime="17:30">17:30</time></p>
+                                <h4 class="session-name">Kids&#x27; Club (ages 6-11)</h4>
+                                <p class="session-meta"><span class="type-badge type-kids">Kids</span> 60 min &middot; &pound;12</p>
+                                <p class="session-foot"><span class="spaces">4 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="wed-1630">Book<span class="visually-hidden"> Kids&#x27; Club (ages 6-11), Wednesday 16:30</span></button></p>
+                            </li>
+                            <li class="session" data-type="technique">
+                                <p class="session-time"><time datetime="19:00">19:00</time>&ndash;<time datetime="20:30">20:30</time></p>
+                                <h4 class="session-name">Board Night</h4>
+                                <p class="session-meta"><span class="type-badge type-technique">Technique</span> 90 min &middot; &pound;18</p>
+                                <p class="session-foot"><span class="spaces">7 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="wed-1900">Book<span class="visually-hidden"> Board Night, Wednesday 19:00</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                    <section class="day" id="day-thu" data-day="thu" aria-labelledby="day-thu-title">
+                        <h3 id="day-thu-title">Thursday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="beginners">
+                                <p class="session-time"><time datetime="18:00">18:00</time>&ndash;<time datetime="19:30">19:30</time></p>
+                                <h4 class="session-name">Intro to Bouldering</h4>
+                                <p class="session-meta"><span class="type-badge type-beginners">Beginners</span> 90 min &middot; &pound;25</p>
+                                <p class="session-foot"><span class="spaces">5 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="thu-1800">Book<span class="visually-hidden"> Intro to Bouldering, Thursday 18:00</span></button></p>
+                            </li>
+                            <li class="session" data-type="fitness">
+                                <p class="session-time"><time datetime="19:45">19:45</time>&ndash;<time datetime="20:45">20:45</time></p>
+                                <h4 class="session-name">Strength &amp; Conditioning</h4>
+                                <p class="session-meta"><span class="type-badge type-fitness">Fitness</span> 60 min &middot; &pound;15</p>
+                                <p class="session-foot"><span class="spaces spaces-low">2 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="thu-1945">Book<span class="visually-hidden"> Strength &amp; Conditioning, Thursday 19:45</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                    <section class="day" id="day-fri" data-day="fri" aria-labelledby="day-fri-title">
+                        <h3 id="day-fri-title">Friday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="social">
+                                <p class="session-time"><time datetime="19:00">19:00</time>&ndash;<time datetime="21:00">21:00</time></p>
+                                <h4 class="session-name">Friday Social</h4>
+                                <p class="session-meta"><span class="type-badge type-social">Social</span> 120 min &middot; &pound;14</p>
+                                <p class="session-foot"><span class="spaces">20 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="fri-1900">Book<span class="visually-hidden"> Friday Social, Friday 19:00</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                    <section class="day" id="day-sat" data-day="sat" aria-labelledby="day-sat-title">
+                        <h3 id="day-sat-title">Saturday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="kids">
+                                <p class="session-time"><time datetime="09:30">09:30</time>&ndash;<time datetime="10:30">10:30</time></p>
+                                <h4 class="session-name">Kids&#x27; Club (ages 6-11)</h4>
+                                <p class="session-meta"><span class="type-badge type-kids">Kids</span> 60 min &middot; &pound;12</p>
+                                <p class="session-foot"><span class="spaces spaces-low">1 space left</span> <button class="btn btn-small session-book" type="button" data-class="sat-0930">Book<span class="visually-hidden"> Kids&#x27; Club (ages 6-11), Saturday 09:30</span></button></p>
+                            </li>
+                            <li class="session" data-type="beginners">
+                                <p class="session-time"><time datetime="11:00">11:00</time>&ndash;<time datetime="12:30">12:30</time></p>
+                                <h4 class="session-name">Intro to Bouldering</h4>
+                                <p class="session-meta"><span class="type-badge type-beginners">Beginners</span> 90 min &middot; &pound;25</p>
+                                <p class="session-foot"><span class="spaces">6 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="sat-1100">Book<span class="visually-hidden"> Intro to Bouldering, Saturday 11:00</span></button></p>
+                            </li>
+                            <li class="session" data-type="technique">
+                                <p class="session-time"><time datetime="14:00">14:00</time>&ndash;<time datetime="15:00">15:00</time></p>
+                                <h4 class="session-name">Movement &amp; Technique</h4>
+                                <p class="session-meta"><span class="type-badge type-technique">Technique</span> 60 min &middot; &pound;18</p>
+                                <p class="session-foot"><span class="spaces">4 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="sat-1400">Book<span class="visually-hidden"> Movement &amp; Technique, Saturday 14:00</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                    <section class="day" id="day-sun" data-day="sun" aria-labelledby="day-sun-title">
+                        <h3 id="day-sun-title">Sunday</h3>
+                        <ul class="session-list">
+                            <li class="session" data-type="fitness">
+                                <p class="session-time"><time datetime="09:00">09:00</time>&ndash;<time datetime="09:45">09:45</time></p>
+                                <h4 class="session-name">Yoga for Climbers</h4>
+                                <p class="session-meta"><span class="type-badge type-fitness">Fitness</span> 45 min &middot; &pound;12</p>
+                                <p class="session-foot"><span class="spaces">8 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="sun-0900">Book<span class="visually-hidden"> Yoga for Climbers, Sunday 09:00</span></button></p>
+                            </li>
+                            <li class="session" data-type="kids">
+                                <p class="session-time"><time datetime="10:30">10:30</time>&ndash;<time datetime="12:00">12:00</time></p>
+                                <h4 class="session-name">Family Climb</h4>
+                                <p class="session-meta"><span class="type-badge type-kids">Kids</span> 90 min &middot; &pound;12</p>
+                                <p class="session-foot"><span class="spaces">5 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="sun-1030">Book<span class="visually-hidden"> Family Climb, Sunday 10:30</span></button></p>
+                            </li>
+                            <li class="session" data-type="beginners">
+                                <p class="session-time"><time datetime="15:00">15:00</time>&ndash;<time datetime="16:30">16:30</time></p>
+                                <h4 class="session-name">Intro to Bouldering</h4>
+                                <p class="session-meta"><span class="type-badge type-beginners">Beginners</span> 90 min &middot; &pound;25</p>
+                                <p class="session-foot"><span class="spaces">7 spaces left</span> <button class="btn btn-small session-book" type="button" data-class="sun-1500">Book<span class="visually-hidden"> Intro to Bouldering, Sunday 15:00</span></button></p>
+                            </li>
+                        </ul>
+                        <p class="day-empty" hidden>No classes of this type.</p>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ prices ============ -->
+        <section class="section prices" id="prices" aria-labelledby="prices-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Prices</p>
+                    <h2 id="prices-title">Simple prices, no joining fee</h2>
+                </div>
+
+                <div class="billing-switch reveal" role="group" aria-labelledby="billing-label">
+                    <span id="billing-label">Pay memberships</span>
+                    <button class="billing-option" type="button" data-billing="monthly" aria-pressed="true">Monthly</button>
+                    <button class="billing-option" type="button" data-billing="yearly" aria-pressed="false">Yearly <span class="save-badge">2 months free</span></button>
+                </div>
+
+                <ul class="price-grid">
+                    <li class="price-card reveal">
+                        <h3>Day pass</h3>
+                        <p class="price"><data value="14">&pound;14</data> <span class="per">per visit</span></p>
+                        <p class="price-note">Under-16s &pound;10</p>
+                        <ul class="features">
+                            <li>Climb all day</li>
+                            <li>Use the training area</li>
+                            <li>Shoe hire &pound;4</li>
+                        </ul>
+                        <a class="btn btn-outline" href="#book" data-book-type="daypass">Book a day pass</a>
+                    </li>
+                    <li class="price-card reveal">
+                        <h3>10-visit pass</h3>
+                        <p class="price"><data value="120">&pound;120</data> <span class="per">10 visits</span></p>
+                        <p class="price-note">Save &pound;20. Shareable with friends.</p>
+                        <ul class="features">
+                            <li>Valid for 12 months</li>
+                            <li>Use any day, any time</li>
+                            <li>Shoe hire &pound;4</li>
+                        </ul>
+                        <a class="btn btn-outline" href="#visit">Buy at the desk</a>
+                    </li>
+                    <li class="price-card price-card-featured reveal">
+                        <p class="ribbon">Most popular</p>
+                        <h3>Membership</h3>
+                        <p class="price"><data class="member-price" value="56" data-monthly="56" data-yearly="560">&pound;56</data> <span class="per member-per">per month</span></p>
+                        <p class="price-note member-note">Cancel any time with 30 days' notice</p>
+                        <ul class="features">
+                            <li>Unlimited climbing, every day</li>
+                            <li>20% off classes and the café</li>
+                            <li>Free shoe hire</li>
+                            <li>Bring a friend free once a month</li>
+                        </ul>
+                        <a class="btn btn-accent" href="#visit">Join at the desk</a>
+                    </li>
+                    <li class="price-card reveal">
+                        <h3>Off-peak</h3>
+                        <p class="price"><data class="member-price" value="42" data-monthly="42" data-yearly="420">&pound;42</data> <span class="per member-per">per month</span></p>
+                        <p class="price-note member-note">Weekdays before 4 pm</p>
+                        <ul class="features">
+                            <li>Unlimited off-peak climbing</li>
+                            <li>20% off classes</li>
+                            <li>Free shoe hire</li>
+                        </ul>
+                        <a class="btn btn-outline" href="#visit">Join at the desk</a>
+                    </li>
+                </ul>
+                <p class="small-print reveal">Your first visit starts with a taster or a short safety talk (free with a day pass). Students and over-60s get 15% off everything with ID.</p>
+            </div>
+        </section>
+
+        <!-- ============ coaches ============ -->
+        <section class="section coaches" id="coaches" aria-labelledby="coaches-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Coaches</p>
+                    <h2 id="coaches-title">Friendly faces on the mats</h2>
+                    <p class="section-lead">Every coach is qualified, first-aid trained and has climbed for years. They are also very good at encouraging nervous beginners.</p>
+                </div>
+                <ul class="coach-grid">
+                    <li class="reveal">
+                        <article class="coach-card">
+                            <img src="images/coaches/frank.webp" alt="Frank, smiling up at the climbing wall" width="600" height="600" loading="lazy">
+                            <div class="coach-body">
+                                <h3>Frank Doyle</h3>
+                                <p class="coach-role">Founder and head route setter</p>
+                                <ul class="coach-tags" aria-label="Specialities">
+                                    <li>Route setting</li><li>Footwork</li>
+                                </ul>
+                                <div class="coach-more" id="coach-frank">
+                                    <div>
+                                        <p>Frank opened Summit in 2009 after thirty years of climbing on the gritstone edges outside the city. He still sets new problems every Monday and is happiest when someone finally sends a problem they have tried for weeks.</p>
+                                    </div>
+                                </div>
+                                <button class="more-toggle" type="button" aria-expanded="false" aria-controls="coach-frank">More about Frank</button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="reveal">
+                        <article class="coach-card">
+                            <img src="images/coaches/maya.webp" alt="Maya, smiling while climbing" width="600" height="600" loading="lazy">
+                            <div class="coach-body">
+                                <h3>Maya Reyes</h3>
+                                <p class="coach-role">Head coach</p>
+                                <ul class="coach-tags" aria-label="Specialities">
+                                    <li>Beginners</li><li>Technique</li>
+                                </ul>
+                                <div class="coach-more" id="coach-maya">
+                                    <div>
+                                        <p>Maya runs the Intro to Bouldering classes and the coaching team. She has competed nationally, but says the best part of the job is seeing a nervous beginner reach the top of their first problem.</p>
+                                    </div>
+                                </div>
+                                <button class="more-toggle" type="button" aria-expanded="false" aria-controls="coach-maya">More about Maya</button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="reveal">
+                        <article class="coach-card">
+                            <img src="images/coaches/jonas.webp" alt="Jonas, grinning on an outdoor rock face" width="600" height="600" loading="lazy">
+                            <div class="coach-body">
+                                <h3>Jonas Berg</h3>
+                                <p class="coach-role">Strength and technique coach</p>
+                                <ul class="coach-tags" aria-label="Specialities">
+                                    <li>Board training</li><li>Strength</li>
+                                </ul>
+                                <div class="coach-more" id="coach-jonas">
+                                    <div>
+                                        <p>Jonas is a physiotherapist who climbs. He runs Board Night and Strength &amp; Conditioning, and he will happily explain why warming up your fingers matters more than you think.</p>
+                                    </div>
+                                </div>
+                                <button class="more-toggle" type="button" aria-expanded="false" aria-controls="coach-jonas">More about Jonas</button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="reveal">
+                        <article class="coach-card">
+                            <img src="images/coaches/ollie.webp" alt="Ollie, smiling while climbing an indoor wall" width="600" height="600" loading="lazy">
+                            <div class="coach-body">
+                                <h3>Ollie Grant</h3>
+                                <p class="coach-role">Kids and family coach</p>
+                                <ul class="coach-tags" aria-label="Specialities">
+                                    <li>Kids' Club</li><li>Family Climb</li>
+                                </ul>
+                                <div class="coach-more" id="coach-ollie">
+                                    <div>
+                                        <p>Ollie started climbing at Summit's Kids' Club aged eight and now runs it. His sessions are part games, part climbing, and they always end with the famous "floor is lava" challenge.</p>
+                                    </div>
+                                </div>
+                                <button class="more-toggle" type="button" aria-expanded="false" aria-controls="coach-ollie">More about Ollie</button>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ gallery ============ -->
+        <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Gallery</p>
+                    <h2 id="gallery-title">A week at Summit</h2>
+                </div>
+                <ul class="gallery" id="gallery-grid">
+                    <li class="g-wide"><button class="gallery-btn" type="button"><img src="images/gallery/session.webp" alt="Friends resting on the mats between climbs" width="1000" height="750" loading="lazy"></button></li>
+                    <li class="g-tall"><button class="gallery-btn" type="button"><img src="images/gallery/reach.webp" alt="A climber stretching for a far hold on a blue wall" width="800" height="1000" loading="lazy"></button></li>
+                    <li><button class="gallery-btn" type="button"><img src="images/gallery/grip.webp" alt="Chalky fingers gripping a small hold" width="1000" height="750" loading="lazy"></button></li>
+                    <li class="g-tall"><button class="gallery-btn" type="button"><img src="images/gallery/yellow-wall.webp" alt="A climber spread across a yellow and blue wall" width="800" height="1000" loading="lazy"></button></li>
+                    <li class="g-tall"><button class="gallery-btn" type="button"><img src="images/gallery/colour-wall.webp" alt="A climber on a wall painted with bright patterns" width="800" height="1000" loading="lazy"></button></li>
+                    <li class="g-tall"><button class="gallery-btn" type="button"><img src="images/gallery/overhang.webp" alt="A climber high on a steep wall of colourful holds" width="800" height="1000" loading="lazy"></button></li>
+                    <li><button class="gallery-btn" type="button"><img src="images/gallery/chalk.webp" alt="Hands dipping into a chalk bag" width="1000" height="750" loading="lazy"></button></li>
+                    <li class="g-strip"><button class="gallery-btn" type="button"><img src="images/gallery/shoes.webp" alt="Climbers sitting on the mats putting on their shoes" width="1000" height="750" loading="lazy"></button></li>
+                </ul>
+            </div>
+
+            <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-caption">
+                <figure>
+                    <img id="lightbox-image" src="images/gallery/session.webp" alt="" width="1000" height="750">
+                    <figcaption id="lightbox-caption"></figcaption>
+                </figure>
+                <p class="lightbox-count" id="lightbox-count"></p>
+                <button class="lightbox-btn lightbox-prev" type="button" id="lightbox-prev" aria-label="Previous photo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 5-7 7 7 7"/></svg>
+                </button>
+                <button class="lightbox-btn lightbox-next" type="button" id="lightbox-next" aria-label="Next photo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg>
+                </button>
+                <button class="lightbox-btn lightbox-close" type="button" id="lightbox-close" aria-label="Close">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+            </dialog>
+        </section>
+
+        <!-- ============ reviews ============ -->
+        <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
+            <div class="container">
+                <div class="section-head section-head-row reveal">
+                    <div>
+                        <p class="eyebrow">What climbers say</p>
+                        <h2 id="reviews-title">Loved by beginners and regulars</h2>
+                        <p class="small-print">Example reviews written for this demo.</p>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="round-btn" type="button" id="reviews-prev" aria-label="Previous reviews">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 5-7 7 7 7"/></svg>
+                        </button>
+                        <button class="round-btn" type="button" id="reviews-next" aria-label="Next reviews">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <ul class="review-track" id="review-track" tabindex="0" aria-label="Reviews, scroll sideways for more">
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                            <blockquote><p>I was terrified of heights and did my taster to prove a point. Six months later I am a member and have just climbed my first blue.</p></blockquote>
+                            <figcaption><span class="avatar" aria-hidden="true">PK</span> Priya K. <span>Member since spring</span></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                            <blockquote><p>Kids' Club is the highlight of my daughter's week. Ollie somehow keeps twelve eight-year-olds focused and laughing.</p></blockquote>
+                            <figcaption><span class="avatar" aria-hidden="true">DM</span> Daniel M. <span>Parent</span></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="4 out of 5 stars">&#9733;&#9733;&#9733;&#9733;<span class="star-off">&#9733;</span></p>
+                            <blockquote><p>Great setting and very friendly staff. Friday evenings get busy, so come early if you want the cave to yourself.</p></blockquote>
+                            <figcaption><span class="avatar" aria-hidden="true">SO</span> Sam O. <span>Climbing for 8 years</span></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                            <blockquote><p>Board Night with Jonas fixed my finger strength and my warm-up. The best coaching I have had at any wall.</p></blockquote>
+                            <figcaption><span class="avatar" aria-hidden="true">LT</span> Lena T. <span>Member</span></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure class="review">
+                            <p class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                            <blockquote><p>We came for a birthday and stayed for the café. The toasties are as good as the climbing.</p></blockquote>
+                            <figcaption><span class="avatar" aria-hidden="true">RA</span> Rhys A. <span>Day visitor</span></figcaption>
+                        </figure>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ booking ============ -->
+        <section class="section book" id="book" aria-labelledby="book-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Book</p>
+                    <h2 id="book-title">Book your session</h2>
+                    <p class="section-lead">Three short steps. You can pay when you arrive.</p>
+                </div>
+
+                <div class="booking" id="booking">
+                    <div class="booking-main">
+                        <ol class="progress-steps" id="progress-steps" aria-label="Booking steps">
+                            <li aria-current="step"><span class="progress-num">1</span> Session</li>
+                            <li><span class="progress-num">2</span> Climbers</li>
+                            <li><span class="progress-num">3</span> Your details</li>
+                        </ol>
+
+                        <form class="booking-form" id="booking-form" novalidate>
+                            <div class="error-summary" id="error-summary" tabindex="-1" hidden>
+                                <h3>Please fix the following</h3>
+                                <ul></ul>
+                            </div>
+
+                            <!-- step 1 -->
+                            <fieldset class="form-step" data-step="1" id="step-1">
+                                <legend><span class="visually-hidden">Step 1 of 3: </span>Choose a session</legend>
+
+                                <fieldset class="field field-group">
+                                    <legend class="field-label">Session type</legend>
+                                    <div class="option-cards">
+                                        <label class="option-card">
+                                            <input type="radio" name="sessionType" value="taster" checked>
+                                            <span class="option-title">Taster session</span>
+                                            <span class="option-text">60 min with a coach. Entry and shoes included.</span>
+                                            <span class="option-price">&pound;22 &middot; under-16s &pound;16</span>
+                                        </label>
+                                        <label class="option-card">
+                                            <input type="radio" name="sessionType" value="daypass">
+                                            <span class="option-title">Day pass</span>
+                                            <span class="option-text">For climbers who have been before.</span>
+                                            <span class="option-price">&pound;14 &middot; under-16s &pound;10</span>
+                                        </label>
+                                        <label class="option-card">
+                                            <input type="radio" name="sessionType" value="class">
+                                            <span class="option-title">A class</span>
+                                            <span class="option-text">Pick from this week's timetable.</span>
+                                            <span class="option-price">From &pound;12</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+
+                                <div class="field" data-show-for="taster daypass">
+                                    <label for="visit-date">Date</label>
+                                    <p class="hint" id="visit-date-hint">Up to 60 days ahead.</p>
+                                    <input type="date" id="visit-date" name="visitDate" aria-describedby="visit-date-hint visit-date-error">
+                                    <p class="error" id="visit-date-error"></p>
+                                </div>
+
+                                <fieldset class="field field-group" data-show-for="taster" id="slot-group" aria-describedby="slot-error">
+                                    <legend class="field-label">Taster start time</legend>
+                                    <div class="slot-list">
+                                        <label class="slot"><input type="radio" name="slot" id="slot-1000" value="10:00"> 10:00</label>
+                                        <label class="slot"><input type="radio" name="slot" id="slot-1300" value="13:00"> 13:00</label>
+                                        <label class="slot"><input type="radio" name="slot" id="slot-1730" value="17:30"> 17:30</label>
+                                        <label class="slot"><input type="radio" name="slot" id="slot-1900" value="19:00"> 19:00</label>
+                                    </div>
+                                    <p class="error" id="slot-error"></p>
+                                </fieldset>
+
+                                <div class="field" data-show-for="class" hidden>
+                                    <label for="class-choice">Class</label>
+                                    <select id="class-choice" name="classChoice" aria-describedby="class-choice-hint class-choice-error">
+                                <option value="">Choose a class</option>
+                                <optgroup label="Monday">
+                                    <option value="mon-1800" data-day="mon" data-time="18:00" data-name="Intro to Bouldering" data-type="beginners" data-price="25" data-spaces="3">18:00 Intro to Bouldering &ndash; &pound;25</option>
+                                    <option value="mon-1945" data-day="mon" data-time="19:45" data-name="Movement &amp; Technique" data-type="technique" data-price="18" data-spaces="6">19:45 Movement &amp; Technique &ndash; &pound;18</option>
+                                </optgroup>
+                                <optgroup label="Tuesday">
+                                    <option value="tue-0700" data-day="tue" data-time="07:00" data-name="Yoga for Climbers" data-type="fitness" data-price="12" data-spaces="9">07:00 Yoga for Climbers &ndash; &pound;12</option>
+                                    <option value="tue-1830" data-day="tue" data-time="18:30" data-name="Intro to Bouldering" data-type="beginners" data-price="25" data-spaces="0" disabled>18:30 Intro to Bouldering &ndash; &pound;25 (full)</option>
+                                </optgroup>
+                                <optgroup label="Wednesday">
+                                    <option value="wed-1630" data-day="wed" data-time="16:30" data-name="Kids&#x27; Club (ages 6-11)" data-type="kids" data-price="12" data-spaces="4">16:30 Kids&#x27; Club (ages 6-11) &ndash; &pound;12</option>
+                                    <option value="wed-1900" data-day="wed" data-time="19:00" data-name="Board Night" data-type="technique" data-price="18" data-spaces="7">19:00 Board Night &ndash; &pound;18</option>
+                                </optgroup>
+                                <optgroup label="Thursday">
+                                    <option value="thu-1800" data-day="thu" data-time="18:00" data-name="Intro to Bouldering" data-type="beginners" data-price="25" data-spaces="5">18:00 Intro to Bouldering &ndash; &pound;25</option>
+                                    <option value="thu-1945" data-day="thu" data-time="19:45" data-name="Strength &amp; Conditioning" data-type="fitness" data-price="15" data-spaces="2">19:45 Strength &amp; Conditioning &ndash; &pound;15</option>
+                                </optgroup>
+                                <optgroup label="Friday">
+                                    <option value="fri-1900" data-day="fri" data-time="19:00" data-name="Friday Social" data-type="social" data-price="14" data-spaces="20">19:00 Friday Social &ndash; &pound;14</option>
+                                </optgroup>
+                                <optgroup label="Saturday">
+                                    <option value="sat-0930" data-day="sat" data-time="09:30" data-name="Kids&#x27; Club (ages 6-11)" data-type="kids" data-price="12" data-spaces="1">09:30 Kids&#x27; Club (ages 6-11) &ndash; &pound;12</option>
+                                    <option value="sat-1100" data-day="sat" data-time="11:00" data-name="Intro to Bouldering" data-type="beginners" data-price="25" data-spaces="6">11:00 Intro to Bouldering &ndash; &pound;25</option>
+                                    <option value="sat-1400" data-day="sat" data-time="14:00" data-name="Movement &amp; Technique" data-type="technique" data-price="18" data-spaces="4">14:00 Movement &amp; Technique &ndash; &pound;18</option>
+                                </optgroup>
+                                <optgroup label="Sunday">
+                                    <option value="sun-0900" data-day="sun" data-time="09:00" data-name="Yoga for Climbers" data-type="fitness" data-price="12" data-spaces="8">09:00 Yoga for Climbers &ndash; &pound;12</option>
+                                    <option value="sun-1030" data-day="sun" data-time="10:30" data-name="Family Climb" data-type="kids" data-price="12" data-spaces="5">10:30 Family Climb &ndash; &pound;12</option>
+                                    <option value="sun-1500" data-day="sun" data-time="15:00" data-name="Intro to Bouldering" data-type="beginners" data-price="25" data-spaces="7">15:00 Intro to Bouldering &ndash; &pound;25</option>
+                                </optgroup>
+                                    </select>
+                                    <p class="hint" id="class-choice-hint">Full classes cannot be chosen.</p>
+                                    <p class="error" id="class-choice-error"></p>
+                                </div>
+
+                                <div class="step-actions">
+                                    <button class="btn btn-accent" type="button" data-next>Continue</button>
+                                </div>
+                            </fieldset>
+
+                            <!-- step 2 -->
+                            <fieldset class="form-step" data-step="2" id="step-2" hidden>
+                                <legend><span class="visually-hidden">Step 2 of 3: </span>Who's climbing?</legend>
+
+                                <div class="counter-row">
+                                    <div class="field counter-field" id="adults-field">
+                                        <label for="adults">Adults (16+)</label>
+                                        <div class="counter">
+                                            <button class="counter-btn" type="button" data-step-for="adults" data-change="-1" aria-label="One fewer adult">&minus;</button>
+                                            <input type="number" id="adults" name="adults" value="1" min="0" max="6" inputmode="numeric" aria-describedby="adults-error">
+                                            <button class="counter-btn" type="button" data-step-for="adults" data-change="1" aria-label="One more adult">+</button>
+                                        </div>
+                                        <p class="error" id="adults-error"></p>
+                                    </div>
+                                    <div class="field counter-field">
+                                        <label for="children">Under-16s</label>
+                                        <div class="counter">
+                                            <button class="counter-btn" type="button" data-step-for="children" data-change="-1" aria-label="One fewer under-16">&minus;</button>
+                                            <input type="number" id="children" name="children" value="0" min="0" max="6" inputmode="numeric" aria-describedby="children-hint children-error">
+                                            <button class="counter-btn" type="button" data-step-for="children" data-change="1" aria-label="One more under-16">+</button>
+                                        </div>
+                                        <p class="hint" id="children-hint">Under-16s climb with an adult, except at Kids' Club.</p>
+                                        <p class="error" id="children-error"></p>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label for="experience">Climbing experience</label>
+                                    <select id="experience" name="experience" aria-describedby="experience-error">
+                                        <option value="">Choose one</option>
+                                        <option value="never">Never climbed</option>
+                                        <option value="few">Climbed a few times</option>
+                                        <option value="regular">Climb regularly</option>
+                                    </select>
+                                    <p class="error" id="experience-error"></p>
+                                </div>
+
+                                <div class="field" id="shoes-field">
+                                    <label class="check"><input type="checkbox" id="shoes" name="shoes"> Hire climbing shoes (&pound;4 each)</label>
+                                    <p class="hint" id="shoes-included" hidden>Shoes are included in this session.</p>
+                                </div>
+
+                                <div class="step-actions">
+                                    <button class="btn btn-outline" type="button" data-back>Back</button>
+                                    <button class="btn btn-accent" type="button" data-next>Continue</button>
+                                </div>
+                            </fieldset>
+
+                            <!-- step 3 -->
+                            <fieldset class="form-step" data-step="3" id="step-3" hidden>
+                                <legend><span class="visually-hidden">Step 3 of 3: </span>Your details</legend>
+
+                                <div class="field">
+                                    <label for="full-name">Full name</label>
+                                    <input type="text" id="full-name" name="fullName" autocomplete="name" aria-describedby="full-name-error">
+                                    <p class="error" id="full-name-error"></p>
+                                </div>
+                                <div class="field-pair">
+                                    <div class="field">
+                                        <label for="email">Email</label>
+                                        <p class="hint" id="email-hint">We send your booking confirmation here.</p>
+                                        <input type="email" id="email" name="email" autocomplete="email" aria-describedby="email-hint email-error">
+                                        <p class="error" id="email-error"></p>
+                                    </div>
+                                    <div class="field">
+                                        <label for="phone">Mobile number <span class="optional">(optional)</span></label>
+                                        <p class="hint" id="phone-hint">Only used if a class is cancelled.</p>
+                                        <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="phone-hint phone-error">
+                                        <p class="error" id="phone-error"></p>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="check"><input type="checkbox" id="safety" name="safety" aria-describedby="safety-error"> I have read the <a href="#faq-safety">climbing safety rules</a> and every climber in my group will follow them</label>
+                                    <p class="error" id="safety-error"></p>
+                                </div>
+                                <div class="field">
+                                    <label class="check"><input type="checkbox" id="news" name="news"> Send me the monthly newsletter (optional)</label>
+                                </div>
+
+                                <div class="step-actions">
+                                    <button class="btn btn-outline" type="button" data-back>Back</button>
+                                    <button class="btn btn-accent" type="submit">Confirm booking</button>
+                                </div>
+                            </fieldset>
+                        </form>
+
+                        <div class="confirmation" id="confirmation" hidden>
+                            <svg class="confirm-icon" viewBox="0 0 52 52" aria-hidden="true" focusable="false"><circle cx="26" cy="26" r="24"/><path d="m15 27 7 7 15-15"/></svg>
+                            <h3 id="confirm-title" tabindex="-1">You're booked in!</h3>
+                            <p id="confirm-text"></p>
+                            <p class="small-print">Demo site: this booking is not real, so nothing has been reserved or charged.</p>
+                            <div class="step-actions">
+                                <button class="btn btn-accent" type="button" id="calendar-btn">Add to calendar</button>
+                                <button class="btn btn-outline" type="button" id="new-booking">Make another booking</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="booking-summary" aria-labelledby="summary-title">
+                        <h3 id="summary-title">Your booking</h3>
+                        <dl class="summary-list" id="summary-list"></dl>
+                        <p class="summary-total">Total <output id="summary-total" for="booking-form">&pound;22.00</output></p>
+                        <p class="small-print">Pay at the desk when you arrive. Free cancellation up to 24 hours before.</p>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FAQ ============ -->
+        <section class="section faq" id="faq" aria-labelledby="faq-title">
+            <div class="container faq-layout">
+                <div class="section-head reveal">
+                    <p class="eyebrow">FAQ</p>
+                    <h2 id="faq-title">Questions before your first visit</h2>
+                    <p class="section-lead">Still not sure? Call us on <a href="tel:+441144960123">0114 496 0123</a> and we will talk you through it.</p>
+                </div>
+                <div class="faq-list">
+                    <details class="faq-item" name="faq" open>
+                        <summary>Do I need any experience or equipment?</summary>
+                        <div class="faq-answer"><p>No. A taster session teaches you everything you need, and shoes are included. Wear clothes you can stretch in, like leggings or tracksuit bottoms and a T-shirt.</p></div>
+                    </details>
+                    <details class="faq-item" name="faq">
+                        <summary>Is bouldering safe?</summary>
+                        <div class="faq-answer"><p>The walls are no higher than 4.5 metres, and the floor is covered in thick crash mats. Like any sport there is some risk, which is why every first visit starts with a short safety talk on how to fall and where not to stand.</p></div>
+                    </details>
+                    <details class="faq-item" name="faq" id="faq-safety">
+                        <summary>What are the safety rules?</summary>
+                        <div class="faq-answer">
+                            <ul>
+                                <li>Never stand or sit on the mats under someone who is climbing.</li>
+                                <li>Climb down when you can, rather than jumping from the top.</li>
+                                <li>One climber per problem, and look before you start.</li>
+                                <li>Under-16s must be supervised by an adult, except in Kids' Club.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="faq-item" name="faq">
+                        <summary>How old do children need to be?</summary>
+                        <div class="faq-answer"><p>Children aged 4 and up can climb on the kids' wall with an adult. Kids' Club is for ages 6 to 11, and children can be dropped off.</p></div>
+                    </details>
+                    <details class="faq-item" name="faq">
+                        <summary>What do the colours mean?</summary>
+                        <div class="faq-answer"><p>Each problem uses holds of one colour, and the colour shows how hard it is: white is the easiest, then yellow, green, blue, red and black. Most beginners start on white and yellow.</p></div>
+                    </details>
+                    <details class="faq-item" name="faq">
+                        <summary>Can I cancel or change a booking?</summary>
+                        <div class="faq-answer"><p>Yes, for free, up to 24 hours before your session. Just reply to your confirmation email.</p></div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ visit ============ -->
+        <section class="section visit" id="visit" aria-labelledby="visit-title">
+            <div class="container visit-grid">
+                <div class="visit-info reveal">
+                    <p class="eyebrow">Visit</p>
+                    <h2 id="visit-title">Find us</h2>
+                    <p class="open-status" id="open-status" aria-live="polite"></p>
+                    <address>
+                        Summit Bouldering<br>
+                        Unit 4, Foundry Lane<br>
+                        Sheffield S3 8XX<br>
+                        <a href="tel:+441144960123">0114 496 0123</a><br>
+                        <a href="mailto:hello@summit-bouldering.example">hello@summit-bouldering.example</a>
+                    </address>
+                    <ul class="getting-here">
+                        <li><strong>Tram:</strong> 5 minutes' walk from the nearest stop</li>
+                        <li><strong>Bus:</strong> several routes stop on the main road</li>
+                        <li><strong>Car:</strong> free parking for 40 cars, plus bike racks</li>
+                    </ul>
+                </div>
+                <div class="hours reveal">
+                    <table class="hours-table" id="hours-table">
+                        <caption>Opening hours</caption>
+                        <thead>
+                            <tr><th scope="col">Day</th><th scope="col">Open</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr data-day="1"><th scope="row">Monday</th><td><time>07:00</time>&ndash;<time>22:00</time></td></tr>
+                            <tr data-day="2"><th scope="row">Tuesday</th><td><time>07:00</time>&ndash;<time>22:00</time></td></tr>
+                            <tr data-day="3"><th scope="row">Wednesday</th><td><time>07:00</time>&ndash;<time>22:00</time></td></tr>
+                            <tr data-day="4"><th scope="row">Thursday</th><td><time>07:00</time>&ndash;<time>22:00</time></td></tr>
+                            <tr data-day="5"><th scope="row">Friday</th><td><time>07:00</time>&ndash;<time>22:00</time></td></tr>
+                            <tr data-day="6"><th scope="row">Saturday</th><td><time>09:00</time>&ndash;<time>20:00</time></td></tr>
+                            <tr data-day="0"><th scope="row">Sunday</th><td><time>09:00</time>&ndash;<time>20:00</time></td></tr>
+                        </tbody>
+                    </table>
+                    <p class="small-print">Last entry one hour before closing. Off-peak is weekdays before 4 pm.</p>
+                </div>
+                <figure class="visit-photo reveal">
+                    <img src="images/community.webp" alt="Four smiling climbers standing in front of the bouldering wall" width="1400" height="933" loading="lazy">
+                    <figcaption>See you on the mats.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <p class="logo-text">Summit<span>Bouldering</span></p>
+                <p>A friendly indoor climbing centre for every age and ability.</p>
+            </div>
+            <nav aria-labelledby="footer-nav-title">
+                <h2 id="footer-nav-title">Explore</h2>
+                <ul>
+                    <li><a href="#gym">The gym</a></li>
+                    <li><a href="#timetable">Timetable</a></li>
+                    <li><a href="#prices">Prices</a></li>
+                    <li><a href="#book">Book</a></li>
+                </ul>
+            </nav>
+            <section class="footer-news" aria-labelledby="news-title">
+                <h2 id="news-title">Climbing news, monthly</h2>
+                <p>New problems, events and offers. No spam.</p>
+                <form class="news-form" id="news-form" novalidate>
+                    <label class="visually-hidden" for="news-email">Email address</label>
+                    <input type="email" id="news-email" name="newsEmail" placeholder="you@example.com" autocomplete="email" aria-describedby="news-message">
+                    <button class="btn btn-accent" type="submit">Sign up</button>
+                </form>
+                <p class="news-message" id="news-message" aria-live="polite"></p>
+            </section>
+        </div>
+        <div class="container footer-base">
+            <p>&copy; 2026 Summit Bouldering (a fictional demo). Photos from <a href="https://www.pexels.com/">Pexels</a>.</p>
+            <a href="#top">Back to top</a>
+        </div>
+    </footer>
+
+    <p class="toast" id="toast" role="status"></p>
+
+</body>
+
+</html>

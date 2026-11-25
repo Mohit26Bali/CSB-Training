@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<!-- Employee Directory - Tidewell people directory (CSS Grid) -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tidewell people directory: find colleagues by name, department, office or skill.">
+    <title>People Directory | Tidewell</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <a class="skip-link" href="#directory">Skip to the directory</a>
+
+    <p class="demo-note">Demo page: Tidewell is a fictional company. Names, jobs and contact details are invented, and the portraits are stock photos of models from Pexels.</p>
+
+    <!-- header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#top" aria-label="Tidewell home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9"/><path d="M6 19c3-4 6-4 10 0s7 4 10 0M6 13c3-4 6-4 10 0s7 4 10 0"/></svg>
+                <span>Tidewell</span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-menu">
+                    <li><a href="#departments">Departments</a></li>
+                    <li><a href="#directory">Directory</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page" id="top">
+
+        <!-- page title -->
+        <div class="page-intro">
+            <h1>People directory</h1>
+            <p>Find colleagues by name, role, skill, department or office. 50 people across 6 departments.</p>
+        </div>
+
+        <!-- departments -->
+        <section class="departments" id="departments" aria-labelledby="departments-title">
+            <h2 id="departments-title">Departments</h2>
+            <p class="dept-hint">Swipe to see all six departments.</p>
+            <ul class="dept-grid">
+                    <li>
+                        <article class="dept-card" style="--dept-color: #0f766e" aria-labelledby="dept-engineering">
+                            <h3 id="dept-engineering">Engineering</h3>
+                            <p class="dept-desc">Builds and runs the Tidewell planning platform, from the web and mobile apps to the cloud services behind them.</p>
+                            <dl class="dept-facts">
+                                <div class="dept-head">
+                                    <dt>Department head</dt>
+                                    <dd><img src="images/people/richard-hale.webp" alt="" width="320" height="320" loading="lazy">Richard Hale</dd>
+                                </div>
+                                <div>
+                                    <dt>People</dt>
+                                    <dd>14</dd>
+                                </div>
+                                <div>
+                                    <dt>Offices</dt>
+                                    <dd>London, Toronto, Singapore and remote</dd>
+                                </div>
+                            </dl>
+                            <a class="dept-link" href="#directory" data-dept="engineering">View the team<span class="visually-hidden"> in Engineering</span></a>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="dept-card" style="--dept-color: #7c3aed" aria-labelledby="dept-design">
+                            <h3 id="dept-design">Design &amp; UX</h3>
+                            <p class="dept-desc">Researches how teams plan their work and designs simple, accessible screens for every part of the product.</p>
+                            <dl class="dept-facts">
+                                <div class="dept-head">
+                                    <dt>Department head</dt>
+                                    <dd><img src="images/people/claire-dubois.webp" alt="" width="320" height="320" loading="lazy">Claire Dubois</dd>
+                                </div>
+                                <div>
+                                    <dt>People</dt>
+                                    <dd>7</dd>
+                                </div>
+                                <div>
+                                    <dt>Offices</dt>
+                                    <dd>London, Toronto and remote</dd>
+                                </div>
+                            </dl>
+                            <a class="dept-link" href="#directory" data-dept="design">View the team<span class="visually-hidden"> in Design &amp; UX</span></a>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="dept-card" style="--dept-color: #c2410c" aria-labelledby="dept-marketing">
+                            <h3 id="dept-marketing">Marketing</h3>
+                            <p class="dept-desc">Tells the Tidewell story through content, campaigns, events and the website.</p>
+                            <dl class="dept-facts">
+                                <div class="dept-head">
+                                    <dt>Department head</dt>
+                                    <dd><img src="images/people/fiona-walsh.webp" alt="" width="320" height="320" loading="lazy">Fiona Walsh</dd>
+                                </div>
+                                <div>
+                                    <dt>People</dt>
+                                    <dd>7</dd>
+                                </div>
+                                <div>
+                                    <dt>Offices</dt>
+                                    <dd>London and Toronto</dd>
+                                </div>
+                            </dl>
+                            <a class="dept-link" href="#directory" data-dept="marketing">View the team<span class="visually-hidden"> in Marketing</span></a>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="dept-card" style="--dept-color: #1d4ed8" aria-labelledby="dept-sales">
+                            <h3 id="dept-sales">Sales</h3>
+                            <p class="dept-desc">Helps new customers choose the right plan and supports them after they sign up.</p>
+                            <dl class="dept-facts">
+                                <div class="dept-head">
+                                    <dt>Department head</dt>
+                                    <dd><img src="images/people/vikram-rao.webp" alt="" width="320" height="320" loading="lazy">Vikram Rao</dd>
+                                </div>
+                                <div>
+                                    <dt>People</dt>
+                                    <dd>8</dd>
+                                </div>
+                                <div>
+                                    <dt>Offices</dt>
+                                    <dd>London, Toronto and Singapore</dd>
+                                </div>
+                            </dl>
+                            <a class="dept-link" href="#directory" data-dept="sales">View the team<span class="visually-hidden"> in Sales</span></a>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="dept-card" style="--dept-color: #be185d" aria-labelledby="dept-hr">
+                            <h3 id="dept-hr">Human Resources</h3>
+                            <p class="dept-desc">Hires, supports and develops our people, and looks after wellbeing and benefits.</p>
+                            <dl class="dept-facts">
+                                <div class="dept-head">
+                                    <dt>Department head</dt>
+                                    <dd><img src="images/people/patricia-johnson.webp" alt="" width="320" height="320" loading="lazy">Patricia Johnson</dd>
+                                </div>
+                                <div>
+                                    <dt>People</dt>
+                                    <dd>6</dd>
+                                </div>
+                                <div>
+                                    <dt>Offices</dt>
+                                    <dd>London and Toronto</dd>
+                                </div>
+                            </dl>
+                            <a class="dept-link" href="#directory" data-dept="hr">View the team<span class="visually-hidden"> in Human Resources</span></a>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="dept-card" style="--dept-color: #4d7c0f" aria-labelledby="dept-finance">
+                            <h3 id="dept-finance">Finance &amp; Operations</h3>
+                            <p class="dept-desc">Manages budgets, payroll, purchasing and our three offices.</p>
+                            <dl class="dept-facts">
+                                <div class="dept-head">
+                                    <dt>Department head</dt>
+                                    <dd><img src="images/people/ahmed-rahman.webp" alt="" width="320" height="320" loading="lazy">Ahmed Rahman</dd>
+                                </div>
+                                <div>
+                                    <dt>People</dt>
+                                    <dd>8</dd>
+                                </div>
+                                <div>
+                                    <dt>Offices</dt>
+                                    <dd>London, Toronto and Singapore</dd>
+                                </div>
+                            </dl>
+                            <a class="dept-link" href="#directory" data-dept="finance">View the team<span class="visually-hidden"> in Finance &amp; Operations</span></a>
+                        </article>
+                    </li>
+            </ul>
+        </section>
+
+        <!-- filters -->
+        <aside class="sidebar" aria-labelledby="filters-title">
+            <h2 id="filters-title">Find people</h2>
+            <form class="filters" role="search">
+                <div class="field">
+                    <label for="search">Name, role or skill</label>
+                    <input type="search" id="search" name="search" placeholder="e.g. React or Sarah" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="filter-dept">Department</label>
+                    <select id="filter-dept" name="dept">
+                        <option value="all">All departments</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="design">Design &amp; UX</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="sales">Sales</option>
+                                <option value="hr">Human Resources</option>
+                                <option value="finance">Finance &amp; Operations</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="filter-location">Office</label>
+                    <select id="filter-location" name="location">
+                        <option value="all">All offices</option>
+                        <option>London</option>
+                        <option>Singapore</option>
+                        <option>Toronto</option>
+                        <option>Remote</option>
+                    </select>
+                </div>
+                <div class="field field-check">
+                    <input type="checkbox" id="filter-available" name="available">
+                    <label for="filter-available">Available now only</label>
+                </div>
+                <button class="btn btn-secondary" type="reset">Clear filters</button>
+            </form>
+
+            <dl class="stats">
+                <div><dt>People</dt><dd>50</dd></div>
+                <div><dt>Departments</dt><dd>6</dd></div>
+                <div><dt>Offices (plus remote)</dt><dd>3</dd></div>
+                <div><dt>Available now</dt><dd>38</dd></div>
+            </dl>
+        </aside>
+
+        <!-- directory -->
+        <section class="directory" id="directory" aria-labelledby="directory-title">
+            <div class="directory-header">
+                <div>
+                    <h2 id="directory-title">Everyone at Tidewell</h2>
+                    <p class="result-count" id="result-count" aria-live="polite">Showing all 50 people</p>
+                </div>
+                <div class="view-tools">
+                    <div class="sort">
+                        <label for="sort">Sort by</label>
+                        <select id="sort">
+                            <option value="name">Last name A to Z</option>
+                            <option value="dept">Department</option>
+                            <option value="newest">Newest first</option>
+                        </select>
+                    </div>
+                    <div class="view-toggle" role="group" aria-label="Layout">
+                        <button type="button" class="view-btn" data-view="grid" aria-pressed="true">Cards</button>
+                        <button type="button" class="view-btn" data-view="list" aria-pressed="false">List</button>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="employee-grid" id="employee-grid">
+                    <li class="employee" data-dept="finance" data-location="London" data-status="available" data-last="Adams" data-start="2020-10" data-search="chloe adams payroll specialist payroll benefits finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-chloe-adams">
+                            <div class="emp-head">
+                                <img src="images/people/chloe-adams.webp" alt="Portrait of Chloe Adams" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-chloe-adams">Chloe Adams</h3>
+                                    <p class="emp-title">Payroll Specialist</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:chloe.adams@tidewell.example.com">chloe.adams<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2606</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Payroll</li><li>Benefits</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Chloe joined Tidewell in October 2020 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Chloe about Payroll or Benefits." data-manager="Ahmed Rahman" data-start="2020-10" data-start-text="October 2020">View profile<span class="visually-hidden"> of Chloe Adams</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Toronto" data-status="available" data-last="Adeyemi" data-start="2020-08" data-search="tobi adeyemi full-stack engineer node.js react mongodb engineering">
+                        <article class="employee-card" aria-labelledby="name-tobi-adeyemi">
+                            <div class="emp-head">
+                                <img src="images/people/tobi-adeyemi.webp" alt="Portrait of Tobi Adeyemi" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-tobi-adeyemi">Tobi Adeyemi</h3>
+                                    <p class="emp-title">Full-Stack Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:tobi.adeyemi@tidewell.example.com">tobi.adeyemi<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2110</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Node.js</li><li>React</li><li>MongoDB</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Tobi joined Tidewell in August 2020 and works on the Tidewell planning platform. Ask Tobi about Node.js or React." data-manager="Richard Hale" data-start="2020-08" data-start-text="August 2020">View profile<span class="visually-hidden"> of Tobi Adeyemi</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="London" data-status="meeting" data-last="Ahmed" data-start="2019-09" data-search="zara ahmed content marketing lead copywriting seo marketing">
+                        <article class="employee-card" aria-labelledby="name-zara-ahmed">
+                            <div class="emp-head">
+                                <img src="images/people/zara-ahmed.webp" alt="Portrait of Zara Ahmed" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-zara-ahmed">Zara Ahmed</h3>
+                                    <p class="emp-title">Content Marketing Lead</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:zara.ahmed@tidewell.example.com">zara.ahmed<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2303</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Copywriting</li><li>SEO</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Zara joined Tidewell in September 2019 and helps more teams discover Tidewell. Ask Zara about Copywriting or SEO." data-manager="Fiona Walsh" data-start="2019-09" data-start-text="September 2019">View profile<span class="visually-hidden"> of Zara Ahmed</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="Toronto" data-status="leave" data-last="Alvarez" data-start="2020-11" data-search="rosa alvarez content designer ux writing plain language design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-rosa-alvarez">
+                            <div class="emp-head">
+                                <img src="images/people/rosa-alvarez.webp" alt="Portrait of Rosa Alvarez" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-rosa-alvarez">Rosa Alvarez</h3>
+                                    <p class="emp-title">Content Designer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:rosa.alvarez@tidewell.example.com">rosa.alvarez<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2206</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>UX writing</li><li>Plain language</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-leave"><span class="status-dot" aria-hidden="true"></span>On leave</p>
+                                <button class="btn-profile" type="button" data-bio="Rosa joined Tidewell in November 2020 and designs the Tidewell product experience. Ask Rosa about UX writing or Plain language." data-manager="Claire Dubois" data-start="2020-11" data-start-text="November 2020">View profile<span class="visually-hidden"> of Rosa Alvarez</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="Toronto" data-status="available" data-last="Baptiste" data-start="2018-02" data-search="monique baptiste office manager facilities events finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-monique-baptiste">
+                            <div class="emp-head">
+                                <img src="images/people/monique-baptiste.webp" alt="Portrait of Monique Baptiste" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-monique-baptiste">Monique Baptiste</h3>
+                                    <p class="emp-title">Office Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:monique.baptiste@tidewell.example.com">monique.baptiste<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2607</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Facilities</li><li>Events</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Monique joined Tidewell in February 2018 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Monique about Facilities or Events." data-manager="Ahmed Rahman" data-start="2018-02" data-start-text="February 2018">View profile<span class="visually-hidden"> of Monique Baptiste</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="Remote" data-status="available" data-last="Becker" data-start="2022-09" data-search="jonas becker product designer interaction design figma design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-jonas-becker">
+                            <div class="emp-head">
+                                <img src="images/people/jonas-becker.webp" alt="Portrait of Jonas Becker" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-jonas-becker">Jonas Becker</h3>
+                                    <p class="emp-title">Product Designer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Remote</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:jonas.becker@tidewell.example.com">jonas.becker<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2204</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Interaction design</li><li>Figma</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Jonas joined Tidewell in September 2022 and designs the Tidewell product experience. Ask Jonas about Interaction design or Figma." data-manager="Claire Dubois" data-start="2022-09" data-start-text="September 2022">View profile<span class="visually-hidden"> of Jonas Becker</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="Singapore" data-status="available" data-last="Bello" data-start="2021-11" data-search="isaac bello solutions consultant integrations demos sales">
+                        <article class="employee-card" aria-labelledby="name-isaac-bello">
+                            <div class="emp-head">
+                                <img src="images/people/isaac-bello.webp" alt="Portrait of Isaac Bello" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-isaac-bello">Isaac Bello</h3>
+                                    <p class="emp-title">Solutions Consultant</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:isaac.bello@tidewell.example.com">isaac.bello<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2408</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Integrations</li><li>Demos</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Isaac joined Tidewell in November 2021 and works with customers as they choose and use Tidewell. Ask Isaac about Integrations or Demos." data-manager="Vikram Rao" data-start="2021-11" data-start-text="November 2021">View profile<span class="visually-hidden"> of Isaac Bello</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Toronto" data-status="available" data-last="Brooks" data-start="2019-02" data-search="imani brooks senior frontend engineer react accessibility typescript engineering">
+                        <article class="employee-card" aria-labelledby="name-imani-brooks">
+                            <div class="emp-head">
+                                <img src="images/people/imani-brooks.webp" alt="Portrait of Imani Brooks" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-imani-brooks">Imani Brooks</h3>
+                                    <p class="emp-title">Senior Frontend Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:imani.brooks@tidewell.example.com">imani.brooks<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2103</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>React</li><li>Accessibility</li><li>TypeScript</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Imani joined Tidewell in February 2019 and works on the Tidewell planning platform. Ask Imani about React or Accessibility." data-manager="Richard Hale" data-start="2019-02" data-start-text="February 2019">View profile<span class="visually-hidden"> of Imani Brooks</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Toronto" data-status="meeting" data-last="Cho" data-start="2018-06" data-search="daniel cho engineering manager team leadership agile java engineering">
+                        <article class="employee-card" aria-labelledby="name-daniel-cho">
+                            <div class="emp-head">
+                                <img src="images/people/daniel-cho.webp" alt="Portrait of Daniel Cho" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-daniel-cho">Daniel Cho</h3>
+                                    <p class="emp-title">Engineering Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:daniel.cho@tidewell.example.com">daniel.cho<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2102</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Team leadership</li><li>Agile</li><li>Java</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Daniel joined Tidewell in June 2018 and works on the Tidewell planning platform. Ask Daniel about Team leadership or Agile." data-manager="Richard Hale" data-start="2018-06" data-start-text="June 2018">View profile<span class="visually-hidden"> of Daniel Cho</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="Toronto" data-status="meeting" data-last="Clarke" data-start="2022-06" data-search="naomi clarke account executive mid-market demos sales">
+                        <article class="employee-card" aria-labelledby="name-naomi-clarke">
+                            <div class="emp-head">
+                                <img src="images/people/naomi-clarke.webp" alt="Portrait of Naomi Clarke" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-naomi-clarke">Naomi Clarke</h3>
+                                    <p class="emp-title">Account Executive</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:naomi.clarke@tidewell.example.com">naomi.clarke<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2405</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Mid-market</li><li>Demos</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Naomi joined Tidewell in June 2022 and works with customers as they choose and use Tidewell. Ask Naomi about Mid-market or Demos." data-manager="Vikram Rao" data-start="2022-06" data-start-text="June 2022">View profile<span class="visually-hidden"> of Naomi Clarke</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="London" data-status="available" data-last="Dubois" data-start="2017-01" data-search="claire dubois head of design design strategy leadership design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-claire-dubois">
+                            <div class="emp-head">
+                                <img src="images/people/claire-dubois.webp" alt="Portrait of Claire Dubois" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-claire-dubois">Claire Dubois</h3>
+                                    <p class="emp-title">Head of Design</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:claire.dubois@tidewell.example.com">claire.dubois<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2201</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Design strategy</li><li>Leadership</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Claire leads the Design &amp; UX team and joined Tidewell in January 2017. Ask Claire about design strategy or leadership." data-manager="Chief Executive Officer" data-start="2017-01" data-start-text="January 2017">View profile<span class="visually-hidden"> of Claire Dubois</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="London" data-status="available" data-last="Eze" data-start="2023-06" data-search="victor eze procurement specialist purchasing contracts finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-victor-eze">
+                            <div class="emp-head">
+                                <img src="images/people/victor-eze.webp" alt="Portrait of Victor Eze" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-victor-eze">Victor Eze</h3>
+                                    <p class="emp-title">Procurement Specialist</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:victor.eze@tidewell.example.com">victor.eze<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2608</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Purchasing</li><li>Contracts</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Victor joined Tidewell in June 2023 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Victor about Purchasing or Contracts." data-manager="Ahmed Rahman" data-start="2023-06" data-start-text="June 2023">View profile<span class="visually-hidden"> of Victor Eze</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="hr" data-location="London" data-status="available" data-last="Fernandez" data-start="2019-01" data-search="lucia fernandez hr business partner employee relations policy human resources">
+                        <article class="employee-card" aria-labelledby="name-lucia-fernandez">
+                            <div class="emp-head">
+                                <img src="images/people/lucia-fernandez.webp" alt="Portrait of Lucia Fernandez" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-lucia-fernandez">Lucia Fernandez</h3>
+                                    <p class="emp-title">HR Business Partner</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #be185d">Human Resources</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:lucia.fernandez@tidewell.example.com">lucia.fernandez<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2502</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Employee relations</li><li>Policy</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Lucia joined Tidewell in January 2019 and looks after hiring, growth and wellbeing for Tidewell staff. Ask Lucia about Employee relations or Policy." data-manager="Patricia Johnson" data-start="2019-01" data-start-text="January 2019">View profile<span class="visually-hidden"> of Lucia Fernandez</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="London" data-status="available" data-last="Fletcher" data-start="2018-04" data-search="tom fletcher design systems lead design systems css accessibility design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-tom-fletcher">
+                            <div class="emp-head">
+                                <img src="images/people/tom-fletcher.webp" alt="Portrait of Tom Fletcher" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-tom-fletcher">Tom Fletcher</h3>
+                                    <p class="emp-title">Design Systems Lead</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:tom.fletcher@tidewell.example.com">tom.fletcher<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2207</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Design systems</li><li>CSS</li><li>Accessibility</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Tom joined Tidewell in April 2018 and designs the Tidewell product experience. Ask Tom about Design systems or CSS." data-manager="Claire Dubois" data-start="2018-04" data-start-text="April 2018">View profile<span class="visually-hidden"> of Tom Fletcher</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="Remote" data-status="available" data-last="Haddad" data-start="2023-05" data-search="layla haddad ui designer visual design icons design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-layla-haddad">
+                            <div class="emp-head">
+                                <img src="images/people/layla-haddad.webp" alt="Portrait of Layla Haddad" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-layla-haddad">Layla Haddad</h3>
+                                    <p class="emp-title">UI Designer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Remote</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:layla.haddad@tidewell.example.com">layla.haddad<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2205</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Visual design</li><li>Icons</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Layla joined Tidewell in May 2023 and designs the Tidewell product experience. Ask Layla about Visual design or Icons." data-manager="Claire Dubois" data-start="2023-05" data-start-text="May 2023">View profile<span class="visually-hidden"> of Layla Haddad</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="London" data-status="available" data-last="Hale" data-start="2016-03" data-search="richard hale head of engineering architecture leadership cloud engineering">
+                        <article class="employee-card" aria-labelledby="name-richard-hale">
+                            <div class="emp-head">
+                                <img src="images/people/richard-hale.webp" alt="Portrait of Richard Hale" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-richard-hale">Richard Hale</h3>
+                                    <p class="emp-title">Head of Engineering</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:richard.hale@tidewell.example.com">richard.hale<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2101</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Architecture</li><li>Leadership</li><li>Cloud</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Richard leads the Engineering team and joined Tidewell in March 2016. Ask Richard about architecture or leadership." data-manager="Chief Executive Officer" data-start="2016-03" data-start-text="March 2016">View profile<span class="visually-hidden"> of Richard Hale</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="Toronto" data-status="available" data-last="Harper" data-start="2024-03" data-search="ben harper marketing analyst analytics reporting marketing">
+                        <article class="employee-card" aria-labelledby="name-ben-harper">
+                            <div class="emp-head">
+                                <img src="images/people/ben-harper.webp" alt="Portrait of Ben Harper" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-ben-harper">Ben Harper</h3>
+                                    <p class="emp-title">Marketing Analyst</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:ben.harper@tidewell.example.com">ben.harper<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2307</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Analytics</li><li>Reporting</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Ben joined Tidewell in March 2024 and helps more teams discover Tidewell. Ask Ben about Analytics or Reporting." data-manager="Fiona Walsh" data-start="2024-03" data-start-text="March 2024">View profile<span class="visually-hidden"> of Ben Harper</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="hr" data-location="Toronto" data-status="available" data-last="Johnson" data-start="2016-09" data-search="patricia johnson head of people people strategy leadership human resources">
+                        <article class="employee-card" aria-labelledby="name-patricia-johnson">
+                            <div class="emp-head">
+                                <img src="images/people/patricia-johnson.webp" alt="Portrait of Patricia Johnson" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-patricia-johnson">Patricia Johnson</h3>
+                                    <p class="emp-title">Head of People</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #be185d">Human Resources</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:patricia.johnson@tidewell.example.com">patricia.johnson<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2501</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>People strategy</li><li>Leadership</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Patricia leads the Human Resources team and joined Tidewell in September 2016. Ask Patricia about people strategy or leadership." data-manager="Chief Executive Officer" data-start="2016-09" data-start-text="September 2016">View profile<span class="visually-hidden"> of Patricia Johnson</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Toronto" data-status="available" data-last="Kapoor" data-start="2025-02" data-search="ravi kapoor junior software engineer javascript git engineering">
+                        <article class="employee-card" aria-labelledby="name-ravi-kapoor">
+                            <div class="emp-head">
+                                <img src="images/people/ravi-kapoor.webp" alt="Portrait of Ravi Kapoor" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-ravi-kapoor">Ravi Kapoor</h3>
+                                    <p class="emp-title">Junior Software Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:ravi.kapoor@tidewell.example.com">ravi.kapoor<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2113</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>JavaScript</li><li>Git</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Ravi joined Tidewell in February 2025 and works on the Tidewell planning platform. Ask Ravi about JavaScript or Git." data-manager="Richard Hale" data-start="2025-02" data-start-text="February 2025">View profile<span class="visually-hidden"> of Ravi Kapoor</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="London" data-status="leave" data-last="Kelly" data-start="2021-09" data-search="siobhan kelly qa engineer test automation cypress engineering">
+                        <article class="employee-card" aria-labelledby="name-siobhan-kelly">
+                            <div class="emp-head">
+                                <img src="images/people/siobhan-kelly.webp" alt="Portrait of Siobhan Kelly" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-siobhan-kelly">Siobhan Kelly</h3>
+                                    <p class="emp-title">QA Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:siobhan.kelly@tidewell.example.com">siobhan.kelly<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2109</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Test automation</li><li>Cypress</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-leave"><span class="status-dot" aria-hidden="true"></span>On leave</p>
+                                <button class="btn-profile" type="button" data-bio="Siobhan joined Tidewell in September 2021 and works on the Tidewell planning platform. Ask Siobhan about Test automation or Cypress." data-manager="Richard Hale" data-start="2021-09" data-start-text="September 2021">View profile<span class="visually-hidden"> of Siobhan Kelly</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="London" data-status="available" data-last="Khalil" data-start="2024-08" data-search="omar khalil sales development representative prospecting arabic sales">
+                        <article class="employee-card" aria-labelledby="name-omar-khalil">
+                            <div class="emp-head">
+                                <img src="images/people/omar-khalil.webp" alt="Portrait of Omar Khalil" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-omar-khalil">Omar Khalil</h3>
+                                    <p class="emp-title">Sales Development Representative</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:omar.khalil@tidewell.example.com">omar.khalil<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2406</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Prospecting</li><li>Arabic</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Omar joined Tidewell in August 2024 and works with customers as they choose and use Tidewell. Ask Omar about Prospecting or Arabic." data-manager="Vikram Rao" data-start="2024-08" data-start-text="August 2024">View profile<span class="visually-hidden"> of Omar Khalil</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="London" data-status="available" data-last="Kowalski" data-start="2021-06" data-search="nina kowalski brand manager brand campaigns marketing">
+                        <article class="employee-card" aria-labelledby="name-nina-kowalski">
+                            <div class="emp-head">
+                                <img src="images/people/nina-kowalski.webp" alt="Portrait of Nina Kowalski" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-nina-kowalski">Nina Kowalski</h3>
+                                    <p class="emp-title">Brand Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:nina.kowalski@tidewell.example.com">nina.kowalski<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2304</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Brand</li><li>Campaigns</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Nina joined Tidewell in June 2021 and helps more teams discover Tidewell. Ask Nina about Brand or Campaigns." data-manager="Fiona Walsh" data-start="2021-06" data-start-text="June 2021">View profile<span class="visually-hidden"> of Nina Kowalski</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="London" data-status="available" data-last="Larsen" data-start="2020-05" data-search="emma larsen security engineer security reviews cloud security engineering">
+                        <article class="employee-card" aria-labelledby="name-emma-larsen">
+                            <div class="emp-head">
+                                <img src="images/people/emma-larsen.webp" alt="Portrait of Emma Larsen" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-emma-larsen">Emma Larsen</h3>
+                                    <p class="emp-title">Security Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:emma.larsen@tidewell.example.com">emma.larsen<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2114</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Security reviews</li><li>Cloud security</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Emma joined Tidewell in May 2020 and works on the Tidewell planning platform. Ask Emma about Security reviews or Cloud security." data-manager="Richard Hale" data-start="2020-05" data-start-text="May 2020">View profile<span class="visually-hidden"> of Emma Larsen</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="London" data-status="available" data-last="Mehta" data-start="2018-11" data-search="arjun mehta senior backend engineer python apis postgresql engineering">
+                        <article class="employee-card" aria-labelledby="name-arjun-mehta">
+                            <div class="emp-head">
+                                <img src="images/people/arjun-mehta.webp" alt="Portrait of Arjun Mehta" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-arjun-mehta">Arjun Mehta</h3>
+                                    <p class="emp-title">Senior Backend Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:arjun.mehta@tidewell.example.com">arjun.mehta<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2104</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Python</li><li>APIs</li><li>PostgreSQL</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Arjun joined Tidewell in November 2018 and works on the Tidewell planning platform. Ask Arjun about Python or APIs." data-manager="Richard Hale" data-start="2018-11" data-start-text="November 2018">View profile<span class="visually-hidden"> of Arjun Mehta</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="Toronto" data-status="available" data-last="Mendes" data-start="2021-08" data-search="carla mendes accountant bookkeeping tax finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-carla-mendes">
+                            <div class="emp-head">
+                                <img src="images/people/carla-mendes.webp" alt="Portrait of Carla Mendes" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-carla-mendes">Carla Mendes</h3>
+                                    <p class="emp-title">Accountant</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:carla.mendes@tidewell.example.com">carla.mendes<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2604</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Bookkeeping</li><li>Tax</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Carla joined Tidewell in August 2021 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Carla about Bookkeeping or Tax." data-manager="Ahmed Rahman" data-start="2021-08" data-start-text="August 2021">View profile<span class="visually-hidden"> of Carla Mendes</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="London" data-status="meeting" data-last="Mensah" data-start="2020-01" data-search="kwame mensah devops engineer kubernetes ci/cd aws engineering">
+                        <article class="employee-card" aria-labelledby="name-kwame-mensah">
+                            <div class="emp-head">
+                                <img src="images/people/kwame-mensah.webp" alt="Portrait of Kwame Mensah" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-kwame-mensah">Kwame Mensah</h3>
+                                    <p class="emp-title">DevOps Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:kwame.mensah@tidewell.example.com">kwame.mensah<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2106</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Kubernetes</li><li>CI/CD</li><li>AWS</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Kwame joined Tidewell in January 2020 and works on the Tidewell planning platform. Ask Kwame about Kubernetes or CI/CD." data-manager="Richard Hale" data-start="2020-01" data-start-text="January 2020">View profile<span class="visually-hidden"> of Kwame Mensah</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="Toronto" data-status="meeting" data-last="Moreau" data-start="2019-06" data-search="lucas moreau senior product designer figma prototyping design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-lucas-moreau">
+                            <div class="emp-head">
+                                <img src="images/people/lucas-moreau.webp" alt="Portrait of Lucas Moreau" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-lucas-moreau">Lucas Moreau</h3>
+                                    <p class="emp-title">Senior Product Designer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:lucas.moreau@tidewell.example.com">lucas.moreau<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2202</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Figma</li><li>Prototyping</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Lucas joined Tidewell in June 2019 and designs the Tidewell product experience. Ask Lucas about Figma or Prototyping." data-manager="Claire Dubois" data-start="2019-06" data-start-text="June 2019">View profile<span class="visually-hidden"> of Lucas Moreau</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="Remote" data-status="available" data-last="Mwangi" data-start="2020-09" data-search="grace mwangi customer success manager onboarding training sales">
+                        <article class="employee-card" aria-labelledby="name-grace-mwangi">
+                            <div class="emp-head">
+                                <img src="images/people/grace-mwangi.webp" alt="Portrait of Grace Mwangi" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-grace-mwangi">Grace Mwangi</h3>
+                                    <p class="emp-title">Customer Success Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Remote</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:grace.mwangi@tidewell.example.com">grace.mwangi<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2407</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Onboarding</li><li>Training</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Grace joined Tidewell in September 2020 and works with customers as they choose and use Tidewell. Ask Grace about Onboarding or Training." data-manager="Vikram Rao" data-start="2020-09" data-start-text="September 2020">View profile<span class="visually-hidden"> of Grace Mwangi</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="Toronto" data-status="available" data-last="Nair" data-start="2022-04" data-search="priya nair events manager events partnerships marketing">
+                        <article class="employee-card" aria-labelledby="name-priya-nair">
+                            <div class="emp-head">
+                                <img src="images/people/priya-nair.webp" alt="Portrait of Priya Nair" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-priya-nair">Priya Nair</h3>
+                                    <p class="emp-title">Events Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:priya.nair@tidewell.example.com">priya.nair<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2306</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Events</li><li>Partnerships</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Priya joined Tidewell in April 2022 and helps more teams discover Tidewell. Ask Priya about Events or Partnerships." data-manager="Fiona Walsh" data-start="2022-04" data-start-text="April 2022">View profile<span class="visually-hidden"> of Priya Nair</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Remote" data-status="available" data-last="Nguyen" data-start="2023-03" data-search="kevin nguyen frontend engineer vue css engineering">
+                        <article class="employee-card" aria-labelledby="name-kevin-nguyen">
+                            <div class="emp-head">
+                                <img src="images/people/kevin-nguyen.webp" alt="Portrait of Kevin Nguyen" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-kevin-nguyen">Kevin Nguyen</h3>
+                                    <p class="emp-title">Frontend Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Remote</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:kevin.nguyen@tidewell.example.com">kevin.nguyen<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2108</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Vue</li><li>CSS</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Kevin joined Tidewell in March 2023 and works on the Tidewell planning platform. Ask Kevin about Vue or CSS." data-manager="Richard Hale" data-start="2023-03" data-start-text="March 2023">View profile<span class="visually-hidden"> of Kevin Nguyen</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="hr" data-location="Remote" data-status="available" data-last="Nwosu" data-start="2023-09" data-search="esther nwosu recruiter technical hiring sourcing human resources">
+                        <article class="employee-card" aria-labelledby="name-esther-nwosu">
+                            <div class="emp-head">
+                                <img src="images/people/esther-nwosu.webp" alt="Portrait of Esther Nwosu" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-esther-nwosu">Esther Nwosu</h3>
+                                    <p class="emp-title">Recruiter</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #be185d">Human Resources</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Remote</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:esther.nwosu@tidewell.example.com">esther.nwosu<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2505</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Technical hiring</li><li>Sourcing</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Esther joined Tidewell in September 2023 and looks after hiring, growth and wellbeing for Tidewell staff. Ask Esther about Technical hiring or Sourcing." data-manager="Patricia Johnson" data-start="2023-09" data-start-text="September 2023">View profile<span class="visually-hidden"> of Esther Nwosu</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="London" data-status="available" data-last="O&#x27;Brien" data-start="2017-11" data-search="margaret o&#x27;brien financial controller accounting audit finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-margaret-obrien">
+                            <div class="emp-head">
+                                <img src="images/people/margaret-obrien.webp" alt="Portrait of Margaret O&#x27;Brien" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-margaret-obrien">Margaret O&#x27;Brien</h3>
+                                    <p class="emp-title">Financial Controller</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:margaret.obrien@tidewell.example.com">margaret.obrien<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2602</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Accounting</li><li>Audit</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Margaret joined Tidewell in November 2017 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Margaret about Accounting or Audit." data-manager="Ahmed Rahman" data-start="2017-11" data-start-text="November 2017">View profile<span class="visually-hidden"> of Margaret O&#x27;Brien</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="design" data-location="London" data-status="available" data-last="Okafor" data-start="2021-03" data-search="amara okafor ux researcher user interviews usability testing design &amp; ux">
+                        <article class="employee-card" aria-labelledby="name-amara-okafor">
+                            <div class="emp-head">
+                                <img src="images/people/amara-okafor.webp" alt="Portrait of Amara Okafor" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-amara-okafor">Amara Okafor</h3>
+                                    <p class="emp-title">UX Researcher</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #7c3aed">Design &amp; UX</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:amara.okafor@tidewell.example.com">amara.okafor<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2203</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>User interviews</li><li>Usability testing</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Amara joined Tidewell in March 2021 and designs the Tidewell product experience. Ask Amara about User interviews or Usability testing." data-manager="Claire Dubois" data-start="2021-03" data-start-text="March 2021">View profile<span class="visually-hidden"> of Amara Okafor</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="London" data-status="available" data-last="Osei" data-start="2023-01" data-search="samuel osei social media specialist social media video marketing">
+                        <article class="employee-card" aria-labelledby="name-samuel-osei">
+                            <div class="emp-head">
+                                <img src="images/people/samuel-osei.webp" alt="Portrait of Samuel Osei" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-samuel-osei">Samuel Osei</h3>
+                                    <p class="emp-title">Social Media Specialist</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:samuel.osei@tidewell.example.com">samuel.osei<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2305</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Social media</li><li>Video</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Samuel joined Tidewell in January 2023 and helps more teams discover Tidewell. Ask Samuel about Social media or Video." data-manager="Fiona Walsh" data-start="2023-01" data-start-text="January 2023">View profile<span class="visually-hidden"> of Samuel Osei</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="London" data-status="available" data-last="Owusu" data-start="2018-10" data-search="michael owusu sales manager coaching forecasting sales">
+                        <article class="employee-card" aria-labelledby="name-michael-owusu">
+                            <div class="emp-head">
+                                <img src="images/people/michael-owusu.webp" alt="Portrait of Michael Owusu" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-michael-owusu">Michael Owusu</h3>
+                                    <p class="emp-title">Sales Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:michael.owusu@tidewell.example.com">michael.owusu<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2404</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Coaching</li><li>Forecasting</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Michael joined Tidewell in October 2018 and works with customers as they choose and use Tidewell. Ask Michael about Coaching or Forecasting." data-manager="Vikram Rao" data-start="2018-10" data-start-text="October 2018">View profile<span class="visually-hidden"> of Michael Owusu</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="Singapore" data-status="available" data-last="Patel" data-start="2019-03" data-search="sanjay patel operations manager office operations vendors finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-sanjay-patel">
+                            <div class="emp-head">
+                                <img src="images/people/sanjay-patel.webp" alt="Portrait of Sanjay Patel" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-sanjay-patel">Sanjay Patel</h3>
+                                    <p class="emp-title">Operations Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:sanjay.patel@tidewell.example.com">sanjay.patel<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2603</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Office operations</li><li>Vendors</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Sanjay joined Tidewell in March 2019 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Sanjay about Office operations or Vendors." data-manager="Ahmed Rahman" data-start="2019-03" data-start-text="March 2019">View profile<span class="visually-hidden"> of Sanjay Patel</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="London" data-status="meeting" data-last="Petrova" data-start="2022-01" data-search="elena petrova data engineer sql data pipelines spark engineering">
+                        <article class="employee-card" aria-labelledby="name-elena-petrova">
+                            <div class="emp-head">
+                                <img src="images/people/elena-petrova.webp" alt="Portrait of Elena Petrova" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-elena-petrova">Elena Petrova</h3>
+                                    <p class="emp-title">Data Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:elena.petrova@tidewell.example.com">elena.petrova<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2112</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>SQL</li><li>Data pipelines</li><li>Spark</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Elena joined Tidewell in January 2022 and works on the Tidewell planning platform. Ask Elena about SQL or Data pipelines." data-manager="Richard Hale" data-start="2022-01" data-start-text="January 2022">View profile<span class="visually-hidden"> of Elena Petrova</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="London" data-status="available" data-last="Rahman" data-start="2016-06" data-search="ahmed rahman head of finance and operations financial planning leadership finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-ahmed-rahman">
+                            <div class="emp-head">
+                                <img src="images/people/ahmed-rahman.webp" alt="Portrait of Ahmed Rahman" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-ahmed-rahman">Ahmed Rahman</h3>
+                                    <p class="emp-title">Head of Finance and Operations</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:ahmed.rahman@tidewell.example.com">ahmed.rahman<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2601</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Financial planning</li><li>Leadership</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Ahmed leads the Finance &amp; Operations team and joined Tidewell in June 2016. Ask Ahmed about financial planning or leadership." data-manager="Chief Executive Officer" data-start="2016-06" data-start-text="June 2016">View profile<span class="visually-hidden"> of Ahmed Rahman</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="Singapore" data-status="meeting" data-last="Rao" data-start="2017-05" data-search="vikram rao head of sales enterprise sales leadership sales">
+                        <article class="employee-card" aria-labelledby="name-vikram-rao">
+                            <div class="emp-head">
+                                <img src="images/people/vikram-rao.webp" alt="Portrait of Vikram Rao" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-vikram-rao">Vikram Rao</h3>
+                                    <p class="emp-title">Head of Sales</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:vikram.rao@tidewell.example.com">vikram.rao<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2401</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Enterprise sales</li><li>Leadership</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Vikram leads the Sales team and joined Tidewell in May 2017. Ask Vikram about enterprise sales or leadership." data-manager="Chief Executive Officer" data-start="2017-05" data-start-text="May 2017">View profile<span class="visually-hidden"> of Vikram Rao</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="hr" data-location="London" data-status="leave" data-last="Reid" data-start="2020-04" data-search="marcus reid learning and development lead training mentoring human resources">
+                        <article class="employee-card" aria-labelledby="name-marcus-reid">
+                            <div class="emp-head">
+                                <img src="images/people/marcus-reid.webp" alt="Portrait of Marcus Reid" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-marcus-reid">Marcus Reid</h3>
+                                    <p class="emp-title">Learning and Development Lead</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #be185d">Human Resources</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:marcus.reid@tidewell.example.com">marcus.reid<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2506</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Training</li><li>Mentoring</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-leave"><span class="status-dot" aria-hidden="true"></span>On leave</p>
+                                <button class="btn-profile" type="button" data-bio="Marcus joined Tidewell in April 2020 and looks after hiring, growth and wellbeing for Tidewell staff. Ask Marcus about Training or Mentoring." data-manager="Patricia Johnson" data-start="2020-04" data-start-text="April 2020">View profile<span class="visually-hidden"> of Marcus Reid</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Remote" data-status="available" data-last="Rossi" data-start="2019-10" data-search="marco rossi site reliability engineer monitoring linux engineering">
+                        <article class="employee-card" aria-labelledby="name-marco-rossi">
+                            <div class="emp-head">
+                                <img src="images/people/marco-rossi.webp" alt="Portrait of Marco Rossi" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-marco-rossi">Marco Rossi</h3>
+                                    <p class="emp-title">Site Reliability Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Remote</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:marco.rossi@tidewell.example.com">marco.rossi<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2111</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Monitoring</li><li>Linux</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Marco joined Tidewell in October 2019 and works on the Tidewell planning platform. Ask Marco about Monitoring or Linux." data-manager="Richard Hale" data-start="2019-10" data-start-text="October 2019">View profile<span class="visually-hidden"> of Marco Rossi</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Singapore" data-status="available" data-last="Sato" data-start="2022-07" data-search="hana sato mobile engineer swift kotlin engineering">
+                        <article class="employee-card" aria-labelledby="name-hana-sato">
+                            <div class="emp-head">
+                                <img src="images/people/hana-sato.webp" alt="Portrait of Hana Sato" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-hana-sato">Hana Sato</h3>
+                                    <p class="emp-title">Mobile Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:hana.sato@tidewell.example.com">hana.sato<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2107</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Swift</li><li>Kotlin</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Hana joined Tidewell in July 2022 and works on the Tidewell planning platform. Ask Hana about Swift or Kotlin." data-manager="Richard Hale" data-start="2022-07" data-start-text="July 2022">View profile<span class="visually-hidden"> of Hana Sato</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="Toronto" data-status="available" data-last="Silva" data-start="2020-02" data-search="andre silva growth marketing manager paid ads experiments marketing">
+                        <article class="employee-card" aria-labelledby="name-andre-silva">
+                            <div class="emp-head">
+                                <img src="images/people/andre-silva.webp" alt="Portrait of Andre Silva" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-andre-silva">Andre Silva</h3>
+                                    <p class="emp-title">Growth Marketing Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:andre.silva@tidewell.example.com">andre.silva<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2302</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Paid ads</li><li>Experiments</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Andre joined Tidewell in February 2020 and helps more teams discover Tidewell. Ask Andre about Paid ads or Experiments." data-manager="Fiona Walsh" data-start="2020-02" data-start-text="February 2020">View profile<span class="visually-hidden"> of Andre Silva</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="hr" data-location="Toronto" data-status="available" data-last="Singh" data-start="2018-07" data-search="harjit singh people operations manager hr systems onboarding human resources">
+                        <article class="employee-card" aria-labelledby="name-harjit-singh">
+                            <div class="emp-head">
+                                <img src="images/people/harjit-singh.webp" alt="Portrait of Harjit Singh" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-harjit-singh">Harjit Singh</h3>
+                                    <p class="emp-title">People Operations Manager</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #be185d">Human Resources</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:harjit.singh@tidewell.example.com">harjit.singh<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2504</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>HR systems</li><li>Onboarding</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Harjit joined Tidewell in July 2018 and looks after hiring, growth and wellbeing for Tidewell staff. Ask Harjit about HR systems or Onboarding." data-manager="Patricia Johnson" data-start="2018-07" data-start-text="July 2018">View profile<span class="visually-hidden"> of Harjit Singh</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="engineering" data-location="Singapore" data-status="available" data-last="Tan" data-start="2021-04" data-search="mei lin tan backend engineer go microservices engineering">
+                        <article class="employee-card" aria-labelledby="name-mei-lin-tan">
+                            <div class="emp-head">
+                                <img src="images/people/mei-lin-tan.webp" alt="Portrait of Mei Lin Tan" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-mei-lin-tan">Mei Lin Tan</h3>
+                                    <p class="emp-title">Backend Engineer</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #0f766e">Engineering</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:meilin.tan@tidewell.example.com">meilin.tan<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2105</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Go</li><li>Microservices</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Mei Lin joined Tidewell in April 2021 and works on the Tidewell planning platform. Ask Mei Lin about Go or Microservices." data-manager="Richard Hale" data-start="2021-04" data-start-text="April 2021">View profile<span class="visually-hidden"> of Mei Lin Tan</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="Toronto" data-status="available" data-last="Torres" data-start="2021-02" data-search="gabriela torres account executive demos spanish sales">
+                        <article class="employee-card" aria-labelledby="name-gabriela-torres">
+                            <div class="emp-head">
+                                <img src="images/people/gabriela-torres.webp" alt="Portrait of Gabriela Torres" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-gabriela-torres">Gabriela Torres</h3>
+                                    <p class="emp-title">Account Executive</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Toronto</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:gabriela.torres@tidewell.example.com">gabriela.torres<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2403</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Demos</li><li>Spanish</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Gabriela joined Tidewell in February 2021 and works with customers as they choose and use Tidewell. Ask Gabriela about Demos or Spanish." data-manager="Vikram Rao" data-start="2021-02" data-start-text="February 2021">View profile<span class="visually-hidden"> of Gabriela Torres</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="marketing" data-location="London" data-status="available" data-last="Walsh" data-start="2017-08" data-search="fiona walsh head of marketing brand strategy leadership marketing">
+                        <article class="employee-card" aria-labelledby="name-fiona-walsh">
+                            <div class="emp-head">
+                                <img src="images/people/fiona-walsh.webp" alt="Portrait of Fiona Walsh" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-fiona-walsh">Fiona Walsh</h3>
+                                    <p class="emp-title">Head of Marketing</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #c2410c">Marketing</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:fiona.walsh@tidewell.example.com">fiona.walsh<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2301</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Brand strategy</li><li>Leadership</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="Fiona leads the Marketing team and joined Tidewell in August 2017. Ask Fiona about brand strategy or leadership." data-manager="Chief Executive Officer" data-start="2017-08" data-start-text="August 2017">View profile<span class="visually-hidden"> of Fiona Walsh</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="sales" data-location="London" data-status="available" data-last="Whitaker" data-start="2019-07" data-search="james whitaker enterprise account executive negotiation enterprise sales">
+                        <article class="employee-card" aria-labelledby="name-james-whitaker">
+                            <div class="emp-head">
+                                <img src="images/people/james-whitaker.webp" alt="Portrait of James Whitaker" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-james-whitaker">James Whitaker</h3>
+                                    <p class="emp-title">Enterprise Account Executive</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #1d4ed8">Sales</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:james.whitaker@tidewell.example.com">james.whitaker<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2402</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Negotiation</li><li>Enterprise</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-available"><span class="status-dot" aria-hidden="true"></span>Available</p>
+                                <button class="btn-profile" type="button" data-bio="James joined Tidewell in July 2019 and works with customers as they choose and use Tidewell. Ask James about Negotiation or Enterprise." data-manager="Vikram Rao" data-start="2019-07" data-start-text="July 2019">View profile<span class="visually-hidden"> of James Whitaker</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="hr" data-location="London" data-status="meeting" data-last="Yusuf" data-start="2022-02" data-search="aisha yusuf talent acquisition specialist interviewing employer brand human resources">
+                        <article class="employee-card" aria-labelledby="name-aisha-yusuf">
+                            <div class="emp-head">
+                                <img src="images/people/aisha-yusuf.webp" alt="Portrait of Aisha Yusuf" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-aisha-yusuf">Aisha Yusuf</h3>
+                                    <p class="emp-title">Talent Acquisition Specialist</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #be185d">Human Resources</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>London</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:aisha.yusuf@tidewell.example.com">aisha.yusuf<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2503</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Interviewing</li><li>Employer brand</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Aisha joined Tidewell in February 2022 and looks after hiring, growth and wellbeing for Tidewell staff. Ask Aisha about Interviewing or Employer brand." data-manager="Patricia Johnson" data-start="2022-02" data-start-text="February 2022">View profile<span class="visually-hidden"> of Aisha Yusuf</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="employee" data-dept="finance" data-location="Singapore" data-status="meeting" data-last="Zhang" data-start="2022-05" data-search="wei zhang financial analyst forecasting excel finance &amp; operations">
+                        <article class="employee-card" aria-labelledby="name-wei-zhang">
+                            <div class="emp-head">
+                                <img src="images/people/wei-zhang.webp" alt="Portrait of Wei Zhang" width="320" height="320" loading="lazy">
+                                <div>
+                                    <h3 class="emp-name" id="name-wei-zhang">Wei Zhang</h3>
+                                    <p class="emp-title">Financial Analyst</p>
+                                </div>
+                            </div>
+                            <p class="emp-meta">
+                                <span class="dept-badge" style="--dept-color: #4d7c0f">Finance &amp; Operations</span>
+                                <span class="emp-location"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+                            </p>
+                            <address class="emp-contact">
+                                <a href="mailto:wei.zhang@tidewell.example.com">wei.zhang<wbr>@tidewell.example.com</a>
+                                <span>Ext. 2605</span>
+                            </address>
+                            <ul class="emp-skills" aria-label="Skills"><li>Forecasting</li><li>Excel</li></ul>
+                            <div class="emp-footer">
+                                <p class="status status-meeting"><span class="status-dot" aria-hidden="true"></span>In a meeting</p>
+                                <button class="btn-profile" type="button" data-bio="Wei joined Tidewell in May 2022 and keeps Tidewell&#x27;s finances and offices running smoothly. Ask Wei about Forecasting or Excel." data-manager="Ahmed Rahman" data-start="2022-05" data-start-text="May 2022">View profile<span class="visually-hidden"> of Wei Zhang</span></button>
+                            </div>
+                        </article>
+                    </li>
+            </ul>
+
+            <div class="no-results" id="no-results" hidden>
+                <p>No one matches those filters.</p>
+                <button class="btn btn-secondary" type="button" id="clear-from-empty">Clear filters</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- profile dialog -->
+    <dialog class="profile" id="profile" aria-labelledby="profile-name">
+        <div class="profile-inner">
+            <img class="profile-photo" id="profile-photo" src="images/people/chloe-adams.webp" alt="" width="320" height="320">
+            <div class="profile-main">
+                <h2 class="profile-name" id="profile-name">Chloe Adams</h2>
+                <p class="profile-title" id="profile-title"></p>
+                <p class="profile-bio" id="profile-bio"></p>
+                <dl class="profile-facts">
+                    <div><dt>Department</dt><dd id="profile-dept"></dd></div>
+                    <div><dt>Office</dt><dd id="profile-location"></dd></div>
+                    <div><dt>Status</dt><dd id="profile-status"></dd></div>
+                    <div><dt>Reports to</dt><dd id="profile-manager"></dd></div>
+                    <div><dt>Joined</dt><dd><time id="profile-start"></time></dd></div>
+                    <div><dt>Contact</dt><dd id="profile-contact"></dd></div>
+                </dl>
+                <ul class="emp-skills" id="profile-skills" aria-label="Skills"></ul>
+            </div>
+        </div>
+        <button class="profile-close" type="button" id="profile-close" aria-label="Close profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+    </dialog>
+
+    <!-- footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p><strong>Tidewell</strong> people directory. For changes to your profile, contact People Operations on Ext. 2504.</p>
+            <p>&copy; 2026 Tidewell (fictional company, demo data).</p>
+        </div>
+    </footer>
+
+</body>
+</html>

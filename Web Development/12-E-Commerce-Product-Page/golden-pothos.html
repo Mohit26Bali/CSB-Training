@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Golden Pothos (Epipremnum aureum): Heart-shaped leaves splashed with gold trail from shelves and hanging pots, or climb up a moss pole if you prefer.">
+    <title>Golden Pothos | Green Corner</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Golden Pothos", "image": ["images/plants/golden-pothos-1.webp", "images/plants/golden-pothos-2.webp", "images/plants/golden-pothos-3.webp", "images/plants/golden-pothos-4.webp"], "description": "Heart-shaped leaves splashed with gold trail from shelves and hanging pots, or climb up a moss pole if you prefer.", "brand": {"@type": "Brand", "name": "Green Corner"}, "offers": {"@type": "AggregateOffer", "priceCurrency": "GBP", "lowPrice": "8.99", "highPrice": "23.99", "availability": "https://schema.org/InStock"}}</script>
+    <script src="js/basket.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to the product</a>
+
+    <p class="demo-note">Demo shop: Green Corner is fictional, so nothing can be bought. Reviews are written examples.</p>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="index.html" aria-label="Green Corner home">
+                <svg class="logo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8"/><path class="leaf" d="M9 23c0-8 5-13 14-14 0 9-5 14-13 14"/><path class="vein" d="M9 23l8-8"/></svg>
+                <span>Green Corner</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <ul>
+                    <li><a href="index.html#plants">Shop all</a></li>
+                    <li><a href="#details">Plant care</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-link basket-btn" type="button" id="basket-btn" aria-haspopup="dialog" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+                    <span class="visually-hidden" id="basket-label">Basket, empty</span>
+                    <span class="count" id="basket-count" hidden>0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html?filter=indoor#plants">Indoor plants</a></li>
+                    <li><span aria-current="page">Golden Pothos</span></li>
+                </ol>
+            </nav>
+
+            <div class="product" data-product="golden-pothos">
+
+                <section class="gallery" aria-label="Product images">
+                    <div class="stage">
+                        <ul class="slides" id="slides" tabindex="0" aria-label="Product images, scroll sideways for more">
+                        <li class="slide" id="slide-1">
+                            <img src="images/plants/golden-pothos-1.webp" alt="Golden pothos trailing vines" width="1000" height="1000" fetchpriority="high">
+                        </li>
+                        <li class="slide" id="slide-2">
+                            <img src="images/plants/golden-pothos-2.webp" alt="Seen from above" width="1000" height="1000" loading="lazy">
+                        </li>
+                        <li class="slide" id="slide-3">
+                            <img src="images/plants/golden-pothos-3.webp" alt="Being watered" width="1000" height="1000" loading="lazy">
+                        </li>
+                        <li class="slide" id="slide-4">
+                            <img src="images/plants/golden-pothos-4.webp" alt="The marbled gold leaves" width="1000" height="1000" loading="lazy">
+                        </li>
+                        </ul>
+                        <button class="stage-btn stage-prev" type="button" id="prev-image" hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>
+                            <span class="visually-hidden">Previous image</span>
+                        </button>
+                        <button class="stage-btn stage-next" type="button" id="next-image" hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg>
+                            <span class="visually-hidden">Next image</span>
+                        </button>
+                        <p class="image-count" id="image-count" aria-hidden="true">1 / 4</p>
+                        <button class="zoom-btn" type="button" id="open-lightbox" hidden>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+                            <span class="visually-hidden">View images full screen</span>
+                        </button>
+                    </div>
+                    <ul class="thumbs" aria-label="Choose an image">
+                        <li><button class="thumb" type="button" data-index="0" aria-current="true">
+                            <img src="images/plants/golden-pothos-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <span class="visually-hidden">Show image 1: Golden pothos trailing vines</span>
+                        </button></li>
+                        <li><button class="thumb" type="button" data-index="1" aria-current="false">
+                            <img src="images/plants/golden-pothos-2.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <span class="visually-hidden">Show image 2: Seen from above</span>
+                        </button></li>
+                        <li><button class="thumb" type="button" data-index="2" aria-current="false">
+                            <img src="images/plants/golden-pothos-3.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <span class="visually-hidden">Show image 3: Being watered</span>
+                        </button></li>
+                        <li><button class="thumb" type="button" data-index="3" aria-current="false">
+                            <img src="images/plants/golden-pothos-4.webp" alt="" width="1000" height="1000" loading="lazy">
+                            <span class="visually-hidden">Show image 4: The marbled gold leaves</span>
+                        </button></li>
+                    </ul>
+                </section>
+
+                <div class="buy-box">
+                    <p class="category">Indoor plants</p>
+                    <h1>Golden Pothos</h1>
+                    <p class="latin"><i lang="la">Epipremnum aureum</i> &middot; Devil&#x27;s ivy</p>
+                    <a class="rating-link" href="#reviews">
+                        <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span>
+                        <span>4.8<span class="visually-hidden"> out of 5</span> (4 example reviews)</span>
+                    </a>
+
+                    <p class="price-line">
+                        <data class="price" id="price" value="14.99">&pound;14.99</data>
+                        <span class="price-note">including VAT</span>
+                    </p>
+                    <p class="visually-hidden" id="price-status" role="status"></p>
+
+                    <form class="buy-form" id="buy-form">
+                        <fieldset class="options">
+                            <legend>Size</legend>
+                            <div class="option-grid">
+                                <label class="option-card">
+                                    <input type="radio" name="size" value="small">
+                                    <span class="option-title">Small</span>
+                                    <span class="option-detail">12 cm pot, trails about 25 cm</span>
+                                    <span class="option-price">&pound;8.99</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="size" value="medium" checked>
+                                    <span class="option-title">Medium</span>
+                                    <span class="option-detail">15 cm pot, trails about 45 cm</span>
+                                    <span class="option-price">&pound;14.99</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="size" value="large">
+                                    <span class="option-title">Large</span>
+                                    <span class="option-detail">19 cm pot, trails about 80 cm</span>
+                                    <span class="option-price">&pound;23.99</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="options">
+                            <legend>Pot <span class="legend-value" id="pot-name">Grower's pot</span></legend>
+                            <div class="swatches">
+                                <label class="swatch" style="--swatch: #3b3f3c">
+                                    <input type="radio" name="pot" value="grower" checked>
+                                    <span class="swatch-dot" aria-hidden="true"></span>
+                                    <span class="swatch-name">Grower's pot</span>
+                                    <span class="swatch-extra">Included</span>
+                                </label>
+                                <label class="swatch" style="--swatch: #b0502c">
+                                    <input type="radio" name="pot" value="terracotta">
+                                    <span class="swatch-dot" aria-hidden="true"></span>
+                                    <span class="swatch-name">Terracotta</span>
+                                    <span class="swatch-extra">+&pound;6</span>
+                                </label>
+                                <label class="swatch" style="--swatch: #e4e0d6">
+                                    <input type="radio" name="pot" value="stone">
+                                    <span class="swatch-dot" aria-hidden="true"></span>
+                                    <span class="swatch-name">Stone ceramic</span>
+                                    <span class="swatch-extra">+&pound;12</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+
+                        <div class="qty-row">
+                            <div class="qty">
+                                <label for="quantity">Quantity</label>
+                                <div class="stepper">
+                                    <button type="button" class="step" data-step="-1" hidden><span aria-hidden="true">&minus;</span><span class="visually-hidden">Decrease quantity</span></button>
+                                    <input id="quantity" name="quantity" type="number" inputmode="numeric" min="1" max="10" step="1" value="1" aria-describedby="stock-text quantity-error">
+                                    <button type="button" class="step" data-step="1" hidden><span aria-hidden="true">+</span><span class="visually-hidden">Increase quantity</span></button>
+                                </div>
+                            </div>
+                            <p class="stock" id="stock-text"></p>
+                        </div>
+                        <p class="field-error" id="quantity-error" role="alert"></p>
+
+                        <div class="actions" id="main-actions">
+                            <button class="btn btn-primary" type="submit" id="add-btn">Add to basket</button>
+                            <button class="btn btn-secondary" type="button" id="buy-now">Buy now</button>
+                            <button class="wish-btn" type="button" id="wish-btn" aria-pressed="false" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 7 5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.8 3.6 4.5 6.8C19.5 16.4 12 21 12 21z"/></svg>
+                                <span class="wish-label">Save to wishlist</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <ul class="perks">
+                        <li>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+                            <span id="delivery-text">Free delivery on orders over &pound;40</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+                            <span>30-day happy plant guarantee</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 20c-2-6 3-12 13-15-1 9-6 14-13 15zM4 21l7-7"/></svg>
+                            <span>Easy care &middot; <span class="badge badge-warn">Toxic to pets</span></span>
+                        </li>
+                    </ul>
+                    <p class="wishlist-note" id="wishlist-note" role="status"></p>
+                </div>
+            </div>
+
+            <section class="details" id="details" aria-label="Product details">
+                <div class="tab-list" role="tablist" aria-label="Product details" hidden></div>
+
+                <section class="panel" id="panel-description" aria-labelledby="heading-description">
+                    <h2 class="panel-heading" id="heading-description"><button class="accordion-btn" type="button" aria-expanded="true" aria-controls="body-description">Description</button></h2>
+                    <div class="panel-body" id="body-description">
+                        <p>Heart-shaped leaves splashed with gold trail from shelves and hanging pots, or climb up a moss pole if you prefer.</p>
+<p>Pothos tells you when it&#x27;s thirsty by drooping slightly, then perks up within hours of a drink, which makes it perfect for first-time plant owners.</p>
+                        <ul class="highlights">
+                            <li>Trails or climbs, so it suits shelves and hanging planters</li>
+<li>Grows fast in good light</li>
+<li>Easy to propagate from cuttings in water</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="panel" id="panel-care" aria-labelledby="heading-care">
+                    <h2 class="panel-heading" id="heading-care"><button class="accordion-btn" type="button" aria-expanded="true" aria-controls="body-care">Care guide</button></h2>
+                    <div class="panel-body" id="body-care">
+                        <dl class="care-list">
+                            <div><dt>Light</dt><dd>Low to bright, indirect light</dd></div>
+                            <div><dt>Water</dt><dd>When the top 2 to 3 cm of soil is dry</dd></div>
+                            <div><dt>Humidity</dt><dd>Medium</dd></div>
+                            <div><dt>Difficulty</dt><dd><meter min="0" max="3" low="1.5" high="2.5" optimum="0" value="1" aria-label="Difficulty 1 out of 3"></meter> Easy</dd></div>
+                            <div><dt>Pets</dt><dd>Toxic to cats and dogs if eaten. Keep out of reach of pets.</dd></div>
+                        </dl>
+                    </div>
+                </section>
+
+                <section class="panel" id="panel-sizes" aria-labelledby="heading-sizes">
+                    <h2 class="panel-heading" id="heading-sizes"><button class="accordion-btn" type="button" aria-expanded="true" aria-controls="body-sizes">Sizes</button></h2>
+                    <div class="panel-body" id="body-sizes">
+                        <table class="spec-table">
+                            <caption class="visually-hidden">Sizes and prices</caption>
+                            <thead>
+                                <tr><th scope="col">Size</th><th scope="col">Pot</th><th scope="col">Plant</th><th scope="col" class="num">Price</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row">Small</th><td>12 cm</td><td>Trails about 25 cm</td><td class="num">&pound;8.99</td></tr>
+                                <tr><th scope="row">Medium</th><td>15 cm</td><td>Trails about 45 cm</td><td class="num">&pound;14.99</td></tr>
+                                <tr><th scope="row">Large</th><td>19 cm</td><td>Trails about 80 cm</td><td class="num">&pound;23.99</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="small-print">Every plant is unique, so sizes are approximate. Heights include the pot.</p>
+                    </div>
+                </section>
+
+                <section class="panel" id="panel-delivery" aria-labelledby="heading-delivery">
+                    <h2 class="panel-heading" id="heading-delivery"><button class="accordion-btn" type="button" aria-expanded="true" aria-controls="body-delivery">Delivery &amp; returns</button></h2>
+                    <div class="panel-body" id="body-delivery">
+                        <p>Orders placed before 2 pm on a weekday are packed the same day and delivered the next working day. Delivery is free on orders over &pound;40, otherwise &pound;4.95.</p>
+                        <p>Everything travels in recyclable, cushioned boxes. If anything arrives damaged, send us a photo and we&rsquo;ll replace it. Plants are also covered by our 30-day happy plant guarantee, and unused accessories can be returned within 30 days.</p>
+                    </div>
+                </section>
+            </section>
+
+            <section class="reviews" id="reviews" aria-labelledby="reviews-title">
+                <div class="section-head">
+                    <h2 id="reviews-title">Customer reviews</h2>
+                    <p class="review-note">Example reviews written for this demo.</p>
+                </div>
+                <div class="reviews-layout">
+                    <div class="review-summary">
+                        <p class="big-rating">4.8 <span>out of 5</span></p>
+                        <p class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></p>
+                        <p class="review-total">4 reviews</p>
+                        <p class="filter-hint">Select a bar to show only those reviews.</p>
+                        <ul class="rating-bars">
+                        <li><button class="rating-bar" type="button" data-stars="5" aria-pressed="false">
+                            <span>5 star</span>
+                            <span class="bar" aria-hidden="true"><span style="--size: 75%"></span></span>
+                            <span class="bar-count">3<span class="visually-hidden"> reviews</span></span>
+                        </button></li>
+                        <li><button class="rating-bar" type="button" data-stars="4" aria-pressed="false">
+                            <span>4 star</span>
+                            <span class="bar" aria-hidden="true"><span style="--size: 25%"></span></span>
+                            <span class="bar-count">1<span class="visually-hidden"> review</span></span>
+                        </button></li>
+                        <li><button class="rating-bar" type="button" data-stars="3" aria-pressed="false" disabled>
+                            <span>3 star</span>
+                            <span class="bar" aria-hidden="true"><span style="--size: 0%"></span></span>
+                            <span class="bar-count">0<span class="visually-hidden"> reviews</span></span>
+                        </button></li>
+                        <li><button class="rating-bar" type="button" data-stars="2" aria-pressed="false" disabled>
+                            <span>2 star</span>
+                            <span class="bar" aria-hidden="true"><span style="--size: 0%"></span></span>
+                            <span class="bar-count">0<span class="visually-hidden"> reviews</span></span>
+                        </button></li>
+                        <li><button class="rating-bar" type="button" data-stars="1" aria-pressed="false" disabled>
+                            <span>1 star</span>
+                            <span class="bar" aria-hidden="true"><span style="--size: 0%"></span></span>
+                            <span class="bar-count">0<span class="visually-hidden"> reviews</span></span>
+                        </button></li>
+                        </ul>
+                    </div>
+                    <div class="review-feed">
+                        <div class="review-tools">
+                            <p id="review-count" aria-live="polite">Showing all 4 reviews</p>
+                            <label for="review-sort">Sort by</label>
+                            <select id="review-sort">
+                                <option value="newest">Newest</option>
+                                <option value="highest">Highest rated</option>
+                                <option value="lowest">Lowest rated</option>
+                            </select>
+                        </div>
+                        <ul class="review-list" id="review-list">
+                    <li data-rating="5" data-date="2026-09-25">
+                        <article class="review">
+                            <p class="review-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span></p>
+                            <h3>Already trailing</h3>
+                            <p>It&#x27;s grown about 10 cm in a month on my bookshelf.</p>
+                            <footer class="review-meta">Sam &middot; <time datetime="2026-09-25">25 September 2026</time></footer>
+                            <button class="helpful" type="button" aria-pressed="false">Helpful <span class="helpful-count">0</span></button>
+                        </article>
+                    </li>
+                    <li data-rating="5" data-date="2026-09-01">
+                        <article class="review">
+                            <p class="review-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span></p>
+                            <h3>Great starter plant</h3>
+                            <p>Bought it for my daughter&#x27;s first flat and it&#x27;s doing brilliantly.</p>
+                            <footer class="review-meta">Chloe &middot; <time datetime="2026-09-01">1 September 2026</time></footer>
+                            <button class="helpful" type="button" aria-pressed="false">Helpful <span class="helpful-count">0</span></button>
+                        </article>
+                    </li>
+                    <li data-rating="4" data-date="2026-08-08">
+                        <article class="review">
+                            <p class="review-stars" role="img" aria-label="Rated 4 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;<span class="star-empty">&#9733;</span></span></p>
+                            <h3>Good, a few yellow leaves</h3>
+                            <p>Two leaves yellowed in the first week, but it&#x27;s fine now.</p>
+                            <footer class="review-meta">Ravi &middot; <time datetime="2026-08-08">8 August 2026</time></footer>
+                            <button class="helpful" type="button" aria-pressed="false">Helpful <span class="helpful-count">0</span></button>
+                        </article>
+                    </li>
+                    <li data-rating="5" data-date="2026-07-03">
+                        <article class="review">
+                            <p class="review-stars" role="img" aria-label="Rated 5 out of 5"><span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="star-empty"></span></span></p>
+                            <h3>So many cuttings</h3>
+                            <p>I&#x27;ve already made three new plants from the cuttings!</p>
+                            <footer class="review-meta">Mei &middot; <time datetime="2026-07-03">3 July 2026</time></footer>
+                            <button class="helpful" type="button" aria-pressed="false">Helpful <span class="helpful-count">0</span></button>
+                        </article>
+                    </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="related" aria-labelledby="related-title">
+                <div class="section-head">
+                    <h2 id="related-title">You may also like</h2>
+                </div>
+                <ul class="related-grid">
+                <li>
+                    <article class="related-card">
+                        <img src="images/plants/calathea-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <p class="related-category">Indoor plants</p>
+                        <h3><a href="calathea.html">Calathea Orbifolia</a></h3>
+                        <p class="related-price">From &pound;18.99</p>
+                        <p class="related-rating"><span aria-hidden="true">&#9733;</span> 4.2<span class="visually-hidden"> out of 5</span></p>
+                    </article>
+                </li>
+                <li>
+                    <article class="related-card">
+                        <img src="images/plants/monstera-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <p class="related-category">Indoor plants</p>
+                        <h3><a href="monstera.html">Monstera Deliciosa</a></h3>
+                        <p class="related-price">From &pound;21.99</p>
+                        <p class="related-rating"><span aria-hidden="true">&#9733;</span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                    </article>
+                </li>
+                <li>
+                    <article class="related-card">
+                        <img src="images/plants/snake-plant-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <p class="related-category">Indoor plants</p>
+                        <h3><a href="snake-plant.html">Snake Plant</a></h3>
+                        <p class="related-price">From &pound;11.99</p>
+                        <p class="related-rating"><span aria-hidden="true">&#9733;</span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                    </article>
+                </li>
+                <li>
+                    <article class="related-card">
+                        <img src="images/plants/watering-can-1.webp" alt="" width="1000" height="1000" loading="lazy">
+                        <p class="related-category">Accessories</p>
+                        <h3><a href="watering-can.html">Brass Watering Can</a></h3>
+                        <p class="related-price">From &pound;27.00</p>
+                        <p class="related-rating"><span aria-hidden="true">&#9733;</span> 4.8<span class="visually-hidden"> out of 5</span></p>
+                    </article>
+                </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Green Corner (fictional demo shop). Photos from <a href="https://www.pexels.com/">Pexels</a>.</p>
+        </div>
+    </footer>
+
+    <div class="sticky-buy" id="sticky-buy" hidden>
+        <div class="sticky-text">
+            <p class="sticky-name">Golden Pothos</p>
+            <p class="sticky-price" id="sticky-price">&pound;14.99</p>
+        </div>
+        <button class="btn btn-primary" type="button" id="sticky-add">Add to basket</button>
+    </div>
+
+    <dialog class="basket" id="basket" aria-labelledby="basket-title">
+        <div class="basket-inner">
+            <div class="basket-head">
+                <h2 id="basket-title" tabindex="-1">Your basket</h2>
+                <button class="close-btn" type="button" data-close aria-label="Close basket">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
+            <p class="basket-message" id="basket-message"></p>
+            <div class="free-delivery">
+                <p id="free-text"></p>
+                <progress id="free-progress" max="40" value="0"></progress>
+            </div>
+            <ul class="basket-list" id="basket-list"></ul>
+            <p class="basket-empty" id="basket-empty">Your basket is empty.</p>
+            <div class="basket-foot">
+                <p class="subtotal">Subtotal <output id="subtotal">&pound;0.00</output></p>
+                <button class="btn btn-primary" type="button" id="checkout">Checkout</button>
+                <button class="btn btn-secondary" type="button" data-close>Keep shopping</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Product images">
+        <img id="lightbox-image" src="images/plants/golden-pothos-1.webp" alt="" width="1000" height="1000">
+        <p class="lightbox-caption" id="lightbox-caption"></p>
+        <button class="lightbox-btn lightbox-prev" type="button" id="lightbox-prev">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>
+            <span class="visually-hidden">Previous image</span>
+        </button>
+        <button class="lightbox-btn lightbox-next" type="button" id="lightbox-next">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg>
+            <span class="visually-hidden">Next image</span>
+        </button>
+        <button class="close-btn lightbox-close" type="button" data-close aria-label="Close full-screen images">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+    </dialog>
+
+    <script type="application/json" id="product-data">{"id": "golden-pothos", "name": "Golden Pothos", "image": "images/plants/golden-pothos-1.webp", "sizes": [{"id": "small", "label": "Small", "detail": "12 cm pot, trails about 25 cm", "pot": 12, "height": "trails about 25 cm", "price": 8.99, "stock": 30}, {"id": "medium", "label": "Medium", "detail": "15 cm pot, trails about 45 cm", "pot": 15, "height": "trails about 45 cm", "price": 14.99, "stock": 16}, {"id": "large", "label": "Large", "detail": "19 cm pot, trails about 80 cm", "pot": 19, "height": "trails about 80 cm", "price": 23.99, "stock": 9}], "pots": [{"id": "grower", "name": "Grower's pot", "extra": 0}, {"id": "terracotta", "name": "Terracotta", "extra": 6}, {"id": "stone", "name": "Stone ceramic", "extra": 12}], "url": "golden-pothos.html", "noun": "size"}</script>
+
+</body>
+
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search and filter Fernhill College courses by subject, level and study mode.">
+    <title>Courses | Fernhill College</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/site.js" defer></script>
+    <script src="js/courses.js" defer></script>
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header">
+        <div class="utility-bar">
+        <div class="container utility-inner">
+            <p class="demo-note">Demo site: Fernhill College is fictional.</p>
+            <ul class="utility-links">
+                <li><a href="tel:+441134960420"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span>0113 496 0420</span></a></li>
+                <li><a href="accessibility.html">Accessibility</a></li>
+            </ul>
+        </div>
+    </div>
+
+        <div class="container header-inner">
+            <a class="logo" href="index.html">
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                    <circle cx="24" cy="24" r="23"/>
+                    <path class="fern" d="M24 38V12m0 6c-3-3-7-4-10-3 2 3 6 4 10 3zm0 0c3-3 7-4 10-3-2 3-6 4-10 3zm0 7c-4-3-8-4-12-3 2 3 7 5 12 3zm0 0c4-3 8-4 12-3-2 3-7 5-12 3zm0 7c-4-2-8-3-11-2 2 3 7 4 11 2zm0 0c4-2 8-3 11-2-2 3-7 4-11 2z"/>
+                </svg>
+                <span class="logo-text">Fernhill College</span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span class="menu-bars" aria-hidden="true"></span>Menu
+            </button>
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="courses.html" aria-current="page">Courses</a></li>
+                    <li><a href="apply.html">How to apply</a></li>
+                    <li><a href="index.html#events">Open evenings</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a class="btn btn-primary nav-cta" href="apply.html#steps">Apply now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <div class="page-head">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html" aria-current="page">Courses</a></li>
+                    </ol>
+                </nav>
+                <h1>Courses</h1>
+                <p class="lead">Full-time, part-time and apprenticeship courses for ages 16 and over. Filter the list to find the right one for you.</p>
+            </div>
+        </div>
+
+        <div class="container course-layout">
+            <form class="filters" id="filters" role="search" aria-label="Filter courses">
+                <h2 class="filters-title">Filter courses</h2>
+                <div class="field">
+                    <label for="q">Search</label>
+                    <input type="search" id="q" name="q" placeholder="Course name or keyword">
+                </div>
+                <div class="field">
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject">
+                        <option value="">All subjects</option>
+                                <option value="digital">Digital and IT</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="health">Health and Social Care</option>
+                                <option value="creative">Creative Arts and Media</option>
+                                <option value="construction">Construction and Trades</option>
+                                <option value="hospitality">Hospitality and Catering</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="mode">Study mode</label>
+                    <select id="mode" name="mode">
+                        <option value="">All study modes</option>
+                                <option value="16-18">Full-time, ages 16 to 18</option>
+                                <option value="adult">Full-time, ages 19+</option>
+                                <option value="apprenticeship">Apprenticeship</option>
+                                <option value="part-time">Part-time, evenings</option>
+                    </select>
+                </div>
+                <fieldset class="field">
+                    <legend>Level</legend>
+                    <label class="check"><input type="checkbox" name="level" value="1"> Level 1 (beginner)</label>
+                    <label class="check"><input type="checkbox" name="level" value="2"> Level 2</label>
+                    <label class="check"><input type="checkbox" name="level" value="3"> Level 3 (A level standard)</label>
+                </fieldset>
+                <div class="filter-actions">
+                    <button class="btn btn-primary no-js-only" type="submit">Show courses</button>
+                    <button class="btn btn-secondary" type="reset" id="clear">Clear filters</button>
+                </div>
+            </form>
+
+            <section class="results" aria-labelledby="results-title">
+                <h2 id="results-title" class="visually-hidden">Matching courses</h2>
+                <p class="result-count" id="result-count" role="status">Showing all 12 courses</p>
+                <ul class="course-list" id="course-list">
+                <li>
+                    <article class="course-card" id="t-level-digital" data-subject="digital" data-level="3" data-mode="16-18">
+                        <p class="course-subject">Digital and IT</p>
+                        <h2 class="course-title">T Level in Digital Production, Design and Development</h2>
+                        <p class="course-summary">Learn to plan, build and test software, with a 45-day placement at a local tech company.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 16 to 18</dd></div>
+                            <div><dt>Length</dt><dd>2 years</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>Free for ages 16 to 18</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=t-level-digital">Ask about this course<span class="visually-hidden">: T Level in Digital Production, Design and Development</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="coding-python" data-subject="digital" data-level="2" data-mode="part-time">
+                        <p class="course-subject">Digital and IT</p>
+                        <h2 class="course-title">Introduction to Coding with Python</h2>
+                        <p class="course-summary">Write your first programs in Python. No experience needed, just a laptop.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 2</dd></div>
+                            <div><dt>Study mode</dt><dd>Part-time, evenings</dd></div>
+                            <div><dt>Length</dt><dd>12 weeks, one evening a week</dd></div>
+                            <div><dt>Starts</dt><dd>January 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>£180</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=coding-python">Ask about this course<span class="visually-hidden">: Introduction to Coding with Python</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="engineering-diploma" data-subject="engineering" data-level="3" data-mode="16-18">
+                        <p class="course-subject">Engineering</p>
+                        <h2 class="course-title">Extended Diploma in Engineering</h2>
+                        <p class="course-summary">Mechanical and electrical principles, CAD and workshop skills, leading to university or an apprenticeship.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 16 to 18</dd></div>
+                            <div><dt>Length</dt><dd>2 years</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Riverside Centre</dd></div>
+                            <div><dt>Cost</dt><dd>Free for ages 16 to 18</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=engineering-diploma">Ask about this course<span class="visually-hidden">: Extended Diploma in Engineering</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="engineering-apprenticeship" data-subject="engineering" data-level="3" data-mode="apprenticeship">
+                        <p class="course-subject">Engineering</p>
+                        <h2 class="course-title">Engineering Technician Apprenticeship</h2>
+                        <p class="course-summary">Work for a local employer four days a week and study with us one day a week.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Apprenticeship</dd></div>
+                            <div><dt>Length</dt><dd>42 months</dd></div>
+                            <div><dt>Starts</dt><dd>Start any time</dd></div>
+                            <div><dt>Campus</dt><dd>Riverside Centre</dd></div>
+                            <div><dt>Cost</dt><dd>Free to you, and you earn a wage</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=engineering-apprenticeship">Ask about this course<span class="visually-hidden">: Engineering Technician Apprenticeship</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="t-level-health" data-subject="health" data-level="3" data-mode="16-18">
+                        <p class="course-subject">Health and Social Care</p>
+                        <h2 class="course-title">T Level in Health</h2>
+                        <p class="course-summary">Prepare for a career in nursing or healthcare, with an industry placement in a hospital or care home.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 16 to 18</dd></div>
+                            <div><dt>Length</dt><dd>2 years</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>Free for ages 16 to 18</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=t-level-health">Ask about this course<span class="visually-hidden">: T Level in Health</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="access-nursing" data-subject="health" data-level="3" data-mode="adult">
+                        <p class="course-subject">Health and Social Care</p>
+                        <h2 class="course-title">Access to Higher Education Diploma (Nursing and Midwifery)</h2>
+                        <p class="course-summary">A one-year course for adults who want to go to university to study nursing or midwifery.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 19+</dd></div>
+                            <div><dt>Length</dt><dd>1 year</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>£3,000, with an Advanced Learner Loan available</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=access-nursing">Ask about this course<span class="visually-hidden">: Access to Higher Education Diploma (Nursing and Midwifery)</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="art-design" data-subject="creative" data-level="3" data-mode="16-18">
+                        <p class="course-subject">Creative Arts and Media</p>
+                        <h2 class="course-title">Diploma in Art and Design</h2>
+                        <p class="course-summary">Drawing, painting, graphics and 3D design, ending with a public exhibition of your work.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 16 to 18</dd></div>
+                            <div><dt>Length</dt><dd>2 years</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>Free for ages 16 to 18</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=art-design">Ask about this course<span class="visually-hidden">: Diploma in Art and Design</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="photography" data-subject="creative" data-level="1" data-mode="part-time">
+                        <p class="course-subject">Creative Arts and Media</p>
+                        <h2 class="course-title">Photography for Beginners</h2>
+                        <p class="course-summary">Get off automatic mode: light, composition and editing, with any camera.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 1</dd></div>
+                            <div><dt>Study mode</dt><dd>Part-time, evenings</dd></div>
+                            <div><dt>Length</dt><dd>10 weeks, one evening a week</dd></div>
+                            <div><dt>Starts</dt><dd>January 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>£150</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=photography">Ask about this course<span class="visually-hidden">: Photography for Beginners</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="bricklaying" data-subject="construction" data-level="2" data-mode="16-18">
+                        <p class="course-subject">Construction and Trades</p>
+                        <h2 class="course-title">Diploma in Bricklaying</h2>
+                        <p class="course-summary">Practical bricklaying in our full-size workshop, with health and safety training.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 2</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 16 to 18</dd></div>
+                            <div><dt>Length</dt><dd>1 year</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Riverside Centre</dd></div>
+                            <div><dt>Cost</dt><dd>Free for ages 16 to 18</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=bricklaying">Ask about this course<span class="visually-hidden">: Diploma in Bricklaying</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="electrical-apprenticeship" data-subject="construction" data-level="3" data-mode="apprenticeship">
+                        <p class="course-subject">Construction and Trades</p>
+                        <h2 class="course-title">Electrical Installation Apprenticeship</h2>
+                        <p class="course-summary">Train to become a qualified electrician while working for a local firm.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 3</dd></div>
+                            <div><dt>Study mode</dt><dd>Apprenticeship</dd></div>
+                            <div><dt>Length</dt><dd>48 months</dd></div>
+                            <div><dt>Starts</dt><dd>Start any time</dd></div>
+                            <div><dt>Campus</dt><dd>Riverside Centre</dd></div>
+                            <div><dt>Cost</dt><dd>Free to you, and you earn a wage</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=electrical-apprenticeship">Ask about this course<span class="visually-hidden">: Electrical Installation Apprenticeship</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="cookery" data-subject="hospitality" data-level="2" data-mode="16-18">
+                        <p class="course-subject">Hospitality and Catering</p>
+                        <h2 class="course-title">Diploma in Professional Cookery</h2>
+                        <p class="course-summary">Cook for real customers in our public restaurant, The Fern Room.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 2</dd></div>
+                            <div><dt>Study mode</dt><dd>Full-time, ages 16 to 18</dd></div>
+                            <div><dt>Length</dt><dd>1 year</dd></div>
+                            <div><dt>Starts</dt><dd>September 2027</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>Free for ages 16 to 18</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=cookery">Ask about this course<span class="visually-hidden">: Diploma in Professional Cookery</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                <li>
+                    <article class="course-card" id="barista" data-subject="hospitality" data-level="1" data-mode="part-time">
+                        <p class="course-subject">Hospitality and Catering</p>
+                        <h2 class="course-title">Barista Skills</h2>
+                        <p class="course-summary">Espresso, milk texturing and latte art, taught in our training café.</p>
+                        <dl class="course-facts">
+                            <div><dt>Level</dt><dd>Level 1</dd></div>
+                            <div><dt>Study mode</dt><dd>Part-time, evenings</dd></div>
+                            <div><dt>Length</dt><dd>6 weeks, one evening a week</dd></div>
+                            <div><dt>Starts</dt><dd>November 2026</dd></div>
+                            <div><dt>Campus</dt><dd>Main Campus</dd></div>
+                            <div><dt>Cost</dt><dd>£95</dd></div>
+                        </dl>
+                        <a class="text-link" href="contact.html?course=barista">Ask about this course<span class="visually-hidden">: Barista Skills</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+                    </article>
+                </li>
+                </ul>
+                <div class="empty" id="empty" hidden>
+                    <h3>No courses match these filters</h3>
+                    <p>Try fewer filters, or <a href="contact.html?type=choosing">ask an adviser</a> to help you find a course.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <section aria-labelledby="footer-contact">
+                <h2 id="footer-contact">Contact us</h2>
+                <address>
+                    Fernhill College<br>College Road<br>Fernhill<br>FH1 2AB<br>
+                    <a href="tel:+441134960420">0113 496 0420</a><br>
+                    <a href="mailto:hello@fernhill-college.example">hello@fernhill-college.example</a>
+                </address>
+            </section>
+            <section aria-labelledby="footer-hours">
+                <h2 id="footer-hours">Reception opening hours</h2>
+                <ul class="footer-hours">
+                        <li><span>Monday to Thursday</span> <span><time>08:30</time>&ndash;<time>19:00</time></span></li>
+                        <li><span>Friday</span> <span><time>08:30</time>&ndash;<time>16:30</time></span></li>
+                        <li><span>Saturday and Sunday</span> <span>Closed</span></li>
+                </ul>
+            </section>
+            <nav aria-labelledby="footer-links">
+                <h2 id="footer-links">Useful links</h2>
+                <ul>
+                    <li><a href="courses.html">All courses</a></li>
+                    <li><a href="apply.html#funding">Fees and funding</a></li>
+                    <li><a href="apply.html#faq">Questions about applying</a></li>
+                    <li><a href="accessibility.html">Accessibility statement</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container footer-base">
+            <p>&copy; 2026 Fernhill College. A fictional college for a website redesign demo. Photos from <a href="https://www.pexels.com/">Pexels</a>.</p>
+            <a href="#main">Back to top</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

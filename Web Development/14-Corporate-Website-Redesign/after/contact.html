@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Fernhill College: ask a question, book an open evening place, or find our campuses.">
+    <title>Contact us | Fernhill College</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="js/site.js" defer></script>
+    <script src="js/contact.js" defer></script>
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header">
+        <div class="utility-bar">
+        <div class="container utility-inner">
+            <p class="demo-note">Demo site: Fernhill College is fictional.</p>
+            <ul class="utility-links">
+                <li><a href="tel:+441134960420"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span>0113 496 0420</span></a></li>
+                <li><a href="accessibility.html">Accessibility</a></li>
+            </ul>
+        </div>
+    </div>
+
+        <div class="container header-inner">
+            <a class="logo" href="index.html">
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                    <circle cx="24" cy="24" r="23"/>
+                    <path class="fern" d="M24 38V12m0 6c-3-3-7-4-10-3 2 3 6 4 10 3zm0 0c3-3 7-4 10-3-2 3-6 4-10 3zm0 7c-4-3-8-4-12-3 2 3 7 5 12 3zm0 0c4-3 8-4 12-3-2 3-7 5-12 3zm0 7c-4-2-8-3-11-2 2 3 7 4 11 2zm0 0c4-2 8-3 11-2-2 3-7 4-11 2z"/>
+                </svg>
+                <span class="logo-text">Fernhill College</span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span class="menu-bars" aria-hidden="true"></span>Menu
+            </button>
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="apply.html">How to apply</a></li>
+                    <li><a href="index.html#events">Open evenings</a></li>
+                    <li><a href="contact.html" aria-current="page">Contact</a></li>
+                </ul>
+                <a class="btn btn-primary nav-cta" href="apply.html#steps">Apply now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <div class="page-head">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="contact.html" aria-current="page">Contact</a></li>
+                    </ol>
+                </nav>
+                <h1>Contact us</h1>
+                <p class="lead">Ask us anything about courses, applying or support. We reply within 2 working days.</p>
+            </div>
+        </div>
+
+        <div class="container contact-layout">
+            <section class="form-panel" aria-labelledby="form-title">
+                <h2 id="form-title">Send us a message</h2>
+                <p class="form-intro">All fields are required unless they say <strong>optional</strong>.</p>
+
+                <div class="error-summary" id="error-summary" tabindex="-1" hidden>
+                    <h3>There is a problem</h3>
+                    <ul></ul>
+                </div>
+
+                <form id="contact-form" novalidate>
+                    <div class="field">
+                        <label for="name">Full name</label>
+                        <input type="text" id="name" name="name" autocomplete="name" aria-describedby="name-error">
+                        <p class="error" id="name-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email address</label>
+                        <p class="hint" id="email-hint">We will only use this to reply to you.</p>
+                        <input type="email" id="email" name="email" autocomplete="email" spellcheck="false" aria-describedby="email-hint email-error">
+                        <p class="error" id="email-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone number <span class="optional">(optional)</span></label>
+                        <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="phone-error">
+                        <p class="error" id="phone-error"></p>
+                    </div>
+                    <fieldset class="field">
+                        <legend>Are you</legend>
+                        <div class="radio-row">
+                            <label class="check"><input type="radio" name="who" value="school" checked> At school</label>
+                            <label class="check"><input type="radio" name="who" value="adult"> An adult learner</label>
+                            <label class="check"><input type="radio" name="who" value="parent"> A parent or carer</label>
+                            <label class="check"><input type="radio" name="who" value="employer"> An employer</label>
+                        </div>
+                    </fieldset>
+                    <div class="field">
+                        <label for="type">What is your question about?</label>
+                        <select id="type" name="type" aria-describedby="type-error">
+                            <option value="">Choose a topic</option>
+                            <option value="visit">Booking an open evening place</option>
+                                <option value="choosing">Choosing a course</option>
+                                <option value="applying">Applying</option>
+                                <option value="apprenticeships">Apprenticeships</option>
+                                <option value="funding">Fees and funding</option>
+                                <option value="support">Learning support</option>
+                                <option value="other">Something else</option>
+                        </select>
+                        <p class="error" id="type-error"></p>
+                    </div>
+                    <div class="field">
+                        <label for="course">Course <span class="optional">(optional)</span></label>
+                        <select id="course" name="course">
+                            <option value="">Not sure yet</option>
+                                <option value="t-level-digital">T Level in Digital Production, Design and Development</option>
+                                <option value="coding-python">Introduction to Coding with Python</option>
+                                <option value="engineering-diploma">Extended Diploma in Engineering</option>
+                                <option value="engineering-apprenticeship">Engineering Technician Apprenticeship</option>
+                                <option value="t-level-health">T Level in Health</option>
+                                <option value="access-nursing">Access to Higher Education Diploma (Nursing and Midwifery)</option>
+                                <option value="art-design">Diploma in Art and Design</option>
+                                <option value="photography">Photography for Beginners</option>
+                                <option value="bricklaying">Diploma in Bricklaying</option>
+                                <option value="electrical-apprenticeship">Electrical Installation Apprenticeship</option>
+                                <option value="cookery">Diploma in Professional Cookery</option>
+                                <option value="barista">Barista Skills</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="message">Your message</label>
+                        <p class="hint" id="message-hint">Up to 1,000 characters.</p>
+                        <textarea id="message" name="message" rows="6" maxlength="1000" aria-describedby="message-hint message-count message-error"></textarea>
+                        <p class="char-count" id="message-count" aria-live="polite">1,000 characters left</p>
+                        <p class="error" id="message-error"></p>
+                    </div>
+                    <p class="privacy">We store your message for 12 months to answer your question, then delete it. Read our privacy notice at reception.</p>
+                    <button class="btn btn-primary btn-large" type="submit">Send message</button>
+                </form>
+
+                <div class="success" id="success" hidden>
+                    <h3 id="success-title" tabindex="-1">Thank you, your message has been sent</h3>
+                    <p id="success-text"></p>
+                    <p class="small">Demo site: nothing has actually been sent.</p>
+                    <button class="btn btn-secondary" type="button" id="send-another">Send another message</button>
+                </div>
+            </section>
+
+            <aside class="contact-info" aria-label="Other ways to contact us">
+                <section class="info-card" aria-labelledby="call-title">
+                    <h2 id="call-title">Call or email</h2>
+                    <ul class="contact-lines">
+                        <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><a href="tel:+441134960420">0113 496 0420</a></li>
+                        <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg><a href="mailto:hello@fernhill-college.example">hello@fernhill-college.example</a></li>
+                    </ul>
+                </section>
+                <section class="info-card" aria-labelledby="visit-title">
+                    <h2 id="visit-title">Visit us</h2>
+                    <address>Fernhill College<br>College Road<br>Fernhill<br>FH1 2AB</address>
+                    <p>The Main Campus is a 5-minute walk from Fernhill station. The Riverside Centre is on the number 12 bus route. Both have free parking.</p>
+                </section>
+                <section class="info-card" aria-labelledby="hours-title">
+                    <h2 id="hours-title">When reception is open</h2>
+                    <table class="hours">
+                        <caption class="visually-hidden">Reception opening hours</caption>
+                        <tr data-days="1,2,3,4"><th scope="row">Monday to Thursday</th><td><time>08:30</time> to <time>19:00</time></td></tr>
+                        <tr data-days="5"><th scope="row">Friday</th><td><time>08:30</time> to <time>16:30</time></td></tr>
+                        <tr data-days="6,0"><th scope="row">Saturday and Sunday</th><td>Closed</td></tr>
+                    </table>
+                    <p class="open-now" id="open-now"></p>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <section aria-labelledby="footer-contact">
+                <h2 id="footer-contact">Contact us</h2>
+                <address>
+                    Fernhill College<br>College Road<br>Fernhill<br>FH1 2AB<br>
+                    <a href="tel:+441134960420">0113 496 0420</a><br>
+                    <a href="mailto:hello@fernhill-college.example">hello@fernhill-college.example</a>
+                </address>
+            </section>
+            <section aria-labelledby="footer-hours">
+                <h2 id="footer-hours">Reception opening hours</h2>
+                <ul class="footer-hours">
+                        <li><span>Monday to Thursday</span> <span><time>08:30</time>&ndash;<time>19:00</time></span></li>
+                        <li><span>Friday</span> <span><time>08:30</time>&ndash;<time>16:30</time></span></li>
+                        <li><span>Saturday and Sunday</span> <span>Closed</span></li>
+                </ul>
+            </section>
+            <nav aria-labelledby="footer-links">
+                <h2 id="footer-links">Useful links</h2>
+                <ul>
+                    <li><a href="courses.html">All courses</a></li>
+                    <li><a href="apply.html#funding">Fees and funding</a></li>
+                    <li><a href="apply.html#faq">Questions about applying</a></li>
+                    <li><a href="accessibility.html">Accessibility statement</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container footer-base">
+            <p>&copy; 2026 Fernhill College. A fictional college for a website redesign demo. Photos from <a href="https://www.pexels.com/">Pexels</a>.</p>
+            <a href="#main">Back to top</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>
