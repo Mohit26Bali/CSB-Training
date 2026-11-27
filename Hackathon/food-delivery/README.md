@@ -49,7 +49,10 @@ machine only. Without the `dev` profile the app needs `DB_USERNAME`, `DB_PASSWOR
 | Prices always come from the menu, never from the browser; totals = items + 5% tax + ₹40 delivery (free from ₹500) | calculated by the server |
 | Orders move one step at a time: PLACED, ACCEPTED, PREPARING, READY, DELIVERED; only the restaurant changes status | `403` / `409` |
 | A customer can cancel only their own order and only while it is PLACED; the restaurant can reject until it is READY and must give a reason | `403` / `409` / `400` |
-| The same dishes to the same address within 30 seconds of the last order are refused as a double click | `409` |
+| A retried checkout is safe: send an `Idempotency-Key` header (the web app does) and a retry returns the order already made (`200`) instead of a second one. Without a key, the same dishes to the same address within 30 seconds of the last order are refused as a double click | `200` / `409` |
+| The cart is checked against the live menu before an order is placed: a changed price or a sold-out dish stops the checkout and is shown in the cart, so nobody pays a price they were not shown | UI |
+
+Every status change is also written to `order_events` (status, who, when). Order times are sent with the restaurant's UTC offset (`app.timezone`, default `Asia/Kolkata`).
 
 **Concurrency:** placing an order locks the customer row (under `READ_COMMITTED`), so five simultaneous clicks on Place order make one order; every status change and cancellation locks the order row first, so two staff members accepting the same order accept it once, and a customer cancelling while the kitchen accepts ends in exactly one consistent state. The tests check this with parallel threads.
 
@@ -68,11 +71,13 @@ All endpoints except login and register need `Authorization: Bearer <token>`.
 | GET | /api/auth/me | any | Current user |
 | GET | /api/menu?category=&vegetarian=&search= | any signed-in user | Active dishes |
 | GET | /api/menu/categories | any signed-in user | Categories in menu order |
-| POST | /api/orders | CUSTOMER | Place `{items: [{menuItemId, quantity}], address, phone, notes?}` |
-| GET | /api/orders/my?scope=active|past | CUSTOMER | Own orders, newest first |
+| GET | /api/health | public | `{"status":"UP"}`. Every response carries an `X-Request-Id` that is also on the log lines |
+| POST | /api/orders | CUSTOMER | Place `{items: [{menuItemId, quantity}], address, phone, notes?}`. Optional header `Idempotency-Key` (8 to 64 letters, digits, `-`, `_`): `201` when created, `200` with the same order on a retry |
+| GET | /api/orders/my?scope=&page=&size= | CUSTOMER | Own orders, newest first. `scope` is `active`, `past` or `all`; `page` (from 0) and `size` (1 to 100) are optional, and without them every matching order is returned |
 | GET | /api/orders/{id} | CUSTOMER | One own order |
-| DELETE | /api/orders/{id}?reason= | CUSTOMER | Cancel while PLACED |
-| GET | /api/admin/orders?status=&search= | RESTAURANT_ADMIN | The order board, open orders first |
+| POST | /api/orders/{id}/cancel | CUSTOMER | Cancel while PLACED, `{reason?}` in the body |
+| DELETE | /api/orders/{id}?reason= | CUSTOMER | The same, with the reason in the URL (kept for older clients) |
+| GET | /api/admin/orders?status=&scope=&search=&page=&size= | RESTAURANT_ADMIN | The order board, open orders first. `scope=open` returns only orders that are not delivered or cancelled (the live board); `page`/`size` page the history. Filtering and paging happen in SQL |
 | PUT | /api/admin/orders/{id}/status | RESTAURANT_ADMIN | Next step `{status}` |
 | PUT | /api/admin/orders/{id}/cancel | RESTAURANT_ADMIN | Reject with a reason `{reason}` |
 | GET/POST/PUT | /api/admin/menu | RESTAURANT_ADMIN | List all dishes, add one, edit one (including switching it off) |
@@ -110,7 +115,10 @@ Data processing in the services uses Java Streams. Tables are created by Hiberna
 
 ```bash
 cd backend
-./mvnw test        # 24 tests on in-memory H2 (no MySQL needed): menu filters and management, totals, price snapshots, validation, double-click guard, order scopes, cancellation rules, status flow, board, dashboard, roles, parallel orders and status changes
+./mvnw test        # 53 tests on in-memory H2 (no MySQL needed): menu filters and management, totals, price snapshots, validation, double-click guard and idempotency keys, order scopes and paging, cancellation rules, status flow, board, dashboard, roles, login throttling, order history, time zone, parallel orders and status changes
+
+cd ../frontend
+npm test           # 12 unit tests: cart reconciliation against the menu, pricing, checkout keys
 ```
 
 API walkthrough with the Postman CLI (backend must be running; the run is repeatable):
@@ -142,6 +150,6 @@ and were downloaded with `../tools/fetch_images.py` using `images.json` (needs `
 ## Known limitations
 
 - No online payment, delivery tracking on a map, coupons or ratings.
-- The order board and sales figures are computed in memory (Java Streams), which suits one restaurant but would need paging and SQL aggregates at scale.
-- Login throttling is in memory, so it resets on restart.
+- Login throttling is in memory, so it resets on restart (it limits per username and address, and per address overall).
+- Behind a reverse proxy the throttle sees the proxy's address unless the proxy passes the client address on (`server.forward-headers-strategy`).
 - The JWT is kept in `sessionStorage`; a production system would use an httpOnly cookie.
