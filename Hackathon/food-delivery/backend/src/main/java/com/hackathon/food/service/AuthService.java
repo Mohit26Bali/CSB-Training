@@ -41,18 +41,18 @@ public class AuthService {
         this.loginAttemptService = loginAttemptService;
     }
 
-    public AuthResponse login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request, String clientAddress) {
         String username = request.getUsername().trim();
-        loginAttemptService.checkNotLocked(username);
+        loginAttemptService.checkNotLocked(username, clientAddress);
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, request.getPassword()));
         } catch (AuthenticationException ex) {
-            loginAttemptService.recordFailure(username);
+            loginAttemptService.recordFailure(username, clientAddress);
             // Same message for unknown user, wrong password and disabled account: no user enumeration.
             throw new BadCredentialsException("Invalid username or password");
         }
-        loginAttemptService.recordSuccess(username);
+        loginAttemptService.recordSuccess(username, clientAddress);
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
         return toAuthResponse(user);

@@ -14,14 +14,22 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /** A customer's order. Prices and totals are fixed when it is placed. */
 @Entity
-@Table(name = "food_orders")
+@Table(name = "food_orders",
+        indexes = {
+                @Index(name = "idx_orders_status_created", columnList = "status, createdAt"),
+                @Index(name = "idx_orders_customer", columnList = "customer_id, id")
+        },
+        // one order per (customer, idempotency key): a retried request with the same key returns the order that already exists
+        uniqueConstraints = @UniqueConstraint(name = "uk_orders_customer_key", columnNames = { "customer_id", "idempotencyKey" }))
 public class FoodOrder {
 
     @Id
@@ -80,10 +88,20 @@ public class FoodOrder {
     @Column(length = 300)
     private String cancelReason;
 
+    /** Optional client-generated key (a UUID) that makes "place order" safe to retry. */
+    @Column(length = 64)
+    private String idempotencyKey;
+
     protected FoodOrder() {
     }
 
     public FoodOrder(User customer, BigDecimal subtotal, BigDecimal tax, BigDecimal deliveryFee, String address, String phone, String notes) {
+        this(customer, subtotal, tax, deliveryFee, address, phone, notes, LocalDateTime.now());
+    }
+
+    /** createdAt is passed in so the service can use the restaurant's clock and time zone. */
+    public FoodOrder(User customer, BigDecimal subtotal, BigDecimal tax, BigDecimal deliveryFee, String address, String phone, String notes, LocalDateTime createdAt) {
+        this.createdAt = createdAt;
         this.customer = customer;
         this.subtotal = subtotal;
         this.tax = tax;
@@ -99,8 +117,7 @@ public class FoodOrder {
     }
 
     /** Moves to the given status and stamps the time. */
-    public void moveTo(OrderStatus next, String by) {
-        LocalDateTime now = LocalDateTime.now();
+    public void moveTo(OrderStatus next, String by, LocalDateTime now) {
         switch (next) {
             case ACCEPTED -> {
                 acceptedAt = now;
@@ -115,9 +132,9 @@ public class FoodOrder {
         this.status = next;
     }
 
-    public void cancel(String by, String reason) {
+    public void cancel(String by, String reason, LocalDateTime now) {
         this.status = OrderStatus.CANCELLED;
-        this.cancelledAt = LocalDateTime.now();
+        this.cancelledAt = now;
         this.cancelledBy = by;
         this.cancelReason = reason;
     }
@@ -226,5 +243,13 @@ public class FoodOrder {
 
     public String getCancelReason() {
         return cancelReason;
+    }
+
+    public String getIdempotencyKey() {
+        return idempotencyKey;
+    }
+
+    public void setIdempotencyKey(String idempotencyKey) {
+        this.idempotencyKey = idempotencyKey;
     }
 }

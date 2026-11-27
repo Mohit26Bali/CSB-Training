@@ -22,6 +22,7 @@ import com.hackathon.food.dto.SalesDashboard;
 import com.hackathon.food.dto.StatusBody;
 import com.hackathon.food.entity.MenuCategory;
 import com.hackathon.food.entity.OrderStatus;
+import com.hackathon.food.exception.FieldValidationException;
 import com.hackathon.food.service.FoodService;
 
 import jakarta.validation.Valid;
@@ -37,9 +38,18 @@ public class AdminController {
         this.food = food;
     }
 
+    /**
+     * The order board. status picks one status; scope=open keeps only orders that are not delivered or cancelled (the live board uses it).
+     * page (from 0) and size (1 to 100) are optional; without them every matching order is returned, as before.
+     */
     @GetMapping("/orders")
-    public List<OrderResponse> orders(@RequestParam(required = false) OrderStatus status, @RequestParam(required = false) String search) {
-        return food.adminOrders(status, search);
+    public List<OrderResponse> orders(@RequestParam(required = false) OrderStatus status, @RequestParam(required = false) String scope,
+                                      @RequestParam(required = false) String search, @RequestParam(required = false) Integer page,
+                                      @RequestParam(required = false) Integer size) {
+        if (scope != null && !scope.isBlank() && !scope.equalsIgnoreCase("open") && !scope.equalsIgnoreCase("all")) {
+            throw new FieldValidationException("scope", "Scope must be open or all");
+        }
+        return food.adminOrders(status, "open".equalsIgnoreCase(scope), search, page, size);
     }
 
     @PutMapping("/orders/{id}/status")

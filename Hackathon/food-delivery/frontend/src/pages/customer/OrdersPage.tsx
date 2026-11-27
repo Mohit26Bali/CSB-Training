@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { errorMessage } from '../../api/client'
-import { customerApi } from '../../api/endpoints'
+import { customerApi, PAGE_SIZE } from '../../api/endpoints'
 import type { Order } from '../../api/types'
 import { OrderProgress } from '../../components/OrderProgress'
 import { useToast } from '../../components/Toast'
@@ -15,12 +15,23 @@ const scopes = [
 
 export function OrdersPage() {
   const [scope, setScope] = useState<'active' | 'past'>('active')
-  const list = useQuery({
-    queryKey: ['orders', 'mine', scope],
-    queryFn: () => customerApi.mine(scope),
+  // Active orders are few, so they are loaded together and refresh themselves. Past orders pile up, so they load a page at a time.
+  const active = useQuery({
+    queryKey: ['orders', 'mine', 'active'],
+    queryFn: () => customerApi.mine('active'),
     placeholderData: (previous) => previous,
-    refetchInterval: scope === 'active' ? 15_000 : false,
+    refetchInterval: 15_000,
+    enabled: scope === 'active',
   })
+  const past = useInfiniteQuery({
+    queryKey: ['orders', 'mine', 'past'],
+    queryFn: ({ pageParam }) => customerApi.mine('past', pageParam, PAGE_SIZE),
+    initialPageParam: 0,
+    getNextPageParam: (last, pages) => (last.length === PAGE_SIZE ? pages.length : undefined),
+    enabled: scope === 'past',
+  })
+  const list = scope === 'active' ? active : past
+  const orders = (scope === 'active' ? active.data : past.data?.pages.flat()) ?? []
   const [cancelling, setCancelling] = useState<Order | null>(null)
 
   return (
@@ -45,14 +56,14 @@ export function OrdersPage() {
         <LoadingState />
       ) : list.isError ? (
         <ErrorState message={errorMessage(list.error)} onRetry={() => list.refetch()} />
-      ) : list.data.length === 0 ? (
+      ) : orders.length === 0 ? (
         <EmptyState
           title={scope === 'active' ? 'No order on its way' : 'No past orders yet'}
           action={<Link to="/menu" className="font-medium text-brand-700 hover:underline">Browse the menu</Link>}
         />
       ) : (
         <ul className="space-y-4">
-          {list.data.map((o) => (
+          {orders.map((o) => (
             <li key={o.id} className={`rounded-xl border border-slate-200 bg-white p-5 shadow-sm ${o.status === 'CANCELLED' ? 'opacity-80' : ''}`}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -97,6 +108,13 @@ export function OrdersPage() {
             </li>
           ))}
         </ul>
+      )}
+      {scope === 'past' && past.hasNextPage && (
+        <div className="mt-4 text-center">
+          <Button variant="secondary" loading={past.isFetchingNextPage} onClick={() => past.fetchNextPage()}>
+            Show older orders
+          </Button>
+        </div>
       )}
       {cancelling && <CancelModal order={cancelling} onClose={() => setCancelling(null)} />}
     </>

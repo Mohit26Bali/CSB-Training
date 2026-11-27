@@ -15,6 +15,7 @@ import com.hackathon.food.dto.RegisterRequest;
 import com.hackathon.food.dto.UserResponse;
 import com.hackathon.food.service.AuthService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,8 +29,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@Valid @RequestBody LoginRequest request) {
-        return authService.login(request);
+    public AuthResponse login(@Valid @RequestBody LoginRequest request, HttpServletRequest http) {
+        return authService.login(request, http.getRemoteAddr());
     }
 
     @PostMapping("/register")

@@ -58,7 +58,7 @@ public class SecurityConfig {
                     .accessDeniedHandler(accessDeniedHandler))
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                    .requestMatchers("/api/auth/login", "/api/auth/register", "/api/health").permitAll()
                     // RULES-BEGIN (the generator replaces these lines for each new project)
                     .requestMatchers("/api/admin/**").hasRole("RESTAURANT_ADMIN")
                     .requestMatchers("/api/menu/**").authenticated()

@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, errorMessage } from '../../api/client'
+import { keyFor } from '../../api/idempotency'
 import { customerApi } from '../../api/endpoints'
 import type { CheckoutInput } from '../../api/types'
 import { useCart } from '../../cart/cart'
+import { describeChange } from '../../cart/reconcile'
 import { DishPhoto, VegMark } from '../../components/DishPhoto'
 import { useToast } from '../../components/Toast'
 import { useDebounced } from '../../hooks'
@@ -94,26 +96,50 @@ export function MenuPage() {
             <p className="text-sm text-slate-600">Nothing yet. Add a dish to start an order.</p>
           ) : (
             <>
+              {cart.notices.length > 0 && (
+                <div role="status" className="mb-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">
+                  <p className="font-medium">The menu changed since you added these dishes:</p>
+                  <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                    {cart.notices.map((c) => (
+                      <li key={`${c.kind}-${c.id}`}>{describeChange(c, formatMoney)}</li>
+                    ))}
+                  </ul>
+                  <button type="button" className="mt-1 text-xs font-medium underline" onClick={cart.dismissNotices}>
+                    Got it
+                  </button>
+                </div>
+              )}
               <ul className="space-y-3">
                 {cart.lines.map((l) => (
-                  <li key={l.id} className="flex items-center gap-3 text-sm">
+                  <li key={l.id} className={`flex items-center gap-3 text-sm ${l.unavailable ? 'opacity-70' : ''}`}>
                     <div className="min-w-0 flex-1">
                       <p className="flex items-center gap-1.5 font-medium text-slate-900">
                         <VegMark vegetarian={l.vegetarian} />
-                        <span className="truncate">{l.name}</span>
+                        <span className={`truncate ${l.unavailable ? 'line-through' : ''}`}>{l.name}</span>
                       </p>
-                      <p className="text-xs text-slate-500">{formatMoney(l.price)} each</p>
+                      <p className="text-xs text-slate-500">{l.unavailable ? 'Sold out right now' : `${formatMoney(l.price)} each`}</p>
                     </div>
-                    <Stepper quantity={l.quantity} onChange={(n) => cart.setQuantity(l.id, n)} compact />
-                    <span className="w-16 text-right font-medium text-slate-900">{formatMoney(l.price * l.quantity)}</span>
+                    {l.unavailable ? (
+                      <Button small variant="secondary" onClick={() => cart.remove(l.id)}>
+                        Remove
+                      </Button>
+                    ) : (
+                      <>
+                        <Stepper quantity={l.quantity} onChange={(n) => cart.setQuantity(l.id, n)} compact />
+                        <span className="w-16 text-right font-medium text-slate-900">{formatMoney(l.price * l.quantity)}</span>
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
               <Summary subtotal={cart.subtotal} />
-              <Button className="mt-4 w-full" disabled={cart.subtotal < MIN_ORDER} onClick={() => setCheckout(true)}>
+              <Button className="mt-4 w-full" disabled={cart.subtotal < MIN_ORDER || cart.hasUnavailable} onClick={() => setCheckout(true)}>
                 Checkout
               </Button>
-              {cart.subtotal < MIN_ORDER && <p className="mt-2 text-xs text-amber-700">The minimum order is {formatMoney(MIN_ORDER)}. Add {formatMoney(MIN_ORDER - cart.subtotal)} more.</p>}
+              {cart.hasUnavailable && <p className="mt-2 text-xs text-amber-700">Remove the sold-out dish to continue.</p>}
+              {!cart.hasUnavailable && cart.subtotal < MIN_ORDER && (
+                <p className="mt-2 text-xs text-amber-700">The minimum order is {formatMoney(MIN_ORDER)}. Add {formatMoney(MIN_ORDER - cart.subtotal)} more.</p>
+              )}
             </>
           )}
         </aside>
@@ -171,9 +197,15 @@ function CheckoutModal({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState<CheckoutInput>({ address: '', phone: '', notes: '' })
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [formError, setFormError] = useState<string | null>(null)
+  // One key per checkout: sending the same order again (a timeout, a double click) returns the order already made instead of a second one.
+  const attempt = useRef<{ key: string; signature: string } | null>(null)
 
   const place = useMutation({
-    mutationFn: () => customerApi.place(cart.lines.map((l) => ({ menuItemId: l.id, quantity: l.quantity })), form),
+    mutationFn: () => {
+      const lines = cart.lines.filter((l) => !l.unavailable).map((l) => ({ menuItemId: l.id, quantity: l.quantity }))
+      attempt.current = keyFor(attempt.current, JSON.stringify([lines, form.address.trim(), form.phone, form.notes.trim()]))
+      return customerApi.place(lines, form, attempt.current.key)
+    },
     onSuccess: (o) => {
       toast.success(`${o.number} placed: ${formatMoney(o.total)}`)
       cart.clear()
@@ -193,10 +225,21 @@ function CheckoutModal({ onClose }: { onClose: () => void }) {
     },
   })
 
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault()
     setFieldErrors({})
     setFormError(null)
+    try {
+      // The cart is compared with the live menu first, so the customer never pays a price they were not shown.
+      const changes = await cart.refresh()
+      if (changes.some((c) => c.kind === 'price' || c.kind === 'unavailable')) {
+        setFormError('The menu changed while you were ordering. Check your cart, then place the order again.')
+        return
+      }
+    } catch (err) {
+      setFormError(errorMessage(err))
+      return
+    }
     place.mutate()
   }
 

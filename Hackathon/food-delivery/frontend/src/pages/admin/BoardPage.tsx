@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { ApiError, errorMessage } from '../../api/client'
-import { adminApi } from '../../api/endpoints'
+import { adminApi, PAGE_SIZE } from '../../api/endpoints'
 import type { Order, OrderStatus } from '../../api/types'
 import { useToast } from '../../components/Toast'
 import { useDebounced } from '../../hooks'
@@ -32,12 +32,25 @@ export function BoardPage() {
   const [search, setSearch] = useState('')
   const q = useDebounced(search)
   const [cancelling, setCancelling] = useState<Order | null>(null)
-  const list = useQuery({
-    queryKey: ['admin', 'orders', tab, q],
-    queryFn: () => adminApi.orders(tab === 'live' ? undefined : tab, q),
+  // The live board asks the server for open orders only (a few dozen at most), so each refresh stays small however many orders were ever placed.
+  const live = useQuery({
+    queryKey: ['admin', 'orders', 'live', q],
+    queryFn: () => adminApi.orders({ scope: 'open', search: q }),
     placeholderData: (previous) => previous,
-    refetchInterval: tab === 'live' ? 10_000 : false,
+    refetchInterval: 10_000,
+    enabled: tab === 'live',
   })
+  // Delivered and cancelled orders are history: a page at a time, on request.
+  const history = useInfiniteQuery({
+    queryKey: ['admin', 'orders', 'history', tab, q],
+    queryFn: ({ pageParam }) => adminApi.orders({ status: tab === 'live' ? undefined : tab, search: q, page: pageParam, size: PAGE_SIZE }),
+    initialPageParam: 0,
+    getNextPageParam: (last, pages) => (last.length === PAGE_SIZE ? pages.length : undefined),
+    placeholderData: (previous) => previous,
+    enabled: tab !== 'live',
+  })
+  const list = tab === 'live' ? live : history
+  const orders = (tab === 'live' ? live.data : history.data?.pages.flat()) ?? []
 
   const advance = useMutation({
     mutationFn: (o: Order) => adminApi.setStatus(o.id, o.nextStatus as OrderStatus),
@@ -74,16 +87,16 @@ export function BoardPage() {
       ) : tab === 'live' ? (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {columns.map((col) => {
-            const orders = list.data.filter((o) => o.status === col.status)
+            const inColumn = orders.filter((o) => o.status === col.status)
             return (
               <section key={col.status} className="rounded-xl bg-slate-100/70 p-3">
                 <h2 className="mb-3 flex items-center justify-between px-1 text-sm font-semibold text-slate-800">
                   {col.title}
-                  <span className="rounded-full bg-white px-2 py-0.5 text-xs text-slate-600">{orders.length}</span>
+                  <span className="rounded-full bg-white px-2 py-0.5 text-xs text-slate-600">{inColumn.length}</span>
                 </h2>
                 <ul className="space-y-3">
-                  {orders.length === 0 && <li className="px-1 py-4 text-center text-xs text-slate-400">Nothing here</li>}
-                  {orders.map((o) => (
+                  {inColumn.length === 0 && <li className="px-1 py-4 text-center text-xs text-slate-400">Nothing here</li>}
+                  {inColumn.map((o) => (
                     <li key={o.id} className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
                       <div className="flex items-start justify-between gap-2">
                         <p className="font-semibold text-slate-900">{o.number}</p>
@@ -118,11 +131,11 @@ export function BoardPage() {
             )
           })}
         </div>
-      ) : list.data.length === 0 ? (
+      ) : orders.length === 0 ? (
         <EmptyState title={tab === 'DELIVERED' ? 'Nothing delivered yet' : 'No cancelled orders'} />
       ) : (
         <ul className="space-y-3">
-          {list.data.map((o) => (
+          {orders.map((o) => (
             <li key={o.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-semibold text-slate-900">
@@ -143,6 +156,13 @@ export function BoardPage() {
             </li>
           ))}
         </ul>
+      )}
+      {tab !== 'live' && history.hasNextPage && (
+        <div className="mt-4 text-center">
+          <Button variant="secondary" loading={history.isFetchingNextPage} onClick={() => history.fetchNextPage()}>
+            Show older orders
+          </Button>
+        </div>
       )}
       {cancelling && <RejectModal order={cancelling} onClose={() => setCancelling(null)} />}
     </>

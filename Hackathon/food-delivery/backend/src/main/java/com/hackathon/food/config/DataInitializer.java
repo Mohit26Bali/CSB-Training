@@ -2,6 +2,7 @@ package com.hackathon.food.config;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -98,8 +99,10 @@ public class DataInitializer implements CommandLineRunner {
     private final MenuItemRepository menu;
     private final FoodOrderRepository orders;
     private final PasswordEncoder encoder;
+    private final Clock clock;
 
-    public DataInitializer(UserRepository users, MenuItemRepository menu, FoodOrderRepository orders, PasswordEncoder encoder) {
+    public DataInitializer(UserRepository users, MenuItemRepository menu, FoodOrderRepository orders, PasswordEncoder encoder, Clock clock) {
+        this.clock = clock;
         this.users = users;
         this.menu = menu;
         this.orders = orders;
@@ -128,7 +131,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void seedOrders() {
         Random random = new Random(1);
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(clock);
         LocalDate today = now.toLocalDate();
         List<MenuItem> dishes = menu.findAllByOrderByCategoryAscNameAsc().stream().filter(MenuItem::isActive).toList();
         List<User> customers = users.findAll().stream().filter(u -> u.getRole() == Role.CUSTOMER).sorted((a, b) -> a.getUsername().compareTo(b.getUsername())).toList();
