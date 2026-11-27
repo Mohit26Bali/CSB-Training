@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "car mechanic garage workshop",
+    "login-2": "car on lift auto service center",
+    "login-3": "mechanic checking car engine"
+  }
+}

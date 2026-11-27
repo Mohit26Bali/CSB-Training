@@ -1,0 +1,13 @@
+{
+  "outDir": "frontend/public/events",
+  "size": "large",
+  "images": {
+    "tech-talk": "tech conference speaker stage",
+    "workshop": "hands on workshop laptops",
+    "sports": "cricket match stadium",
+    "cultural": "diwali rangoli lamps celebration",
+    "wellness": "yoga meditation outdoors",
+    "town-hall": "town hall meeting auditorium",
+    "social": "board games friends evening"
+  }
+}

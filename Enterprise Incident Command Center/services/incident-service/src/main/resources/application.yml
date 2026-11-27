@@ -1,0 +1,76 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: incident-service
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/icc_incident
+    username: ${DB_USER:icc}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: always
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 2000
+            read-timeout: 5000
+      # Every Feign client gets its own circuit breaker (D10). The Feign read timeout above is the time limit.
+      # disable-thread-pool keeps the call on the request thread; on another thread the correlation id (MDC) is lost.
+      circuitbreaker:
+        enabled: true
+    circuitbreaker:
+      resilience4j:
+        disable-thread-pool: true
+
+# After 5 calls with half failing, the breaker opens for 10 s and answers 503 at once.
+# A 4xx reply (for example "team not found") is a valid answer, not a failure, so it is ignored.
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        ignore-exceptions:
+          - feign.FeignException$BadRequest
+          - feign.FeignException$Unauthorized
+          - feign.FeignException$Forbidden
+          - feign.FeignException$NotFound
+          - feign.FeignException$Conflict
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+icc:
+  # The sync to ServiceNow (D37, D38). "local" (the default) sends nothing. "servicenow" starts the sync job and
+  # needs SERVICENOW_URL, SERVICENOW_USER and SERVICENOW_PASSWORD in the environment.
+  itsm:
+    mode: ${ICC_ITSM_MODE:local}
+    interval-seconds: 30
+    servicenow:
+      url: ${SERVICENOW_URL:}
+      username: ${SERVICENOW_USER:}
+      password: ${SERVICENOW_PASSWORD:}
+  security:
+    public-paths: /actuator/health,/v3/api-docs/**,/swagger-ui/**,/swagger-ui.html
+
+# OpenAPI description (D24). Open for local development; the gateway has no route for these paths, so they are
+# not reachable through port 8080. Switch them off or protect them in any real deployment.
+springdoc:
+  paths-to-exclude: /internal/**   # service-to-service endpoints are not part of the contract

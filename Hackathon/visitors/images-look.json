@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "invitations": "business visitor welcome reception office",
+    "gate": "security officer reception lobby",
+    "report": "office lobby visitors sign in"
+  }
+}

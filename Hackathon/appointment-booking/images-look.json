@@ -1,0 +1,12 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "providers": "doctor consultation clinic friendly",
+    "appointments": "calendar planner desk appointment",
+    "provider": "doctor clinic reception morning",
+    "provider-calendar": "wall calendar schedule planning",
+    "provider-appointments": "clinic waiting room patients",
+    "provider-profile": "professional portrait office"
+  }
+}

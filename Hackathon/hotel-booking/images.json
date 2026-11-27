@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "luxury hotel lobby interior",
+    "login-2": "hotel pool resort sunset",
+    "login-3": "hotel bedroom white linen"
+  }
+}

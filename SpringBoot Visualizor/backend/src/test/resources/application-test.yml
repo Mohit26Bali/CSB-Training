@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    # Dedicated schema so tests never touch development data. Docker/Testcontainers is not required.
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${TEST_DB_NAME:springlab_test}?createDatabaseIfNotExist=true&serverTimezone=UTC

@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "office reception desk visitor welcome",
+    "login-2": "security guard office lobby entrance",
+    "login-3": "business meeting handshake visitor office"
+  }
+}

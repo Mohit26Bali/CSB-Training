@@ -1,0 +1,122 @@
+{
+  "targets": [
+    {
+      "id": "me",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "query": null,
+      "title": "Who am I? (GET /api/auth/me)",
+      "description": "An authenticated request. It passes the security filter chain, reaches a controller, a service and a repository, and returns your user as JSON.",
+      "expectation": { "*": { "status": 200, "handlerInvoked": true, "sqlCount": 2 } }
+    },
+    {
+      "id": "topics",
+      "method": "GET",
+      "path": "/api/topics",
+      "query": null,
+      "title": "List topics (GET /api/topics)",
+      "description": "An authenticated request whose repository method is a single JPQL query with a count sub-select.",
+      "expectation": { "*": { "status": 200, "handlerInvoked": true, "sqlCount": 2 } }
+    },
+    {
+      "id": "admin-users",
+      "method": "GET",
+      "path": "/api/admin/users",
+      "query": "size=1",
+      "title": "Administrator-only endpoint (GET /api/admin/users)",
+      "description": "Requires the ADMIN role. Used to show how an authenticated caller without that role is turned away.",
+      "expectation": {
+        "STUDENT": { "status": 403, "handlerInvoked": false, "sqlCount": 1 },
+        "TEACHER": { "status": 403, "handlerInvoked": false, "sqlCount": 1 },
+        "ADMIN": { "status": 200, "handlerInvoked": true, "sqlCount": null }
+      }
+    },
+    {
+      "id": "missing-attempt",
+      "method": "GET",
+      "path": "/api/challenges/0",
+      "query": null,
+      "title": "A challenge that does not exist (GET /api/challenges/0)",
+      "description": "Challenge ids start at 1, so id 0 never exists. The request reaches application code and ends in a 404.",
+      "expectation": { "*": { "status": 404, "handlerInvoked": true, "sqlCount": 3 } }
+    }
+  ],
+  "experiments": [
+    {
+      "id": "no-token",
+      "kind": "LIVE",
+      "title": "Remove the token",
+      "target": "me",
+      "variant": "NO_TOKEN",
+      "changes": "The same GET /api/auth/me request is sent without an Authorization header.",
+      "consequence": "Spring Security rejects the anonymous request before DispatcherServlet selects a handler. The response is 401 (application/problem+json), no controller, service or repository code runs, and no SQL is prepared because there is no token to look a user up for.",
+      "realBehaviourReference": null,
+      "codeRefId": "entry-point",
+      "expectation": { "*": { "status": 401, "handlerInvoked": false, "sqlCount": 0 } }
+    },
+    {
+      "id": "tampered-token",
+      "kind": "LIVE",
+      "title": "Tamper with the token",
+      "target": "me",
+      "variant": "TAMPERED_TOKEN",
+      "changes": "One character inside the token's signature is altered, so the HS256 signature no longer matches.",
+      "consequence": "The JwtDecoder rejects the token while verifying the signature, so Spring Security answers 401. Signature verification happens before SpringLab's database lookup of the caller's role, so no SQL is prepared and no controller is entered.",
+      "realBehaviourReference": null,
+      "codeRefId": "auth-converter",
+      "expectation": { "*": { "status": 401, "handlerInvoked": false, "sqlCount": 0 } }
+    },
+    {
+      "id": "insufficient-role",
+      "kind": "LIVE",
+      "title": "Call an administrator-only endpoint",
+      "target": "admin-users",
+      "variant": "AS_IS",
+      "changes": "Your own token is sent to GET /api/admin/users, which requires the ADMIN role. The outcome depends on your role.",
+      "consequence": "Your role is read from the database during authentication (one SQL statement) and the authorization rules are applied before any controller is entered. Students and teachers receive 403 and the controller does not run; an administrator receives 200. The role claim inside the token is not used for this decision.",
+      "realBehaviourReference": null,
+      "codeRefId": "access-denied-handler",
+      "expectation": {
+        "STUDENT": { "status": 403, "handlerInvoked": false, "sqlCount": 1 },
+        "TEACHER": { "status": 403, "handlerInvoked": false, "sqlCount": 1 },
+        "ADMIN": { "status": 200, "handlerInvoked": true, "sqlCount": null }
+      }
+    },
+    {
+      "id": "missing-resource",
+      "kind": "LIVE",
+      "title": "Ask for something that does not exist",
+      "target": "missing-attempt",
+      "variant": "AS_IS",
+      "changes": "A valid request is sent for challenge 0, which cannot exist.",
+      "consequence": "Unlike a security rejection, this request reaches application code: the controller and service run and the repository is queried. The service then throws ResourceNotFoundException and SpringLab's @RestControllerAdvice turns it into a 404 ProblemDetail. Three SQL statements are prepared: the role lookup, the caller lookup and the challenge lookup.",
+      "realBehaviourReference": null,
+      "codeRefId": "not-found-handler",
+      "expectation": { "*": { "status": 404, "handlerInvoked": true, "sqlCount": 3 } }
+    },
+    {
+      "id": "open-in-view",
+      "kind": "SIMULATED",
+      "title": "What if spring.jpa.open-in-view were true?",
+      "target": null,
+      "variant": null,
+      "changes": "The property spring.jpa.open-in-view is set to true. SpringLab sets it to false (see the live value in the assumptions).",
+      "consequence": "With Open EntityManager in View enabled, Spring Boot registers an interceptor that keeps one EntityManager bound to the request thread until the response is complete. Lazy associations could then be loaded after the service method has returned, for example while the JSON response is written, which can hide N+1 queries and keeps persistence resources for the whole request. With it disabled, as in SpringLab, touching an uninitialized lazy association outside a transaction throws LazyInitializationException. This experiment is SIMULATED because changing the property requires restarting the application, which a browser request must never do.",
+      "realBehaviourReference": "Spring Boot reference documentation: the spring.jpa.open-in-view property (enabled by default; Spring Boot logs a warning at startup when it is not set explicitly).",
+      "codeRefId": "open-in-view-config",
+      "expectation": null
+    },
+    {
+      "id": "claim-roles",
+      "kind": "SIMULATED",
+      "title": "What if roles came from the token instead of the database?",
+      "target": null,
+      "variant": null,
+      "changes": "Authorities would be read from the token's role claim (a JwtGrantedAuthoritiesConverter) instead of from the users table.",
+      "consequence": "The database lookup in the authentication step would disappear, saving one query per request. In exchange, a role change or a disabled account would only take effect when the token expires (up to the configured lifetime) because the token is signed once at login. SpringLab deliberately reads the database so that changes apply on the next request. This experiment is SIMULATED: it describes a different security configuration that this application does not contain.",
+      "realBehaviourReference": "Spring Security reference documentation: OAuth 2.0 Resource Server, JWT, granted authorities from claims.",
+      "codeRefId": "auth-converter",
+      "expectation": null
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "tickets": "it support helping employee laptop",
+    "agent": "it support team control room monitors",
+    "queue": "help desk headset agent computer"
+  }
+}

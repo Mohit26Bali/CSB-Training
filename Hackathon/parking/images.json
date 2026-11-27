@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "car park garage cars overhead",
+    "login-2": "parking lot cars rows",
+    "login-3": "multi storey car park interior"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "products": "electronics gadgets laptop phone desk",
+    "claims": "repair technician fixing phone",
+    "agent": "customer support service desk headset"
+  }
+}

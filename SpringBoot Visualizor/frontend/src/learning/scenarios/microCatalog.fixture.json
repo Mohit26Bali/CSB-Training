@@ -1,0 +1,2227 @@
+{
+  "services" : [ {
+    "id" : "gateway",
+    "ownedTables" : [ ],
+    "databaseNode" : null
+  }, {
+    "id" : "user",
+    "ownedTables" : [ "micro_lab_users" ],
+    "databaseNode" : "user-db"
+  }, {
+    "id" : "product",
+    "ownedTables" : [ "micro_lab_products" ],
+    "databaseNode" : "product-db"
+  }, {
+    "id" : "order",
+    "ownedTables" : [ "micro_lab_orders", "micro_lab_saga_steps", "micro_lab_outbox" ],
+    "databaseNode" : "order-db"
+  }, {
+    "id" : "inventory",
+    "ownedTables" : [ "micro_lab_stock", "micro_lab_reservations" ],
+    "databaseNode" : "inventory-db"
+  }, {
+    "id" : "payment",
+    "ownedTables" : [ "micro_lab_payments" ],
+    "databaseNode" : "payment-db"
+  }, {
+    "id" : "notification",
+    "ownedTables" : [ "micro_lab_notifications", "micro_lab_processed_events" ],
+    "databaseNode" : "notification-db"
+  }, {
+    "id" : "registry",
+    "ownedTables" : [ "micro_lab_registry" ],
+    "databaseNode" : "registry-db"
+  } ],
+  "topics" : [ "monolith", "communication", "gateway", "discovery", "database-per-service", "saga", "resilience", "observability" ],
+  "experiments" : [ {
+    "id" : "comm-async-duplicate",
+    "topic" : "communication",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "consumer",
+      "label" : "The consumer",
+      "kind" : "CHOICE",
+      "defaultValue" : "naive",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "idempotent", "naive" ]
+    }, {
+      "key" : "extraDeliveries",
+      "label" : "Extra deliveries of the same event",
+      "kind" : "INT",
+      "defaultValue" : "1",
+      "min" : 1,
+      "max" : 3,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "publish",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-event-channel",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "first-delivery",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-idempotent-consumer",
+      "calls" : [ "broker>notification.onOrderPlacedNaive:EVENT:SUCCESS" ]
+    }, {
+      "id" : "duplicate-delivery",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-idempotent-consumer",
+      "calls" : [ "broker>notification.onOrderPlacedNaive:EVENT:SUCCESS" ]
+    }, {
+      "id" : "conclusion",
+      "provenance" : "DERIVED",
+      "nodes" : [ "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "exactly-once",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "broker", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "comm-async-event",
+    "topic" : "communication",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "what-the-channel-is",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "broker", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "publish",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-event-channel",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "consume",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-idempotent-consumer",
+      "calls" : [ "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "compare",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "real-brokers",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "broker" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "comm-failure-semantics",
+    "topic" : "communication",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "callTimeoutMillis",
+      "label" : "Caller's timeout (simulated ms)",
+      "kind" : "INT",
+      "defaultValue" : "100",
+      "min" : 50,
+      "max" : 500,
+      "choices" : [ ]
+    }, {
+      "key" : "bulkheadPolicy",
+      "label" : "Concurrency permits",
+      "kind" : "CHOICE",
+      "defaultValue" : "per-service",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "per-service", "shared" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "product", "product-db", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : null,
+      "calls" : [ "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "success",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bus-call",
+      "calls" : [ "client>inventory.reserve:SYNC:SUCCESS" ]
+    }, {
+      "id" : "business-failure",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-inventory-reserve",
+      "calls" : [ "client>inventory.reserve:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "unavailable",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : null,
+      "calls" : [ "client>inventory.reserve:SYNC:UNAVAILABLE" ]
+    }, {
+      "id" : "timeout-work-done",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bus-call",
+      "calls" : [ "client>inventory.reserve:SYNC:TIMEOUT" ]
+    }, {
+      "id" : "timeout-request-lost",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : null,
+      "calls" : [ "client>inventory.reserve:SYNC:TIMEOUT" ]
+    }, {
+      "id" : "technical-error",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : null,
+      "calls" : [ "client>inventory.reserve:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "bulkhead",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bulkhead",
+      "calls" : [ "client>inventory.reserve:SYNC:BULKHEAD_REJECTED", "client>product.getProduct:SYNC:SUCCESS" ]
+    }, {
+      "id" : "what-the-caller-knows",
+      "provenance" : "DERIVED",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "what-this-cannot-show",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "comm-sync-failure",
+    "topic" : "communication",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "failingService",
+      "label" : "The service that fails",
+      "kind" : "CHOICE",
+      "defaultValue" : "inventory",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "user", "product", "inventory" ]
+    }, {
+      "key" : "fault",
+      "label" : "How it fails",
+      "kind" : "CHOICE",
+      "defaultValue" : "slow",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "down", "slow", "error" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "healthy",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "faulted",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-bus-call",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:TIMEOUT", "client>order.placeOrder:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "conclusion",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "retry-warning",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "order" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "comm-sync-order-calls",
+    "topic" : "communication",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "place-order",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "user", "product", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "time-adds-up",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "user", "product", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "sync-trade-offs",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "comm-sync-vs-async",
+    "topic" : "communication",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "notificationDown",
+      "label" : "Notification is down during the second pair of orders",
+      "kind" : "BOOLEAN",
+      "defaultValue" : "true",
+      "min" : null,
+      "max" : null,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "sync-healthy",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "notification", "notification-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "order>notification.send:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "async-healthy",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "broker", "notification" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-event-channel",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS", "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "sync-faulted",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "notification" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "order>notification.send:SYNC:UNAVAILABLE", "client>order.placeOrder:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "async-faulted",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "broker", "notification" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-event-channel",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS", "broker>notification.onOrderPlaced:EVENT:UNAVAILABLE" ]
+    }, {
+      "id" : "recovery",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-idempotent-consumer",
+      "calls" : [ "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "compare",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "choosing",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "dbs-forbidden-access",
+    "topic" : "database-per-service",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "own-table",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "order-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "order-db",
+      "codeRefId" : "micro-ownership-guard",
+      "calls" : [ ]
+    }, {
+      "id" : "foreign-table",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "inventory-db",
+      "codeRefId" : "micro-ownership-guard",
+      "calls" : [ ]
+    }, {
+      "id" : "through-contract",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory", "inventory-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bus-call",
+      "calls" : [ "order>inventory.stockLevel:SYNC:SUCCESS" ]
+    }, {
+      "id" : "physical-enforcement",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order-db", "inventory-db" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "dbs-foreign-keys",
+    "topic" : "database-per-service",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "inside-one-service",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-inventory-reserve",
+      "calls" : [ "client>inventory.reserve:SYNC:SUCCESS", "client>inventory.deleteStock:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "across-services",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "product", "product-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS", "client>product.deleteProduct:SYNC:SUCCESS", "order>product.getProduct:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "copied-data",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "product", "product-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS", "client>product.changePrice:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS" ]
+    }, {
+      "id" : "cost",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "living-without-fks",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "dbs-ownership-contracts",
+    "topic" : "database-per-service",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "order-writes",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "inventory-alone",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-inventory-reserve",
+      "calls" : [ "client>inventory.restock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "ask-by-contract",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory", "inventory-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bus-call",
+      "calls" : [ "order>inventory.stockLevel:SYNC:SUCCESS" ]
+    }, {
+      "id" : "tables-per-service",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "inventory", "user", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "logical-vs-physical",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order-db", "inventory-db" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "dbs-shared-coupling",
+    "topic" : "database-per-service",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "direct-read",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "inventory-db",
+      "codeRefId" : "micro-ownership-guard",
+      "calls" : [ ]
+    }, {
+      "id" : "schema-changed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "inventory-db",
+      "codeRefId" : "micro-ownership-guard",
+      "calls" : [ ]
+    }, {
+      "id" : "through-contract",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory", "inventory-db" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bus-call",
+      "calls" : [ "order>inventory.stockLevel:SYNC:SUCCESS" ]
+    }, {
+      "id" : "coupling",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "other-costs",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order-db", "inventory-db" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "disc-load-balancing",
+    "topic" : "discovery",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "instances",
+      "label" : "Instances of the Inventory service",
+      "kind" : "INT",
+      "defaultValue" : "3",
+      "min" : 1,
+      "max" : 4,
+      "choices" : [ ]
+    }, {
+      "key" : "requests",
+      "label" : "Requests",
+      "kind" : "INT",
+      "defaultValue" : "6",
+      "min" : 1,
+      "max" : 9,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "register",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "registry", "registry-db" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "dispatch",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS" ]
+    }, {
+      "id" : "balance",
+      "provenance" : "DERIVED",
+      "nodes" : [ "registry", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "real-balancers",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "registry", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "disc-register-lookup",
+    "topic" : "discovery",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "register",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "product", "registry", "registry-db" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.register:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS" ]
+    }, {
+      "id" : "list",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry", "registry-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "resolve",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.resolve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS" ]
+    }, {
+      "id" : "unknown-service",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.resolve:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "static-vs-dynamic",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "registry" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "disc-stale-registration",
+    "topic" : "discovery",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "waitMillis",
+      "label" : "Simulated time the client waits before looking again",
+      "kind" : "INT",
+      "defaultValue" : "4000",
+      "min" : 0,
+      "max" : 6000,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "register",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "registry", "registry-db" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "crash",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "registry" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-instance-behaviour",
+      "calls" : [ "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "stale-lookup",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-instance-behaviour",
+      "calls" : [ "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:UNAVAILABLE", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:UNAVAILABLE" ]
+    }, {
+      "id" : "wait-and-heartbeat",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "registry", "registry-db" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-ttl",
+      "calls" : [ "client>registry.heartbeat:SYNC:SUCCESS", "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "lookup-again",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>inventory.reserve:SYNC:SUCCESS" ]
+    }, {
+      "id" : "conclusion",
+      "provenance" : "DERIVED",
+      "nodes" : [ "registry", "client" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "client-retries",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "registry" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "disc-unavailable",
+    "topic" : "discovery",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "instances",
+      "label" : "Instances of the Inventory service",
+      "kind" : "INT",
+      "defaultValue" : "2",
+      "min" : 1,
+      "max" : 3,
+      "choices" : [ ]
+    }, {
+      "key" : "unhealthy",
+      "label" : "Instances that report DOWN",
+      "kind" : "INT",
+      "defaultValue" : "1",
+      "min" : 0,
+      "max" : 3,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "register",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "registry", "registry-db" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.register:SYNC:SUCCESS", "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "report-down",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "inventory", "registry", "registry-db" ],
+      "edgeFrom" : "inventory",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.reportHealth:SYNC:SUCCESS", "client>registry.list:SYNC:SUCCESS" ]
+    }, {
+      "id" : "resolve",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "registry", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "registry",
+      "codeRefId" : "micro-registry-resolve",
+      "calls" : [ "client>registry.resolve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS", "client>registry.resolve:SYNC:SUCCESS" ]
+    }, {
+      "id" : "conclusion",
+      "provenance" : "DERIVED",
+      "nodes" : [ "registry", "client" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "health-checks",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "registry" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "gw-auth",
+    "topic" : "gateway",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "valid",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "missing",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "expired",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "services-protected",
+      "provenance" : "DERIVED",
+      "nodes" : [ "gateway", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "defence-in-depth",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "gateway", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "gw-failure",
+    "topic" : "gateway",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "fault",
+      "label" : "What fails",
+      "kind" : "CHOICE",
+      "defaultValue" : "service-down",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "service-down", "service-slow", "service-error", "gateway-down" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "healthy",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product", "product-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "faulted",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "gateway>product.getProduct:SYNC:UNAVAILABLE", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "translation",
+      "provenance" : "DERIVED",
+      "nodes" : [ "gateway" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "single-point",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "gateway" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "gw-rate-limit",
+    "topic" : "gateway",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "limit",
+      "label" : "Requests allowed per window",
+      "kind" : "INT",
+      "defaultValue" : "3",
+      "min" : 1,
+      "max" : 10,
+      "choices" : [ ]
+    }, {
+      "key" : "requests",
+      "label" : "Requests sent in the burst",
+      "kind" : "INT",
+      "defaultValue" : "5",
+      "min" : 1,
+      "max" : 12,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-rate-limiter",
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>gateway.configureRateLimit:SYNC:SUCCESS" ]
+    }, {
+      "id" : "burst",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-rate-limiter",
+      "calls" : [ "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS", "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS", "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "other-client",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-rate-limiter",
+      "calls" : [ "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "next-window",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-rate-limiter",
+      "calls" : [ "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "check",
+      "provenance" : "DERIVED",
+      "nodes" : [ "gateway" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "limiter-caveats",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "gateway" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "gw-routing",
+    "topic" : "gateway",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "route-user",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "user", "user-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "gateway>user.getUser:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "route-product",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "product", "product-db" ],
+      "edgeFrom" : "gateway",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "gateway>product.getProduct:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "route-order",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway", "order", "order-db" ],
+      "edgeFrom" : "gateway",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "gateway>order.placeOrder:SYNC:SUCCESS", "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "route-internal",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "route-unknown",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "gateway" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "gateway",
+      "codeRefId" : "micro-gateway-route",
+      "calls" : [ "client>gateway.route:SYNC:SUCCESS" ]
+    }, {
+      "id" : "real-gateways",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "gateway" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "mono-boundaries",
+    "topic" : "monolith",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "place-order",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "user", "user-db", "product", "product-db", "inventory", "inventory-db", "notification", "notification-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "order>notification.send:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "who-touched-what",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "user", "product", "inventory", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "contracts-not-tables",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "mono-coupling",
+    "topic" : "monolith",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "hardDependency",
+      "label" : "The synchronous dependency that goes down",
+      "kind" : "CHOICE",
+      "defaultValue" : "inventory",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "user", "product", "inventory" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "healthy",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "hard-dependency-down",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:UNAVAILABLE", "client>order.placeOrder:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "soft-dependency-down",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-event-channel",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS", "broker>notification.onOrderPlaced:EVENT:UNAVAILABLE" ]
+    }, {
+      "id" : "availability",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "user", "product", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "reducing-coupling",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "mono-order-workflow",
+    "topic" : "monolith",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "failure",
+      "label" : "Inject a failure after the stock is reserved",
+      "kind" : "CHOICE",
+      "defaultValue" : "after-reserve",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "none", "after-reserve" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "user-db", "product", "product-db", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "monolith",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "monolith", "monolith-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "monolith",
+      "codeRefId" : "micro-monolith-tx",
+      "calls" : [ ]
+    }, {
+      "id" : "distributed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "user", "product", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "comparison",
+      "provenance" : "DERIVED",
+      "nodes" : [ "monolith", "order" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "what-fixes-it",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "mono-over-split",
+    "topic" : "monolith",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "coarse-grained",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "over-split",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "how-to-split",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "obs-async-correlation",
+    "topic" : "observability",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "propagateInEvent",
+      "label" : "The event carries the correlation id",
+      "kind" : "BOOLEAN",
+      "defaultValue" : "true",
+      "min" : null,
+      "max" : null,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "publish",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-correlation",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "consume",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-correlation",
+      "calls" : [ "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "same-trace",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "span-links",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "broker" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "obs-failure-propagation",
+    "topic" : "observability",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "failingService",
+      "label" : "The service that fails",
+      "kind" : "CHOICE",
+      "defaultValue" : "inventory",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "user", "product", "inventory" ]
+    }, {
+      "key" : "fault",
+      "label" : "How it fails",
+      "kind" : "CHOICE",
+      "defaultValue" : "error",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "error", "down", "slow" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "failing-request",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-correlation",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "client>order.placeOrder:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "find-the-cause",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "traces-vs-logs",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "obs-missing-correlation",
+    "topic" : "observability",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "propagate",
+      "label" : "Correlation is passed on",
+      "kind" : "BOOLEAN",
+      "defaultValue" : "false",
+      "min" : null,
+      "max" : null,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "place-order",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-correlation",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "what-is-lost",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "user", "product", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "propagation",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "obs-trace-order",
+    "topic" : "observability",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "slowService",
+      "label" : "A service that is slow",
+      "kind" : "CHOICE",
+      "defaultValue" : "product",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "none", "user", "product", "inventory" ]
+    }, {
+      "key" : "delayMillis",
+      "label" : "How slow (extra simulated ms)",
+      "kind" : "INT",
+      "defaultValue" : "80",
+      "min" : 0,
+      "max" : 150,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "place-order",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-correlation",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "span-tree",
+      "provenance" : "DERIVED",
+      "nodes" : [ "client", "order", "user", "product", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "latency-attribution",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "user", "product", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "not-opentelemetry",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "order" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "outbox-commit-rollback",
+    "topic" : "saga",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "committed-together",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-outbox-write",
+      "calls" : [ "client>order.placeWithOutbox:SYNC:SUCCESS" ]
+    }, {
+      "id" : "rolled-back-together",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-outbox-write",
+      "calls" : [ "client>order.placeWithOutbox:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "relay",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-outbox-relay",
+      "calls" : [ "client>order.relayOutbox:SYNC:SUCCESS" ]
+    }, {
+      "id" : "consume",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-idempotent-consumer",
+      "calls" : [ "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "never-out-of-step",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "broker" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "outbox-costs",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "order-db", "broker" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "outbox-dual-write-gap",
+    "topic" : "saga",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "the-gap",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "order-db", "broker" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "dual-write-works",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "broker", "notification" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-outbox-write",
+      "calls" : [ "client>order.placeDualWrite:SYNC:SUCCESS", "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "dual-write-crash",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "order-db",
+      "codeRefId" : "micro-outbox-write",
+      "calls" : [ "client>order.placeDualWrite:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "consequence",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "outbox-duplicate-delivery",
+    "topic" : "saga",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "consumer",
+      "label" : "The consumer",
+      "kind" : "CHOICE",
+      "defaultValue" : "idempotent",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "idempotent", "naive" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "broker", "notification" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "place",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-outbox-write",
+      "calls" : [ "client>order.placeWithOutbox:SYNC:SUCCESS" ]
+    }, {
+      "id" : "relay-crashes",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-outbox-relay",
+      "calls" : [ "client>order.relayOutbox:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "relay-again",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-outbox-relay",
+      "calls" : [ "client>order.relayOutbox:SYNC:SUCCESS" ]
+    }, {
+      "id" : "deliver",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "notification", "notification-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "notification",
+      "codeRefId" : "micro-idempotent-consumer",
+      "calls" : [ "broker>notification.onOrderPlaced:EVENT:SUCCESS", "broker>notification.onOrderPlaced:EVENT:SUCCESS" ]
+    }, {
+      "id" : "at-least-once",
+      "provenance" : "DERIVED",
+      "nodes" : [ "broker", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "effect-not-delivery",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "broker", "notification" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "res-bulkhead",
+    "topic" : "resilience",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "permits",
+      "label" : "Concurrency permits",
+      "kind" : "CHOICE",
+      "defaultValue" : "per-service",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "per-service", "shared" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : "micro-bulkhead",
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "saturate",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-bulkhead",
+      "calls" : [ ]
+    }, {
+      "id" : "payment-rejected",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-bulkhead",
+      "calls" : [ "client>payment.charge:SYNC:BULKHEAD_REJECTED" ]
+    }, {
+      "id" : "others",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-bulkhead",
+      "calls" : [ "client>inventory.reserve:SYNC:SUCCESS", "client>product.getProduct:SYNC:SUCCESS", "client>user.getUser:SYNC:SUCCESS" ]
+    }, {
+      "id" : "released",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-bulkhead",
+      "calls" : [ "client>payment.charge:SYNC:SUCCESS" ]
+    }, {
+      "id" : "isolation",
+      "provenance" : "DERIVED",
+      "nodes" : [ "payment", "inventory", "product", "user" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "sizing",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "res-circuit-breaker",
+    "topic" : "resilience",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "failureThreshold",
+      "label" : "Consecutive failures that open the breaker",
+      "kind" : "INT",
+      "defaultValue" : "3",
+      "min" : 2,
+      "max" : 5,
+      "choices" : [ ]
+    }, {
+      "key" : "openMillis",
+      "label" : "How long it stays open (simulated ms)",
+      "kind" : "INT",
+      "defaultValue" : "2000",
+      "min" : 500,
+      "max" : 5000,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "closed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "product", "product-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-circuit-breaker",
+      "calls" : [ "client>product.getProduct:SYNC:SUCCESS", "client>product.getProduct:SYNC:SUCCESS" ]
+    }, {
+      "id" : "failures-open-it",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-circuit-breaker",
+      "calls" : [ "client>product.getProduct:SYNC:TECHNICAL_ERROR", "client>product.getProduct:SYNC:TECHNICAL_ERROR", "client>product.getProduct:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "open",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-circuit-breaker",
+      "calls" : [ "client>product.getProduct:SYNC:CIRCUIT_OPEN", "client>product.getProduct:SYNC:CIRCUIT_OPEN", "client>product.getProduct:SYNC:CIRCUIT_OPEN" ]
+    }, {
+      "id" : "half-open-recovers",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-circuit-breaker",
+      "calls" : [ "client>product.getProduct:SYNC:SUCCESS" ]
+    }, {
+      "id" : "half-open-fails",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "product" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "product",
+      "codeRefId" : "micro-circuit-breaker",
+      "calls" : [ "client>product.getProduct:SYNC:TECHNICAL_ERROR", "client>product.getProduct:SYNC:TECHNICAL_ERROR", "client>product.getProduct:SYNC:TECHNICAL_ERROR", "client>product.getProduct:SYNC:TECHNICAL_ERROR" ]
+    }, {
+      "id" : "transitions",
+      "provenance" : "DERIVED",
+      "nodes" : [ "client", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "tuning",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "product" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "res-idempotency-key",
+    "topic" : "resilience",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "useKey",
+      "label" : "The client sends an idempotency key",
+      "kind" : "BOOLEAN",
+      "defaultValue" : "true",
+      "min" : null,
+      "max" : null,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "first-attempt",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "payment", "payment-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-idempotent-charge",
+      "calls" : [ "client>payment.charge:SYNC:TIMEOUT" ]
+    }, {
+      "id" : "retry",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "payment", "payment-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-idempotent-charge",
+      "calls" : [ "client>payment.charge:SYNC:SUCCESS" ]
+    }, {
+      "id" : "outcome",
+      "provenance" : "DERIVED",
+      "nodes" : [ "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "keys-in-practice",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "res-retry-amplification",
+    "topic" : "resilience",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "clientAttempts",
+      "label" : "Attempts by the client",
+      "kind" : "INT",
+      "defaultValue" : "3",
+      "min" : 1,
+      "max" : 4,
+      "choices" : [ ]
+    }, {
+      "key" : "orderAttempts",
+      "label" : "Attempts by the Order service against Inventory",
+      "kind" : "INT",
+      "defaultValue" : "3",
+      "min" : 1,
+      "max" : 4,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "baseline",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-order-place",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "client>order.placeOrder:SYNC:SUCCESS" ]
+    }, {
+      "id" : "failing",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-retry",
+      "calls" : [ "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "client>order.placeOrder:SYNC:BUSINESS_FAILURE", "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "client>order.placeOrder:SYNC:BUSINESS_FAILURE", "order>user.getUser:SYNC:SUCCESS", "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "order>inventory.reserve:SYNC:TECHNICAL_ERROR", "client>order.placeOrder:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "amplification",
+      "provenance" : "DERIVED",
+      "nodes" : [ "client", "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "controlling-retries",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "order", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "res-retry-backoff",
+    "topic" : "resilience",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "maxAttempts",
+      "label" : "Attempts allowed (including the first)",
+      "kind" : "INT",
+      "defaultValue" : "3",
+      "min" : 1,
+      "max" : 5,
+      "choices" : [ ]
+    }, {
+      "key" : "transientFailures",
+      "label" : "Calls that fail before the service recovers",
+      "kind" : "INT",
+      "defaultValue" : "2",
+      "min" : 0,
+      "max" : 4,
+      "choices" : [ ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS" ]
+    }, {
+      "id" : "transient",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory", "inventory-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-retry",
+      "calls" : [ "client>inventory.reserve:SYNC:TECHNICAL_ERROR", "client>inventory.reserve:SYNC:TECHNICAL_ERROR", "client>inventory.reserve:SYNC:SUCCESS" ]
+    }, {
+      "id" : "business-refusal",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-retry",
+      "calls" : [ "client>inventory.reserve:SYNC:BUSINESS_FAILURE" ]
+    }, {
+      "id" : "timeout-rule",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "payment", "payment-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-retry",
+      "calls" : [ "client>payment.charge:SYNC:TIMEOUT", "client>payment.charge:SYNC:TIMEOUT", "client>payment.charge:SYNC:TIMEOUT", "client>payment.charge:SYNC:TIMEOUT" ]
+    }, {
+      "id" : "backoff-schedule",
+      "provenance" : "DERIVED",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "why-bounded",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "client", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "saga-choreographed",
+    "topic" : "saga",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "scenario",
+      "label" : "What happens",
+      "kind" : "CHOICE",
+      "defaultValue" : "payment-fails",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "success", "payment-fails", "compensation-fails" ]
+    } ],
+    "steps" : [ {
+      "id" : "what-this-shows",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "broker", "inventory", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "payment", "order", "broker" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : "micro-saga-choreography",
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>payment.setPolicy:SYNC:SUCCESS" ]
+    }, {
+      "id" : "start",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "broker" ],
+      "edgeFrom" : "order",
+      "edgeTo" : "broker",
+      "codeRefId" : "micro-saga-choreography",
+      "calls" : [ "order>product.getProduct:SYNC:SUCCESS", "client>order.startChoreography:SYNC:SUCCESS" ]
+    }, {
+      "id" : "inventory-reserves",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "inventory", "inventory-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-saga-choreography",
+      "calls" : [ "broker>inventory.onOrderCreated:EVENT:SUCCESS" ]
+    }, {
+      "id" : "in-between",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "payment-reacts",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "payment", "payment-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "payment",
+      "codeRefId" : "micro-saga-choreography",
+      "calls" : [ "broker>payment.onStockReserved:EVENT:SUCCESS" ]
+    }, {
+      "id" : "inventory-compensates",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "inventory", "inventory-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "inventory",
+      "codeRefId" : "micro-saga-choreography",
+      "calls" : [ "broker>inventory.onPaymentFailed:EVENT:SUCCESS" ]
+    }, {
+      "id" : "order-reacts",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "broker", "order", "order-db" ],
+      "edgeFrom" : "broker",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-saga-choreography",
+      "calls" : [ "broker>order.onStockReleased:EVENT:SUCCESS" ]
+    }, {
+      "id" : "no-coordinator",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "inventory", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "saga-compensation-vs-rollback",
+    "topic" : "saga",
+    "diagram" : "services",
+    "whatIfs" : [ ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>payment.setPolicy:SYNC:SUCCESS" ]
+    }, {
+      "id" : "rollback",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "monolith", "monolith-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "monolith",
+      "codeRefId" : "micro-monolith-tx",
+      "calls" : [ ]
+    }, {
+      "id" : "compensation",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "inventory", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-saga-orchestrator",
+      "calls" : [ "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "order>payment.charge:SYNC:BUSINESS_FAILURE", "order>inventory.release:SYNC:SUCCESS", "client>order.placeOrderSaga:SYNC:SUCCESS" ]
+    }, {
+      "id" : "difference",
+      "provenance" : "DERIVED",
+      "nodes" : [ "monolith", "inventory" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "two-phase-commit",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order", "inventory", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  }, {
+    "id" : "saga-orchestrated",
+    "topic" : "saga",
+    "diagram" : "services",
+    "whatIfs" : [ {
+      "key" : "scenario",
+      "label" : "What happens",
+      "kind" : "CHOICE",
+      "defaultValue" : "payment-fails",
+      "min" : null,
+      "max" : null,
+      "choices" : [ "success", "inventory-fails", "payment-fails", "confirm-fails", "compensation-fails" ]
+    } ],
+    "steps" : [ {
+      "id" : "seed",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "user", "product", "inventory", "payment" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "user",
+      "codeRefId" : null,
+      "calls" : [ "client>user.seedUser:SYNC:SUCCESS", "client>product.seedProduct:SYNC:SUCCESS", "client>inventory.seedStock:SYNC:SUCCESS", "client>payment.setPolicy:SYNC:SUCCESS" ]
+    }, {
+      "id" : "saga",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "client", "order", "order-db", "inventory", "inventory-db", "payment", "payment-db" ],
+      "edgeFrom" : "client",
+      "edgeTo" : "order",
+      "codeRefId" : "micro-saga-orchestrator",
+      "calls" : [ "order>product.getProduct:SYNC:SUCCESS", "order>inventory.reserve:SYNC:SUCCESS", "order>payment.charge:SYNC:BUSINESS_FAILURE", "order>inventory.release:SYNC:SUCCESS", "client>order.placeOrderSaga:SYNC:SUCCESS" ]
+    }, {
+      "id" : "states",
+      "provenance" : "CAPTURED",
+      "nodes" : [ "order", "inventory", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "not-a-rollback",
+      "provenance" : "DERIVED",
+      "nodes" : [ "order", "inventory", "payment" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    }, {
+      "id" : "orchestration-trade-offs",
+      "provenance" : "CONCEPTUAL",
+      "nodes" : [ "order" ],
+      "edgeFrom" : null,
+      "edgeTo" : null,
+      "codeRefId" : null,
+      "calls" : [ ]
+    } ]
+  } ]
+}

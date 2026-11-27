@@ -1,0 +1,363 @@
+{
+  "groups": [
+    {
+      "id": "fundamentals",
+      "title": "JDBC fundamentals",
+      "description": "Connections, drivers, DriverManager and DataSource."
+    },
+    {
+      "id": "statements",
+      "title": "Statement, PreparedStatement and ResultSet",
+      "description": "Executing SQL, binding parameters, reading rows, closing resources."
+    },
+    {
+      "id": "crud",
+      "title": "CRUD with JDBC",
+      "description": "INSERT, SELECT, UPDATE, DELETE, generated keys and batches."
+    },
+    {
+      "id": "transactions",
+      "title": "Transactions",
+      "description": "Auto-commit, commit, rollback, savepoints and isolation, with two connections."
+    },
+    {
+      "id": "pooling",
+      "title": "Connection pooling and HikariCP",
+      "description": "Reuse, pool size, exhaustion and timeouts on a dedicated lab pool."
+    },
+    {
+      "id": "spring",
+      "title": "Spring JDBC",
+      "description": "JdbcTemplate, RowMapper, named parameters, exception translation and Spring transactions."
+    },
+    {
+      "id": "compare",
+      "title": "JDBC vs Spring JDBC vs JPA",
+      "description": "The same operations through three access paths, and what Hibernate does with JDBC."
+    }
+  ],
+  "experiments": [
+    {
+      "id": "jdbc-connection-lifecycle",
+      "group": "fundamentals",
+      "title": "Get, inspect, close and misuse a connection",
+      "question": "What does dataSource.getConnection() return, what does the driver say about itself, and what happens after close()?",
+      "claim": "The DataSource returns a pool proxy over a driver connection; close() hands it back (the MySQL session stays open) and a closed connection refuses new statements.",
+      "diagram": "architecture"
+    },
+    {
+      "id": "jdbc-drivermanager-vs-datasource",
+      "group": "fundamentals",
+      "title": "DriverManager versus a pooled DataSource",
+      "question": "Open and close connections with DriverManager and with the application's DataSource and ask MySQL which sessions still exist.",
+      "claim": "DriverManager opens a new physical session each time and close() ends it; a pooled DataSource keeps the session open after close().",
+      "diagram": "architecture"
+    },
+    {
+      "id": "jdbc-driver-discovery",
+      "group": "fundamentals",
+      "title": "How the JDBC driver is found",
+      "question": "Which Driver classes has DriverManager registered, and which one accepts which URL?",
+      "claim": "Drivers register themselves through the service-provider mechanism; the MySQL driver accepts jdbc:mysql: URLs only.",
+      "diagram": "architecture"
+    },
+    {
+      "id": "jdbc-statement-select",
+      "group": "statements",
+      "title": "SELECT with a Statement and a ResultSet",
+      "question": "Execute a fixed SELECT with a Statement, walk the ResultSet and close everything.",
+      "claim": "executeQuery returns a cursor over the rows; MySQL's own counter shows one SELECT received; the ResultSet and Statement report closed afterwards.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-prepared-select",
+      "group": "statements",
+      "title": "SELECT with a PreparedStatement and bound parameters",
+      "question": "Prepare one SQL text with ? placeholders and execute it twice with different values.",
+      "claim": "The SQL text holds placeholders and no values, and the same statement object is executed twice.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-sql-injection",
+      "group": "statements",
+      "title": "Why parameter binding stops SQL injection",
+      "question": "Bind a quote-and-OR text as a parameter and compare it with the unsafe construction (explained, not run).",
+      "claim": "The hostile text bound as a parameter matches no row; it is data, not SQL.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-execute-methods",
+      "group": "statements",
+      "title": "executeQuery, executeUpdate and execute",
+      "question": "Which method fits which statement, and what does the driver say when you choose the wrong one?",
+      "claim": "executeQuery returns a ResultSet, executeUpdate a row count, execute a boolean that says which one is available; a wrong choice is refused.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-resource-closing",
+      "group": "statements",
+      "title": "Closing statements, result sets and connections",
+      "question": "What does each close() do to the other resources?",
+      "claim": "Closing a Statement closes its ResultSet; a closed connection cannot be used again.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-crud-single",
+      "group": "crud",
+      "title": "INSERT, SELECT, UPDATE, DELETE and the row counts",
+      "question": "Run each operation once with a PreparedStatement, ask for the generated key and check the rows affected.",
+      "claim": "INSERT returns 1 and a generated key, UPDATE and DELETE return 1 for an existing row and 0 for a missing one, and MySQL's counters match.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-read-many",
+      "group": "crud",
+      "title": "Reading many rows",
+      "question": "Read five rows and map them by hand, then ask for COUNT(*) instead.",
+      "claim": "A loop over the ResultSet reads every row; COUNT(*) answers a count question with one row.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-batch-insert",
+      "group": "crud",
+      "title": "Batch insert",
+      "question": "Send five INSERTs with addBatch and executeBatch inside one transaction and ask MySQL how many INSERTs it received.",
+      "claim": "executeBatch returns one update count per statement; the rows are invisible to another connection until commit; with default driver settings MySQL still receives five INSERTs.",
+      "diagram": "statement"
+    },
+    {
+      "id": "jdbc-autocommit",
+      "group": "transactions",
+      "title": "Auto-commit: every statement is its own transaction",
+      "question": "Run one UPDATE on a new connection without calling commit() and read it from a second connection.",
+      "claim": "With auto-commit (the JDBC default) the change is committed by itself and a second connection sees it at once.",
+      "diagram": "transaction"
+    },
+    {
+      "id": "jdbc-commit",
+      "group": "transactions",
+      "title": "Four statements, one commit",
+      "question": "Turn auto-commit off, run two UPDATEs and two INSERTs, look from a second connection, then commit().",
+      "claim": "The changes are invisible to the second connection until commit(); then all of them appear together, and MySQL counts one commit.",
+      "diagram": "transaction"
+    },
+    {
+      "id": "jdbc-rollback",
+      "group": "transactions",
+      "title": "Four statements, one rollback",
+      "question": "Do the same work and call rollback() instead of commit().",
+      "claim": "rollback() discards every statement of the transaction, including ones that succeeded; no other connection ever saw them.",
+      "diagram": "transaction"
+    },
+    {
+      "id": "jdbc-rollback-on-failure",
+      "group": "transactions",
+      "title": "A failing statement in the middle",
+      "question": "Let the second statement violate a foreign key and look at the first one before and after rollback().",
+      "claim": "MySQL refuses only the failing statement; the first change stays pending in the open transaction until the code rolls back.",
+      "diagram": "transaction"
+    },
+    {
+      "id": "jdbc-savepoint",
+      "group": "transactions",
+      "title": "A savepoint inside a transaction",
+      "question": "Set a savepoint, do more work, roll back to the savepoint and commit.",
+      "claim": "Rolling back to a savepoint undoes only the later work and leaves the transaction open; the commit keeps the earlier work.",
+      "diagram": "transaction"
+    },
+    {
+      "id": "jdbc-isolation",
+      "group": "transactions",
+      "title": "Isolation levels, observed with two connections",
+      "question": "Read a row twice in one transaction while another connection changes it, at three isolation levels.",
+      "claim": "REPEATABLE READ gives a stable snapshot, READ COMMITTED shows the other connection's committed change, READ UNCOMMITTED shows even its uncommitted change.",
+      "diagram": "transaction"
+    },
+    {
+      "id": "pool-acquire-release",
+      "group": "pooling",
+      "title": "Borrow, return and reuse a pooled connection",
+      "question": "Borrow the only connection of a dedicated lab pool, return it, and borrow again.",
+      "claim": "close() returns the connection to the pool without ending the MySQL session, and the next borrower gets the same physical session.",
+      "diagram": "pool"
+    },
+    {
+      "id": "pool-multiple",
+      "group": "pooling",
+      "title": "Several connections at once",
+      "question": "Borrow three connections from a pool that may grow to three and return them.",
+      "claim": "Three simultaneous borrowers get three different sessions; after returning them the pool holds three idle connections.",
+      "diagram": "pool"
+    },
+    {
+      "id": "pool-exhaustion",
+      "group": "pooling",
+      "title": "Pool exhaustion and the acquisition timeout",
+      "question": "Borrow every connection of a two-connection pool and ask for a third, then return one.",
+      "claim": "The third request waits for the connection timeout and fails with SQLTransientConnectionException; after one connection is returned, requests succeed again.",
+      "diagram": "pool"
+    },
+    {
+      "id": "spring-jdbc-query",
+      "group": "spring",
+      "title": "JdbcTemplate against plain JDBC",
+      "question": "Read the same rows with hand-written JDBC and with JdbcTemplate (RowMapper, ResultSetExtractor, queryForObject) and look at the JDBC calls the template made.",
+      "claim": "JdbcTemplate returns the same rows and the captured calls show it acquired, prepared, executed and closed everything itself.",
+      "diagram": "spring"
+    },
+    {
+      "id": "spring-jdbc-named-update",
+      "group": "spring",
+      "title": "NamedParameterJdbcTemplate and batchUpdate",
+      "question": "Insert with :named parameters, repeat a name, and run a batch update; look at the SQL the driver received.",
+      "claim": "Spring rewrites :names to ? placeholders before the statement reaches JDBC, and batchUpdate returns one update count per row.",
+      "diagram": "spring"
+    },
+    {
+      "id": "spring-jdbc-exception-translation",
+      "group": "spring",
+      "title": "SQLException translation",
+      "question": "Cause a duplicate key, a foreign key violation and invalid SQL through JdbcTemplate.",
+      "claim": "Each MySQL error becomes a subclass of Spring's DataAccessException (DuplicateKeyException, DataIntegrityViolationException, BadSqlGrammarException) with the SQLException kept as the cause.",
+      "diagram": "spring"
+    },
+    {
+      "id": "spring-jdbc-transaction",
+      "group": "spring",
+      "title": "Spring's transaction abstraction over JDBC",
+      "question": "Run two updates in a TransactionTemplate, once returning normally and once throwing, and look at the JDBC calls.",
+      "claim": "Spring makes the same JDBC calls as hand-written transaction code (setAutoCommit(false), commit or rollback) and uses ONE connection for the whole callback.",
+      "diagram": "spring"
+    },
+    {
+      "id": "compare-read",
+      "group": "compare",
+      "title": "Read the same row through three paths",
+      "question": "Read one customer with JDBC, with JdbcTemplate and with JPA and compare the SQL each path produced.",
+      "claim": "All three end as a SELECT handed to the JDBC driver and return the same row; they differ in who writes the SQL, maps the row and closes the resources.",
+      "diagram": "compare"
+    },
+    {
+      "id": "compare-insert",
+      "group": "compare",
+      "title": "Insert equivalent rows through three paths",
+      "question": "Insert one customer with JDBC, JdbcTemplate and JPA, each with its own transaction handling, and compare.",
+      "claim": "Each path produces one INSERT and a generated key; JDBC and Spring make the commit calls visibly, while Hibernate's commit is not observed at the JDBC boundary.",
+      "diagram": "compare"
+    },
+    {
+      "id": "compare-same-session",
+      "group": "compare",
+      "title": "Hibernate runs on JDBC",
+      "question": "Inside one JPA transaction ask MySQL for the session id through Hibernate and through JdbcTemplate, and look at Hibernate's connection object.",
+      "claim": "Hibernate and JdbcTemplate used the same MySQL session in one transaction, an uncommitted JPA insert is visible to Spring JDBC but not to a new connection, and Hibernate's connection is an ordinary JDBC connection.",
+      "diagram": "compare"
+    }
+  ],
+  "diagrams": {
+    "architecture": {
+      "nodes": [
+        "application",
+        "jdbcApi",
+        "driver",
+        "database"
+      ],
+      "edges": [
+        "application->jdbcApi",
+        "jdbcApi->driver",
+        "driver->database"
+      ]
+    },
+    "statement": {
+      "nodes": [
+        "connection",
+        "statement",
+        "database",
+        "resultSet"
+      ],
+      "edges": [
+        "connection->statement",
+        "statement->connection",
+        "statement->database",
+        "database->resultSet",
+        "statement->resultSet"
+      ]
+    },
+    "transaction": {
+      "nodes": [
+        "connectionA",
+        "connectionB",
+        "transaction",
+        "database"
+      ],
+      "edges": [
+        "connectionA->transaction",
+        "transaction->database",
+        "transaction->connectionA",
+        "connectionB->database"
+      ]
+    },
+    "pool": {
+      "nodes": [
+        "application",
+        "pool",
+        "connection",
+        "database"
+      ],
+      "edges": [
+        "application->pool",
+        "pool->application",
+        "pool->connection",
+        "connection->pool",
+        "connection->database"
+      ]
+    },
+    "spring": {
+      "nodes": [
+        "service",
+        "jdbcTemplate",
+        "dataSource",
+        "driver",
+        "database"
+      ],
+      "edges": [
+        "service->jdbcTemplate",
+        "jdbcTemplate->service",
+        "jdbcTemplate->dataSource",
+        "dataSource->driver",
+        "driver->database"
+      ]
+    },
+    "compare": {
+      "nodes": [
+        "service",
+        "jdbc",
+        "jdbcTemplate",
+        "entityManager",
+        "hibernate",
+        "jdbcApi",
+        "driver",
+        "database"
+      ],
+      "edges": [
+        "service->jdbc",
+        "service->jdbcTemplate",
+        "service->entityManager",
+        "entityManager->hibernate",
+        "jdbc->jdbcApi",
+        "jdbcTemplate->jdbcApi",
+        "hibernate->jdbcApi",
+        "jdbcApi->driver",
+        "driver->database"
+      ]
+    }
+  },
+  "limitations": [
+    "SQL shown is the text the application handed to the JDBC driver (placeholders, never bound values). That the driver was called does not prove MySQL executed it: where it matters the experiment also reads MySQL's own per-session statement counters.",
+    "A successful executeUpdate does not mean the change is committed. Each transaction experiment states, step by step, whether the transaction is open, committed or rolled back, and what a SECOND connection can see.",
+    "Every experiment works on its own temporary rows in the jdbc_lab_* tables and removes them afterwards (the number removed is reported). No SpringLab application table is read or changed.",
+    "Connection pool experiments use a dedicated bounded HikariCP pool created for the run and closed afterwards. The application's own pool is only read (counts), never changed.",
+    "MySQL Connector/J prepares statements on the client by default and does not rewrite batches unless rewriteBatchedStatements=true; the lab observes the default behaviour of this application's configuration.",
+    "Behaviour described is that of the MySQL, driver and Spring versions this application runs on; other versions or settings may differ."
+  ]
+}

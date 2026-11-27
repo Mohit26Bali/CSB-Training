@@ -1,0 +1,12 @@
+{
+  "outDir": "frontend/public/assets",
+  "size": "medium",
+  "images": {
+    "laptop": "business laptop on desk",
+    "monitor": "computer monitor desk",
+    "phone": "smartphone on table",
+    "tablet": "tablet device desk",
+    "accessory": "wireless mouse headset desk",
+    "other": "office projector printer"
+  }
+}

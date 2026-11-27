@@ -1,0 +1,10 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "events": "conference audience stage lights",
+    "registrations": "event tickets badge lanyard",
+    "admin": "event planning team whiteboard",
+    "admin-events": "event venue setup chairs"
+  }
+}

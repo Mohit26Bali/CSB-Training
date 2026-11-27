@@ -1,0 +1,1867 @@
+[
+  {
+    "id": "topic-controller",
+    "title": "TopicController: the REST entry point",
+    "file": "src/main/java/com/springlab/controller/TopicController.java",
+    "startLine": 11,
+    "endLine": 24,
+    "language": "java",
+    "excerpt": "@RestController\n@RequestMapping(\"/api/topics\")\npublic class TopicController {\n\n    private final TopicService topicService;\n\n    public TopicController(TopicService topicService) {\n        this.topicService = topicService;\n    }\n\n    @GetMapping\n    public List<TopicResponse> list() {\n        return topicService.list();\n    }",
+    "notes": [
+      {
+        "line": 11,
+        "token": "@RestController",
+        "text": "Marks a controller whose return values are written to the response body (it combines @Controller and @ResponseBody)."
+      },
+      {
+        "line": 12,
+        "token": "@RequestMapping",
+        "text": "Maps every handler method of this class under /api/topics."
+      },
+      {
+        "line": 17,
+        "token": "TopicService",
+        "text": "Constructor injection: the controller depends on a service, never on a repository or entity."
+      },
+      {
+        "line": 21,
+        "token": "@GetMapping",
+        "text": "Maps HTTP GET /api/topics to this method; DispatcherServlet's HandlerMapping resolves this."
+      },
+      {
+        "line": 23,
+        "token": "topicService.list()",
+        "text": "The controller only delegates; business logic and data access live in the service layer."
+      }
+    ]
+  },
+  {
+    "id": "topic-service",
+    "title": "TopicService: transaction boundary",
+    "file": "src/main/java/com/springlab/service/TopicService.java",
+    "startLine": 19,
+    "endLine": 22,
+    "language": "java",
+    "excerpt": "    @Transactional(readOnly = true)\n    public List<TopicResponse> list() {\n        return topicRepository.findAllWithActiveQuestionCount();\n    }",
+    "notes": [
+      {
+        "line": 19,
+        "token": "@Transactional(readOnly = true)",
+        "text": "Declares a read-only transaction around this method (applied through a Spring proxy). This line is a declaration; it does not prove a transaction was active."
+      },
+      {
+        "line": 21,
+        "token": "findAllWithActiveQuestionCount",
+        "text": "The service delegates data access to the Spring Data repository."
+      }
+    ]
+  },
+  {
+    "id": "topic-repository",
+    "title": "TopicRepository: a JPQL query method",
+    "file": "src/main/java/com/springlab/repository/TopicRepository.java",
+    "startLine": 15,
+    "endLine": 20,
+    "language": "java",
+    "excerpt": "    @Query(\"\"\"\n            select new com.springlab.dto.challenge.TopicResponse(t.id, t.name, t.slug, t.description,\n                   (select count(q) from Question q where q.topic = t and q.active = true))\n            from Topic t order by t.name\n            \"\"\")\n    List<TopicResponse> findAllWithActiveQuestionCount();",
+    "notes": [
+      {
+        "line": 15,
+        "token": "@Query",
+        "text": "Declares the query as JPQL. Hibernate translates it to SQL for the configured MySQL dialect."
+      },
+      {
+        "line": 17,
+        "token": "select count(q)",
+        "text": "A correlated sub-select computes the active question count, so the whole listing needs one statement."
+      },
+      {
+        "line": 20,
+        "token": "findAllWithActiveQuestionCount",
+        "text": "No implementation exists: Spring Data generates a proxy for this interface at startup."
+      }
+    ]
+  },
+  {
+    "id": "me-controller",
+    "title": "AuthController.me: reading the authenticated principal",
+    "file": "src/main/java/com/springlab/controller/AuthController.java",
+    "startLine": 40,
+    "endLine": 43,
+    "language": "java",
+    "excerpt": "    @GetMapping(\"/me\")\n    public UserResponse me(@AuthenticationPrincipal Jwt jwt) {\n        return authService.currentUser(jwt.getSubject());\n    }",
+    "notes": [
+      {
+        "line": 40,
+        "token": "@GetMapping",
+        "text": "GET /api/auth/me. The path is not public, so the security filter chain requires authentication first."
+      },
+      {
+        "line": 41,
+        "token": "@AuthenticationPrincipal",
+        "text": "Spring Security injects the principal of the current Authentication; here it is the validated Jwt."
+      }
+    ]
+  },
+  {
+    "id": "me-service",
+    "title": "AuthService.currentUser: a lean lookup for the profile",
+    "file": "src/main/java/com/springlab/service/AuthService.java",
+    "startLine": 72,
+    "endLine": 78,
+    "language": "java",
+    "excerpt": "    @Transactional(readOnly = true)\n    public UserResponse currentUser(String username) {\n        // A valid token for a user that no longer exists must not be honoured. The query selects only the four\n        // fields of UserResponse, so the password hash is never loaded for this request.\n        return userRepository.findProfileByUsername(username)\n                .orElseThrow(() -> new BadCredentialsException(\"User no longer exists\"));\n    }",
+    "notes": [
+      {
+        "line": 72,
+        "token": "@Transactional(readOnly = true)",
+        "text": "Read-only transaction declaration for this lookup."
+      },
+      {
+        "line": 74,
+        "token": "must not be honoured",
+        "text": "A valid token for a user that no longer exists is not accepted."
+      },
+      {
+        "line": 76,
+        "token": "findProfileByUsername",
+        "text": "A projection query: only id, username, email and role are selected, never the password hash."
+      },
+      {
+        "line": 77,
+        "token": "BadCredentialsException",
+        "text": "No such user: the request is refused rather than answered with empty data."
+      }
+    ]
+  },
+  {
+    "id": "auth-converter",
+    "title": "DatabaseBackedJwtAuthenticationConverter: authorities come from the database",
+    "file": "src/main/java/com/springlab/security/DatabaseBackedJwtAuthenticationConverter.java",
+    "startLine": 34,
+    "endLine": 46,
+    "language": "java",
+    "excerpt": "    @Override\n    public AbstractAuthenticationToken convert(Jwt jwt) {\n        String subject = jwt.getSubject();\n        if (subject == null) {\n            throw new InvalidBearerTokenException(\"Token has no subject\");\n        }\n        // Unknown user and disabled user are deliberately indistinguishable: both are a 401.\n        UserAuthInfo user = userRepository.findAuthInfoByUsername(subject)\n                .filter(UserAuthInfo::enabled)\n                .orElseThrow(() -> new InvalidBearerTokenException(\"Token is not valid for an active account\"));\n        return new JwtAuthenticationToken(jwt, List.of(new SimpleGrantedAuthority(\"ROLE_\" + user.role().name())),\n                user.username());\n    }",
+    "notes": [
+      {
+        "line": 35,
+        "token": "convert",
+        "text": "Called after the JwtDecoder has verified signature, expiry and issuer. It turns the Jwt into an Authentication."
+      },
+      {
+        "line": 41,
+        "token": "findAuthInfoByUsername",
+        "text": "Reads the caller's current role and enabled flag from the database on every authenticated request."
+      },
+      {
+        "line": 43,
+        "token": "InvalidBearerTokenException",
+        "text": "Unknown or disabled users are rejected with the same 401 as an invalid token."
+      },
+      {
+        "line": 44,
+        "token": "ROLE_",
+        "text": "The authority comes from the database role, never from the token's role claim."
+      }
+    ]
+  },
+  {
+    "id": "security-filter-chain",
+    "title": "SecurityConfig: the SecurityFilterChain",
+    "file": "src/main/java/com/springlab/config/SecurityConfig.java",
+    "startLine": 27,
+    "endLine": 53,
+    "language": "java",
+    "excerpt": "    public SecurityFilterChain securityFilterChain(HttpSecurity http,\n                                                   DatabaseBackedJwtAuthenticationConverter jwtAuthenticationConverter,\n                                                   RestAuthenticationEntryPoint authenticationEntryPoint,\n                                                   RestAccessDeniedHandler accessDeniedHandler) throws Exception {\n        http\n                // CSRF protects cookie/session-based authentication. This API is stateless and authenticates\n                // only via an Authorization header that browsers never attach automatically, so it is disabled.\n                .csrf(AbstractHttpConfigurer::disable)\n                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))\n                .authorizeHttpRequests(auth -> auth\n                        .requestMatchers(\"/api/auth/register\", \"/api/auth/login\").permitAll()\n                        .requestMatchers(\"/actuator/health\", \"/actuator/health/**\").permitAll()\n                        // Security also applies to the container's ERROR dispatch; without this a 500 would show as 401.\n                        .requestMatchers(\"/error\").permitAll()\n                        // Coarse URL-level rule; controllers repeat it with @PreAuthorize (defence in depth).\n                        .requestMatchers(\"/api/admin/**\").hasRole(\"ADMIN\")\n                        .requestMatchers(\"/api/teacher/**\").hasAnyRole(\"TEACHER\", \"ADMIN\")\n                        .anyRequest().authenticated())\n                .oauth2ResourceServer(oauth2 -> oauth2\n                        // Signature/expiry/issuer are checked by the JwtDecoder; authorities come from the database.\n                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))\n                        .authenticationEntryPoint(authenticationEntryPoint)\n                        .accessDeniedHandler(accessDeniedHandler))\n                .exceptionHandling(ex -> ex\n                        .authenticationEntryPoint(authenticationEntryPoint)\n                        .accessDeniedHandler(accessDeniedHandler));\n        return http.build();",
+    "notes": [
+      {
+        "line": 27,
+        "token": "SecurityFilterChain",
+        "text": "Spring Security 6 configures security by declaring a SecurityFilterChain bean (no WebSecurityConfigurerAdapter)."
+      },
+      {
+        "line": 34,
+        "token": "csrf",
+        "text": "CSRF protection is disabled because the API is stateless and authenticates with an Authorization header, not cookies."
+      },
+      {
+        "line": 35,
+        "token": "STATELESS",
+        "text": "No HTTP session is created or used to store the SecurityContext."
+      },
+      {
+        "line": 42,
+        "token": "hasRole",
+        "text": "Coarse URL rule: /api/admin/** needs the ADMIN role. Controllers repeat it with @PreAuthorize."
+      },
+      {
+        "line": 44,
+        "token": "anyRequest",
+        "text": "Everything not listed above requires an authenticated caller."
+      },
+      {
+        "line": 45,
+        "token": "oauth2ResourceServer",
+        "text": "Adds BearerTokenAuthenticationFilter, which reads the Bearer token and validates it with the JwtDecoder."
+      }
+    ]
+  },
+  {
+    "id": "entry-point",
+    "title": "RestAuthenticationEntryPoint: the 401 response",
+    "file": "src/main/java/com/springlab/security/RestAuthenticationEntryPoint.java",
+    "startLine": 25,
+    "endLine": 33,
+    "language": "java",
+    "excerpt": "    @Override\n    public void commence(HttpServletRequest request, HttpServletResponse response,\n                         AuthenticationException authException) throws IOException {\n        bearerEntryPoint.commence(request, response, authException);\n        // Generic detail on purpose: do not leak why a token was rejected.\n        writer.write(request, response, HttpStatus.UNAUTHORIZED, \"Unauthorized\",\n                \"Authentication is required and must be a valid Bearer token\");\n    }\n}",
+    "notes": [
+      {
+        "line": 26,
+        "token": "commence",
+        "text": "Called by ExceptionTranslationFilter when an unauthenticated request must be challenged."
+      },
+      {
+        "line": 30,
+        "token": "UNAUTHORIZED",
+        "text": "Writes the 401 status as an application/problem+json body."
+      }
+    ]
+  },
+  {
+    "id": "access-denied-handler",
+    "title": "RestAccessDeniedHandler: the 403 response",
+    "file": "src/main/java/com/springlab/security/RestAccessDeniedHandler.java",
+    "startLine": 22,
+    "endLine": 28,
+    "language": "java",
+    "excerpt": "    @Override\n    public void handle(HttpServletRequest request, HttpServletResponse response,\n                       AccessDeniedException accessDeniedException) throws IOException {\n        writer.write(request, response, HttpStatus.FORBIDDEN, \"Forbidden\",\n                \"You do not have permission to access this resource\");\n    }\n}",
+    "notes": [
+      {
+        "line": 23,
+        "token": "handle",
+        "text": "Called by ExceptionTranslationFilter when an authenticated caller is not allowed."
+      },
+      {
+        "line": 25,
+        "token": "FORBIDDEN",
+        "text": "Writes the 403 status as an application/problem+json body."
+      }
+    ]
+  },
+  {
+    "id": "challenge-get-controller",
+    "title": "ChallengeController.get",
+    "file": "src/main/java/com/springlab/controller/ChallengeController.java",
+    "startLine": 50,
+    "endLine": 53,
+    "language": "java",
+    "excerpt": "    @GetMapping(\"/{id}\")\n    public AttemptView get(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {\n        return challengeService.get(jwt.getSubject(), id);\n    }",
+    "notes": [
+      {
+        "line": 50,
+        "token": "@GetMapping",
+        "text": "GET /api/challenges/{id}."
+      },
+      {
+        "line": 51,
+        "token": "@PathVariable",
+        "text": "Spring MVC converts the {id} URI segment to a Long before the method runs."
+      }
+    ]
+  },
+  {
+    "id": "challenge-get-service",
+    "title": "ChallengeService.ownedAttempt: a lookup that can fail",
+    "file": "src/main/java/com/springlab/service/ChallengeService.java",
+    "startLine": 154,
+    "endLine": 158,
+    "language": "java",
+    "excerpt": "    private Attempt ownedAttempt(String username, Long attemptId) {\n        User user = currentUser(username);\n        return attemptRepository.findByIdAndUserId(attemptId, user.getId())\n                .orElseThrow(() -> new ResourceNotFoundException(\"Challenge not found\"));\n    }",
+    "notes": [
+      {
+        "line": 155,
+        "token": "currentUser",
+        "text": "Loads the caller (one query)."
+      },
+      {
+        "line": 156,
+        "token": "findByIdAndUserId",
+        "text": "Ownership is part of the query, so someone else's attempt is simply not found."
+      },
+      {
+        "line": 157,
+        "token": "ResourceNotFoundException",
+        "text": "Thrown when nothing matches; it is translated to HTTP 404 by the exception handler."
+      }
+    ]
+  },
+  {
+    "id": "not-found-handler",
+    "title": "GlobalExceptionHandler: ResourceNotFoundException becomes 404",
+    "file": "src/main/java/com/springlab/exception/GlobalExceptionHandler.java",
+    "startLine": 73,
+    "endLine": 78,
+    "language": "java",
+    "excerpt": "    @ExceptionHandler(ResourceNotFoundException.class)\n    public ProblemDetail handleNotFound(ResourceNotFoundException ex) {\n        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());\n        problem.setTitle(\"Not Found\");\n        return problem;\n    }",
+    "notes": [
+      {
+        "line": 73,
+        "token": "@ExceptionHandler",
+        "text": "Methods annotated like this are used by ExceptionHandlerExceptionResolver to translate exceptions thrown from controllers and services."
+      },
+      {
+        "line": 75,
+        "token": "NOT_FOUND",
+        "text": "Builds an RFC 9457 ProblemDetail with status 404."
+      }
+    ]
+  },
+  {
+    "id": "admin-controller",
+    "title": "AdminUserController: a role-restricted controller",
+    "file": "src/main/java/com/springlab/controller/AdminUserController.java",
+    "startLine": 24,
+    "endLine": 38,
+    "language": "java",
+    "excerpt": "@RequestMapping(\"/api/admin/users\")\n@PreAuthorize(\"hasRole('ADMIN')\")\npublic class AdminUserController {\n\n    private final AdminUserService adminUserService;\n\n    public AdminUserController(AdminUserService adminUserService) {\n        this.adminUserService = adminUserService;\n    }\n\n    @GetMapping\n    public PageResponse<AdminUserResponse> list(@RequestParam(required = false) Role role,\n                                                @RequestParam(required = false) String q,\n                                                @PageableDefault(size = 20, sort = \"id\") Pageable pageable) {\n        return adminUserService.list(role, q, pageable);",
+    "notes": [
+      {
+        "line": 25,
+        "token": "@PreAuthorize",
+        "text": "Method security: the class is only callable with the ADMIN role (needs @EnableMethodSecurity)."
+      },
+      {
+        "line": 34,
+        "token": "@GetMapping",
+        "text": "GET /api/admin/users."
+      }
+    ]
+  },
+  {
+    "id": "jwt-decoder-config",
+    "title": "JwtConfig.jwtDecoder: the application's real decoder",
+    "file": "src/main/java/com/springlab/config/JwtConfig.java",
+    "startLine": 48,
+    "endLine": 56,
+    "language": "java",
+    "excerpt": "    @Bean\n    public JwtDecoder jwtDecoder(SecretKey jwtSecretKey, JwtProperties properties) {\n        NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(jwtSecretKey)\n                .macAlgorithm(MacAlgorithm.HS256)\n                .build();\n        // Default validators (exp / nbf with 60s clock skew) plus issuer check.\n        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(properties.issuer()));\n        return decoder;\n    }",
+    "notes": [
+      {
+        "line": 50,
+        "token": "withSecretKey",
+        "text": "HS256 is symmetric: the decoder is built from the same secret key that signs tokens."
+      },
+      {
+        "line": 51,
+        "token": "MacAlgorithm.HS256",
+        "text": "The decoder accepts only HS256. The server decides the algorithm; the token's header cannot."
+      },
+      {
+        "line": 54,
+        "token": "createDefaultWithIssuer",
+        "text": "Adds the default validators (exp and nbf with a 60 second clock skew) plus an issuer check. A correct signature alone is not enough."
+      }
+    ]
+  },
+  {
+    "id": "jwt-issuing",
+    "title": "JwtService.issueFor: header, payload and signature",
+    "file": "src/main/java/com/springlab/security/JwtService.java",
+    "startLine": 31,
+    "endLine": 45,
+    "language": "java",
+    "excerpt": "    public AccessToken issueFor(User user) {\n        Instant now = Instant.now();\n        JwtClaimsSet claims = JwtClaimsSet.builder()\n                .issuer(properties.issuer())\n                .subject(user.getUsername())\n                .issuedAt(now)\n                .expiresAt(now.plus(properties.accessTokenTtl()))\n                .id(UUID.randomUUID().toString())\n                .claim(ROLE_CLAIM, user.getRole().name())\n                .build();\n        // The header must name the algorithm explicitly; NimbusJwtEncoder otherwise defaults to RS256.\n        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();\n        String token = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();\n        return new AccessToken(token, properties.accessTokenTtl().toSeconds());\n    }",
+    "notes": [
+      {
+        "line": 33,
+        "token": "JwtClaimsSet",
+        "text": "The payload is a set of claims."
+      },
+      {
+        "line": 34,
+        "token": ".issuer(",
+        "text": "iss: who issued the token."
+      },
+      {
+        "line": 35,
+        "token": ".subject(",
+        "text": "sub: who the token is about."
+      },
+      {
+        "line": 37,
+        "token": ".expiresAt(",
+        "text": "exp: when the token stops being valid."
+      },
+      {
+        "line": 39,
+        "token": ".claim(ROLE_CLAIM",
+        "text": "A custom role claim. It is informational: authorization ignores it and reads the database."
+      },
+      {
+        "line": 42,
+        "token": "MacAlgorithm.HS256",
+        "text": "The header names the algorithm (alg)."
+      },
+      {
+        "line": 43,
+        "token": "encode(",
+        "text": "The encoder signs header and payload with the secret key and returns header.payload.signature."
+      }
+    ]
+  },
+  {
+    "id": "lab-secure-chain",
+    "title": "LabSecurityConfig: the lab SecurityFilterChain",
+    "file": "src/main/java/com/springlab/lab/jwt/LabSecurityConfig.java",
+    "startLine": 30,
+    "endLine": 51,
+    "language": "java",
+    "excerpt": "    @Bean\n    @Order(1)\n    public SecurityFilterChain labSecureFilterChain(HttpSecurity http, LabJwtService lab,\n                                                    DatabaseBackedJwtAuthenticationConverter converter,\n                                                    RestAuthenticationEntryPoint authenticationEntryPoint,\n                                                    RestAccessDeniedHandler accessDeniedHandler) throws Exception {\n        http\n                .securityMatcher(\"/api/lab/secure/**\")\n                .csrf(AbstractHttpConfigurer::disable)\n                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))\n                .authorizeHttpRequests(auth -> auth\n                        .requestMatchers(\"/api/lab/secure/admin-area\").hasRole(\"ADMIN\")\n                        .requestMatchers(\"/api/lab/secure/teacher-area\").hasAnyRole(\"TEACHER\", \"ADMIN\")\n                        .anyRequest().authenticated())\n                .oauth2ResourceServer(oauth2 -> oauth2\n                        .jwt(jwt -> jwt.decoder(lab.decoder()).jwtAuthenticationConverter(converter))\n                        .authenticationEntryPoint(authenticationEntryPoint)\n                        .accessDeniedHandler(accessDeniedHandler))\n                .exceptionHandling(ex -> ex\n                        .authenticationEntryPoint(authenticationEntryPoint)\n                        .accessDeniedHandler(accessDeniedHandler));\n        return http.build();",
+    "notes": [
+      {
+        "line": 31,
+        "token": "@Order(1)",
+        "text": "This chain wins for its own paths; every other request still reaches the application's main chain."
+      },
+      {
+        "line": 37,
+        "token": "securityMatcher",
+        "text": "This chain handles only /api/lab/secure/**."
+      },
+      {
+        "line": 41,
+        "token": "hasRole",
+        "text": "Authorization rule: the ADMIN role is required."
+      },
+      {
+        "line": 42,
+        "token": "hasAnyRole",
+        "text": "Authorization rule: TEACHER or ADMIN."
+      },
+      {
+        "line": 43,
+        "token": "anyRequest",
+        "text": "Anything else under the lab path needs an authenticated caller."
+      },
+      {
+        "line": 45,
+        "token": "jwt.decoder(lab.decoder())",
+        "text": "A decoder INSTANCE for the lab key is passed directly, so no second JwtDecoder bean exists."
+      },
+      {
+        "line": 45,
+        "token": "jwtAuthenticationConverter",
+        "text": "The application's own converter: the database lookup of role and enabled flag."
+      },
+      {
+        "line": 46,
+        "token": "authenticationEntryPoint",
+        "text": "The application's own handler writes the 401."
+      },
+      {
+        "line": 47,
+        "token": "accessDeniedHandler",
+        "text": "The application's own handler writes the 403."
+      }
+    ]
+  },
+  {
+    "id": "lab-jwt-service",
+    "title": "LabJwtService: the separate lab key and decoder",
+    "file": "src/main/java/com/springlab/lab/jwt/LabJwtService.java",
+    "startLine": 59,
+    "endLine": 68,
+    "language": "java",
+    "excerpt": "    public LabJwtService() {\n        SecureRandom random = new SecureRandom();\n        this.labKey = randomKey(random);\n        this.labEncoder = new NimbusJwtEncoder(new ImmutableSecret<>(labKey));\n        this.foreignEncoder = new NimbusJwtEncoder(new ImmutableSecret<>(randomKey(random)));\n        // Same decoder class and the same default validators (exp / nbf with 60 s skew) plus an issuer check as the\n        // application's real decoder; only the key and the expected issuer differ.\n        this.labDecoder = NimbusJwtDecoder.withSecretKey(labKey).macAlgorithm(MacAlgorithm.HS256).build();\n        this.labDecoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(LAB_ISSUER));\n    }",
+    "notes": [
+      {
+        "line": 61,
+        "token": "randomKey",
+        "text": "The lab key is random, kept in memory, never configured, logged or returned, and changes on every restart."
+      },
+      {
+        "line": 63,
+        "token": "foreignEncoder",
+        "text": "An unrelated second key signs the 'wrong key' experiment tokens."
+      },
+      {
+        "line": 66,
+        "token": "withSecretKey",
+        "text": "The same decoder class and algorithm as the real decoder, built from the lab key."
+      },
+      {
+        "line": 67,
+        "token": "createDefaultWithIssuer",
+        "text": "The same default validators plus an issuer check, with the lab issuer."
+      }
+    ]
+  },
+  {
+    "id": "lab-secure-controller",
+    "title": "LabSecureController.whoami: what Spring Security made of the token",
+    "file": "src/main/java/com/springlab/lab/jwt/LabSecureController.java",
+    "startLine": 29,
+    "endLine": 36,
+    "language": "java",
+    "excerpt": "    @GetMapping(\"/whoami\")\n    public WhoAmI whoami(@AuthenticationPrincipal Jwt jwt, Authentication authentication) {\n        List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)\n                .sorted().toList();\n        String claim = jwt.getClaimAsString(LabJwtService.ROLE_CLAIM);\n        return new WhoAmI(authentication.getName(), authorities, claim,\n                claim != null && authorities.contains(\"ROLE_\" + claim), jwt.getClaimAsString(\"iss\"));\n    }",
+    "notes": [
+      {
+        "line": 29,
+        "token": "@GetMapping",
+        "text": "GET /api/lab/secure/whoami."
+      },
+      {
+        "line": 30,
+        "token": "@AuthenticationPrincipal",
+        "text": "The validated Jwt of the current Authentication."
+      },
+      {
+        "line": 31,
+        "token": "getAuthorities",
+        "text": "The authorities that Spring Security built for this request (from the database)."
+      },
+      {
+        "line": 33,
+        "token": "getClaimAsString",
+        "text": "The role claim the token carried: reported, not trusted."
+      },
+      {
+        "line": 35,
+        "token": "authorities.contains",
+        "text": "Compares the stored role with the claim to show that they can differ."
+      }
+    ]
+  },
+  {
+    "id": "login-service",
+    "title": "AuthService.login: the username/password path",
+    "file": "src/main/java/com/springlab/service/AuthService.java",
+    "startLine": 62,
+    "endLine": 70,
+    "language": "java",
+    "excerpt": "    @Transactional(readOnly = true)\n    public AuthResponse login(LoginRequest request) {\n        Authentication authentication = authenticationManager.authenticate(\n                UsernamePasswordAuthenticationToken.unauthenticated(request.username(), request.password()));\n        User user = userRepository.findByUsername(authentication.getName())\n                .orElseThrow(() -> new BadCredentialsException(\"User not found\"));\n        JwtService.AccessToken token = jwtService.issueFor(user);\n        return AuthResponse.bearer(token.value(), token.expiresInSeconds());\n    }",
+    "notes": [
+      {
+        "line": 64,
+        "token": "authenticationManager.authenticate",
+        "text": "Login authenticates the submitted password through the AuthenticationManager. This is the login path only."
+      },
+      {
+        "line": 65,
+        "token": "UsernamePasswordAuthenticationToken.unauthenticated",
+        "text": "An unauthenticated token that carries the submitted credentials."
+      },
+      {
+        "line": 68,
+        "token": "jwtService.issueFor",
+        "text": "On success a JWT is issued. Later requests are authenticated from that token, never from the password."
+      }
+    ]
+  },
+  {
+    "id": "user-details-service",
+    "title": "AppUserDetailsService: loading the stored user at login",
+    "file": "src/main/java/com/springlab/security/AppUserDetailsService.java",
+    "startLine": 20,
+    "endLine": 29,
+    "language": "java",
+    "excerpt": "    @Override\n    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {\n        com.springlab.entity.User user = userRepository.findByUsername(username)\n                .orElseThrow(() -> new UsernameNotFoundException(\"User not found\"));\n        return User.withUsername(user.getUsername())\n                .password(user.getPasswordHash())\n                .roles(user.getRole().name()) // adds the ROLE_ prefix\n                .disabled(!user.isEnabled())\n                .build();\n    }",
+    "notes": [
+      {
+        "line": 21,
+        "token": "loadUserByUsername",
+        "text": "Called by DaoAuthenticationProvider during login to load the stored user."
+      },
+      {
+        "line": 22,
+        "token": "findByUsername",
+        "text": "Reads the user, including the password hash, from the database."
+      },
+      {
+        "line": 25,
+        "token": "getPasswordHash",
+        "text": "The stored hash is compared with the submitted password by the PasswordEncoder."
+      },
+      {
+        "line": 26,
+        "token": "roles(",
+        "text": "Adds the ROLE_ prefix to the stored role."
+      },
+      {
+        "line": 27,
+        "token": "disabled",
+        "text": "A disabled account cannot log in."
+      }
+    ]
+  },
+  {
+    "id": "security-beans",
+    "title": "SecurityConfig: PasswordEncoder and the login AuthenticationManager",
+    "file": "src/main/java/com/springlab/config/SecurityConfig.java",
+    "startLine": 56,
+    "endLine": 73,
+    "language": "java",
+    "excerpt": "    /** Delegating encoder: stores \"{bcrypt}$2a$...\" so the algorithm can be upgraded later without a migration. */\n    @Bean\n    public PasswordEncoder passwordEncoder() {\n        return PasswordEncoderFactories.createDelegatingPasswordEncoder();\n    }\n\n    /**\n     * The manager used by the login endpoint, declared explicitly: a ProviderManager with one DaoAuthenticationProvider\n     * (the application's UserDetailsService and PasswordEncoder). Bearer-token requests do not use it.\n     */\n    @Bean\n    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,\n                                                       PasswordEncoder passwordEncoder) {\n        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();\n        provider.setUserDetailsService(userDetailsService);\n        provider.setPasswordEncoder(passwordEncoder);\n        return new ProviderManager(provider);\n    }",
+    "notes": [
+      {
+        "line": 58,
+        "token": "passwordEncoder",
+        "text": "The encoder that verifies password hashes at login."
+      },
+      {
+        "line": 59,
+        "token": "createDelegatingPasswordEncoder",
+        "text": "Delegating encoder: the hash carries its algorithm id, for example {bcrypt}."
+      },
+      {
+        "line": 67,
+        "token": "AuthenticationManager",
+        "text": "The manager used by the login endpoint, declared explicitly."
+      },
+      {
+        "line": 69,
+        "token": "DaoAuthenticationProvider",
+        "text": "The one provider: it checks a username and password."
+      },
+      {
+        "line": 70,
+        "token": "setUserDetailsService",
+        "text": "The provider loads the stored user through the application's UserDetailsService."
+      },
+      {
+        "line": 71,
+        "token": "setPasswordEncoder",
+        "text": "...and checks the submitted password with the application's PasswordEncoder."
+      },
+      {
+        "line": 72,
+        "token": "new ProviderManager",
+        "text": "A plain ProviderManager, so its providers are public API and can be reported without reflection."
+      }
+    ]
+  },
+  {
+    "id": "sql-capture",
+    "title": "CapturingStatementInspector: how SQL text is captured",
+    "file": "src/main/java/com/springlab/lab/sql/CapturingStatementInspector.java",
+    "startLine": 19,
+    "endLine": 30,
+    "language": "java",
+    "excerpt": "public class CapturingStatementInspector implements StatementInspector {\n\n    private static final long serialVersionUID = 1L;\n\n    @Override\n    public String inspect(String sql) {\n        TraceCollector collector = TraceContext.current();\n        if (collector != null) {\n            collector.recordSql(sql);\n        }\n        return sql;\n    }",
+    "notes": [
+      {
+        "line": 19,
+        "token": "StatementInspector",
+        "text": "A Hibernate SPI called with the SQL text of every statement Hibernate is about to prepare."
+      },
+      {
+        "line": 27,
+        "token": "recordSql",
+        "text": "Recorded only while the current thread runs a traced request."
+      },
+      {
+        "line": 29,
+        "token": "return sql",
+        "text": "The statement is returned unchanged, so application behaviour is never altered."
+      }
+    ]
+  },
+  {
+    "id": "open-in-view-config",
+    "title": "application.yml: open-in-view",
+    "file": "src/main/resources/application.yml",
+    "startLine": 11,
+    "endLine": 16,
+    "language": "yaml",
+    "excerpt": "      ddl-auto: validate\n    # Disabled so lazy loading behaves as it would in a real service layer (no session during view rendering).\n    open-in-view: false\n    properties:\n      # Learning lab only: records the SQL text of a request that opted in to tracing; a no-op for every other request.\n      hibernate.session_factory.statement_inspector: com.springlab.lab.sql.CapturingStatementInspector",
+    "notes": [
+      {
+        "line": 13,
+        "token": "open-in-view",
+        "text": "SpringLab sets spring.jpa.open-in-view to false, so no EntityManager stays bound to the thread after the service returns."
+      },
+      {
+        "line": 16,
+        "token": "statement_inspector",
+        "text": "Registers the lab's SQL-text recorder with Hibernate."
+      }
+    ]
+  },
+  {
+    "id": "jpa-employee-owning",
+    "title": "Employee.department: the owning side of the foreign key",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Employee.java",
+    "startLine": 18,
+    "endLine": 20,
+    "language": "java",
+    "excerpt": "    @ManyToOne(fetch = FetchType.LAZY)\n    @JoinColumn(name = \"department_id\")\n    private Department department;",
+    "notes": [
+      {
+        "line": 18,
+        "token": "@ManyToOne",
+        "text": "Many employees reference one department, so this is the many side and the owning side."
+      },
+      {
+        "line": 18,
+        "token": "fetch = FetchType.LAZY",
+        "text": "The department is not loaded with the employee; a proxy stands in for it until it is used."
+      },
+      {
+        "line": 19,
+        "token": "@JoinColumn",
+        "text": "Names the foreign key column that lives in the employee table. Hibernate writes THIS field into department_id."
+      }
+    ]
+  },
+  {
+    "id": "jpa-department-inverse",
+    "title": "Department.employees: the inverse side (mappedBy)",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Department.java",
+    "startLine": 24,
+    "endLine": 25,
+    "language": "java",
+    "excerpt": "    @OneToMany(mappedBy = \"department\")\n    private List<Employee> employees = new ArrayList<>();",
+    "notes": [
+      {
+        "line": 24,
+        "token": "mappedBy",
+        "text": "Says the foreign key is owned by Employee.department. Changing this list never writes a foreign key."
+      },
+      {
+        "line": 25,
+        "token": "employees",
+        "text": "A normal Java list. Hibernate loads it lazily and does not keep it in sync with the other side for you."
+      }
+    ]
+  },
+  {
+    "id": "jpa-department-helper",
+    "title": "Department.addEmployee: keeping both sides consistent",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Department.java",
+    "startLine": 55,
+    "endLine": 58,
+    "language": "java",
+    "excerpt": "    public void addEmployee(Employee employee) {\n        employees.add(employee);\n        employee.setDepartment(this);\n    }",
+    "notes": [
+      {
+        "line": 56,
+        "token": "employees.add(employee)",
+        "text": "Updates the inverse side so the object graph in memory is consistent."
+      },
+      {
+        "line": 57,
+        "token": "employee.setDepartment(this)",
+        "text": "Updates the owning side, which is the only change that writes the foreign key."
+      }
+    ]
+  },
+  {
+    "id": "jpa-profile-one-to-one",
+    "title": "Profile.account: a one-to-one owning side",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Profile.java",
+    "startLine": 17,
+    "endLine": 19,
+    "language": "java",
+    "excerpt": "    @OneToOne\n    @JoinColumn(name = \"account_id\", nullable = false, unique = true)\n    private Account account;",
+    "notes": [
+      {
+        "line": 17,
+        "token": "@OneToOne",
+        "text": "One profile belongs to exactly one account."
+      },
+      {
+        "line": 18,
+        "token": "unique = true",
+        "text": "Creates the UNIQUE constraint on account_id; without it the schema would allow many profiles per account."
+      },
+      {
+        "line": 18,
+        "token": "@JoinColumn",
+        "text": "The foreign key column is in the profile table, so Profile owns the association."
+      }
+    ]
+  },
+  {
+    "id": "jpa-account-inverse",
+    "title": "Account.profile: the inverse side of the one-to-one",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Account.java",
+    "startLine": 16,
+    "endLine": 17,
+    "language": "java",
+    "excerpt": "    @OneToOne(mappedBy = \"account\")\n    private Profile profile;",
+    "notes": [
+      {
+        "line": 16,
+        "token": "mappedBy",
+        "text": "Account has no column for the profile; it only mirrors the association owned by Profile.account."
+      }
+    ]
+  },
+  {
+    "id": "jpa-student-join-table",
+    "title": "Student.courses: the owning side of a many-to-many",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Student.java",
+    "startLine": 21,
+    "endLine": 25,
+    "language": "java",
+    "excerpt": "    @ManyToMany\n    @JoinTable(name = \"jpa_lab_enrollment\",\n            joinColumns = @JoinColumn(name = \"student_id\"),\n            inverseJoinColumns = @JoinColumn(name = \"course_id\"))\n    private Set<Course> courses = new LinkedHashSet<>();",
+    "notes": [
+      {
+        "line": 21,
+        "token": "@ManyToMany",
+        "text": "Many students, many courses: stored in a third table."
+      },
+      {
+        "line": 22,
+        "token": "@JoinTable",
+        "text": "Declares the join table and makes this side the owner."
+      },
+      {
+        "line": 23,
+        "token": "joinColumns",
+        "text": "The join table column that references THIS entity (the student)."
+      },
+      {
+        "line": 24,
+        "token": "inverseJoinColumns",
+        "text": "The join table column that references the OTHER entity (the course)."
+      }
+    ]
+  },
+  {
+    "id": "jpa-course-inverse",
+    "title": "Course.students: the inverse side of the many-to-many",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Course.java",
+    "startLine": 19,
+    "endLine": 20,
+    "language": "java",
+    "excerpt": "    @ManyToMany(mappedBy = \"courses\")\n    private Set<Student> students = new LinkedHashSet<>();",
+    "notes": [
+      {
+        "line": 19,
+        "token": "mappedBy",
+        "text": "Points at Student.courses. Changing this set alone writes nothing to the join table."
+      }
+    ]
+  },
+  {
+    "id": "jpa-project-cascade",
+    "title": "Project.tasks: cascade ALL without orphanRemoval",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Project.java",
+    "startLine": 20,
+    "endLine": 21,
+    "language": "java",
+    "excerpt": "    @OneToMany(mappedBy = \"project\", cascade = CascadeType.ALL)\n    private List<Task> tasks = new ArrayList<>();",
+    "notes": [
+      {
+        "line": 20,
+        "token": "cascade = CascadeType.ALL",
+        "text": "persist, merge, remove, refresh and detach on the project are applied to its tasks too."
+      },
+      {
+        "line": 20,
+        "token": "mappedBy",
+        "text": "The collection is the inverse side: removing a task from the list writes no SQL by itself."
+      }
+    ]
+  },
+  {
+    "id": "jpa-team-orphan-removal",
+    "title": "Team.members: cascade ALL with orphanRemoval",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Team.java",
+    "startLine": 20,
+    "endLine": 21,
+    "language": "java",
+    "excerpt": "    @OneToMany(mappedBy = \"team\", cascade = CascadeType.ALL, orphanRemoval = true)\n    private List<Member> members = new ArrayList<>();",
+    "notes": [
+      {
+        "line": 20,
+        "token": "orphanRemoval = true",
+        "text": "A member removed from this collection is deleted. This is separate from cascade REMOVE, which reacts to deleting the team."
+      },
+      {
+        "line": 20,
+        "token": "cascade = CascadeType.ALL",
+        "text": "Operations on the team also apply to its members."
+      }
+    ]
+  },
+  {
+    "id": "jpa-task-eager-default",
+    "title": "Task.project: the default fetch type of @ManyToOne",
+    "file": "src/main/java/com/springlab/lab/jpa/entity/Task.java",
+    "startLine": 20,
+    "endLine": 22,
+    "language": "java",
+    "excerpt": "    @ManyToOne\n    @JoinColumn(name = \"project_id\")\n    private Project project;",
+    "notes": [
+      {
+        "line": 20,
+        "token": "@ManyToOne",
+        "text": "No fetch attribute is written, so the Jakarta Persistence default applies: EAGER."
+      },
+      {
+        "line": 21,
+        "token": "@JoinColumn",
+        "text": "project_id is the foreign key in the task table."
+      }
+    ]
+  },
+  {
+    "id": "jpa-department-repository",
+    "title": "DepartmentRepository: three ways to load the same departments",
+    "file": "src/main/java/com/springlab/lab/jpa/DepartmentRepository.java",
+    "startLine": 14,
+    "endLine": 25,
+    "language": "java",
+    "excerpt": "    /** Plain query: employees are LAZY, so touching them later costs one extra query per department (N+1). */\n    @Query(\"select d from Department d where d.runKey = :runKey and d.name like :prefix order by d.id\")\n    List<Department> findForRun(@Param(\"runKey\") String runKey, @Param(\"prefix\") String prefix);\n\n    /** Fetch join in JPQL: departments and employees in one statement. */\n    @Query(\"select distinct d from Department d join fetch d.employees where d.runKey = :runKey and d.name like :prefix order by d.id\")\n    List<Department> findForRunWithEmployeesJoinFetch(@Param(\"runKey\") String runKey, @Param(\"prefix\") String prefix);\n\n    /** Same result through an EntityGraph attached to the query method. */\n    @EntityGraph(attributePaths = \"employees\")\n    @Query(\"select d from Department d where d.runKey = :runKey and d.name like :prefix order by d.id\")\n    List<Department> findForRunWithEmployeesGraph(@Param(\"runKey\") String runKey, @Param(\"prefix\") String prefix);",
+    "notes": [
+      {
+        "line": 15,
+        "token": "@Query",
+        "text": "A plain JPQL query: the employees stay lazy."
+      },
+      {
+        "line": 19,
+        "token": "join fetch",
+        "text": "A fetch join loads the departments and their employees in one statement."
+      },
+      {
+        "line": 23,
+        "token": "@EntityGraph",
+        "text": "An entity graph asks for the same association to be fetched without changing the JPQL."
+      }
+    ]
+  },
+  {
+    "id": "jpa-lab-sql-capture",
+    "title": "JpaLabService.run: how the lab observes real Hibernate statements",
+    "file": "src/main/java/com/springlab/lab/jpa/JpaLabService.java",
+    "startLine": 98,
+    "endLine": 111,
+    "language": "java",
+    "excerpt": "        TraceCollector collector = new TraceCollector();\n        ExperimentRecorder recorder = new ExperimentRecorder(collector);\n        ExperimentContext context = new ExperimentContext(entityManager, jdbc, transactionManager, runKey, recorder);\n        long started = System.nanoTime();\n        TraceContext.bind(collector);\n        try {\n            experiment.run(context);\n        } catch (Exception e) {\n            log.warn(\"JPA lab experiment {} failed: {}\", experimentId, e.getClass().getSimpleName());\n            throw new IllegalStateException(\"The experiment could not be completed\", e);\n        } finally {\n            TraceContext.clear();\n            try {\n                cleanup(runKey);",
+    "notes": [
+      {
+        "line": 98,
+        "token": "new TraceCollector()",
+        "text": "The same collector the other modules use; one per run and never shared between threads."
+      },
+      {
+        "line": 102,
+        "token": "TraceContext.bind(collector)",
+        "text": "From here, every statement Hibernate prepares on this thread is recorded by the StatementInspector."
+      },
+      {
+        "line": 109,
+        "token": "TraceContext.clear()",
+        "text": "The collector is unbound before cleanup, so cleanup statements are never recorded."
+      },
+      {
+        "line": 111,
+        "token": "cleanup(runKey)",
+        "text": "Deletes exactly the rows this run created, whatever happened."
+      }
+    ]
+  },
+  {
+    "id": "jpa-recorder-live",
+    "title": "ExperimentRecorder.live: attributing statements to the step that caused them",
+    "file": "src/main/java/com/springlab/lab/jpa/ExperimentRecorder.java",
+    "startLine": 54,
+    "endLine": 59,
+    "language": "java",
+    "excerpt": "    public void live(String id, String title, List<String> nodes, String edgeFrom, String edgeTo, String explanation,\n                     String codeRefId, Action action) throws Exception {\n        mark = collector.sqlCount();\n        List<Evidence> evidence = action.run();\n        add(id, title, nodes, edgeFrom, edgeTo, Provenance.CAPTURED, explanation, evidence, codeRefId);\n    }",
+    "notes": [
+      {
+        "line": 56,
+        "token": "mark = collector.sqlCount()",
+        "text": "Remembers how many statements existed before the action."
+      },
+      {
+        "line": 57,
+        "token": "action.run()",
+        "text": "The real action runs here (persist, flush, a query, ...)."
+      },
+      {
+        "line": 58,
+        "token": "Provenance.CAPTURED",
+        "text": "Statements prepared while the action ran are attached to this step and labelled LIVE."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-connection-acquire",
+    "title": "Getting a connection and asking MySQL which session it is",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcFundamentalsExperiments.java",
+    "startLine": 35,
+    "endLine": 36,
+    "language": "java",
+    "excerpt": "                    s.connection = c.open(\"A\");\n                    s.session = JdbcExperimentContext.sessionId(s.connection);",
+    "notes": [
+      {
+        "line": 35,
+        "token": "c.open(\"A\")",
+        "text": "The experiment asks the application's pooled DataSource for a connection (captured, so its calls are recorded)."
+      },
+      {
+        "line": 36,
+        "token": "sessionId",
+        "text": "A fixed query on the same physical session returns MySQL's connection_id(): it identifies the session, not the Java object."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-prepared-statement",
+    "title": "PreparedStatement: placeholders, binding, execution",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcStatementExperiments.java",
+    "startLine": 86,
+    "endLine": 96,
+    "language": "java",
+    "excerpt": "                    s.statement = s.connection.prepareStatement(sql);\n                    return List.of(ev(\"Placeholders in the statement\", s.statement.getParameterMetaData().getParameterCount()));\n                });\n        c.rec.live(\"first-execution\", \"Bind parameters, executeQuery()\", nodes(\"statement\", \"database\", \"resultSet\"), \"statement\", \"database\",\n                \"setString(1, ...) and setString(2, ...) bind values to the placeholders (1-based). The values are not shown anywhere in the lab's trace.\",\n                \"jdbc-prepared-statement\", () -> {\n                    s.statement.setString(1, c.runKey);\n                    s.statement.setString(2, \"Ada\");\n                    int rows = 0;\n                    try (ResultSet rs = s.statement.executeQuery()) {\n                        while (rs.next()) {",
+    "notes": [
+      {
+        "line": 86,
+        "token": "prepareStatement(sql)",
+        "text": "The SQL text contains ? placeholders and no values."
+      },
+      {
+        "line": 92,
+        "token": "setString(1, c.runKey)",
+        "text": "Values are bound separately, by 1-based position. They are never part of the SQL text."
+      },
+      {
+        "line": 95,
+        "token": "executeQuery()",
+        "text": "Executes the statement with the bound values and returns a ResultSet."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-commit-rollback",
+    "title": "commit() or rollback() ends the transaction",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcTransactionExperiments.java",
+    "startLine": 140,
+    "endLine": 144,
+    "language": "java",
+    "excerpt": "                    if (commit) {\n                        s.a.commit();\n                    } else {\n                        s.a.rollback();\n                    }",
+    "notes": [
+      {
+        "line": 141,
+        "token": "s.a.commit()",
+        "text": "Makes every statement of the transaction permanent together."
+      },
+      {
+        "line": 143,
+        "token": "s.a.rollback()",
+        "text": "Discards every statement of the transaction, including ones whose executeUpdate returned normally."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-savepoint-set",
+    "title": "setAutoCommit(false) and setSavepoint",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcTransactionExperiments.java",
+    "startLine": 213,
+    "endLine": 216,
+    "language": "java",
+    "excerpt": "                    s.a.setAutoCommit(false);\n                    s.before = JdbcExperimentContext.counters(s.a);\n                    update(s.a, c.runKey, \"Alice\", \"-10.00\");\n                    s.savepoint = s.a.setSavepoint(\"after_first_update\");",
+    "notes": [
+      {
+        "line": 213,
+        "token": "setAutoCommit(false)",
+        "text": "Starts a transaction scope: statements are now grouped until commit() or rollback()."
+      },
+      {
+        "line": 216,
+        "token": "setSavepoint",
+        "text": "Names a point inside the transaction that can be rolled back to later."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-savepoint-rollback",
+    "title": "rollback(savepoint)",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcTransactionExperiments.java",
+    "startLine": 227,
+    "endLine": 227,
+    "language": "java",
+    "excerpt": "                    s.a.rollback(s.savepoint);",
+    "notes": [
+      {
+        "line": 227,
+        "token": "s.a.rollback(s.savepoint)",
+        "text": "Undoes only the work after the savepoint; the transaction stays open."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-batch",
+    "title": "addBatch and executeBatch",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcCrudExperiments.java",
+    "startLine": 144,
+    "endLine": 150,
+    "language": "java",
+    "excerpt": "                    PreparedStatement ps = s.connection.prepareStatement(\"insert into jdbc_lab_batch_records (run_key, label) values (?, ?)\");\n                    for (int i = 1; i <= 5; i++) {\n                        ps.setString(1, c.runKey);\n                        ps.setString(2, \"record \" + i);\n                        ps.addBatch();\n                    }\n                    s.counts = ps.executeBatch();",
+    "notes": [
+      {
+        "line": 144,
+        "token": "prepareStatement",
+        "text": "One statement text, prepared once."
+      },
+      {
+        "line": 148,
+        "token": "ps.addBatch()",
+        "text": "Stores the current parameter set; nothing is sent yet."
+      },
+      {
+        "line": 150,
+        "token": "ps.executeBatch()",
+        "text": "Sends the stored parameter sets and returns one update count per set."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-lab-pool",
+    "title": "A dedicated, bounded HikariCP pool for one experiment",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcConnections.java",
+    "startLine": 45,
+    "endLine": 55,
+    "language": "java",
+    "excerpt": "    public HikariDataSource newLabPool(String name, int maximumPoolSize, int minimumIdle, long connectionTimeoutMillis) {\n        HikariConfig config = new HikariConfig();\n        config.setPoolName(name);\n        config.setJdbcUrl(url);\n        config.setUsername(username);\n        config.setPassword(password);\n        config.setMaximumPoolSize(maximumPoolSize);\n        config.setMinimumIdle(minimumIdle);\n        config.setConnectionTimeout(connectionTimeoutMillis);\n        config.setRegisterMbeans(false);\n        return new HikariDataSource(config);",
+    "notes": [
+      {
+        "line": 45,
+        "token": "newLabPool",
+        "text": "Creates a pool that belongs to ONE run and is closed when it ends; the application's own pool is never changed."
+      },
+      {
+        "line": 51,
+        "token": "setMaximumPoolSize",
+        "text": "The ceiling on how many connections this pool may hold."
+      },
+      {
+        "line": 53,
+        "token": "setConnectionTimeout",
+        "text": "How long a caller waits for a free connection before getting an exception."
+      }
+    ]
+  },
+  {
+    "id": "spring-jdbc-template",
+    "title": "JdbcTemplate with a RowMapper",
+    "file": "src/main/java/com/springlab/lab/jdbc/SpringJdbcExperiments.java",
+    "startLine": 75,
+    "endLine": 82,
+    "language": "java",
+    "excerpt": "        RowMapper<CustomerRow> mapper = (rs, rowNum) -> new CustomerRow(rs.getLong(\"id\"), rs.getString(\"name\"));\n        c.rec.live(\"template-query\", \"JdbcTemplate.query(sql, rowMapper, args)\", nodes(\"service\", \"jdbcTemplate\", \"dataSource\", \"driver\", \"database\"),\n                \"service\", \"jdbcTemplate\",\n                \"The template gets a connection from the DataSource, prepares the statement, binds the arguments, executes it, calls the RowMapper \"\n                        + \"once per row, and then closes the ResultSet, the statement and the connection. The JDBC calls observed below are the ones it \"\n                        + \"made for you.\",\n                \"spring-jdbc-template\", () -> {\n                    List<CustomerRow> rows = template.query(sql, mapper, c.runKey);",
+    "notes": [
+      {
+        "line": 75,
+        "token": "RowMapper<CustomerRow> mapper",
+        "text": "Maps ONE row to a Java object; the template calls it once per row."
+      },
+      {
+        "line": 82,
+        "token": "template.query(sql, mapper, c.runKey)",
+        "text": "One call: connection, statement, binding, execution, iteration and closing are done by the template."
+      }
+    ]
+  },
+  {
+    "id": "spring-tx-template",
+    "title": "TransactionTemplate over JdbcTemplate",
+    "file": "src/main/java/com/springlab/lab/jdbc/SpringJdbcExperiments.java",
+    "startLine": 187,
+    "endLine": 190,
+    "language": "java",
+    "excerpt": "                    tx.executeWithoutResult(status -> {\n                        active[0] = TransactionSynchronizationManager.isActualTransactionActive();\n                        template.update(\"update jdbc_lab_accounts set balance = balance - 30 where run_key = ? and owner = ?\", c.runKey, \"Alice\");\n                        template.update(\"update jdbc_lab_accounts set balance = balance + 30 where run_key = ? and owner = ?\", c.runKey, \"Bob\");",
+    "notes": [
+      {
+        "line": 187,
+        "token": "tx.executeWithoutResult",
+        "text": "Spring opens the transaction, runs the callback, then commits or (on an exception) rolls back."
+      },
+      {
+        "line": 189,
+        "token": "template.update",
+        "text": "Both updates reuse the one connection the transaction manager bound to the thread."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-path-plain",
+    "title": "Path A: plain JDBC",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcComparisonExperiments.java",
+    "startLine": 41,
+    "endLine": 44,
+    "language": "java",
+    "excerpt": "                    try (Connection connection = c.open(\"JDBC\");\n                         PreparedStatement ps = connection.prepareStatement(\"select name from jdbc_lab_customers where id = ?\")) {\n                        ps.setLong(1, id);\n                        try (ResultSet rs = ps.executeQuery()) {",
+    "notes": [
+      {
+        "line": 42,
+        "token": "prepareStatement",
+        "text": "You write the SQL and manage the PreparedStatement."
+      },
+      {
+        "line": 43,
+        "token": "ps.setLong(1, id)",
+        "text": "You bind every parameter."
+      },
+      {
+        "line": 44,
+        "token": "executeQuery()",
+        "text": "You iterate and read the ResultSet yourself."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-path-spring",
+    "title": "Path B: JdbcTemplate",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcComparisonExperiments.java",
+    "startLine": 51,
+    "endLine": 52,
+    "language": "java",
+    "excerpt": "                    JdbcTemplate template = new JdbcTemplate(c.capturingDataSource(\"Spring\"));\n                    String name = template.queryForObject(\"select name from jdbc_lab_customers where id = ?\", String.class, id);",
+    "notes": [
+      {
+        "line": 52,
+        "token": "template.queryForObject",
+        "text": "Still your SQL, but resources and exceptions are handled by the template."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-path-jpa",
+    "title": "Path C: EntityManager.find",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcComparisonExperiments.java",
+    "startLine": 59,
+    "endLine": 60,
+    "language": "java",
+    "excerpt": "                    TransactionStatus tx = c.jpaTransactions.getTransaction(new DefaultTransactionDefinition());\n                    JdbcLabCustomer customer = c.em.find(JdbcLabCustomer.class, id);",
+    "notes": [
+      {
+        "line": 60,
+        "token": "c.em.find",
+        "text": "No SQL is written: Hibernate generates it from the entity mapping and runs it through JDBC."
+      }
+    ]
+  },
+  {
+    "id": "hibernate-do-work",
+    "title": "Session.doWork exposes Hibernate's JDBC connection",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcComparisonExperiments.java",
+    "startLine": 172,
+    "endLine": 175,
+    "language": "java",
+    "excerpt": "                    c.em.unwrap(Session.class).doWork(connection -> {\n                        seen[0] = connection.getClass().getSimpleName();\n                        seen[1] = connection.getMetaData().getDriverName();\n                    });",
+    "notes": [
+      {
+        "line": 172,
+        "token": "doWork",
+        "text": "Hands out the java.sql.Connection Hibernate itself uses."
+      },
+      {
+        "line": 173,
+        "token": "connection.getClass()",
+        "text": "It is an ordinary pooled JDBC connection: Hibernate talks to MySQL through JDBC."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-capture-execute",
+    "title": "How the lab observes JDBC calls",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcCapture.java",
+    "startLine": 116,
+    "endLine": 137,
+    "language": "java",
+    "excerpt": "        Object result;\n        try {\n            result = method.invoke(target, args);\n        } catch (InvocationTargetException e) {\n            log.add(label, \"EXECUTE\", clean(sql), kind + \" failed: \" + describe(e.getCause()));\n            throw e.getCause();\n        }\n        String detail;\n        if (name.equals(\"executeQuery\")) {\n            detail = kind + \" returned a ResultSet\";\n        } else if (name.equals(\"execute\")) {\n            detail = kind + \" returned \" + result + (Boolean.TRUE.equals(result) ? \" (a ResultSet is available)\" : \" (an update count is available)\");\n        } else if (name.contains(\"Batch\")) {\n            int[] counts = result instanceof int[] ints ? ints : Arrays.stream((long[]) result).mapToInt(l -> (int) l).toArray();\n            detail = kind + \" sent \" + state.batched + \" statements, update counts \" + Arrays.toString(counts);\n            state.batched = 0;\n            state.batchSql.clear();\n        } else {\n            detail = kind + \" affected \" + result + \" row(s)\";\n        }\n        log.add(label, \"EXECUTE\", clean(sql), detail);\n        return result;",
+    "notes": [
+      {
+        "line": 118,
+        "token": "method.invoke(target, args)",
+        "text": "The call is forwarded unchanged to the real driver object; nothing is faked."
+      },
+      {
+        "line": 120,
+        "token": "EXECUTE",
+        "text": "A failed execution is recorded too, with the exception class (never the message)."
+      },
+      {
+        "line": 136,
+        "token": "log.add(label, \"EXECUTE\", clean(sql), detail)",
+        "text": "The SQL text (placeholders) and what the call returned are recorded; bound values never are."
+      }
+    ]
+  },
+  {
+    "id": "jdbc-service-run",
+    "title": "How a run is isolated and cleaned up",
+    "file": "src/main/java/com/springlab/lab/jdbc/JdbcLabService.java",
+    "startLine": 99,
+    "endLine": 113,
+    "language": "java",
+    "excerpt": "        int removed;\n        TraceContext.bind(hibernate); // the JPA path of the comparison experiments is observed with the existing inspector\n        try {\n            experiment.run(context);\n        } catch (Exception e) {\n            log.warn(\"JDBC lab experiment {} failed: {}\", experimentId, e.getClass().getSimpleName());\n            throw new IllegalStateException(\"The experiment could not be completed\", e);\n        } finally {\n            TraceContext.clear();\n            try {\n                context.closeEverything();\n            } finally {\n                try {\n                    removed = cleanup(runKey);\n                } finally {",
+    "notes": [
+      {
+        "line": 100,
+        "token": "TraceContext.bind(hibernate)",
+        "text": "The existing SQL inspector observes the JPA path of the comparison experiments."
+      },
+      {
+        "line": 109,
+        "token": "context.closeEverything()",
+        "text": "Connections and the lab pool are closed whatever happened."
+      },
+      {
+        "line": 112,
+        "token": "removed = cleanup(runKey)",
+        "text": "Only the rows of THIS run (by its random key) are removed, child tables first; the count is reported."
+      }
+    ]
+  },
+  {
+    "id": "micro-bus-call",
+    "title": "ServiceBus.call: where a call succeeds, fails, times out or is rejected",
+    "file": "src/main/java/com/springlab/lab/micro/core/ServiceBus.java",
+    "startLine": 189,
+    "endLine": 241,
+    "language": "java",
+    "excerpt": "        Bulkheads.Permit permit = bulkheads.tryAcquire(target);\n        if (permit == null) {\n            outcome = Outcome.BULKHEAD_REJECTED;\n            code = \"BULKHEAD_FULL\";\n            own = 0;\n        } else {\n            try {\n                Applied applied = behaviours.next(target, options.instance());\n                if (applied.mode() == Mode.DOWN) {\n                    outcome = Outcome.UNAVAILABLE;\n                    code = \"CONNECTION_REFUSED\";\n                    own = 1;\n                } else if (applied.mode() == Mode.REQUEST_LOST) {\n                    outcome = Outcome.TIMEOUT;\n                    code = \"REQUEST_LOST\";\n                    own = options.timeoutMillis();\n                } else {\n                    if (applied.mode() == Mode.DELAYED) {\n                        own += applied.delayMillis();\n                    }\n                    outcome = Outcome.SUCCESS;\n                    frames.push(frame);\n                    try {\n                        if (applied.mode() == Mode.ERROR) {\n                            throw new SimulatedFault(\"injected fault\");\n                        }\n                        invoked = true;\n                        ServiceResult<R> result = handler.handle(new CallContext(target, correlation, frame.spanId, this), request);\n                        if (result.ok()) {\n                            value = result.value();\n                        } else {\n                            outcome = Outcome.BUSINESS_FAILURE;\n                            code = result.code();\n                        }\n                    } catch (RuntimeException e) {\n                        outcome = Outcome.TECHNICAL_ERROR;\n                        code = e.getClass().getSimpleName(); // the class only: a message could contain data\n                        value = null;\n                    } finally {\n                        frames.pop();\n                    }\n                    if (outcome != Outcome.TECHNICAL_ERROR || invoked) {\n                        long total = own + frame.childMillis;\n                        if (total > options.timeoutMillis()) {\n                            outcome = Outcome.TIMEOUT;\n                            code = \"RESPONSE_TOO_SLOW\";\n                            value = null;\n                            own = options.timeoutMillis() - frame.childMillis;\n                        }\n                    }\n                }\n            } finally {\n                permit.close();",
+    "notes": [
+      {
+        "line": 189,
+        "token": "bulkheads.tryAcquire(target)",
+        "text": "A call needs a permit of the TARGET service. Without one it is rejected here and never reaches the handler."
+      },
+      {
+        "line": 197,
+        "token": "Mode.DOWN",
+        "text": "UNAVAILABLE: the connection is refused, the request is never processed."
+      },
+      {
+        "line": 201,
+        "token": "Mode.REQUEST_LOST",
+        "text": "The request is lost: the caller times out although nothing was done."
+      },
+      {
+        "line": 216,
+        "token": "handler.handle(",
+        "text": "The handler runs as ordinary Java code with its own local database transaction."
+      },
+      {
+        "line": 232,
+        "token": "total > options.timeoutMillis()",
+        "text": "A slow answer becomes a TIMEOUT for the caller even though the handler already finished its work."
+      }
+    ]
+  },
+  {
+    "id": "micro-bulkhead",
+    "title": "Bulkheads: bounded concurrency permits per service",
+    "file": "src/main/java/com/springlab/lab/micro/core/Bulkheads.java",
+    "startLine": 74,
+    "endLine": 79,
+    "language": "java",
+    "excerpt": "    public Permit tryAcquire(ServiceName target) {\n        Semaphore s = semaphoreOf(target);\n        if (s == null) {\n            return new Permit(null);\n        }\n        return s.tryAcquire() ? new Permit(s) : null;",
+    "notes": [
+      {
+        "line": 75,
+        "token": "semaphoreOf(target)",
+        "text": "PER_SERVICE gives every service its own Semaphore, SHARED gives all services one."
+      },
+      {
+        "line": 79,
+        "token": "s.tryAcquire()",
+        "text": "A real, non-blocking Semaphore permit. null means the target is saturated."
+      }
+    ]
+  },
+  {
+    "id": "micro-inventory-reserve",
+    "title": "Inventory: one local transaction decides the reservation",
+    "file": "src/main/java/com/springlab/lab/micro/inventory/InventoryService.java",
+    "startLine": 74,
+    "endLine": 93,
+    "language": "java",
+    "excerpt": "    ServiceResult<Reservation> reserve(CallContext context, Reserve request) {\n        if (request.quantity() <= 0) {\n            return ServiceResult.failure(\"INVALID_QUANTITY\");\n        }\n        return db.local(ServiceName.INVENTORY, () -> {\n            Optional<ReservationRow> existing = repository.findReservation(request.orderRef());\n            if (existing.isPresent()) {\n                if (\"RELEASED\".equals(existing.get().status())) {\n                    return ServiceResult.failure(\"RESERVATION_RELEASED\");\n                }\n                return ServiceResult.ok(new Reservation(existing.get().id(), repository.available(request.productRef()), true));\n            }\n            if (repository.decrement(request.productRef(), request.quantity()) == 0) {\n                return ServiceResult.failure(repository.stockExists(request.productRef()) ? \"OUT_OF_STOCK\" : \"UNKNOWN_PRODUCT\");\n            }\n            repository.insertReservation(request.orderRef(), request.productRef(), request.quantity());\n            long id = repository.findReservation(request.orderRef()).orElseThrow().id();\n            return ServiceResult.ok(new Reservation(id, repository.available(request.productRef()), false));\n        });\n    }",
+    "notes": [
+      {
+        "line": 78,
+        "token": "db.local(ServiceName.INVENTORY",
+        "text": "The Inventory service commits its own short local transaction. No other service takes part in it."
+      },
+      {
+        "line": 79,
+        "token": "findReservation",
+        "text": "Idempotent: asking again for the same order returns the existing reservation."
+      },
+      {
+        "line": 86,
+        "token": "repository.decrement",
+        "text": "A guarded UPDATE (available >= quantity) takes the stock atomically; 0 rows changed means not enough."
+      },
+      {
+        "line": 87,
+        "token": "OUT_OF_STOCK",
+        "text": "A BUSINESS refusal: the service answered normally, it is not a failure of the service."
+      }
+    ]
+  },
+  {
+    "id": "micro-run-execute",
+    "title": "A run executes at most once: compare-and-set on its state",
+    "file": "src/main/java/com/springlab/lab/micro/run/MicroRunService.java",
+    "startLine": 127,
+    "endLine": 145,
+    "language": "java",
+    "excerpt": "    public RunView execute(String owner, String runId) {\n        RunRow row = require(owner, runId);\n        if (row.state() == RunState.EXECUTING) {\n            throw new BusinessRuleViolationException(\"This run is already executing.\");\n        }\n        if (row.state().isFinished()) {\n            return view(row);\n        }\n        MicroExperiment experiment = experiments.get(row.experimentId());\n        if (experiment == null) {\n            throw new ResourceNotFoundException(\"Unknown experiment\");\n        }\n        acquireSlot();\n        try {\n            if (!store.transition(row.runKey(), owner, RunState.CREATED, RunState.EXECUTING)) {\n                RunRow now = require(owner, runId); // somebody else moved it first\n                if (now.state().isFinished()) {\n                    return view(now);\n                }",
+    "notes": [
+      {
+        "line": 132,
+        "token": "isFinished()",
+        "text": "A finished run returns its stored result and executes nothing."
+      },
+      {
+        "line": 141,
+        "token": "store.transition(row.runKey(), owner, RunState.CREATED, RunState.EXECUTING)",
+        "text": "The database decides which concurrent request wins the move CREATED to EXECUTING; the others get the stored result or a 409."
+      }
+    ]
+  },
+  {
+    "id": "micro-service-boundary",
+    "title": "A service can register only its own operations",
+    "file": "src/main/java/com/springlab/lab/micro/core/HandlerRegistry.java",
+    "startLine": 32,
+    "endLine": 35,
+    "language": "java",
+    "excerpt": "        public <Q, R> void on(Operation<Q, R> operation, ServiceHandler<Q, R> handler) {\n            if (operation.service() != owner) {\n                throw new IllegalStateException(owner.id() + \" may not implement \" + operation + \", which belongs to \" + operation.service().id());\n            }",
+    "notes": [
+      {
+        "line": 33,
+        "token": "operation.service() != owner",
+        "text": "Another service's contract operation cannot be implemented or hijacked from outside that service."
+      }
+    ]
+  },
+  {
+    "id": "micro-local-transaction",
+    "title": "Every service gets its own connections and transaction manager",
+    "file": "src/main/java/com/springlab/lab/micro/run/RunContext.java",
+    "startLine": 151,
+    "endLine": 153,
+    "language": "java",
+    "excerpt": "    synchronized TransactionTemplate transaction(String label) {\n        return transactions.computeIfAbsent(label, s -> new TransactionTemplate(new DataSourceTransactionManager(guarded(s))));\n    }",
+    "notes": [
+      {
+        "line": 152,
+        "token": "new DataSourceTransactionManager",
+        "text": "One transaction manager per service, so a call from one service into another opens a second, independent transaction."
+      }
+    ]
+  },
+  {
+    "id": "micro-monolith-tx",
+    "title": "The monolith: one database transaction for the whole workflow",
+    "file": "src/main/java/com/springlab/lab/micro/monolith/MonolithOrderWorkflow.java",
+    "startLine": 37,
+    "endLine": 70,
+    "language": "java",
+    "excerpt": "    public Placed place(long userRef, long productRef, int quantity, boolean failAfterReserve) {\n        return db.localFor(LABEL, () -> {\n            JdbcTemplate t = db.templateFor(LABEL);\n            String run = db.runKey();\n            BigDecimal credit = one(t, \"select credit_limit from micro_lab_users where run_key = ? and id = ?\", run, userRef);\n            BigDecimal price = one(t, \"select price from micro_lab_products where run_key = ? and id = ?\", run, productRef);\n            BigDecimal total = price.multiply(BigDecimal.valueOf(quantity));\n            if (total.compareTo(credit) > 0) {\n                throw new IllegalStateException(\"CREDIT_LIMIT_EXCEEDED\");\n            }\n            KeyHolder keys = new GeneratedKeyHolder();\n            t.update(connection -> {\n                PreparedStatement ps = connection.prepareStatement(\n                        \"insert into micro_lab_orders (run_key, user_ref, product_ref, quantity, status) values (?, ?, ?, ?, ?)\", Statement.RETURN_GENERATED_KEYS);\n                ps.setString(1, run);\n                ps.setLong(2, userRef);\n                ps.setLong(3, productRef);\n                ps.setInt(4, quantity);\n                ps.setString(5, \"PENDING\");\n                return ps;\n            }, keys);\n            long orderRef = keys.getKey().longValue();\n            int taken = t.update(\"update micro_lab_stock set available = available - ? where run_key = ? and product_ref = ? and available >= ?\",\n                    quantity, run, productRef, quantity);\n            if (taken == 0) {\n                throw new IllegalStateException(\"OUT_OF_STOCK\");\n            }\n            t.update(\"insert into micro_lab_reservations (run_key, order_ref, stock_id, quantity, status) select ?, ?, id, ?, ? from micro_lab_stock \"\n                    + \"where run_key = ? and product_ref = ?\", run, orderRef, quantity, \"RESERVED\", run, productRef);\n            if (failAfterReserve) {\n                throw new IllegalStateException(\"injected failure after the stock reservation\");\n            }\n            t.update(\"update micro_lab_orders set status = ? where run_key = ? and id = ?\", \"PLACED\", run, orderRef);\n            return new Placed(orderRef, total);",
+    "notes": [
+      {
+        "line": 38,
+        "token": "db.localFor(LABEL",
+        "text": "One transaction covers users, products, stock, reservations and orders."
+      },
+      {
+        "line": 59,
+        "token": "update micro_lab_stock",
+        "text": "The stock is taken inside the same transaction as the order row."
+      },
+      {
+        "line": 66,
+        "token": "if (failAfterReserve)",
+        "text": "An exception here rolls back EVERYTHING, including the stock already taken."
+      }
+    ]
+  },
+  {
+    "id": "micro-order-place",
+    "title": "Order service: several synchronous calls, no shared transaction",
+    "file": "src/main/java/com/springlab/lab/micro/order/OrderService.java",
+    "startLine": 91,
+    "endLine": 144,
+    "language": "java",
+    "excerpt": "    ServiceResult<OrderView> placeOrder(CallContext context, PlaceOrder request) {\n        ServiceBus bus = context.bus();\n        CallOptions options = CallOptions.timeout(request.callTimeoutMillis());\n\n        CallResult<UserView> user = bus.call(ServiceName.ORDER, UserContract.GET_USER, new GetUser(request.userRef()), options);\n        if (!user.isSuccess()) {\n            return ServiceResult.failure(failure(\"USER\", user));\n        }\n        CallResult<ProductView> product = bus.call(ServiceName.ORDER, ProductContract.GET_PRODUCT, new GetProduct(request.productRef()), options);\n        if (!product.isSuccess()) {\n            return ServiceResult.failure(failure(\"PRODUCT\", product));\n        }\n        BigDecimal unitPrice = product.value().price();\n        BigDecimal total = unitPrice.multiply(BigDecimal.valueOf(request.quantity()));\n        if (total.compareTo(user.value().creditLimit()) > 0) {\n            return ServiceResult.failure(\"CREDIT_LIMIT_EXCEEDED\");\n        }\n\n        // The order keeps a COPY of the price it was quoted: it must not join to the Product service tables.\n        long orderRef = db.local(ServiceName.ORDER, () -> repository.insertOrder(request.userRef(), request.productRef(), request.quantity(), \"PENDING\", unitPrice));\n\n        Reserve reserveRequest = new Reserve(orderRef, request.productRef(), request.quantity());\n        CallResult<Reservation> reserve = request.inventoryAttempts() > 1\n                ? ResilientCaller.call(bus, ServiceName.ORDER, InventoryContract.RESERVE, reserveRequest, options, RetryPolicy.of(request.inventoryAttempts()),\n                        null, null, true, null).last() // reserving is idempotent per order, so even a timeout may be retried\n                : bus.call(ServiceName.ORDER, InventoryContract.RESERVE, reserveRequest, options);\n        if (!reserve.isSuccess()) {\n            if (reserve.outcome() != Outcome.TIMEOUT) {\n                db.local(ServiceName.ORDER, () -> {\n                    repository.updateStatus(orderRef, \"REJECTED\");\n                    return null;\n                });\n            } // after a timeout the order stays PENDING: this service cannot know whether the stock was reserved\n            return ServiceResult.failure(failure(\"INVENTORY\", reserve));\n        }\n\n        if (request.injection() == Injection.AFTER_RESERVE) {\n            throw new IllegalStateException(\"injected failure after the inventory reservation\");\n        }\n        db.local(ServiceName.ORDER, () -> {\n            repository.updateStatus(orderRef, \"PLACED\");\n            return null;\n        });\n\n        if (request.notifyMode() == NotifyMode.SYNC) {\n            CallResult<NotificationContract.Ack> sent = bus.call(ServiceName.ORDER, NotificationContract.SEND, new NotificationContract.Send(orderRef), options);\n            if (!sent.isSuccess()) {\n                return ServiceResult.failure(failure(\"NOTIFICATION\", sent)); // the order IS placed, but the caller is told it failed\n            }\n        } else if (request.notifyMode() == NotifyMode.ASYNC) {\n            events.publish(\"orders\", \"OrderPlaced\", orderRef);\n        }\n        return ServiceResult.ok(new OrderView(orderRef, \"PLACED\", total));\n    }",
+    "notes": [
+      {
+        "line": 110,
+        "token": "insertOrder",
+        "text": "The order row is committed in the Order service's own local transaction, and it keeps a COPY of the unit price it was quoted."
+      },
+      {
+        "line": 113,
+        "token": "CallResult<Reservation> reserve",
+        "text": "A synchronous call: Inventory commits its own transaction; no transaction spans the two services."
+      },
+      {
+        "line": 118,
+        "token": "outcome() != Outcome.TIMEOUT",
+        "text": "After a timeout the order stays PENDING: this service cannot know whether the stock was reserved."
+      },
+      {
+        "line": 127,
+        "token": "Injection.AFTER_RESERVE",
+        "text": "Lab fault injection: failing here leaves the reservation in place."
+      },
+      {
+        "line": 141,
+        "token": "events.publish",
+        "text": "The event is published AFTER the commit, outside the transaction. This is not a transactional outbox."
+      }
+    ]
+  },
+  {
+    "id": "micro-event-channel",
+    "title": "The SIMULATED event channel: publish, then deliver as a separate step",
+    "file": "src/main/java/com/springlab/lab/micro/core/EventChannel.java",
+    "startLine": 59,
+    "endLine": 100,
+    "language": "java",
+    "excerpt": "    public EventMessage publish(String topic, String type, long orderRef, String messageId, Map<String, String> data) {\n        EventMessage message = new EventMessage(messageId != null ? messageId : \"msg-\" + (++autoIds), topic, type, orderRef, Map.copyOf(data));\n        log.add(new Entry(log.size() + 1, message, bus.currentCorrelation()));\n        return message;\n    }\n\n    public int published() {\n        return log.size();\n    }\n\n    public int pending(String consumer) {\n        int count = 0;\n        for (Subscription s : subscriptions) {\n            if (s.consumer.equals(consumer)) {\n                for (Entry e : log) {\n                    if (e.message.topic().equals(s.topic) && !acknowledged.getOrDefault(consumer, Set.of()).contains(e.seq)) {\n                        count++;\n                    }\n                }\n            }\n        }\n        return count;\n    }\n\n    /** Delivers every event the consumer has not acknowledged yet, once each. A failed delivery leaves the event pending. */\n    public List<Attempt> deliverPending(String consumer, CallOptions options) {\n        List<Attempt> attempts = new ArrayList<>();\n        for (Subscription s : subscriptions) {\n            if (!s.consumer.equals(consumer)) {\n                continue;\n            }\n            for (Entry e : List.copyOf(log)) {\n                if (e.message.topic().equals(s.topic) && !acknowledged.computeIfAbsent(consumer, k -> new HashSet<>()).contains(e.seq)) {\n                    attempts.add(attempt(s, e, options, false));\n                }\n            }\n        }\n        return attempts;\n    }\n\n    /**\n     * Delivers pending events to every consumer, pass after pass, until a whole pass makes no progress or {@code maxPasses} is reached.",
+    "notes": [
+      {
+        "line": 59,
+        "token": "public EventMessage publish",
+        "text": "Appends to an in-memory list. The sender does not wait for any consumer. Not Kafka or RabbitMQ."
+      },
+      {
+        "line": 84,
+        "token": "public List<Attempt> deliverPending",
+        "text": "Delivery is its own step, made through the service bus and recorded as an EVENT call."
+      }
+    ]
+  },
+  {
+    "id": "micro-idempotent-consumer",
+    "title": "Idempotent consumer: the message id and the effect in one local transaction",
+    "file": "src/main/java/com/springlab/lab/micro/notification/NotificationService.java",
+    "startLine": 55,
+    "endLine": 65,
+    "language": "java",
+    "excerpt": "    ServiceResult<Delivery> onOrderPlaced(CallContext context, EventMessage message) {\n        return ServiceResult.ok(db.local(ServiceName.NOTIFICATION, () -> {\n            if (repository.alreadyProcessed(CONSUMER, message.messageId())) {\n                return new Delivery(false, true);\n            }\n            repository.markProcessed(CONSUMER, message.messageId());\n            repository.insertNotification(message.orderRef(), \"ORDER_CONFIRMATION\");\n            return new Delivery(true, false);\n        }));\n    }\n",
+    "notes": [
+      {
+        "line": 57,
+        "token": "alreadyProcessed",
+        "text": "A message id handled before is ignored, so a duplicate delivery changes nothing."
+      },
+      {
+        "line": 60,
+        "token": "markProcessed",
+        "text": "The message id and the notification are written in ONE local transaction, so they cannot diverge."
+      }
+    ]
+  },
+  {
+    "id": "micro-gateway-route",
+    "title": "The simulated gateway: authenticate, limit, route, translate",
+    "file": "src/main/java/com/springlab/lab/micro/gateway/GatewayService.java",
+    "startLine": 74,
+    "endLine": 107,
+    "language": "java",
+    "excerpt": "    ServiceResult<HttpResponse> route(CallContext context, HttpRequest request) {\n        if (request.credential() == Credential.MISSING) {\n            return answer(401, \"MISSING_CREDENTIALS\");\n        }\n        if (request.credential() == Credential.EXPIRED) {\n            return answer(401, \"EXPIRED_CREDENTIALS\");\n        }\n        Limiter limiter = state.of(\"gateway.limiter\", Limiter::new);\n        long now = context.bus().clock().now();\n        long[] window = limiter.windows.computeIfAbsent(request.clientId(), k -> new long[] {now, 0});\n        if (now - window[0] >= GatewayContract.WINDOW_MILLIS) {\n            window[0] = now;\n            window[1] = 0;\n        }\n        if (window[1] >= limiter.limit) {\n            return answer(429, \"RATE_LIMIT_EXCEEDED\");\n        }\n        window[1]++;\n\n        CallOptions options = CallOptions.timeout(DOWNSTREAM_TIMEOUT_MILLIS);\n        Matcher user = USER.matcher(request.path());\n        Matcher product = PRODUCT.matcher(request.path());\n        if (\"GET\".equals(request.method()) && user.matches()) {\n            return forward(\"user\", context.bus().call(ServiceName.GATEWAY, UserContract.GET_USER, new GetUser(Long.parseLong(user.group(1))), options));\n        }\n        if (\"GET\".equals(request.method()) && product.matches()) {\n            return forward(\"product\", context.bus().call(ServiceName.GATEWAY, ProductContract.GET_PRODUCT, new GetProduct(Long.parseLong(product.group(1))), options));\n        }\n        if (\"POST\".equals(request.method()) && \"/orders\".equals(request.path()) && request.userRef() != null && request.productRef() != null\n                && request.quantity() != null) {\n            return forward(\"order\", context.bus().call(ServiceName.GATEWAY, OrderContract.PLACE_ORDER,\n                    PlaceOrder.simple(request.userRef(), request.productRef(), request.quantity()), options));\n        }\n        return answer(404, \"NO_ROUTE\");",
+    "notes": [
+      {
+        "line": 75,
+        "token": "Credential.MISSING",
+        "text": "Authentication comes first; a rejected request reaches no service."
+      },
+      {
+        "line": 107,
+        "token": "NO_ROUTE",
+        "text": "A path with no route is answered by the gateway itself."
+      }
+    ]
+  },
+  {
+    "id": "micro-rate-limiter",
+    "title": "Fixed-window rate limiter on the simulated clock",
+    "file": "src/main/java/com/springlab/lab/micro/gateway/GatewayService.java",
+    "startLine": 82,
+    "endLine": 92,
+    "language": "java",
+    "excerpt": "        long now = context.bus().clock().now();\n        long[] window = limiter.windows.computeIfAbsent(request.clientId(), k -> new long[] {now, 0});\n        if (now - window[0] >= GatewayContract.WINDOW_MILLIS) {\n            window[0] = now;\n            window[1] = 0;\n        }\n        if (window[1] >= limiter.limit) {\n            return answer(429, \"RATE_LIMIT_EXCEEDED\");\n        }\n        window[1]++;\n",
+    "notes": [
+      {
+        "line": 84,
+        "token": "now - window[0] >= GatewayContract.WINDOW_MILLIS",
+        "text": "A new window starts once the simulated clock passes the end of the old one."
+      },
+      {
+        "line": 88,
+        "token": "window[1] >= limiter.limit",
+        "text": "Over the limit: 429, without touching any service."
+      },
+      {
+        "line": 91,
+        "token": "window[1]++",
+        "text": "Counted per client id."
+      }
+    ]
+  },
+  {
+    "id": "micro-registry-resolve",
+    "title": "Registry resolve: healthy instances only, round-robin",
+    "file": "src/main/java/com/springlab/lab/micro/registry/RegistryService.java",
+    "startLine": 94,
+    "endLine": 108,
+    "language": "java",
+    "excerpt": "    ServiceResult<Resolved> resolve(CallContext context, Query request) {\n        long now = context.bus().clock().now();\n        List<Row> all = repository.list(request.service());\n        if (all.isEmpty()) {\n            return ServiceResult.failure(\"UNKNOWN_SERVICE\");\n        }\n        List<Row> healthy = all.stream().filter(r -> isHealthy(r, now)).toList();\n        if (healthy.isEmpty()) {\n            return ServiceResult.failure(\"NO_HEALTHY_INSTANCE\");\n        }\n        Map<String, Integer> positions = state.of(\"registry.roundRobin\", HashMap::new);\n        int next = positions.merge(request.service(), 1, Integer::sum) - 1;\n        Row chosen = healthy.get(next % healthy.size());\n        return ServiceResult.ok(new Resolved(chosen.instance(), chosen.address()));\n    }",
+    "notes": [
+      {
+        "line": 98,
+        "token": "UNKNOWN_SERVICE",
+        "text": "A name nobody registered is a business refusal, not a connection error."
+      },
+      {
+        "line": 100,
+        "token": "isHealthy(r, now)",
+        "text": "Only instances that reported UP and whose heartbeat is fresh are candidates."
+      },
+      {
+        "line": 102,
+        "token": "NO_HEALTHY_INSTANCE",
+        "text": "Every instance is unhealthy: the caller must handle this."
+      },
+      {
+        "line": 105,
+        "token": "positions.merge",
+        "text": "The round-robin position, kept per run."
+      }
+    ]
+  },
+  {
+    "id": "micro-instance-behaviour",
+    "title": "Behaviour of ONE instance",
+    "file": "src/main/java/com/springlab/lab/micro/core/ServiceBehaviours.java",
+    "startLine": 84,
+    "endLine": 90,
+    "language": "java",
+    "excerpt": "    Applied next(ServiceName service, String instance) {\n        String key = instance == null ? null : service.id() + \"/\" + instance;\n        if (key != null && instanceBehaviours.containsKey(key)) {\n            return apply(instanceBehaviours.get(key), instanceCallsSeen.merge(key, 1, Integer::sum));\n        }\n        return next(service);\n    }",
+    "notes": [
+      {
+        "line": 86,
+        "token": "instanceBehaviours.containsKey",
+        "text": "A behaviour set for one instance overrides the service-level one for calls aimed at that instance: how a single crashed instance is modelled."
+      }
+    ]
+  },
+  {
+    "id": "micro-ownership-guard",
+    "title": "The runtime ownership guard",
+    "file": "src/main/java/com/springlab/lab/micro/run/OwnershipGuardedDataSource.java",
+    "startLine": 70,
+    "endLine": 80,
+    "language": "java",
+    "excerpt": "    private void check(String sql) {\n        Matcher m = TABLE.matcher(sql);\n        while (m.find()) {\n            String table = m.group();\n            if (!owner.ownedTables().contains(table)) {\n                String owningService = Arrays.stream(ServiceName.values()).filter(s -> s.ownedTables().contains(table)).map(ServiceName::id).findFirst().orElse(\"nobody\");\n                throw new OwnershipViolation(\"The \" + owner.id() + \" service may not touch \" + table + \", which belongs to \" + owningService);\n            }\n        }\n    }\n",
+    "notes": [
+      {
+        "line": 74,
+        "token": "ownedTables().contains(table)",
+        "text": "A statement that mentions a table the service does not own is refused before it reaches the driver. This is logical isolation enforced by lab code."
+      }
+    ]
+  },
+  {
+    "id": "micro-outbox-write",
+    "title": "Transactional outbox: the order and its event row in ONE local transaction",
+    "file": "src/main/java/com/springlab/lab/micro/order/OrderService.java",
+    "startLine": 207,
+    "endLine": 217,
+    "language": "java",
+    "excerpt": "    ServiceResult<OrderView> placeWithOutbox(CallContext context, OutboxOrder request) {\n        long orderRef = db.local(ServiceName.ORDER, () -> {\n            long id = repository.insertOrder(request.userRef(), request.productRef(), request.quantity(), \"PLACED\", null);\n            repository.insertOutbox(\"ob-\" + id, \"order-\" + id, \"OrderPlaced\", \"orderRef=\" + id);\n            if (request.failAfterWrite()) {\n                throw new IllegalStateException(\"injected failure before the transaction commits\");\n            }\n            return id;\n        });\n        return ServiceResult.ok(new OrderView(orderRef, \"PLACED\", BigDecimal.ZERO));\n    }",
+    "notes": [
+      {
+        "line": 210,
+        "token": "repository.insertOutbox",
+        "text": "The outbox row is written in the SAME local transaction as the order row."
+      },
+      {
+        "line": 212,
+        "token": "injected failure before the transaction",
+        "text": "An exception here rolls back BOTH rows: this is a real database rollback, inside one local transaction."
+      }
+    ]
+  },
+  {
+    "id": "micro-outbox-relay",
+    "title": "The outbox relay: publish, then mark, as separate steps",
+    "file": "src/main/java/com/springlab/lab/micro/order/OrderService.java",
+    "startLine": 236,
+    "endLine": 250,
+    "language": "java",
+    "excerpt": "    ServiceResult<Relayed> relayOutbox(CallContext context, Relay request) {\n        List<OutboxRow> pending = repository.pendingOutbox();\n        int published = 0;\n        for (OutboxRow row : pending) {\n            events.publishWithId(\"orders\", row.eventType(), Long.parseLong(row.aggregate().substring(\"order-\".length())), row.messageId());\n            published++;\n            if (request.crashAfterPublish()) {\n                throw new IllegalStateException(\"injected crash after publishing and before marking the row\");\n            }\n            db.local(ServiceName.ORDER, () -> {\n                repository.markOutboxPublished(row.id());\n                return null;\n            });\n        }\n        return ServiceResult.ok(new Relayed(published, repository.pendingOutbox().size()));",
+    "notes": [
+      {
+        "line": 240,
+        "token": "events.publishWithId",
+        "text": "Publishes with the SAME message id as the outbox row, so a republication is recognisable as a duplicate."
+      },
+      {
+        "line": 243,
+        "token": "injected crash after publishing",
+        "text": "A crash here leaves the row PENDING, so the next run publishes it again: delivery is at-least-once."
+      },
+      {
+        "line": 246,
+        "token": "markOutboxPublished",
+        "text": "Marking the row PUBLISHED is a separate step after publishing."
+      }
+    ]
+  },
+  {
+    "id": "micro-saga-orchestrator",
+    "title": "Saga compensation, in reverse order",
+    "file": "src/main/java/com/springlab/lab/micro/order/SagaOrchestrator.java",
+    "startLine": 126,
+    "endLine": 135,
+    "language": "java",
+    "excerpt": "    private SagaView compensate(ServiceBus bus, long orderRef, long productRef, List<String> completed) {\n        boolean failed = false;\n        for (int i = completed.size() - 1; i >= 0; i--) { // reverse order\n            String step = \"COMPENSATE_\" + completed.get(i);\n            int seq = begin(orderRef, step);\n            CallResult<?> result = compensation(bus, orderRef, step);\n            failed |= !result.isSuccess();\n            finish(orderRef, seq, result.isSuccess() ? \"COMPENSATED\" : \"COMPENSATION_FAILED\", result.isSuccess() ? \"reversed by a new business operation\" : describe(result));\n        }\n        return end(orderRef, failed ? \"COMPENSATION_FAILED\" : \"CANCELLED\");",
+    "notes": [
+      {
+        "line": 128,
+        "token": "completed.size() - 1",
+        "text": "The compensations of the completed steps run in reverse order."
+      },
+      {
+        "line": 133,
+        "token": "reversed by a new business operation",
+        "text": "A compensation is a new business operation (a release, a refund). It is not a database rollback."
+      }
+    ]
+  },
+  {
+    "id": "micro-saga-choreography",
+    "title": "Choreography: Inventory reacts to PaymentFailed",
+    "file": "src/main/java/com/springlab/lab/micro/inventory/InventoryService.java",
+    "startLine": 140,
+    "endLine": 148,
+    "language": "java",
+    "excerpt": "    ServiceResult<Handled> onPaymentFailed(CallContext context, EventMessage message) {\n        ServiceResult<Released> result = release(context, new Release(message.orderRef()));\n        if (!result.ok()) {\n            return ServiceResult.ok(new Handled(\"nothing to release: \" + result.code()));\n        }\n        events.publish(\"saga.StockReleased\", \"StockReleased\", message.orderRef(), Map.of());\n        return ServiceResult.ok(new Handled(result.value().alreadyReleased() ? \"already released\" : \"released\"));\n    }\n}",
+    "notes": [
+      {
+        "line": 141,
+        "token": "release(context, new Release",
+        "text": "Nothing coordinates this: Inventory reacts to an event by running its own compensation."
+      },
+      {
+        "line": 145,
+        "token": "events.publish",
+        "text": "It then publishes StockReleased for the Order service to react to."
+      }
+    ]
+  },
+  {
+    "id": "micro-circuit-breaker",
+    "title": "Circuit breaker: when OPEN becomes HALF_OPEN",
+    "file": "src/main/java/com/springlab/lab/micro/core/CircuitBreaker.java",
+    "startLine": 61,
+    "endLine": 72,
+    "language": "java",
+    "excerpt": "    public boolean allowRequest() {\n        if (state == State.OPEN && clock.now() - openedAt >= openMillis) {\n            moveTo(State.HALF_OPEN, \"open duration of \" + openMillis + \" ms elapsed\");\n        }\n        return switch (state) {\n            case CLOSED -> true;\n            case OPEN -> false;\n            case HALF_OPEN -> {\n                if (probeInFlight) {\n                    yield false;\n                }\n                probeInFlight = true;",
+    "notes": [
+      {
+        "line": 62,
+        "token": "openedAt >= openMillis",
+        "text": "The breaker leaves OPEN exactly when the open duration has elapsed; the next call is the probe."
+      }
+    ]
+  },
+  {
+    "id": "micro-retry",
+    "title": "Bounded retries with deterministic backoff",
+    "file": "src/main/java/com/springlab/lab/micro/core/ResilientCaller.java",
+    "startLine": 39,
+    "endLine": 52,
+    "language": "java",
+    "excerpt": "        for (int number = 1; number <= policy.maxAttempts(); number++) {\n            int backoff = 0;\n            if (number > 1) {\n                backoff = policy.backoffBefore(number - 1);\n                bus.pause(backoff);\n            }\n            if (breaker != null && !breaker.allowRequest()) {\n                last = bus.refuse(from, operation, Outcome.CIRCUIT_OPEN, \"CIRCUIT_OPEN\");\n                attempts.add(new Attempt(number, last.outcome(), last.code(), backoff));\n                break; // an open breaker is not retried\n            }\n            last = bus.call(from, operation, request, options);\n            attempts.add(new Attempt(number, last.outcome(), last.code(), backoff));\n            if (breaker != null) {",
+    "notes": [
+      {
+        "line": 39,
+        "token": "for (int number",
+        "text": "At most maxAttempts calls: retries are bounded."
+      },
+      {
+        "line": 43,
+        "token": "bus.pause(backoff)",
+        "text": "The wait is spent on the simulated clock, never by sleeping, and counts as time of the enclosing span."
+      },
+      {
+        "line": 45,
+        "token": "breaker.allowRequest()",
+        "text": "An open breaker refuses the call locally and it is not retried."
+      }
+    ]
+  },
+  {
+    "id": "micro-idempotent-charge",
+    "title": "Idempotent charge: a repeated key returns the original payment",
+    "file": "src/main/java/com/springlab/lab/micro/payment/PaymentService.java",
+    "startLine": 69,
+    "endLine": 90,
+    "language": "java",
+    "excerpt": "    ServiceResult<PaymentView> charge(CallContext context, Charge request) {\n        if (state.of(\"payment.decline\", AtomicBoolean::new).get()) {\n            return ServiceResult.failure(\"DECLINED\");\n        }\n        try {\n            return ServiceResult.ok(db.local(ServiceName.PAYMENT, () -> {\n                if (request.idempotencyKey() != null) {\n                    Optional<Row> existing = repository.findByKey(request.idempotencyKey());\n                    if (existing.isPresent()) {\n                        return new PaymentView(existing.get().id(), existing.get().status(), true);\n                    }\n                }\n                return new PaymentView(repository.insert(request.orderRef(), request.amount(), \"CHARGED\", request.idempotencyKey()), \"CHARGED\", false);\n            }));\n        } catch (DuplicateKeyException race) {\n            // Two requests with the same key arrived together: the unique key let exactly one insert through.\n            Row existing = repository.findByKey(request.idempotencyKey()).orElseThrow();\n            return ServiceResult.ok(new PaymentView(existing.id(), existing.status(), true));\n        }\n    }\n\n    /** Compensation of charge. Idempotent. Business refusal: NOT_CHARGED. */",
+    "notes": [
+      {
+        "line": 76,
+        "token": "findByKey",
+        "text": "A request with a key that was already used returns the original payment instead of charging again."
+      },
+      {
+        "line": 83,
+        "token": "DuplicateKeyException race",
+        "text": "Two requests with the same key arriving together: the unique key lets exactly one insert through."
+      }
+    ]
+  },
+  {
+    "id": "micro-correlation",
+    "title": "Correlation id and parent span",
+    "file": "src/main/java/com/springlab/lab/micro/core/ServiceBus.java",
+    "startLine": 170,
+    "endLine": 179,
+    "language": "java",
+    "excerpt": "        boolean propagated = true;\n        if (parent == null) {\n            correlation = requestCorrelation;\n        } else if (propagateCorrelation) {\n            correlation = parent.correlationId;\n        } else {\n            correlation = \"uncorrelated-\" + (++uncorrelatedSeq);\n            propagated = false;\n        }\n        Frame frame = new Frame(\"span-\" + (++spanSeq), correlation);",
+    "notes": [
+      {
+        "line": 174,
+        "token": "correlation = parent.correlationId",
+        "text": "A child call inherits the correlation id of its parent: this is the propagation."
+      },
+      {
+        "line": 176,
+        "token": "uncorrelated-",
+        "text": "When propagation is switched off the child starts an unrelated id and loses its parent link: the trace is broken."
+      }
+    ]
+  },
+  {
+    "id": "micro-registry-ttl",
+    "title": "The explicit expiry rule of the registry",
+    "file": "src/main/java/com/springlab/lab/micro/contract/RegistryContract.java",
+    "startLine": 26,
+    "endLine": 28,
+    "language": "java",
+    "excerpt": "    public static boolean isFresh(long ageMillis) {\n        return ageMillis <= TTL_MILLIS;\n    }",
+    "notes": [
+      {
+        "line": 27,
+        "token": "ageMillis <= TTL_MILLIS",
+        "text": "Fresh while the age is at most the TTL: healthy at exactly the TTL, stale from TTL + 1 ms."
+      }
+    ]
+  }
+]

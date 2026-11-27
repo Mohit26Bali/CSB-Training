@@ -1,0 +1,249 @@
+DEMO TEST CASES - Online Course Enrollment and Approval System
+================================================================
+Base URL : http://localhost:8080
+Tool     : Postman  (Authorization -> Basic Auth; for POST/PUT: Body -> raw -> JSON)
+
+LOGINS
+------
+  admin                    / admin123      (ADMIN)
+  employee1 .. employee4   / employee123    (EMPLOYEE)
+
+BEFORE THE DEMO - START FROM A KNOWN STATE
+------------------------------------------
+Expected results below assume the sample data and NO enrollments created by earlier
+testing. To reset only the enrollments, run in MySQL:
+
+    USE course_enrollment;
+    DELETE FROM enrollments;
+    -- then re-run the enrollments part of D:/Hackathon/Usecase/sample-data.sql
+
+Check ids with GET /api/admin/enrollments (as admin). The ids below assume the six sample
+enrollments are numbered 1-6:
+
+    1 employee1 Java Basics      APPROVED
+    2 employee2 Java Basics      APPROVED
+    3 employee1 Spring Boot      PENDING
+    4 employee2 Spring Boot      REJECTED
+    5 employee3 Cyber Awareness  PENDING
+    6 employee4 Cyber Awareness  PENDING
+
+Courses (ids from the sample data):
+    1  Java Basics        capacity 2   active     FULL (2 approved)
+    2  Spring Boot        capacity 3   active
+    3  Legacy Systems     capacity 5   INACTIVE
+    6  SQL Fundamentals   capacity 3   active     empty
+    7  Cyber Awareness    capacity 1   active     two PENDING requests
+    8  Old Mainframe      capacity 4   INACTIVE
+
+
+PART A - AUTHENTICATION AND ROLE-BASED AUTHORIZATION
+----------------------------------------------------
+A1  No login
+    GET  /api/courses                         user: none
+    Expect: 401
+    Proves: every API is protected
+
+A2  Wrong password
+    GET  /api/courses                         user: admin / wrong
+    Expect: 401
+    Proves: credentials are checked against BCrypt hashes
+
+A3  Valid login
+    GET  /api/courses                         user: employee1
+    Expect: 200
+    Proves: authentication works
+
+A4  Employee on admin API
+    GET  /api/admin/courses                   user: employee1
+    Expect: 403
+    Proves: role-based authorization
+
+A5  Admin on employee API
+    POST /api/enrollments                     user: admin
+    Body: {"courseId":6}
+    Expect: 403
+    Proves: only employees can request enrollment
+
+
+PART B - BROWSING COURSES
+-------------------------
+B1  Employee browses
+    GET  /api/courses                         user: employee1
+    Expect: 200; active courses only (1, 2, 6, 7, and any new ones). NOT 3 or 8.
+    Proves: inactive courses are hidden from employees
+
+B2  Admin sees everything
+    GET  /api/admin/courses                   user: admin
+    Expect: 200; includes inactive 3 and 8; Java Basics shows "approvedCount": 2
+    Proves: admin view and seat counting
+
+
+PART C - ENROLLMENT REQUEST AND BUSINESS RULES
+----------------------------------------------
+C1  Submit a request
+    POST /api/enrollments                     user: employee1
+    Body: {"courseId":6}
+    Expect: 201; "status":"PENDING"
+    Proves: core flow
+
+C2  Same course again
+    POST /api/enrollments                     user: employee1
+    Body: {"courseId":6}
+    Expect: 409 "already requested"
+    Rule: a user cannot enroll in the same course twice
+
+C3  Inactive course
+    POST /api/enrollments                     user: employee1
+    Body: {"courseId":8}
+    Expect: 400 "not active"
+    Rule: inactive courses cannot accept enrollment
+
+C4  Full course
+    POST /api/enrollments                     user: employee3
+    Body: {"courseId":1}
+    Expect: 409 "is full"
+    Rule: enrollment cannot exceed course capacity
+
+C5  Unknown course
+    POST /api/enrollments                     user: employee1
+    Body: {"courseId":999}
+    Expect: 404 "not found"
+
+C6  Missing field
+    POST /api/enrollments                     user: employee1
+    Body: {}
+    Expect: 400 "courseId is required"
+    Proves: input validation
+
+C7  My enrollments
+    GET  /api/enrollments/my                  user: employee1
+    Expect: 200; only employee1's rows (Java Basics APPROVED, Spring Boot PENDING,
+            SQL Fundamentals PENDING)
+    Proves: an employee sees only their own data
+
+
+PART D - APPROVAL WORKFLOW AND CAPACITY
+---------------------------------------
+Cyber Awareness has ONE seat and two PENDING requests (ids 5 and 6).
+
+D1  Pending list
+    GET  /api/admin/enrollments?status=PENDING        user: admin
+    Expect: 200; only PENDING rows
+
+D2  Employee cannot approve
+    PUT  /api/admin/enrollments/5/approve             user: employee3
+    Expect: 403
+
+D3  Approve the first request
+    PUT  /api/admin/enrollments/5/approve             user: admin
+    Expect: 200; "status":"APPROVED"
+
+D4  Approve the second (seat is gone)
+    PUT  /api/admin/enrollments/6/approve             user: admin
+    Expect: 409 "Course 'Cyber Awareness' is full"
+    Proves: capacity is enforced at approval time
+
+D5  Reject it instead
+    PUT  /api/admin/enrollments/6/reject              user: admin
+    Expect: 200; "status":"REJECTED"
+
+D6  A decision is final
+    PUT  /api/admin/enrollments/6/approve             user: admin
+    Expect: 409 "already REJECTED"
+
+D7  Employee sees the outcome
+    GET  /api/enrollments/my                          user: employee4
+    Expect: 200; Cyber Awareness REJECTED
+    Proves: end-to-end flow
+
+D8  No re-request after rejection
+    POST /api/enrollments                             user: employee2
+    Body: {"courseId":2}
+    Expect: 409 "already requested"
+    Proves: unique (user, course) rule, decision A3
+
+
+PART E - ADMIN COURSE MANAGEMENT
+--------------------------------
+E1  Create a course
+    POST /api/admin/courses                           user: admin
+    Body: {"title":"Docker Basics","description":"Containers","category":"DevOps","capacity":5}
+    Expect: 201; "active":true  (note the new id)
+
+E2  Validation
+    POST /api/admin/courses                           user: admin
+    Body: {"title":"","capacity":0}
+    Expect: 400 "title: Title is required; capacity: Capacity must be at least 1"
+    Proves: backend validation (order of the two messages may vary)
+
+E3  Update
+    PUT  /api/admin/courses/{new id}                  user: admin
+    Body: {"title":"Docker Basics","description":"Updated","category":"DevOps","capacity":8}
+    Expect: 200; capacity 8
+
+E4  Delete a course with no enrollments
+    DELETE /api/admin/courses/{new id}                user: admin
+    Expect: 200 "Course deleted"
+
+E5  Delete a course that has enrollments
+    DELETE /api/admin/courses/2                       user: admin
+    Expect: 200 "...deactivated instead of deleted"
+    Proves: history is protected (decision A4)
+
+E6  Deactivation takes effect
+    GET  /api/courses                                 user: employee1
+    Expect: Spring Boot is gone from the list
+
+E7  Reactivate
+    PUT  /api/admin/courses/2                         user: admin
+    Body: {"title":"Spring Boot","description":"REST APIs with Spring","category":"Programming","capacity":3,"active":true}
+    Expect: 200; "active":true
+
+
+SUGGESTED ORDER (8-10 minutes)
+------------------------------
+  1. A1-A5   "Security first."
+  2. B1-B2   "Two roles see different data."
+  3. C1-C7   "Business rules."
+  4. D1-D8   "Approval and capacity."
+  5. E1-E7   "Course management."
+  6. Finish with the database queries below.
+
+
+SHOW THE DATABASE AT THE END
+----------------------------
+    SELECT u.username, c.title, e.status
+    FROM enrollments e
+    JOIN users u   ON u.id = e.user_id
+    JOIN courses c ON c.id = e.course_id
+    ORDER BY c.title, u.username;
+
+    SHOW CREATE TABLE enrollments;   -- foreign keys and UNIQUE (user_id, course_id)
+
+
+LIKELY TEACHER QUESTIONS
+------------------------
+Why 409 for "full" and "duplicate"?
+    The request is well-formed but conflicts with the current data. 400 is for malformed input.
+
+Where is the business logic?
+    EnrollmentService. Controllers stay thin.
+
+How is the duplicate rule enforced?
+    A service check for a friendly message, plus a database unique constraint on
+    (user_id, course_id) as the safety net.
+
+Why re-check capacity at approval?
+    Pending requests do not use seats, so several can pass the first check. Approval is
+    where the seat is actually taken.
+
+How are passwords stored?
+    BCrypt hashes, never plain text.
+
+Where are streams used?
+    Mapping entities to DTOs in the service list methods, and joining validation messages
+    in the exception handler.
+
+What is the known weakness?
+    Two admins approving the last seat at the exact same instant could both pass the count.
+    A row lock or a version column would fix it in production.

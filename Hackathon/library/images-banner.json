@@ -1,0 +1,8 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "shelves": "library shelves rows of books",
+    "reading": "person reading book window"
+  }
+}

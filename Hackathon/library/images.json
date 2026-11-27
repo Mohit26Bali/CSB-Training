@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "library bookshelves warm light",
+    "login-2": "reading book cozy library",
+    "login-3": "old library ladder books"
+  }
+}

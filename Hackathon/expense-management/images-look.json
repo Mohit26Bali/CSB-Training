@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "expenses": "receipts expense reports desk",
+    "manager": "finance dashboard laptop charts",
+    "review": "accountant reviewing invoices"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "outDir": "frontend/public/providers",
+  "size": "medium",
+  "images": {
+    "general-physician": "doctor stethoscope portrait",
+    "dentist": "dentist smiling clinic",
+    "physiotherapist": "physiotherapist therapy session",
+    "career-counsellor": "career counselling meeting",
+    "nutritionist": "nutritionist healthy food"
+  }
+}

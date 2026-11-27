@@ -1,0 +1,12 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "my-room": "dorm room bed desk student",
+    "rooms": "hostel corridor rooms doors",
+    "admin": "hostel building exterior",
+    "admin-requests": "reception desk keys hotel",
+    "admin-rooms": "hostel bunk beds room",
+    "admin-residents": "students common room hostel"
+  }
+}

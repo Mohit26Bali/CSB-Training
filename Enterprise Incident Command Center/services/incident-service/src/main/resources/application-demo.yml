@@ -1,0 +1,5 @@
+# Started with the "demo" profile: also loads the demo data (D6). Without the profile, only schema.sql runs.
+spring:
+  sql:
+    init:
+      data-locations: classpath:demo-data.sql

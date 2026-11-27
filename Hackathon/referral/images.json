@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "job interview handshake office",
+    "login-2": "diverse team meeting colleagues laughing",
+    "login-3": "recruiter reviewing resumes desk"
+  }
+}

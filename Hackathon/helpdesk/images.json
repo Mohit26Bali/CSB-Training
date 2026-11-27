@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "it support technician helping employee",
+    "login-2": "server room network cables",
+    "login-3": "laptop troubleshooting office desk"
+  }
+}

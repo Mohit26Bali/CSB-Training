@@ -1,0 +1,41 @@
+{
+  "name": "icc-frontend",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "gen:api": "node scripts/gen-api.mjs",
+    "gen:types": "node scripts/gen-api.mjs --offline",
+    "check:api": "node scripts/gen-api.mjs --check",
+    "check:login": "node scripts/check-login-flow.mjs",
+    "check:incidents": "node scripts/check-incident-flow.mjs",
+    "check:major": "node scripts/check-major-flow.mjs",
+    "check:problems": "node scripts/check-problem-flow.mjs",
+    "check:admin": "node scripts/check-admin-flow.mjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.5.0",
+    "@tanstack/react-query": "^5.108.2",
+    "openapi-fetch": "^0.17.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8"
+  }
+}

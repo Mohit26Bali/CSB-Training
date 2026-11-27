@@ -1,0 +1,6 @@
+**/target/
+**/node_modules/
+**/dist/
+**/logs/
+**/db-secret.properties
+**/jwt-secret.properties

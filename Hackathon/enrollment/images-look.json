@@ -1,0 +1,11 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "courses": "classroom training workshop employees",
+    "my-enrollments": "online learning laptop notes",
+    "admin": "training manager presentation team",
+    "admin-courses": "course books desk stationery",
+    "admin-requests": "approval checklist office desk"
+  }
+}

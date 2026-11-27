@@ -1,0 +1,18 @@
+[
+  {
+    "file": "images/hero-home.jpg",
+    "query": "programming code on dark screen",
+    "photographer": "Pixabay",
+    "photographerUrl": "https://www.pexels.com/@pixabay",
+    "pexelsUrl": "https://www.pexels.com/photo/close-up-of-text-on-black-background-256502/",
+    "alt": "Close-up of colorful CSS code lines on a computer screen for web development."
+  },
+  {
+    "file": "images/hero-dashboard.jpg",
+    "query": "developer coding laptop night",
+    "photographer": "Daniil Komov",
+    "photographerUrl": "https://www.pexels.com/@dkomov",
+    "pexelsUrl": "https://www.pexels.com/photo/modern-laptop-on-wooden-desk-with-code-displayed-34803994/",
+    "alt": "A laptop displaying code on a wooden desk, in a dimly lit workspace."
+  }
+]

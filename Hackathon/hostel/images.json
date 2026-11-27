@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "university hostel room students",
+    "login-2": "students studying dormitory",
+    "login-3": "college campus residence building"
+  }
+}

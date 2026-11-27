@@ -1,0 +1,14 @@
+{
+  "outDir": "frontend/public/vehicles",
+  "size": "large",
+  "images": {
+    "car-1": "hatchback car side view",
+    "car-2": "sedan car parked street",
+    "suv-1": "suv car front view",
+    "suv-2": "suv car off road",
+    "bike-1": "motorcycle side view street",
+    "bike-2": "scooter parked city",
+    "van-1": "minivan family car",
+    "van-2": "white van parked"
+  }
+}

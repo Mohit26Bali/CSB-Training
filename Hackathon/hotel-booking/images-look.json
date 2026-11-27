@@ -1,0 +1,12 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "rooms": "luxury hotel room interior elegant",
+    "bookings": "hotel reception bell luggage",
+    "admin": "hotel manager lobby team",
+    "admin-bookings": "hotel front desk check in",
+    "admin-calendar": "hotel corridor doors rooms",
+    "admin-rooms": "hotel suite bedroom luxury"
+  }
+}

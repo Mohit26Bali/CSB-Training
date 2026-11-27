@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "it equipment storage laptops shelf",
+    "login-2": "modern office desk laptop monitor",
+    "login-3": "it support technician laptop"
+  }
+}
