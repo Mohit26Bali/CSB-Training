@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "business travel airport laptop",
-    "login-2": "team lunch restaurant colleagues",
-    "login-3": "accountant calculator receipts desk"
-  }
-}

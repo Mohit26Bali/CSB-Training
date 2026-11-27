@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "vacation beach relaxing sunset",
-    "login-2": "mountain hiking holiday travel",
-    "login-3": "calendar planner desk coffee"
-  }
-}

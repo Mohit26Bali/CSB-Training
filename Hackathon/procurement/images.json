@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "office supplies stationery desk",
-    "login-2": "warehouse boxes delivery packages",
-    "login-3": "laptops equipment office team"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "doctor patient consultation friendly",
-    "login-2": "calendar planner appointment desk",
-    "login-3": "reception clinic welcome smiling"
-  }
-}

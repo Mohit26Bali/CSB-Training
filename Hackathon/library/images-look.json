@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/banner",
-  "size": "large2x",
-  "images": {
-    "desk": "librarian desk books",
-    "desk-loans": "returning books library counter",
-    "desk-books": "bookshelf stacks library"
-  }
-}

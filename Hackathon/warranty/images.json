@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "electronics repair technician workshop",
-    "login-2": "unboxing new gadgets desk",
-    "login-3": "customer service support headset team"
-  }
-}

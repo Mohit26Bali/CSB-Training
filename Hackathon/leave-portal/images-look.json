@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/banner",
-  "size": "large2x",
-  "images": {
-    "leave": "relaxing beach vacation",
-    "review": "team meeting manager office",
-    "calendar": "calendar planning desk"
-  }
-}

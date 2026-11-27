@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "customer service representative headset smiling",
-    "login-2": "call center support team office",
-    "login-3": "customer feedback satisfaction handshake"
-  }
-}

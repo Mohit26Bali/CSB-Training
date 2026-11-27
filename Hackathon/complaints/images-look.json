@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/banner",
-  "size": "large2x",
-  "images": {
-    "complaints": "customer service desk handshake",
-    "agent": "customer support analytics monitors",
-    "queue": "customer support agent working headset"
-  }
-}

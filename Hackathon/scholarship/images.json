@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "graduation students celebration campus",
-    "login-2": "university library students studying",
-    "login-3": "student writing notes classroom books"
-  }
-}

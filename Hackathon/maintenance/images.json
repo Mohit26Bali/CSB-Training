@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/hero",
-  "size": "large2x",
-  "images": {
-    "login-1": "apartment building residents community",
-    "login-2": "maintenance technician repairing home",
-    "login-3": "modern apartment complex garden"
-  }
-}

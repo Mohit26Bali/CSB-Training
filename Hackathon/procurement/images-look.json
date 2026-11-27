@@ -1,9 +1,0 @@
-{
-  "outDir": "frontend/public/banner",
-  "size": "large2x",
-  "images": {
-    "requests": "warehouse boxes inventory shelves",
-    "manager": "logistics supply chain trucks",
-    "review": "purchase order paperwork desk"
-  }
-}
