@@ -1,0 +1,11 @@
+{
+  "outDir": "frontend/public/banner",
+  "size": "large2x",
+  "images": {
+    "menu": "indian thali food overhead",
+    "orders": "food delivery bag courier",
+    "admin": "restaurant kitchen chefs busy",
+    "admin-menu": "restaurant menu spices ingredients",
+    "admin-sales": "restaurant dining room evening"
+  }
+}

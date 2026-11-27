@@ -1,0 +1,9 @@
+{
+  "outDir": "frontend/public/hero",
+  "size": "large2x",
+  "images": {
+    "login-1": "indian food spread restaurant table",
+    "login-2": "chef cooking kitchen flames",
+    "login-3": "food delivery bag courier"
+  }
+}
